@@ -1,14 +1,9 @@
 import java.util.Random;
 
-
-public class Weather {
+class Weather {
     static int weatherValue;
 
-    public static void main(String[] args) {
-
-    }
-
-    public static int getWeather() {
+    static int getWeather() {
         Random rand = new Random();
         int n = rand.nextInt(10) + 1;
 

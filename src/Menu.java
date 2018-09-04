@@ -1,2 +1,67 @@
+import java.util.Scanner;
+
+
 public class Menu {
+    static int weatherValue;
+    static String weatherType;
+
+    public static void main(String[] args) throws InterruptedException {
+            int choice;
+
+            //Welcome message
+            System.out.println("Welcome to the Autonomous House Simulator");
+
+            //Simulation Menu
+            System.out.println("0)    Exit Program");
+            System.out.println("-----------------------");
+            System.out.println("1)    Run Simulation");
+            System.out.println("2) Configure Simulation");
+            System.out.println("3)    Access Device");
+
+            //Gets user input
+            Scanner input = new Scanner(System.in);
+            choice = input.nextInt();
+
+
+
+            //User choices
+            if (choice == 1) {
+                //Run simulation
+                System.out.println("Simulation Started...");
+                getSimInfo();
+                //Simulator simulator = new Simulator();
+                Simulator.runSimulator(weatherType);
+            } else if (choice == 2) {
+                //Configure Appliances and Fixtures
+                System.out.println("Configure opening...");
+
+            } else if (choice == 3) {
+                //Access Device
+                System.out.println("Accessing Device...");
+
+            } else if (choice == 0) {
+                //Quit program
+                System.out.println("Good Bye...");
+
+            } else {
+                //Please enter an option
+                System.out.println("Wrong input...");
+
+            }
+        }
+
+    private static void getSimInfo() {
+        weatherValue = Weather.getWeather();
+
+        if (weatherValue >= 1 && weatherValue <= 5) {
+            weatherType = "SUNNY";
+        } else if (weatherValue >= 6 && weatherValue <= 8) {
+            weatherType = "CLOUDY";
+        } else {
+            weatherType = "RAINY";
+        }
+
+        System.out.println(weatherType);
+    }
 }
+

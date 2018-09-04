@@ -6,49 +6,49 @@ public class Menu {
     static String weatherType;
 
     public static void main(String[] args) throws InterruptedException {
-            int choice;
+        int choice;
 
-            //Welcome message
-            System.out.println("Welcome to the Autonomous House Simulator");
+        //Welcome message
+        System.out.println("Welcome to the Autonomous House Simulator");
 
-            //Simulation Menu
-            System.out.println("0)    Exit Program");
-            System.out.println("-----------------------");
-            System.out.println("1)    Run Simulation");
-            System.out.println("2) Configure Simulation");
-            System.out.println("3)    Access Device");
+        //Menu options
+        System.out.println("0)    Exit Program");
+        System.out.println("-----------------------");
+        System.out.println("1)    Run Simulation");
+        System.out.println("2) Configure Simulation");
+        System.out.println("3)    Access Device");
 
-            //Gets user input
-            Scanner input = new Scanner(System.in);
+        //Gets user input
+        Scanner input = new Scanner(System.in);
+        choice = input.nextInt();
+
+        //Makes sure use inputs 0, 1, 2 or 3 only
+        while (choice >= 4) {
+            System.out.println("Wrong input...");
+            System.out.println("Please enter only (0), (1), (2) OR (3)");
             choice = input.nextInt();
-
-
-
-            //User choices
-            if (choice == 1) {
-                //Run simulation
-                System.out.println("Simulation Started...");
-                getSimInfo();
-                //Simulator simulator = new Simulator();
-                Simulator.runSimulator(weatherType);
-            } else if (choice == 2) {
-                //Configure Appliances and Fixtures
-                System.out.println("Configure opening...");
-
-            } else if (choice == 3) {
-                //Access Device
-                System.out.println("Accessing Device...");
-
-            } else if (choice == 0) {
-                //Quit program
-                System.out.println("Good Bye...");
-
-            } else {
-                //Please enter an option
-                System.out.println("Wrong input...");
-
-            }
         }
+
+        //User choices
+        if (choice == 1) {
+            //Run simulation
+            System.out.println("Simulation Started...");
+            getSimInfo();
+            //Simulator simulator = new Simulator();
+            Simulator.runSimulator(weatherType);
+        } else if (choice == 2) {
+            //Configure Appliances and Fixtures
+            System.out.println("Configure opening...");
+
+        } else if (choice == 3) {
+            //Access Device
+            System.out.println("Accessing Device...");
+
+        } else if (choice == 0) {
+            //Quit program
+            System.out.println("Good Bye...");
+        }
+    }
 
     private static void getSimInfo() {
         weatherValue = Weather.getWeather();
@@ -61,7 +61,7 @@ public class Menu {
             weatherType = "RAINY";
         }
 
-        System.out.println(weatherType);
+        System.out.println("Current weather: " + weatherType);
     }
 }
 

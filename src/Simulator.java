@@ -1,155 +1,314 @@
+import java.util.Random;
+
 class Simulator {
     private static double temperature;
+    static double tempIncrease;
+    static double time = 5;
+    static String weatherChange;
+    static String oldWeather;
 
 
     static void runSimulator(String weatherType) throws InterruptedException {
-        double time;
-        switch (weatherType) {
-            case "SUNNY":
-                for (time = 5.00; time <= 7.59; time += .01)
-                    if (temperature < 14) {
-                        temperature = 14;
-                    } else if (temperature >= 14) {
+
+        do {
+            switch (Menu.weatherType) {
+                case "SUNNY":
+                    temperature = Weather.tempCorrection();
+                    time = Weather.timeCorrection();
+                    tempIncrease = dynamicTemp();
+                    //System.out.print(temperature);
+                    if (temperature >= 14) {
                         //Sets readable temperatures for time periods
-                        if (temperature >= 14 && temperature < 17) {
-                            //3 degree increase between 5 - 6am
-                            temperature += .05;
-                        } else if (temperature >= 17 && temperature < 22) {
-                            //5 degree increase between 6 - 7am
-                            temperature += 0.0833333333333333;
-                        } else if (temperature >= 22 && temperature < 26) {
-                            //4 degree increase between 7 - 8am
-                            temperature += 0.0666666666666667;
-                        }
-
+                        temperature += tempIncrease;
                         //Corrects time values to next hour
-                        if (time >= 5.59 && time < 5.61) {
-                            time = 6;
-                            temperature = 17;
-                        } else if (time >= 6.59 && time < 6.61) {
-                            time = 7;
-                            temperature = 22;
-                        }
+                        time = Weather.timeCorrection();
 
-                        if (time == 5.01) {
-                            // ADD IN CODE TO ADD SPACES UNDER EACH LINE
-                            System.out.println();
-                            System.out.println("Time: 05:00 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
+                        if (time == 5.00) {
+                            System.out.printf("%n" + "Time: 05:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
                         } else if (time <= 5.30 && time > 5.29) {
-                            System.out.println();
-                            System.out.println("Time: 05:30 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
-                        } else if (time == 6.01) {
-                            System.out.println();
-                            System.out.println("Time: 06:00 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
+                            System.out.printf("%n" + "Time: 05:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+
+                            dynamicWeather();
+
+                        } else if (time == 6.00) {
+                            System.out.printf("%n" + "Time: 06:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
                         } else if (time <= 6.30 && time > 6.29) {
-                            System.out.println();
-                            System.out.println("Time: 06:30 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
+                            System.out.printf("%n" + "Time: 06:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            dynamicWeather();
                         } else if (time == 7.00) {
-                            System.out.println();
-                            System.out.println("Time: 07:00 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
+                            System.out.printf("%n" + "Time: 07:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
                         } else if (time <= 7.30 && time > 7.29) {
-                            System.out.println();
-                            System.out.println("Time: 07:30 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
+                            System.out.printf("%n" + "Time: 07:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            dynamicWeather();
                         }
                         Thread.sleep(1000);
                     }
-                break;
-            case "CLOUDY":
-                for (time = 5.00; time <= 5.59; time += .01)
-                    if (temperature < 15) {
-                        temperature = 15;
-                    } else if (temperature >= 15) {
-                        temperature += 0.0333333333333333;
-                        if (time == 5.01) {
-                            System.out.println();
-                            System.out.println("Time: 05:00 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
-                        } else if (time <= 5.30 && time > 5.29) {
-                            System.out.println();
-                            System.out.println("Time: 05:30 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
-                        }
-                        //System.out.printf("%.2f", time);
-                        Thread.sleep(1 * 1000);
-                    }
+                    break;
+                case "CLOUDY":
+                    temperature = Weather.tempCorrection();
+                    time = Weather.timeCorrection();
+                    tempIncrease = dynamicTemp();
+                    System.out.print(temperature);
+                    if (temperature >= 15) {
+                        //Sets readable temperatures for time periods
+                        temperature += tempIncrease;
+                        //Corrects time values to next hour
+                        time = Weather.timeCorrection();
 
-                for (time = 6.00; time <= 7.59; time += 0.01)
-                    if (temperature < 17.00 && temperature > 20.00) {
-                        temperature = 17.00;
-                    } else if (temperature >= 17.00) {
-                        temperature += 0.010;
-                        if (time == 6.01) {
-                            System.out.println();
-                            System.out.println("Time: 06:00 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
+                        if (time == 5.00) {
+                            System.out.printf("%n" + "Time: 05:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                        } else if (time <= 5.30 && time > 5.29) {
+                            System.out.printf("%n" + "Time: 05:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+
+                            dynamicWeather();
+
+                        } else if (time == 6.00) {
+                            System.out.printf("%n" + "Time: 06:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
                         } else if (time <= 6.30 && time > 6.29) {
-                            System.out.println();
-                            System.out.println("Time: 06:30 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
+                            System.out.printf("%n" + "Time: 06:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            dynamicWeather();
+                        } else if (time == 7.00) {
+                            System.out.printf("%n" + "Time: 07:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                        } else if (time <= 7.30 && time > 7.29) {
+                            System.out.printf("%n" + "Time: 07:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            dynamicWeather();
                         }
-                        Thread.sleep(1 * 1000);
+                        Thread.sleep(1000);
                     }
-                break;
-            case "RAINY":
-                for (time = 5; time <= 5.59; time += .01)
+                    break;
+                case "RAINY":
+                    temperature = Weather.tempCorrection();
+                    time = Weather.timeCorrection();
                     if (temperature < 16) {
                         temperature = 16;
                     } else if (temperature >= 16) {
-                        temperature += 0.0166666666666667;
-                        if (time == 5.01) {
-                            System.out.println();
-                            System.out.println("Time: 05:00 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
-                        } else if (time <= 5.30 && time > 5.29) {
-                            System.out.println();
-                            System.out.println("Time: 05:30 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
-                        }
-                        //System.out.printf("%.2f", time);
-                        Thread.sleep(1 * 1000);
-                    }
+                        //Sets readable temperatures for time periods
+                        temperature += tempIncrease;
+                        //Corrects time values to next hour
+                        time = Weather.timeCorrection();
 
-                for (time = 6.00; time <= 7.59; time += 0.01)
-                    if (temperature < 17.00 && temperature > 20.00) {
-                        temperature = 17.00;
-                    } else if (temperature >= 17.00) {
-                        temperature += 0.010;
-                        if (time == 6.00) {
-                            System.out.println();
-                            System.out.println("Time 06:00 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
+                        if (time == 5.00) {
+                            System.out.printf("%n" + "Time: 05:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                        } else if (time <= 5.30 && time > 5.29) {
+                            System.out.printf("%n" + "Time: 05:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+
+                            dynamicWeather();
+
+                        } else if (time == 6.00) {
+                            System.out.printf("%n" + "Time: 06:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
                         } else if (time <= 6.30 && time > 6.29) {
-                            System.out.println();
-                            System.out.println("Time 06:30 am");
-                            System.out.printf("Temperature: " + "%.2f", temperature);
-                            System.out.println();
+                            System.out.printf("%n" + "Time: 06:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            dynamicWeather();
+                        } else if (time == 7.00) {
+                            System.out.printf("%n" + "Time: 07:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                        } else if (time <= 7.30 && time > 7.29) {
+                            System.out.printf("%n" + "Time: 07:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            dynamicWeather();
                         }
-                        Thread.sleep(1 * 1000);
+                        Thread.sleep(1000);
                     }
+                    break;
+            }
+            time += 0.1;
+        }while(time < 30);
+
+
+
+
+/*
+
+        for (time = 5.00; time <= 29.59; time += .1)
+            switch (weatherType) {
+                case "SUNNY":
+                    temperature = Weather.tempCorrection();
+                    time = Weather.timeCorrection();
+                    tempIncrease = dynamicTemp();
+                    System.out.print(tempIncrease);
+                        if (temperature >= 14) {
+                            //Sets readable temperatures for time periods
+
+                            temperature += tempIncrease;
+                            //Corrects time values to next hour
+                            time = Weather.timeCorrection();
+
+                            if (time == 5.00) {
+                                System.out.printf("%n" + "Time: 05:00 am");
+                                System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            } else if (time <= 5.30 && time > 5.29) {
+                                System.out.printf("%n" + "Time: 05:30 am");
+                                System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+
+                                dynamicWeather();
+
+                            } else if (time == 6.00) {
+                                System.out.printf("%n" + "Time: 06:00 am");
+                                System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            } else if (time <= 6.30 && time > 6.29) {
+                                System.out.printf("%n" + "Time: 06:30 am");
+                                System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                                dynamicWeather();
+                            } else if (time == 7.00) {
+                                System.out.printf("%n" + "Time: 07:00 am");
+                                System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            } else if (time <= 7.30 && time > 7.29) {
+                                System.out.printf("%n" + "Time: 07:30 am");
+                                System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                                dynamicWeather();
+                            }
+                            Thread.sleep(1000);
+                        }
+                    break;
+                case "CLOUDY":
+                    temperature = Weather.tempCorrection();
+                    time = Weather.timeCorrection();
+                    if (temperature >= 15) {
+                        //Sets readable temperatures for time periods
+                        temperature = dynamicTemp();
+                        time = Weather.timeCorrection();
+                        //Corrects time values to next hour
+
+                        if (time == 5.00) {
+                            System.out.printf("%n" + "Time: 05:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                        } else if (time <= 5.30 && time > 5.29) {
+                            System.out.printf("%n" + "Time: 05:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+
+                            dynamicWeather();
+
+                        } else if (time == 6.00) {
+                            System.out.printf("%n" + "Time: 06:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                        } else if (time <= 6.30 && time > 6.29) {
+                            System.out.printf("%n" + "Time: 06:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            dynamicWeather();
+                        } else if (time == 7.00) {
+                            System.out.printf("%n" + "Time: 07:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                        } else if (time <= 7.30 && time > 7.29) {
+                            System.out.printf("%n" + "Time: 07:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            dynamicWeather();
+                        }
+                        Thread.sleep(1000);
+                    }
+                    break;
+                case "RAINY":
+                    temperature = Weather.tempCorrection();
+                    time = Weather.timeCorrection();
+                    if (temperature < 16) {
+                        temperature = 16;
+                    } else if (temperature >= 16) {
+                        //Sets readable temperatures for time periods
+                        temperature = dynamicTemp();
+                        time = Weather.timeCorrection();
+                        //Corrects time values to next hour
+
+                        if (time == 5.00) {
+                            System.out.printf("%n" + "Time: 05:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                        } else if (time <= 5.30 && time > 5.29) {
+                            System.out.printf("%n" + "Time: 05:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+
+                            dynamicWeather();
+
+                        } else if (time == 6.00) {
+                            System.out.printf("%n" + "Time: 06:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                        } else if (time <= 6.30 && time > 6.29) {
+                            System.out.printf("%n" + "Time: 06:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            dynamicWeather();
+                        } else if (time == 7.00) {
+                            System.out.printf("%n" + "Time: 07:00 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                        } else if (time <= 7.30 && time > 7.29) {
+                            System.out.printf("%n" + "Time: 07:30 am");
+                            System.out.printf("%n" + "Temperature: " + "%.2f", temperature);
+                            dynamicWeather();
+                        }
+                        Thread.sleep(1000);
+                    }
+                    break;
+                default:
+                    System.out.println("Weather failed to load...");
+                    break;
+        }
+
+
+*/
+    }
+
+
+
+    private static void dynamicWeather() {
+
+        Random rand = new Random();
+        int n = rand.nextInt(10) + 1;
+
+        oldWeather = Menu.weatherType;
+
+        if (n >= 1 && n <= 5) {
+            weatherChange = Menu.getSimInfo();
+
+            if (weatherChange.equals(oldWeather)) {
+                System.out.println("weather not updated");
+            } else {
+                Menu.weatherType = weatherChange;
+                System.out.println("weather updated");
+            }
+        }
+    }
+
+    private static double dynamicTemp() {
+
+        switch (Menu.weatherType) {
+            case "SUNNY":
+
+                if (temperature >= 14 && temperature < 17) {
+                    //3 degree increase between 5 - 6am
+                    tempIncrease = .05;
+                } else if (temperature >= 17 && temperature < 22) {
+                    //5 degree increase between 6 - 7am
+                    tempIncrease = 0.0833333333333333;
+                } else if (temperature >= 22 && temperature < 26) {
+                    //4 degree increase between 7 - 8am
+                    tempIncrease = 0.0666666666666667;
+                }
+                break;
+            case "CLOUDY":
+
+                break;
+            case "RAINY":
+
                 break;
             default:
-                System.out.println("Weather failed to load...");
+                System.out.println("dynamic temp failed...");
                 break;
         }
+
+
+        return tempIncrease;
     }
 
 

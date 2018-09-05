@@ -5,7 +5,7 @@ public class Menu {
     static int weatherValue;
     static String weatherType;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String args[]) throws InterruptedException {
         int choice;
 
         //Welcome message
@@ -50,7 +50,7 @@ public class Menu {
         }
     }
 
-    private static void getSimInfo() {
+    static String getSimInfo() {
         weatherValue = Weather.getWeather();
 
         if (weatherValue >= 1 && weatherValue <= 5) {
@@ -61,7 +61,8 @@ public class Menu {
             weatherType = "RAINY";
         }
 
-        System.out.println("Current weather: " + weatherType);
+        System.out.println('\n' + "Current weather: " + weatherType);
+        return weatherType;
     }
 }
 

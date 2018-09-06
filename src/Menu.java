@@ -62,6 +62,9 @@ public class Menu {
         }
 
         System.out.println('\n' + "Current weather: " + weatherType);
+
+
+
         return weatherType;
     }
 }

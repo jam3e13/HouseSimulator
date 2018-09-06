@@ -15,7 +15,6 @@ class Simulator {
                     temperature = Weather.tempCorrection();
                     time = Weather.timeCorrection();
                     tempIncrease = Weather.dynamicTemp();
-                    //System.out.print(temperature);
                     if (temperature >= 14) {
                         //Sets readable temperatures for time periods
                         temperature += tempIncrease;

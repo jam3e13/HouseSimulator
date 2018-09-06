@@ -7,16 +7,14 @@
 //6. Sprinklers
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Fixture {
-    public String itemName;
-    public int number;
-    public boolean fixtureSwitch;
-    public int roomNumber;
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
+
+
+
 
     }
 
@@ -50,8 +48,23 @@ public class Fixture {
         //Edit elements in array lists
         if (editLivingRoom.equals("Y")) {
             System.out.println("Loading Main Bedroom Fixtures...");
-            System.out.println("Please fill in the required fields...");
+
+            String itemName = "Motion Sensor";
+
+            String fixtureSwitch = "On";
+
+            String room = "Living Room";
+
+            ArrayList<String> motionSensorList = new ArrayList<String>();
+            motionSensorList.add(itemName);
+            motionSensorList.add(String.valueOf(fixtureSwitch));
+            motionSensorList.add(String.valueOf(room));
+
             System.out.println("Living Room Fixtures: ");
+            System.out.println(motionSensorList);
+
+            //Add in loop to run through each living room fixture and break when user says not to edit
+            System.out.println("Please fill in the required fields...");
         } else {
             System.out.println("Main Bedroom Fixtures NOT Changed");
         }

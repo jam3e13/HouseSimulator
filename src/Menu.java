@@ -47,7 +47,6 @@ public class Menu {
             //Run simulation
             System.out.println("Simulation Started...");
             getSimInfo();
-            //Simulator simulator = new Simulator();
             Simulator.runSimulator(weatherType);
             System.out.println("Simulation Finished...");
         } else if (choice == 2) {
@@ -58,8 +57,7 @@ public class Menu {
                 Appliance.initialSetup();
                 initialStart = false;
             } else {
-                Fixture.fixtureFlow();
-                Appliance.applianceFlow();
+                //Add code for second try
             }
         } else if (choice == 3) {
             //Access Device
@@ -98,8 +96,8 @@ public class Menu {
                 Fixture.initialSetup();
                 initialStart = false;
             } else {
-                Fixture.fixtureFlow();
-                Appliance.applianceFlow();
+                //Fixture.fixtureFlow();
+                //Appliance.applianceFlow();
             }
         } else if (choice == 3) {
             //Access Device

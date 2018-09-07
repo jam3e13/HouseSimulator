@@ -48,11 +48,14 @@ public class Appliance {
 
     private static void kitchen() {
         //Living Room Appliances
-        //1. Car
+        //1. Oven
+        //2. Kettle
+        //3. Coffee Machine
     }
 
     private static void garage() {
         //No Appliance
+        //1. Car
     }
 
     private static void garden() {

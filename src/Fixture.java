@@ -11,27 +11,302 @@ import java.util.Scanner;
 
 public class Fixture {
 
+    private static int choice, fixtureChoice;
+    static String roomLocation;
+    static String fixtureSwitch = "OFF";
+    static double acTempSetting;
+
     public static void main(String[] args) {
 
-
-
-
     }
-
-    static void fixtureFlow() {
-        livingRoom();
-        mainBedroom();
-        secondBedroom();
-        kitchen();
-        garage();
-        garden();
-    }
-
 
     //Used at the very start of the program
     static void initialSetup() {
-        System.out.println("Fixtures: ");
+        System.out.println("Please select a Room to set up...");
+        roomDisplay();
+        Scanner input = new Scanner(System.in);
+        choice = input.nextInt();
+        if (choice == 1) {
+            //LIVING ROOM
+            roomLocation = "LIVING ROOM";
+            do {
+                System.out.println(roomLocation + " - Fixture set up...");
+                fixtureDisplay();
+                fixtureChoice = input.nextInt();
+                if (fixtureChoice == 1) {
+                    //MOTION SENSOR
+                    motionSensor();
+
+                } else if (fixtureChoice == 2) {
+                    //AC
+                    airCon();
+
+                } else if (fixtureChoice == 3) {
+                    //LIGHTS
+                    lights();
+
+                } else if (fixtureChoice == 4) {
+                    //CEILING FAN
+                    ceilingFan();
+
+                } else if (fixtureChoice == 5) {
+                    //GARAGE DOOR
+                    garageDoor();
+
+                } else if (fixtureChoice == 6) {
+                    //SPRINKLERS
+                    sprinklers();
+                }
+            } while (fixtureChoice == 7);
+
+        } else if (choice == 2) {
+            //MAIN BEDROOM
+            roomLocation = "MAIN BEDROOM";
+            do {
+                System.out.println(roomLocation + " - Fixture set up...");
+                fixtureDisplay();
+                fixtureChoice = input.nextInt();
+                if (fixtureChoice == 1) {
+                    //MOTION SENSOR
+                    motionSensor();
+
+                } else if (fixtureChoice == 2) {
+                    //AC
+                    airCon();
+
+                } else if (fixtureChoice == 3) {
+                    //LIGHTS
+                    lights();
+
+                } else if (fixtureChoice == 4) {
+                    //CEILING FAN
+                    ceilingFan();
+
+                } else if (fixtureChoice == 5) {
+                    //GARAGE DOOR
+                    garageDoor();
+
+                } else if (fixtureChoice == 6) {
+                    //SPRINKLERS
+                    sprinklers();
+                }
+            } while (fixtureChoice == 0);
+        } else if (choice == 3) {
+            //SECOND BEDROOM
+            roomLocation = "SECOND BEDROOM";
+            do {
+                System.out.println(roomLocation + " - Fixture set up...");
+                fixtureDisplay();
+                fixtureChoice = input.nextInt();
+                if (fixtureChoice == 1) {
+                    //MOTION SENSOR
+                    motionSensor();
+
+                } else if (fixtureChoice == 2) {
+                    //AC
+                    airCon();
+
+                } else if (fixtureChoice == 3) {
+                    //LIGHTS
+                    lights();
+
+                } else if (fixtureChoice == 4) {
+                    //CEILING FAN
+                    ceilingFan();
+
+                } else if (fixtureChoice == 5) {
+                    //GARAGE DOOR
+                    garageDoor();
+
+                } else if (fixtureChoice == 6) {
+                    //SPRINKLERS
+                    sprinklers();
+                }
+            } while (fixtureChoice == 0);
+        } else if (choice == 4) {
+            //KITCHEN
+            roomLocation = "KITCHEN";
+            do {
+                System.out.println(roomLocation + " - Fixture set up...");
+                fixtureDisplay();
+                fixtureChoice = input.nextInt();
+                if (fixtureChoice == 1) {
+                    //MOTION SENSOR
+                    motionSensor();
+
+                } else if (fixtureChoice == 2) {
+                    //AC
+                    airCon();
+
+                } else if (fixtureChoice == 3) {
+                    //LIGHTS
+                    lights();
+
+                } else if (fixtureChoice == 4) {
+                    //CEILING FAN
+                    ceilingFan();
+
+                } else if (fixtureChoice == 5) {
+                    //GARAGE DOOR
+                    garageDoor();
+
+                } else if (fixtureChoice == 6) {
+                    //SPRINKLERS
+                    sprinklers();
+                }
+            } while (fixtureChoice == 0);
+        } else if (choice == 5) {
+            //GARAGE
+            roomLocation = "GARAGE";
+            do {
+                System.out.println(roomLocation + " - Fixture set up...");
+                fixtureDisplay();
+                fixtureChoice = input.nextInt();
+                if (fixtureChoice == 1) {
+                    //MOTION SENSOR
+                    motionSensor();
+
+                } else if (fixtureChoice == 2) {
+                    //AC
+                    airCon();
+
+                } else if (fixtureChoice == 3) {
+                    //LIGHTS
+                    lights();
+
+                } else if (fixtureChoice == 4) {
+                    //CEILING FAN
+                    ceilingFan();
+
+                } else if (fixtureChoice == 5) {
+                    //GARAGE DOOR
+                    garageDoor();
+
+                } else if (fixtureChoice == 6) {
+                    //SPRINKLERS
+                    sprinklers();
+                }
+            } while (fixtureChoice == 0);
+        } else if (choice == 6) {
+            //GARDEN
+            do {
+                System.out.println("Please select a Fixture to set up...");
+                fixtureDisplay();
+                fixtureChoice = input.nextInt();
+                if (fixtureChoice == 1) {
+                    //MOTION SENSOR
+                    motionSensor();
+
+                } else if (fixtureChoice == 2) {
+                    //AC
+                    airCon();
+
+                } else if (fixtureChoice == 3) {
+                    //LIGHTS
+                    lights();
+
+                } else if (fixtureChoice == 4) {
+                    //CEILING FAN
+                    ceilingFan();
+
+                } else if (fixtureChoice == 5) {
+                    //GARAGE DOOR
+                    garageDoor();
+
+                } else if (fixtureChoice == 6) {
+                    //SPRINKLERS
+                    sprinklers();
+                }
+            } while (fixtureChoice == 0);
+        } else {
+            //QUIT
+            System.out.println("Quiting program...");
+        }
     }
+
+    private static void roomDisplay() {
+        //Menu options
+        System.out.println("\n0) Exit Program");
+        System.out.println("-----------------------");
+        System.out.println("1) LIVING ROOM");
+        System.out.println("2) MAIN BEDROOM");
+        System.out.println("3) SECOND BEDROOM");
+        System.out.println("4) KITCHEN");
+        System.out.println("5) GARAGE");
+        System.out.println("6) GARDEN");
+    }
+
+    private static void fixtureDisplay() {
+        //Menu options
+        System.out.println("\n0) Exit Program");
+        System.out.println("-----------------------");
+        System.out.println("1) MOTION SENSOR");
+        System.out.println("2) AIR CONDITIONER");
+        System.out.println("3) LIGHTS");
+        System.out.println("4) CEILING FAN");
+        System.out.println("5) GARAGE DOOR");
+        System.out.println("6) SPRINKLERS");
+    }
+
+    private static void motionSensor() {
+        String itemName = "Motion Sensor";
+
+        String room = "Living Room";
+
+        ArrayList<String> motionSensorList = new ArrayList<String>();
+        motionSensorList.add(itemName);
+        motionSensorList.add(String.valueOf(room));
+
+        System.out.println(motionSensorList);
+    }
+
+    private static void airCon() {
+        System.out.println("AC config file loading...");
+        System.out.println("Set temperature for " + roomLocation + " 16 Degrees - 26 Degrees.");
+        Scanner input = new Scanner(System.in);
+        acTempSetting = input.nextDouble();
+
+        //Makes sure use inputs 0, 1, 2 or 3 only
+        while (acTempSetting  >= 26) {
+            System.out.println("Wrong input...");
+            System.out.println("Please enter between: 16 Degrees - 26 Degrees.");
+            acTempSetting = input.nextDouble();
+        }
+
+        String itemName = "Air Conditioner";
+
+        fixtureSwitch = "ON";
+
+        switch (fixtureSwitch) {
+            case "ON":
+                ArrayList<String> airConList = new ArrayList<String>();
+                airConList.add("Fixture: " + itemName);
+                airConList.add(String.valueOf("AC set Temperature: " + acTempSetting));
+                airConList.add(String.valueOf("Room: " + roomLocation));
+
+                System.out.println(airConList);
+                break;
+            default:
+                System.out.println("AC List failed...");
+                break;
+        }
+
+    }
+
+    private static void lights() {
+    }
+
+    private static void ceilingFan() {
+    }
+
+    private static void garageDoor() {
+    }
+
+    private static void sprinklers() {
+    }
+
+
+
 
     //Used to edit fixtures
     private static void livingRoom() {
@@ -51,7 +326,7 @@ public class Fixture {
 
             String itemName = "Motion Sensor";
 
-            String fixtureSwitch = "On";
+
 
             String room = "Living Room";
 

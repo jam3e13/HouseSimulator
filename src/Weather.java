@@ -2,9 +2,8 @@ import java.util.Random;
 
 class Weather {
     static int weatherValue;
-    static double temperature;
-    static double tempIncrease;
-    static double time;
+    static double temperature, tempChange, time;
+    static String switchChoice;
 
     static int getWeather() {
         Random rand = new Random();
@@ -62,197 +61,247 @@ class Weather {
         } else if (time >= 23.59 && time < 23.61) {
             time = 24;
         } else if (time >= 24.59 && time < 24.61) {
-            time = 0;
+            time = 25;
         } else if (time >= 25.59 && time < 25.61) {
-            time = 1;
+            time = 26;
         } else if (time >= 26.59 && time < 26.61) {
-            time = 2;
+            time = 27;
         } else if (time >= 27.59 && time < 27.61) {
-            time = 3;
+            time = 28;
         } else if (time >= 28.59 && time < 28.61) {
-            time = 4;
+            time = 29;
         } else if (time >= 29.59 && time < 29.61) {
-            time = 5;
+            time = 30;
         }
         return time;
     }
 
     static double tempCorrection() {
-        switch (Menu.weatherType) {
+        switchChoice = Menu.weatherType;
+
+        switch (switchChoice) {
             case "SUNNY":
                 if (time <= 5 && time >= 0) {
                     //5:00am
                     temperature = 14;
-                } else if (time >= 6 && time < 6.59) {
+                } else if (time > 5.99 && time < 6.99) {
                     //6:00am
                     temperature = 17;
-                } else if (time >= 6.59 && time <= 7) {
+                } else if (time > 6.99 && time < 7.99) {
                     //7:00am
                     temperature = 22;
-                } else if (time >= 7.59 && time <= 8) {
+                } else if (time > 7.99 && time < 8.99) {
                     //8:00am
                     temperature = 26;
-                } else if (time >= 8.59 && time < 8.61) {
+                } else if (time > 8.99 && time < 9.99) {
                     //9:00am
                     temperature = 27;
-                } else if (time >= 9.59 && time < 9.61) {
+                } else if (time > 9.99 && time < 11.99) {
                     //10:00am
                     temperature = 28;
-                } else if (time >= 10.59 && time < 10.61) {
+                } else if (time > 10.99 && time < 11.99) {
                     //11:00am
                     temperature = 29;
-                } else if (time >= 11.59 && time < 11.61) {
+                } else if (time > 11.99 && time < 12.99) {
                     //12:00pm
                     temperature = 30;
-                } else if (time >= 12.59 && time < 12.61) {
+                } else if (time > 12.99 && time < 13.99) {
                     //1:00pm
                     temperature = 30;
-                } else if (time >= 13.59 && time < 13.61) {
+                } else if (time > 13.99 && time < 14.99) {
                     //2:00pm
                     temperature = 29;
-                } else if (time >= 14.59 && time < 14.61) {
+                } else if (time > 14.99 && time < 15.99) {
                     //3:00pm
                     temperature = 28;
-                } else if (time >= 15.59 && time < 15.61) {
+                } else if (time > 15.99 && time < 16.99) {
                     //4:00pm
                     temperature = 27;
-                } else if (time >= 16.59 && time < 16.61) {
+                } else if (time > 16.99 && time < 17.99) {
                     //5:00pm
                     temperature = 26;
-                } else if (time >= 17.59 && time < 17.61) {
+                } else if (time > 17.99 && time < 18.99) {
                     //6:00pm
                     temperature = 25;
-                } else if (time >= 18.59 && time < 18.61) {
+                } else if (time > 18.99 && time < 19.99) {
                     //7:00pm
                     temperature = 24;
-                } else if (time >= 19.59 && time < 19.61) {
+                } else if (time > 19.99 && time < 20.99) {
                     //8:00pm
                     temperature = 23;
-                } else if (time >= 20.59 && time < 20.61) {
+                } else if (time > 20.99 && time < 21.99) {
                     //9:00pm
                     temperature = 22;
-                } else if (time >= 21.59 && time < 21.61) {
+                } else if (time > 21.99 && time < 22.99) {
                     //10:00pm
                     temperature = 21;
-                } else if (time >= 22.59 && time < 22.61) {
+                } else if (time > 22.99 && time < 23.99) {
                     //11:00pm
                     temperature = 20;
-                } else if (time >= 23.59 && time < 23.61) {
-                    //12:00pm
+                } else if (time > 23.99 && time < 24.99) {
+                    //12:00am
                     temperature = 19;
-                } else if (time >= 24.59 && time < 24.61) {
+                } else if (time > 24.99 && time < 25.99) {
                     //1:00am
                     temperature = 18;
-                } else if (time >= 25.59 && time < 25.61) {
+                } else if (time > 25.99 && time < 26.99) {
                     //2:00am
                     temperature = 17;
-                } else if (time >= 26.59 && time < 26.61) {
+                } else if (time > 26.99 && time < 27.99) {
                     //3:00am
                     temperature = 16;
-                } else if (time >= 27.59 && time < 27.61) {
+                } else if (time > 27.99 && time < 28.99) {
                     //4:00am
                     temperature = 15;
                 }
                 break;
             case "CLOUDY":
                 if (time <= 5 && time >= 0) {
+                    //5:00am
                     temperature = 15;
-                } else if (time >= 6 && time < 6.59) {
+                } else if (time > 5.99 && time < 6.99) {
+                    //6:00am
                     temperature = 17;
-                } else if (time >= 6.59 && time <= 7) {
+                } else if (time > 6.99 && time < 7.99) {
+                    //7:00am
                     temperature = 21;
-                } else if (time >= 7.59 && time < 7.61) {
+                } else if (time > 7.99 && time < 8.99) {
+                    //8:00am
                     temperature = 23;
-                } else if (time >= 8.59 && time < 8.61) {
+                } else if (time > 8.99 && time < 9.99) {
+                    //9:00am
                     temperature = 25;
-                } else if (time >= 9.59 && time < 9.61) {
+                } else if (time > 9.99 && time < 11.99) {
+                    //10:00am
                     temperature = 26;
-                } else if (time >= 10.59 && time < 10.61) {
+                } else if (time > 10.99 && time < 11.99) {
+                    //11:00am
                     temperature = 27;
-                } else if (time >= 11.59 && time < 11.61) {
+                } else if (time > 11.99 && time < 12.99) {
+                    //12:00pm
                     temperature = 28;
-                } else if (time >= 12.59 && time < 12.61) {
+                } else if (time > 12.99 && time < 13.99) {
+                    //1:00pm
                     temperature = 28;
-                } else if (time >= 13.59 && time < 13.61) {
+                } else if (time > 13.99 && time < 14.99) {
+                    //2:00pm
                     temperature = 27;
-                } else if (time >= 14.59 && time < 14.61) {
+                } else if (time > 14.99 && time < 15.99) {
+                    //3:00pm
                     temperature = 26;
-                } else if (time >= 15.59 && time < 15.61) {
+                } else if (time > 15.99 && time < 16.99) {
+                    //4:00pm
                     temperature = 25;
-                } else if (time >= 16.59 && time < 16.61) {
+                } else if (time > 16.99 && time < 17.99) {
+                    //5:00pm
                     temperature = 24;
-                } else if (time >= 17.59 && time < 17.61) {
+                } else if (time > 17.99 && time < 18.99) {
+                    //6:00pm
                     temperature = 23;
-                } else if (time >= 18.59 && time < 18.61) {
+                } else if (time > 18.99 && time < 19.99) {
+                    //7:00pm
                     temperature = 22;
-                } else if (time >= 19.59 && time < 19.61) {
+                } else if (time > 19.99 && time < 20.99) {
+                    //8:00pm
                     temperature = 22;
-                } else if (time >= 20.59 && time < 20.61) {
+                } else if (time > 20.99 && time < 21.99) {
+                    //9:00pm
                     temperature = 22;
-                } else if (time >= 21.59 && time < 21.61) {
+                } else if (time > 21.99 && time < 22.99) {
+                    //10:00pm
                     temperature = 21;
-                } else if (time >= 22.59 && time < 22.61) {
+                } else if (time > 22.99 && time < 23.99) {
+                    //11:00pm
                     temperature = 21;
-                } else if (time >= 23.59 && time < 23.61) {
+                } else if (time > 23.99 && time < 24.99) {
+                    //12:00am
                     temperature = 20;
-                } else if (time >= 24.59 && time < 24.61) {
+                } else if (time > 24.99 && time < 25.99) {
+                    //1:00am
                     temperature = 19;
-                } else if (time >= 25.59 && time < 25.61) {
+                } else if (time > 25.99 && time < 26.99) {
+                    //2:00am
                     temperature = 18;
-                } else if (time >= 26.59 && time < 26.61) {
+                } else if (time > 26.99 && time < 27.99) {
+                    //3:00am
                     temperature = 17;
-                } else if (time >= 27.59 && time < 27.61) {
+                } else if (time > 27.99 && time < 28.99) {
+                    //4:00am
                     temperature = 16;
                 }
                 break;
             case "RAINY":
                 if (time <= 5 && time >= 0) {
+                    //5:00am
                     temperature = 16;
-                } else if (time >= 6 && time < 6.59) {
+                } else if (time > 5.99 && time < 6.99) {
+                    //6:00am
                     temperature = 17;
-                } else if (time >= 6.59 && time <= 7) {
+                } else if (time > 6.99 && time < 7.99) {
+                    //7:00am
                     temperature = 19;
-                } else if (time >= 7.59 && time < 7.61) {
+                } else if (time > 7.99 && time < 8.99) {
+                    //8:00am
                     temperature = 20;
-                } else if (time >= 8.59 && time < 8.61) {
+                } else if (time > 8.99 && time < 9.99) {
+                    //9:00am
                     temperature = 22;
-                } else if (time >= 9.59 && time < 9.61) {
+                } else if (time > 9.99 && time < 11.99) {
+                    //10:00am
                     temperature = 23;
-                } else if (time >= 10.59 && time < 10.61) {
+                } else if (time > 10.99 && time < 11.99) {
+                    //11:00am
                     temperature = 25;
-                } else if (time >= 11.59 && time < 11.61) {
+                } else if (time > 11.99 && time < 12.99) {
+                    //12:00pm
                     temperature = 26;
-                } else if (time >= 12.59 && time < 12.61) {
+                } else if (time > 12.99 && time < 13.99) {
+                    //1:00pm
                     temperature = 26;
-                } else if (time >= 13.59 && time < 13.61) {
+                } else if (time > 13.99 && time < 14.99) {
+                    //2:00pm
                     temperature = 25;
-                } else if (time >= 14.59 && time < 14.61) {
+                } else if (time > 14.99 && time < 15.99) {
+                    //3:00pm
                     temperature = 24;
-                } else if (time >= 15.59 && time < 15.61) {
+                } else if (time > 15.99 && time < 16.99) {
+                    //4:00pm
                     temperature = 24;
-                } else if (time >= 16.59 && time < 16.61) {
+                } else if (time > 16.99 && time < 17.99) {
+                    //5:00pm
                     temperature = 23;
-                } else if (time >= 17.59 && time < 17.61) {
+                } else if (time > 17.99 && time < 18.99) {
+                    //6:00pm
                     temperature = 22;
-                } else if (time >= 18.59 && time < 18.61) {
+                } else if (time > 18.99 && time < 19.99) {
+                    //7:00pm
                     temperature = 22;
-                } else if (time >= 19.59 && time < 19.61) {
+                } else if (time > 19.99 && time < 20.99) {
+                    //8:00pm
                     temperature = 22;
-                } else if (time >= 20.59 && time < 20.61) {
+                } else if (time > 20.99 && time < 21.99) {
+                    //9:00pm
                     temperature = 21;
-                } else if (time >= 21.59 && time < 21.61) {
+                } else if (time > 21.99 && time < 22.99) {
+                    //10:00pm
                     temperature = 21;
-                } else if (time >= 22.59 && time < 22.61) {
+                } else if (time > 22.99 && time < 23.99) {
+                    //11:00pm
                     temperature = 20;
-                } else if (time >= 23.59 && time < 23.61) {
+                } else if (time > 23.99 && time < 24.99) {
+                    //12:00am
                     temperature = 19;
-                } else if (time >= 24.59 && time < 24.61) {
+                } else if (time > 24.99 && time < 25.99) {
+                    //1:00am
                     temperature = 19;
-                } else if (time >= 25.59 && time < 25.61) {
+                } else if (time > 25.99 && time < 26.99) {
+                    //2:00am
                     temperature = 18;
-                } else if (time >= 26.59 && time < 26.61) {
+                } else if (time > 26.99 && time < 27.99) {
+                    //3:00am
                     temperature = 18;
-                } else if (time >= 27.59 && time < 27.61) {
+                } else if (time > 27.99 && time < 28.99) {
+                    //4:00am
                     temperature = 17;
                 }
                 break;
@@ -260,226 +309,227 @@ class Weather {
         return temperature;
     }
 
-    static double dynamicTemp() {
+    static double dynamicIncrease() {
+        switchChoice = Menu.weatherType;
 
-        switch (Menu.weatherType) {
+        switch (switchChoice) {
             case "SUNNY":
-                if (temperature >= 14 && temperature < 17) {
+                if (time > 4.99 && time < 5.99) {
                     //3 degree increase between 5 - 6am
-                    tempIncrease += .05;
-                } else if (temperature >= 17 && temperature < 22) {
+                    tempChange += 0.05;
+                } else if (time > 5.99 && time < 6.99) {
                     //5 degree increase between 6 - 7am
-                    tempIncrease += 0.0833333333333333;
-                } else if (temperature >= 22 && temperature < 26) {
+                    tempChange += 0.0833333333333333;
+                } else if (time > 6.99 && time < 7.99) {
                     //4 degree increase between 7 - 8am
-                    tempIncrease += 0.0666666666666667;
-                } else if (temperature >= 26 && temperature < 27) {
+                    tempChange += 0.0666666666666667;
+                } else if (time > 7.99 && time < 8.99) {
                     //1 degree increase between 8 - 9am
-                    tempIncrease += 0.0166666666666667;
-                } else if (temperature >= 27 && temperature < 28) {
+                    tempChange += 0.0166666666666667;
+                } else if (time > 8.99 && time < 9.99) {
                     //1 degree increase between 9 - 10am
-                    tempIncrease += 0.0166666666666667;
-                } else if (temperature >= 28 && temperature < 29) {
+                    tempChange += 0.0166666666666667;
+                } else if (time > 9.99 && time < 10.99) {
                     //1 degree increase between 10 - 11am
-                    tempIncrease += 0.0166666666666667;
-                } else if (temperature >= 29 && temperature < 30) {
+                    tempChange += 0.0166666666666667;
+                } else if (time > 10.99 && time < 11.99) {
                     //1 degree increase between 11am - 12pm
-                    tempIncrease += 0.0166666666666667;
-                } else if (temperature >= 30 && temperature < 30) {
+                    tempChange += 0.0166666666666667;
+                } else if (time > 11.99 && time < 12.99) {
                     //0 degree between 12 - 1pm
-                    tempIncrease += 0;
-                } else if (temperature >= 30 && temperature < 29) {
+                    tempChange = 0;
+                } else if (time > 12.99 && time < 13.99) {
                     //1 degree decrease between 1 - 2pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 29 && temperature < 28) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 13.99 && time < 14.99) {
                     //1 degree decrease between 2 - 3pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 28 && temperature < 27) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 14.99 && time < 15.99) {
                     //1 degree decrease between 3 - 4pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 27 && temperature < 26) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 15.99 && time < 16.99) {
                     //1 degree decrease between 4 - 5pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 26 && temperature < 25) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 16.99 && time < 17.99) {
                     //1 degree decrease between 5 - 6pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 25 && temperature < 24) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 17.99 && time < 18.99) {
                     //1 degree decrease between 6 - 7pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 24 && temperature < 23) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 18.99 && time < 19.99) {
                     //1 degree decrease between 7 - 8pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 23 && temperature < 22) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 19.99 && time < 20.99) {
                     //1 degree decrease between 8 - 9pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 22 && temperature < 21) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 20.99 && time < 21.99) {
                     //1 degree decrease between 9 - 10pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 21 && temperature < 20) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 21.99 && time < 22.99) {
                     //1 degree decrease between 10 - 11pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 20 && temperature < 19) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 22.99 && time < 23.99) {
                     //1 degree decrease between 11 - 12pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 19 && temperature < 18) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 23.99 && time < 24.99) {
                     //1 degree decrease between 12 - 1am
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 18 && temperature < 17) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 24.99 && time < 25.99) {
                     //1 degree decrease between 1 - 2am
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 17 && temperature < 16) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 25.99 && time < 26.99) {
                     //1 degree decrease between 2 - 3am
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 16 && temperature < 15) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 26.99 && time < 27.99) {
                     //1 degree decrease between 3 - 4am
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 15 && temperature < 14) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 27.99 && time < 28.99) {
                     //1 degree decrease between 4 - 4:59am
-                    tempIncrease -= 0.0166666666666667;
+                    tempChange -= 0.0166666666666667;
                 }
                 break;
             case "CLOUDY":
-                if (temperature >= 15 && temperature < 17) {
+                if (time > 4.99 && time < 5.99) {
                     //2 degree increase between 5 - 6am
-                    tempIncrease += 0.0333333333333333;
-                } else if (temperature >= 17 && temperature < 21) {
+                    tempChange += 0.0333333333333333;
+                } else if (time > 5.99 && time < 6.99) {
                     //4 degree increase between 6 - 7am
-                    tempIncrease += 0.0666666666666667;
-                } else if (temperature >= 21 && temperature < 23) {
+                    tempChange += 0.0666666666666667;
+                } else if (time > 6.99 && time < 7.99) {
                     //2 degree increase between 7 - 8am
-                    tempIncrease += 0.0333333333333333;
-                } else if (temperature >= 23 && temperature < 25) {
+                    tempChange += 0.0333333333333333;
+                } else if (time > 7.99 && time < 8.99) {
                     //2 degree increase between 8 - 9am
-                    tempIncrease += 0.0333333333333333;
-                } else if (temperature >= 25 && temperature < 26) {
+                    tempChange += 0.0333333333333333;
+                } else if (time > 8.99 && time < 9.99) {
                     //1 degree increase between 9 - 10am
-                    tempIncrease += 0.0166666666666667;
-                } else if (temperature >= 26 && temperature < 27) {
+                    tempChange += 0.0166666666666667;
+                } else if (time > 9.99 && time < 10.99) {
                     //1 degree increase between 10 - 11am
-                    tempIncrease += 0.0166666666666667;
-                } else if (temperature >= 27 && temperature < 28) {
+                    tempChange += 0.0166666666666667;
+                } else if (time > 10.99 && time < 11.99) {
                     //1 degree increase between 11am - 12pm
-                    tempIncrease += 0.0166666666666667;
-                } else if (temperature >= 28 && temperature < 28) {
+                    tempChange += 0.0166666666666667;
+                } else if (time > 11.99 && time < 12.99) {
                     //0 degree between 12 - 1pm
-                    tempIncrease += 0;
-                } else if (temperature >= 28 && temperature < 27) {
+                    tempChange = 0;
+                } else if (time > 12.99 && time < 13.99) {
                     //1 degree decrease between 1 - 2pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 27 && temperature < 26) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time >= 13.99 && time < 14.99) {
                     //1 degree decrease between 2 - 3pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 26 && temperature < 25) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 14.99 && time < 15.99) {
                     //1 degree decrease between 3 - 4pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 25 && temperature < 24) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 15.99 && time < 16.99) {
                     //1 degree decrease between 4 - 5pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 24 && temperature < 23) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 16.99 && time < 17.99) {
                     //1 degree decrease between 5 - 6pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 23 && temperature < 22) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 17.99 && time < 18.99) {
                     //1 degree decrease between 6 - 7pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 22 && temperature < 22) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 18.99 && time < 20.99) {
                     //0 degree between 7 - 8pm && 8 - 9am
-                    tempIncrease -= 0;
-                } else if (temperature >= 22 && temperature < 21) {
+                    tempChange = 0;
+                } else if (time > 20.99 && time < 21.99) {
                     //1 degree decrease between 9 - 10pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 21 && temperature < 20) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 21.99 && time < 22.99) {
                     //1 degree decrease between 10 - 11pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 20 && temperature < 19) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 22.99 && time < 24.99) {
                     //1 degree decrease between 11 - 12pm & 12 - 1am
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 19 && temperature < 18) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 24.99 && time < 25.99) {
                     //1 degree decrease between 1 - 2am
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 18 && temperature < 17) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 25.99 && time < 26.99) {
                     //1 degree decrease between 2 - 3am
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 17 && temperature < 16) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 26.99 && time < 27.99) {
                     //1 degree decrease between 3 - 4am
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 16 && temperature < 15) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 27.99 && time < 28.99) {
                     //1 degree decrease between 4 - 4:59am
-                    tempIncrease -= 0.0166666666666667;
+                    tempChange -= 0.0166666666666667;
                 }
                 break;
             case "RAINY":
-                if (temperature >= 16 && temperature < 17) {
+                if (time > 4.99 && time < 5.99) {
                     //1 degree increase between 5 - 6am
-                    tempIncrease += 0.0166666666666667;
-                } else if (temperature >= 17 && temperature < 19) {
+                    tempChange += 0.0166666666666667;
+                } else if (time > 5.99 && time < 6.99) {
                     //2 degree increase between 6 - 7am
-                    tempIncrease += 0.0333333333333333;
-                } else if (temperature >= 19 && temperature < 20) {
+                    tempChange += 0.0333333333333333;
+                } else if (time > 6.99 && time < 7.99) {
                     //1 degree increase between 7 - 8am
-                    tempIncrease += 0.0166666666666667;
-                } else if (temperature >= 20 && temperature < 22) {
+                    tempChange += 0.0166666666666667;
+                } else if (time > 7.99 && time < 8.99) {
                     //2 degree increase between 8 - 9am
-                    tempIncrease += 0.0333333333333333;
-                } else if (temperature >= 22 && temperature < 23) {
+                    tempChange += 0.0333333333333333;
+                } else if (time > 8.99 && time < 9.99) {
                     //1 degree increase between 9 - 10am
-                    tempIncrease += 0.0166666666666667;
-                } else if (temperature >= 23 && temperature < 25) {
+                    tempChange += 0.0166666666666667;
+                } else if (time > 9.99 && time < 10.99) {
                     //2 degree increase between 10 - 11am
-                    tempIncrease += 0.0333333333333333;
-                } else if (temperature >= 25 && temperature < 26) {
+                    tempChange += 0.0333333333333333;
+                } else if (time > 10.99 && time < 11.99) {
                     //1 degree increase between 11am - 12pm
-                    tempIncrease += 0.0166666666666667;
-                } else if (temperature >= 26 && temperature < 26) {
+                    tempChange += 0.0166666666666667;
+                } else if (time > 11.99 && time < 12.99) {
                     //0 degree between 12 - 1pm
-                    tempIncrease += 0;
-                } else if (temperature >= 26 && temperature < 25) {
+                    tempChange = 0;
+                } else if (time > 12.99 && time < 13.99) {
                     //1 degree decrease between 1 - 2pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 25 && temperature < 24) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 13.99 && time < 14.99) {
                     //1 degree decrease between 2 - 3pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 24 && temperature < 24) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 14.99 && time < 15.99) {
                     //0 degree between 3 - 4pm
-                    tempIncrease -= 0;
-                } else if (temperature >= 24 && temperature < 23) {
+                    tempChange = 0;
+                } else if (time > 15.99 && time < 16.99) {
                     //1 degree decrease between 4 - 5pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 23 && temperature < 22) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 16.99 && time < 17.99) {
                     //1 degree decrease between 5 - 6pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 22 && temperature < 22) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 17.99 && time < 19.99) {
                     //0 degree between 6 - 7pm & 7 - 8pm
-                    tempIncrease -= 0;
-                } else if (temperature >= 22 && temperature < 21) {
+                    tempChange = 0;
+                } else if (time > 19.99 && time < 20.99) {
                     //1 degree decrease between 8 - 9pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 21 && temperature < 20) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 20.99 && time < 21.99) {
                     //1 degree decrease between 9 - 10pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 20 && temperature < 19) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 21.99 && time < 22.99) {
                     //1 degree decrease between 10 - 11pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 19 && temperature < 19) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 22.99 && time < 23.99) {
                     //1 degree decrease between 11 - 12pm
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 19 && temperature < 18) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 23.99 && time < 24.99) {
                     //1 degree decrease between 12 - 1am
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 18 && temperature < 18) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 24.99 && time < 25.99) {
                     //0 degree between 1 - 2am
-                    tempIncrease -= 0;
-                } else if (temperature >= 18 && temperature < 17) {
+                    tempChange = 0;
+                } else if (time > 25.99 && time < 26.99) {
                     //1 degree decrease between 2 - 3am
-                    tempIncrease -= 0.0166666666666667;
-                } else if (temperature >= 17 && temperature < 16) {
+                    tempChange -= 0.0166666666666667;
+                } else if (time > 26.99 && time < 27.99) {
                     //1 degree decrease between 3 - 4am
-                    tempIncrease -= 0.0166666666666667;
+                    tempChange -= 0.0166666666666667;
                 }
                 break;
             default:
                 System.out.println("dynamic temp failed...");
                 break;
         }
-        return tempIncrease;
+        return tempChange;
     }
 }

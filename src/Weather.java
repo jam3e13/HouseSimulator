@@ -416,7 +416,7 @@ class Weather {
                 } else if (time > 12.99 && time < 13.99) {
                     //1 degree decrease between 1 - 2pm
                     tempChange -= 0.0166666666666667;
-                } else if (time >= 13.99 && time < 14.99) {
+                } else if (time > 13.99 && time < 14.99) {
                     //1 degree decrease between 2 - 3pm
                     tempChange -= 0.0166666666666667;
                 } else if (time > 14.99 && time < 15.99) {

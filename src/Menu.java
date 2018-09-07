@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Menu {
     static int weatherValue;
     private static int choice;
+    static int x;
     static String weatherType;
     private static boolean initialStart = true;
 
@@ -11,23 +12,41 @@ public class Menu {
     public static void main(String args[]) throws InterruptedException {
         //Welcome message
         System.out.println("Welcome to the Autonomous House Simulator");
+        System.out.println("\n" + "Please Enter the simulation run speed");
+        System.out.println("1) Normal Speed");
+        System.out.println("2) Test Speed");
+
+        Scanner input = new Scanner(System.in);
+        int simSpeed = input.nextInt();
+        //Makes sure user inputs 1 or 2 only
+        while (simSpeed >= 3) {
+            System.out.println("Wrong input...");
+            System.out.println("Please enter only (0), (1)");
+            simSpeed = input.nextInt();
+        }
+
+        if (simSpeed == 1) {
+            x = 1000;
+        } else if (simSpeed == 2) {
+            x = 100;
+        }
+
         //Displays menu
         menuDisplay();
         //User choice to run option
         initialChoice();
         //Displays menu second time to re-run sim with changes
-        menuDisplay();
+        //menuDisplay();
         //User choice to run sim again
-        secondChoice();
+        //secondChoice();
     }
 
     private static void menuDisplay() {
         //Menu options
-        System.out.println("\n0)    Exit Program");
-        System.out.println("-----------------------");
-        System.out.println("1)    Run Simulation");
+        System.out.println("\n0) Exit Program");
+        System.out.println("1) Run Simulation");
         System.out.println("2) Configure Simulation");
-        System.out.println("3)    Access Device");
+        System.out.println("3) Access Device - Not done");
     }
 
     private static void initialChoice() throws InterruptedException {
@@ -54,8 +73,12 @@ public class Menu {
             System.out.println("Configure opening...");
             if (initialStart) {
                 Fixture.initialSetup();
-                Appliance.initialSetup();
+                //Appliance.initialSetup();
                 initialStart = false;
+                //Displays menu
+                menuDisplay();
+                //User choice to run option
+                initialChoice();
             } else {
                 //Add code for second try
             }

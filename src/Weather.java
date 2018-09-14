@@ -3,7 +3,7 @@ import java.util.Random;
 class Weather {
     static int weatherValue;
     static double temperature, tempChange, time;
-    static String switchChoice;
+    private static String switchChoice;
 
     static int getWeather() {
         Random rand = new Random();

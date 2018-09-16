@@ -41,7 +41,7 @@ public class Menu {
         //secondChoice();
     }
 
-    private static void menuDisplay() {
+    static void menuDisplay() {
         //Menu options
         System.out.println("\n0) Exit Program");
         System.out.println("1) Run Simulation");
@@ -49,7 +49,7 @@ public class Menu {
         System.out.println("3) Access Device - Not done");
     }
 
-    private static void initialChoice() throws InterruptedException {
+    static void initialChoice() throws InterruptedException {
         //Gets user input
         Scanner input = new Scanner(System.in);
         choice = input.nextInt();

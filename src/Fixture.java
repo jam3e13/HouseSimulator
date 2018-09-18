@@ -6,16 +6,20 @@
 //5. Garage Door
 //6. Sprinklers
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
 
 public class Fixture {
 
     private static int choice, fixtureChoice;
-    static String roomLocation, exit;
+    static int acTempSetting;
+    static String roomLocation;
     static String fixtureSwitch = "OFF";
-    static double acTempSetting, lightSettingOn, lightSettingOff;
-    static boolean leaveLivingRoom;
+    static double lightSettingOn, lightSettingOff;
+    static ArrayList<String> list1, acList;
 
     //Used at the very start of the program
     static void initialSetup() throws InterruptedException {
@@ -36,7 +40,17 @@ public class Fixture {
                 System.out.println("0) BACK");
 
                 fixtureChoice = input.nextInt();
-                leaveLivingRoom = false;
+
+                while (fixtureChoice > 4) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please enter only (0), (1), (2), (3) OR (4)");
+                    System.out.println("\n1) MOTION SENSOR - Not done");
+                    System.out.println("2) AIR CONDITIONER");
+                    System.out.println("3) LIGHTS");
+                    System.out.println("4) CEILING FAN - Not done");
+                    System.out.println("0) BACK");
+                    fixtureChoice = input.nextInt();
+                }
 
                 if (fixtureChoice == 1) {
                     //MOTION SENSOR
@@ -73,6 +87,17 @@ public class Fixture {
 
                 fixtureChoice = input.nextInt();
 
+                while (fixtureChoice > 4) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please enter only (0), (1), (2), (3) OR (4)");
+                    System.out.println("\n1) MOTION SENSOR - Not done");
+                    System.out.println("2) AIR CONDITIONER");
+                    System.out.println("3) LIGHTS");
+                    System.out.println("4) CEILING FAN - Not done");
+                    System.out.println("0) BACK");
+                    fixtureChoice = input.nextInt();
+                }
+
                 if (fixtureChoice == 1) {
                     //MOTION SENSOR
                     motionSensor();
@@ -107,6 +132,16 @@ public class Fixture {
 
                 fixtureChoice = input.nextInt();
 
+                while (fixtureChoice > 4) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please enter only (0), (1), (2), (3) OR (4)");
+                    System.out.println("\n1) MOTION SENSOR - Not done");
+                    System.out.println("2) LIGHTS");
+                    System.out.println("3) CEILING FAN - Not done");
+                    System.out.println("0) BACK");
+                    fixtureChoice = input.nextInt();
+                }
+
                 if (fixtureChoice == 1) {
                     //MOTION SENSOR
                     motionSensor();
@@ -133,6 +168,15 @@ public class Fixture {
 
                 fixtureChoice = input.nextInt();
 
+                while (fixtureChoice > 4) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please enter only (0), (1), (2), (3) OR (4)");
+                    System.out.println("\n1) MOTION SENSOR - Not done");
+                    System.out.println("2) LIGHTS");
+                    System.out.println("0) BACK");
+                    fixtureChoice = input.nextInt();
+                }
+
                 if (fixtureChoice == 1) {
                     //MOTION SENSOR
                     motionSensor();
@@ -158,6 +202,16 @@ public class Fixture {
                 System.out.println("0) BACK");
 
                 fixtureChoice = input.nextInt();
+
+                while (fixtureChoice > 4) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please enter only (0), (1), (2), (3) OR (4)");
+                    System.out.println("\n1) MOTION SENSOR - Not done");
+                    System.out.println("3) LIGHTS");
+                    System.out.println("5) GARAGE DOOR - Not done");
+                    System.out.println("0) BACK");
+                    fixtureChoice = input.nextInt();
+                }
 
                 if (fixtureChoice == 1) {
                     //MOTION SENSOR
@@ -186,6 +240,16 @@ public class Fixture {
                 System.out.println("0) BACK");
 
                 fixtureChoice = input.nextInt();
+
+                while (fixtureChoice > 4) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please enter only (0), (1), (2), (3) OR (4)");
+                    System.out.println("\n1) MOTION SENSOR - Not done");
+                    System.out.println("2) LIGHTS");
+                    System.out.println("3) SPRINKLERS - Not done");
+                    System.out.println("0) BACK");
+                    fixtureChoice = input.nextInt();
+                }
                 //GARDEN
 
                 if (fixtureChoice == 1) {
@@ -239,36 +303,100 @@ public class Fixture {
 
     private static void airCon() {
         System.out.println("AC config file loading...");
-        System.out.println("Set temperature for " + roomLocation + " 16 Degrees - 26 Degrees.");
+        System.out.println("Set Temperature for " + roomLocation + ": 16° - 26°");
         Scanner input = new Scanner(System.in);
-        acTempSetting = input.nextDouble();
+        acTempSetting = input.nextInt();
 
-        //Makes sure use inputs 0, 1, 2 or 3 only
-        while (acTempSetting >= 26) {
+        //Makes sure use inputs are in range
+        while (acTempSetting > 26) {
             System.out.println("Wrong input...");
-            System.out.println("Please enter between: 16 Degrees - 26 Degrees.");
-            acTempSetting = input.nextDouble();
+            System.out.println("Please enter between: 16° - 26°");
+            acTempSetting = input.nextInt();
+        }
+        while (acTempSetting < 16) {
+            System.out.println("Wrong input...");
+            System.out.println("Please enter between: 16° - 26°");
+            acTempSetting = input.nextInt();
         }
 
-        String itemName = "Air Conditioner";
+        //saves to user chosen room
+        House deviceID = new House();
+        deviceID.setDeviceID("Air Conditioner");
+        House location = new House();
+        location.setLocation(roomLocation);
+        House powerSwitch = new House();
+        powerSwitch.setPowerSwitch("OFF");
+        House acTemp = new House();
+        acTemp.setAcTemp(acTempSetting);
 
         fixtureSwitch = "ON";
 
         switch (fixtureSwitch) {
             case "ON":
-                ArrayList<String> airConList = new ArrayList<String>();
-                airConList.add("Fixture: " + itemName);
-                airConList.add(String.valueOf("AC set Temperature: " + acTempSetting));
-                airConList.add(String.valueOf("Room: " + roomLocation));
+                powerSwitch.setPowerSwitch("ON");
+                String acDisplay = ("The " + House.getLocation() +
+                        " " + deviceID.getDeviceID() + " has been set to: " +
+                        "" + acTemp.getAcTemp() + "°");
+                System.out.println(acDisplay);
 
-                System.out.println(airConList);
+                //Add to a list to be called in sim
+                House acList = new House();
+                List<House.airConditioner> list1 = new ArrayList<House.airConditioner>();
+                list1.add(new House.airConditioner(House.getLocation()));
+                list1.add(new House.airConditioner(deviceID.getDeviceID()));
+                list1.add(new House.airConditioner(String.valueOf(acTemp.getAcTemp())));
+                list1.add(new House.airConditioner(powerSwitch.setPowerSwitch()));
+                acList.setListAirCon(list1);
+
+                //Full list view of what is being saved
+                System.out.println("AC List: " + list1);
+
+                //Shows what room the ac is in
+                System.out.println("ROOM: " + list1.get(0));
+
+                //Updates any new AC fixtures into one list
+                try {
+                    updateAcList();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 System.out.println("AC List failed...");
                 break;
         }
-
     }
+
+    private static void updateAcList() throws IOException {
+
+        //Get files to save
+
+
+        File newFile = new File("C:\\Users\\James\\IdeaProjects\\HouseSimulator\\acList.txt");
+        if (newFile.exists()){
+            System.out.println("File Already Exists!");
+        } else {
+            try {
+                newFile.createNewFile();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                FileWriter fileW = new FileWriter(newFile);
+                BufferedWriter buffW = new BufferedWriter(fileW);
+                buffW.write(String.valueOf(list1));
+                System.out.println(list1);
+                System.out.println("File Written!");
+
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
 
     private static void lights() {
         System.out.println("Lights config file loading...");

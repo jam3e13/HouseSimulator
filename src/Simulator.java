@@ -352,11 +352,12 @@ class Simulator {
     private static void dynamicAC() {
 
         acTemp = Fixture.acTempSetting;
+        String myLocalRoom = House.getLocation();
 
         if (acTemp < inDoorTemp && !deviceAC) {
             inDoorTemp = acTemp;
-            System.out.println('\n' + Fixture.roomLocation + " Ac has turned on.");
-            System.out.println(Fixture.roomLocation + " Temperature: " + inDoorTemp);
+            System.out.println("\n \n" + myLocalRoom + " Ac has turned on.");
+            System.out.println(myLocalRoom + " Temperature: " + inDoorTemp);
             deviceAC = true;
         } else if (acTemp == inDoorTemp) {
             inDoorTemp = acTemp;

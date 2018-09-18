@@ -1,72 +1,88 @@
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
 public class House {
 
-    public static void main(String args[]) {
+    String deviceID;
+    static String location, powerSwitch;
+    int acTemp;
+    private ArrayList<String> listTitles;
 
-/*
-        private static void livingRoom() {
-            //Living Room Fixtures
-            //1. Motion Sensor
-            //2. Room Air con
-            //3. Room Lights
-            //4. Room Ceiling Fan
-            //Living Room Appliances
-            //1. TV
-            //2. Vacuum
-        }
 
-        private static void mainBedroom () {
-            //Living Room Fixtures
-            //1. Motion Sensor
-            //2. Room Air con
-            //3. Room Lights
-            //4. Room Ceiling Fan
-            //Living Room Appliances
-            //1. TV
-
-        }
-
-        private static void secondBedroom () {
-            //Living Room Fixtures
-            //1. Motion Sensor
-            //2. Room Air con
-            //3. Room Lights
-            //4. Room Ceiling Fan
-            //No Appliance
-
-        }
-
-        private static void kitchen () {
-            //Living Room Fixtures
-            //1. Motion Sensor
-            //2. Room Air con
-            //3. Room Lights
-            //4. Room Ceiling Fan
-
-        }
-
-        private static void garage () {
-            //Living Room Fixtures
-            //1. Motion Sensor
-            //2. Room Air con
-            //3. Room Lights
-            //4. Room Ceiling Fan
-            //No Appliance
-
-        }
-
-        private static void garden () {
-            //Living Room Fixtures
-            //1. Motion Sensor
-            //2. Room Lights
-            //3. Sprinklers
-            //No Appliance
-
-        }
+    void setAcTemp(int acTemp) {
+        this.acTemp = acTemp;
     }
 
-*/
+    int getAcTemp() {
+        return acTemp;
     }
+
+    void setDeviceID(String deviceID) {
+        this.deviceID = deviceID;
+    }
+
+    String getDeviceID() {
+        return deviceID;
+    }
+
+
+    void setLocation(String location) {
+        this.location = location;
+    }
+
+    static String getLocation() {
+        return location;
+    }
+
+    void setPowerSwitch(String powerSwitch) {
+        this.powerSwitch = powerSwitch;
+    }
+
+    public String setPowerSwitch() {
+        return this.powerSwitch;
+    }
+
+    static String getPowerSwitch() {
+        return powerSwitch;
+    }
+
+
+
+
+    private List<airConditioner> listAirCon;
+
+    public void setListAirCon(List<airConditioner> list) {
+        this.listAirCon = new ArrayList<airConditioner>(list);
+    }
+
+    public List<airConditioner> getListAirCon() {
+        return new ArrayList<airConditioner>(this.listAirCon);
+    }
+
+
+    static class airConditioner {
+        private String name;
+
+        airConditioner(String name) {
+            this.name = name;
+        }
+
+
+
+        String getName() {
+            return this.name;
+        }
+
+        void setName(String name) {
+            this.name = name;
+        }
+
+        public String toString() {
+            return this.name;
+        }
+
+
+    }
+
+
 }

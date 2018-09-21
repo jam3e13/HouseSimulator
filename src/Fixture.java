@@ -7,22 +7,29 @@
 //6. Sprinklers
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 
 public class Fixture {
 
     private static int choice, fixtureChoice;
-    static int acTempSetting;
-    static String roomLocation;
+    static int acTempSetting, changeSettings;
+    static String roomLocation, data, updatedList1, updatedList2, x1, x2;
     static String fixtureSwitch = "OFF";
     static double lightSettingOn, lightSettingOff;
-    static ArrayList<String> list1, acList;
+    private static ArrayList<String> list1, list2;
+    static String[] displayLine1, displayLine2, values;
 
     //Used at the very start of the program
-    static void initialSetup() throws InterruptedException {
+    static void initialSetup() throws InterruptedException, FileNotFoundException {
         System.out.println("Please select a Room to set up...");
         roomDisplay();
         Scanner input = new Scanner(System.in);
@@ -294,18 +301,105 @@ public class Fixture {
 
         String room = "Living Room";
 
-        ArrayList<String> motionSensorList = new ArrayList<String>();
+        ArrayList<String> motionSensorList = new ArrayList<>();
         motionSensorList.add(itemName);
         motionSensorList.add(String.valueOf(room));
 
         System.out.println(motionSensorList);
     }
 
-    private static void airCon() {
-        System.out.println("AC config file loading...");
-        System.out.println("Set Temperature for " + roomLocation + ": 16° - 26°");
+    private static void airCon() throws FileNotFoundException {
         Scanner input = new Scanner(System.in);
+
+        //Checks to see if device already set up
+        if (roomLocation.equals("MAIN BEDROOM") && acTempSetting > 0 && values[2].equals("ON")) {
+            System.out.println("MAIN BEDROOM AC is already set up.");
+            System.out.println("Edit MAIN BEDROOM settings?");
+            changeSettings = input.nextInt();
+            while (changeSettings > 1) {
+                System.out.println("Wrong input...");
+                System.out.println("Please enter only (0) - Exit, (1) - Change");
+                changeSettings = input.nextInt();
+            }
+            if (changeSettings == 1) {
+                System.out.println("Changing Settings");
+            } else if (changeSettings == 0) {
+                System.out.println("Returning to Rooms...");
+                try {
+                    initialSetup();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if (roomLocation.equals("LIVING ROOM") && acTempSetting > 0 && values[2].equals("ON")) {
+            System.out.println("LIVING ROOM AC is already set up.");
+            System.out.println("Edit MAIN BEDROOM settings?");
+            changeSettings = input.nextInt();
+            while (changeSettings > 1) {
+                System.out.println("Wrong input...");
+                System.out.println("Please enter only (0) - Exit, (1) - Change");
+                changeSettings = input.nextInt();
+            }
+            if (changeSettings == 1) {
+                System.out.println("Changing Settings");
+            } else if (changeSettings == 0) {
+                System.out.println("Returning to Rooms...");
+                try {
+                    initialSetup();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //Display rooms status
+        String fileName = "C:\\Users\\James\\Desktop\\input.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine1 = data.split(", ");
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine1 = data.split(", ");
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine2 = data.split(", ");
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine2 = data.split(", ");
+                }
+            }
+
+            System.out.println(roomLocation);
+            if (roomLocation.equals("MAIN BEDROOM")) {
+                System.out.println("Status: " + Arrays.toString(displayLine1));
+            }
+            if (roomLocation.equals("LIVING ROOM")) {
+                System.out.println("Status: " + Arrays.toString(displayLine2));
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Enter a Temperature below, OR Enter 0 to EXIT.");
+        System.out.println("Set Temperature for " + roomLocation + ": 16° - 26°");
+
         acTempSetting = input.nextInt();
+
+        //Exits if user chooses 0
+        if (acTempSetting == 0) {
+            try {
+                initialSetup();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         //Makes sure use inputs are in range
         while (acTempSetting > 26) {
@@ -320,12 +414,6 @@ public class Fixture {
         }
 
         //saves to user chosen room
-        House deviceID = new House();
-        deviceID.setDeviceID("Air Conditioner");
-        House location = new House();
-        location.setLocation(roomLocation);
-        House powerSwitch = new House();
-        powerSwitch.setPowerSwitch("OFF");
         House acTemp = new House();
         acTemp.setAcTemp(acTempSetting);
 
@@ -333,30 +421,77 @@ public class Fixture {
 
         switch (fixtureSwitch) {
             case "ON":
-                powerSwitch.setPowerSwitch("ON");
-                String acDisplay = ("The " + House.getLocation() +
-                        " " + deviceID.getDeviceID() + " has been set to: " +
-                        "" + acTemp.getAcTemp() + "°");
+                String acDisplay = ("The " + roomLocation + " Air Conditioner has been set to: " + acTemp.getAcTemp() + "°");
                 System.out.println(acDisplay);
 
                 //Add to a list to be called in sim
-                House acList = new House();
-                List<House.airConditioner> list1 = new ArrayList<House.airConditioner>();
-                list1.add(new House.airConditioner(House.getLocation()));
-                list1.add(new House.airConditioner(deviceID.getDeviceID()));
-                list1.add(new House.airConditioner(String.valueOf(acTemp.getAcTemp())));
-                list1.add(new House.airConditioner(powerSwitch.setPowerSwitch()));
-                acList.setListAirCon(list1);
+                if (roomLocation.equals("MAIN BEDROOM")) {
+                    House location = new House();
+                    location.setLocation(roomLocation);
 
-                //Full list view of what is being saved
-                System.out.println("AC List: " + list1);
+                    House acList = new House();
+                    List<House.airConditioner> list1 = new ArrayList<>();
+                    list1.add(new House.airConditioner(House.getLocation()));
+                    list1.add(new House.airConditioner("Air Conditioner"));
+                    list1.add(new House.airConditioner("OFF"));
+                    list1.add(new House.airConditioner(String.valueOf(acTemp.getAcTemp())));
+                    acList.setListAirCon(list1);
 
-                //Shows what room the ac is in
-                System.out.println("ROOM: " + list1.get(0));
+                    updatedList1 = list1.toString();
+                    x1 = String.valueOf((updatedList1));
+
+                    updatedList2 = Arrays.toString(displayLine2);
+                    x2 = String.valueOf((updatedList2));
+
+                    //Full list view of what is being saved
+                    System.out.println("AC List: " + list1);
+
+                    //Shows what room the ac is in
+                    System.out.println("ROOM: " + list1.get(0));
+
+                } else if (roomLocation.equals("LIVING ROOM")) {
+                    House location = new House();
+                    location.setLocation(roomLocation);
+                    House acList = new House();
+                    List<House.airConditioner> list2 = new ArrayList<>();
+                    list2.add(new House.airConditioner(House.getLocation()));
+                    list2.add(new House.airConditioner("Air Conditioner"));
+                    list2.add(new House.airConditioner("OFF"));
+                    list2.add(new House.airConditioner(String.valueOf(acTemp.getAcTemp())));
+                    acList.setListAirCon(list2);
+
+                    updatedList1 = Arrays.toString(displayLine1);
+                    x1 = String.valueOf((updatedList1));
+
+                    updatedList2 = list2.toString();
+                    x2 = String.valueOf((updatedList2));
+
+                    //Full list view of what is being saved
+                    System.out.println("AC List: " + list2);
+
+                    //Shows what room the ac is in
+                    System.out.println("ROOM: " + list2.get(0));
+
+                }
 
                 //Updates any new AC fixtures into one list
+                //Refreshes the list by erasing then recreating
+                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\input.txt");
+                pw.close();
+
+
+                System.out.println(x1);
+                System.out.println(x2);
+
+                StringBuilder sb = new StringBuilder();
+                //x1 = insert full updated list here
+                sb.append(x1).append("\n");
+                sb.append(System.lineSeparator());
+                //x2 = insert full updated list here
+                sb.append(x2).append("\n");
+
                 try {
-                    updateAcList();
+                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\input.txt"), sb.toString().replace("[","").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -366,37 +501,6 @@ public class Fixture {
                 break;
         }
     }
-
-    private static void updateAcList() throws IOException {
-
-        //Get files to save
-
-
-        File newFile = new File("C:\\Users\\James\\IdeaProjects\\HouseSimulator\\acList.txt");
-        if (newFile.exists()){
-            System.out.println("File Already Exists!");
-        } else {
-            try {
-                newFile.createNewFile();
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            try {
-                FileWriter fileW = new FileWriter(newFile);
-                BufferedWriter buffW = new BufferedWriter(fileW);
-                buffW.write(String.valueOf(list1));
-                System.out.println(list1);
-                System.out.println("File Written!");
-
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-
 
     private static void lights() {
         System.out.println("Lights config file loading...");
@@ -428,7 +532,7 @@ public class Fixture {
 
         switch (fixtureSwitch) {
             case "ON":
-                ArrayList<String> lightList = new ArrayList<String>();
+                ArrayList<String> lightList = new ArrayList<>();
                 lightList.add("Fixture: " + itemName);
                 lightList.add(String.valueOf("Lights will turn on at: " + lightSettingOn));
                 lightList.add(String.valueOf("Lights will turn off at: " + lightSettingOff));

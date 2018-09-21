@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 
@@ -9,7 +10,7 @@ public class Menu {
     private static boolean initialStart = true;
 
 
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(String args[]) throws InterruptedException, FileNotFoundException {
         //Welcome message
         System.out.println("Welcome to the Autonomous House Simulator");
         System.out.println("\n" + "Please Enter the simulation run speed");
@@ -49,7 +50,7 @@ public class Menu {
         System.out.println("3) Access Device - Not done");
     }
 
-    static void initialChoice() throws InterruptedException {
+    static void initialChoice() throws InterruptedException, FileNotFoundException {
         //Gets user input
         Scanner input = new Scanner(System.in);
         choice = input.nextInt();
@@ -92,7 +93,7 @@ public class Menu {
         }
     }
 
-    private static void secondChoice() throws InterruptedException {
+    private static void secondChoice() throws InterruptedException, FileNotFoundException {
         //Gets user input
         Scanner input = new Scanner(System.in);
         choice = input.nextInt();

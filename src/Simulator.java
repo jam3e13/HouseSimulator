@@ -1,11 +1,17 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
+import java.util.Scanner;
 
 class Simulator {
     private static double temperature, inDoorTemp;
-    static double tempChange, acTemp, lightOn, lightOff, sunLightValue;
+    static double tempChange, acTemp, acTemp2, lightOn, lightOff, sunLightValue;
     static double time = 5;
-    static String weatherChange, oldWeather, simChoice;
-    static boolean deviceAC, deviceLight;
+    static String weatherChange, oldWeather, simChoice, data, deviceAC;
+    static boolean deviceLight;
+    static String[] displayLine1, displayLine2, values;
 
     static void runSimulator(String weatherType) throws InterruptedException {
 
@@ -24,8 +30,6 @@ class Simulator {
             } else {
                 System.out.println("temp change voided");
             }
-
-
 
 
             dynamicWeather();
@@ -350,27 +354,44 @@ class Simulator {
     }
 
     private static void dynamicAC() {
-
-        acTemp = Fixture.acTempSetting;
-        String myLocalRoom = House.getLocation();
-
-        if (acTemp < inDoorTemp && !deviceAC) {
-            inDoorTemp = acTemp;
-            System.out.println("\n \n" + myLocalRoom + " Ac has turned on.");
-            System.out.println(myLocalRoom + " Temperature: " + inDoorTemp);
-            deviceAC = true;
-        } else if (acTemp == inDoorTemp) {
-            inDoorTemp = acTemp;
-            //deviceAC = false;
-        } else {
-            //Indoor temp
-            inDoorTemp = (temperature);
-            //deviceAC = false;
+        String fileName = "C:\\Users\\James\\Desktop\\input.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine1 = data.split(", ");
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine1 = data.split(", ");
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine2 = data.split(", ");
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine2 = data.split(", ");
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
-        if (acTemp > temperature && deviceAC) {
-            System.out.println('\n' + Fixture.roomLocation + " Ac has turned off.");
-            deviceAC = false;
+        int intValue = Integer.parseInt(values[3]);
+
+        //Checks to see if user input is being passed or not
+        //System.out.println(intValue);
+
+        if (values[0].equals("MAIN BEDROOM") && intValue > 0) {
+            acTemp = Double.parseDouble(values[3]);
+            //System.out.println("Main called");
+        }
+
+        if (values[0].equals("LIVING ROOM") && intValue > 0) {
+            acTemp2 = Double.parseDouble(values[3]);
+            //System.out.println("Main called");
         }
     }
 
@@ -406,8 +427,6 @@ class Simulator {
         }
 
     }
-
-
 
 
 }

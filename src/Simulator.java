@@ -1,7 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,8 +7,8 @@ class Simulator {
     private static double temperature, inDoorTemp;
     static double tempChange, acTemp, acTemp2, lightOn, lightOff, sunLightValue;
     static double time = 5;
-    static String weatherChange, oldWeather, simChoice, data, deviceAC;
-    static boolean deviceLight;
+    static String weatherChange, oldWeather, simChoice, data;
+    static boolean deviceLight, mainRoomAC, livingRoomAc;
     static String[] displayLine1, displayLine2, values;
 
     static void runSimulator(String weatherType) throws InterruptedException {
@@ -354,44 +352,78 @@ class Simulator {
     }
 
     private static void dynamicAC() {
+        inDoorTemp = temperature;
+
+        //Change file name to be more specific for method
         String fileName = "C:\\Users\\James\\Desktop\\input.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
+
+            //Runs through each If statement and displays Ac status
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
+
+                //MAIN BEDROOM - ON
                 if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
+                    acTemp = Double.parseDouble(values[3]);
+                    //Display when device switches on and off
+                    if (acTemp < temperature && !mainRoomAC) {
+                        System.out.println(" ");
+                        System.out.println("\nMain room ac ON!");
+                        mainRoomAC = true;
+                    }
+
+                    if (acTemp > temperature && mainRoomAC) {
+                        System.out.println(" ");
+                        System.out.println("\nMain room ac OFF!");
+                        mainRoomAC = false;
+                    }
+
+
+                //MAIN BEDROOM - OFF
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
-                } else if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    acTemp = 0;
+                    values[3] = String.valueOf(acTemp);
+                    //Re-format user inputs to act as a refresher
+                }
+
+                //LIVING ROOM - ON
+                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
+                    acTemp2 = Double.parseDouble(values[3]);
+
+                    //Display when device switches on and off
+                    if (acTemp2 < temperature && !livingRoomAc) {
+                        System.out.println(" ");
+                        System.out.println("\nLiving Room ac ON!");
+                        livingRoomAc = true;
+                    }
+
+                    if (acTemp2 > temperature && livingRoomAc) {
+                        System.out.println(" ");
+                        System.out.println("\nLiving Room ac OFF!");
+                        livingRoomAc = false;
+                    }
+
+                //LIVING ROOM - OFF
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
+                    acTemp2 = 0;
+                    values[3] = String.valueOf(acTemp2);
+                    //Re-format user inputs to act as a refresher
                 }
             }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-
-        int intValue = Integer.parseInt(values[3]);
-
-        //Checks to see if user input is being passed or not
-        //System.out.println(intValue);
-
-        if (values[0].equals("MAIN BEDROOM") && intValue > 0) {
-            acTemp = Double.parseDouble(values[3]);
-            //System.out.println("Main called");
-        }
-
-        if (values[0].equals("LIVING ROOM") && intValue > 0) {
-            acTemp2 = Double.parseDouble(values[3]);
-            //System.out.println("Main called");
         }
     }
 

@@ -25,7 +25,8 @@ public class Fixture {
     static String roomLocation, data, updatedList1, updatedList2, x1, x2;
     static String fixtureSwitch = "OFF";
     static double lightSettingOn, lightSettingOff;
-    private static ArrayList<String> list1, list2;
+    static ArrayList<String> list1;
+    static ArrayList<String> list2;
     static String[] displayLine1, displayLine2, values;
 
     //Used at the very start of the program
@@ -431,10 +432,15 @@ public class Fixture {
 
                     House acList = new House();
                     List<House.airConditioner> list1 = new ArrayList<>();
+                    //Location
                     list1.add(new House.airConditioner(House.getLocation()));
+                    //Device
                     list1.add(new House.airConditioner("Air Conditioner"));
-                    list1.add(new House.airConditioner("OFF"));
+                    //Calibration
+                    list1.add(new House.airConditioner("ON"));
+                    //User Settings
                     list1.add(new House.airConditioner(String.valueOf(acTemp.getAcTemp())));
+                    //Set list
                     acList.setListAirCon(list1);
 
                     updatedList1 = list1.toString();
@@ -454,10 +460,15 @@ public class Fixture {
                     location.setLocation(roomLocation);
                     House acList = new House();
                     List<House.airConditioner> list2 = new ArrayList<>();
+                    //Location
                     list2.add(new House.airConditioner(House.getLocation()));
+                    //Device
                     list2.add(new House.airConditioner("Air Conditioner"));
-                    list2.add(new House.airConditioner("OFF"));
+                    //Calibration
+                    list2.add(new House.airConditioner("ON"));
+                    //User Settings
                     list2.add(new House.airConditioner(String.valueOf(acTemp.getAcTemp())));
+                    //Set list
                     acList.setListAirCon(list2);
 
                     updatedList1 = Arrays.toString(displayLine1);

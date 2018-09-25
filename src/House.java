@@ -7,6 +7,7 @@ public class House {
     static String location, powerSwitch;
     int acTemp;
     private ArrayList<String> listTitles;
+    static double tempMainRoom, tempLivingRoom, tempGarage ,tempGarden;
 
 
     void setAcTemp(int acTemp) {
@@ -47,8 +48,6 @@ public class House {
     }
 
 
-
-
     private List<airConditioner> listAirCon;
 
     public void setListAirCon(List<airConditioner> list) {
@@ -68,7 +67,6 @@ public class House {
         }
 
 
-
         String getName() {
             return this.name;
         }
@@ -82,6 +80,78 @@ public class House {
         }
 
 
+    }
+
+    //Main Bedroom & Second Bedroom Temp settings (-2)
+    static double roomTemp() {
+        switch (Menu.weatherType) {
+            case "SUNNY":
+                tempMainRoom = Simulator.inDoorTempSetter - 2;
+                break;
+            case "CLOUDY":
+                tempMainRoom = Simulator.inDoorTempSetter - 1;
+                break;
+            case "RAINY":
+                tempMainRoom = Simulator.inDoorTempSetter - 1;
+                break;
+            default:
+                tempMainRoom = Simulator.inDoorTempSetter;
+                break;
+        } return tempMainRoom;
+    }
+
+    //Living Room & Kitchen Temp settings (-3)
+    static double livingRoomTemp() {
+        switch (Menu.weatherType) {
+            case "SUNNY":
+                tempLivingRoom = Simulator.inDoorTempSetter - 3;
+                break;
+            case "CLOUDY":
+                tempLivingRoom = Simulator.inDoorTempSetter - 2;
+                break;
+            case "RAINY":
+                tempLivingRoom = Simulator.inDoorTempSetter - 1;
+                break;
+            default:
+                tempLivingRoom = Simulator.inDoorTempSetter;
+                break;
+        } return tempLivingRoom;
+    }
+
+    //Living Room & Kitchen Temp settings (-1)
+    static double garageTemp() {
+        switch (Menu.weatherType) {
+            case "SUNNY":
+                tempGarage = Simulator.inDoorTempSetter - 1;
+                break;
+            case "CLOUDY":
+                tempGarage = Simulator.inDoorTempSetter - 1;
+                break;
+            case "RAINY":
+                tempGarage = Simulator.inDoorTempSetter - 1;
+                break;
+            default:
+                tempGarage = Simulator.inDoorTempSetter;
+                break;
+        } return tempGarage;
+    }
+
+    //Living Room & Kitchen Temp settings (+2)
+    static double gardenTemps() {
+        switch (Menu.weatherType) {
+            case "SUNNY":
+                tempGarden = Simulator.inDoorTempSetter + 2;
+                break;
+            case "CLOUDY":
+                tempGarden = Simulator.inDoorTempSetter;
+                break;
+            case "RAINY":
+                tempGarden = Simulator.inDoorTempSetter;
+                break;
+            default:
+                tempGarden = Simulator.inDoorTempSetter;
+                break;
+        } return tempGarden;
     }
 
 

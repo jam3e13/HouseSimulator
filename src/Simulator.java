@@ -1,11 +1,12 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Scanner;
 
 class Simulator {
-    private static double temperature, inDoorTemp;
-    static double tempChange, acTemp, acTemp2, lightOn, lightOff, sunLightValue;
+    static double temperature, inDoorTemp, inDoorTempSetter;
+    static double acTemp, acTemp2, lightOn, lightOff, sunLightValue;
     static double time = 5;
     static String weatherChange, oldWeather, simChoice, data;
     static boolean deviceLight, mainRoomAC, livingRoomAc;
@@ -19,14 +20,17 @@ class Simulator {
             temperature = Weather.tempCorrection();
             sunLightValue = Sun.getSunLightChange();// change to solid light not increase
 
+
+            //Time before 12:00pm
             if (time >= 12) {
                 temperature += Weather.dynamicIncrease();
                 sunLightValue += Sun.sunLightIncrease();
+            //Time after 12:00pm
             } else if (time < 12) {
                 temperature += Weather.dynamicIncrease();
                 sunLightValue += Sun.sunLightIncrease();
             } else {
-                System.out.println("temp change voided");
+                System.out.println("Temperature change - Failed...");
             }
 
 
@@ -352,7 +356,8 @@ class Simulator {
     }
 
     private static void dynamicAC() {
-        inDoorTemp = temperature;
+        inDoorTempSetter = temperature;
+        DecimalFormat decimalFormat=new DecimalFormat("#");
 
         //Change file name to be more specific for method
         String fileName = "C:\\Users\\James\\Desktop\\input.txt";
@@ -367,19 +372,22 @@ class Simulator {
 
                 //MAIN BEDROOM - ON
                 if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
+                    inDoorTemp = House.roomTemp();
                     displayLine1 = data.split(", ");
                     acTemp = Double.parseDouble(values[3]);
                     //Display when device switches on and off
-                    if (acTemp < temperature && !mainRoomAC) {
+                    if (acTemp < inDoorTemp && !mainRoomAC) {
                         System.out.println(" ");
-                        System.out.println("\nMain room ac ON!");
+                        System.out.println("\nMain Room AC has switched ON!");
+                        System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
+                        System.out.print("°");
+                        System.out.println("Main Room Temperature set to: " + decimalFormat.format(inDoorTemp) + "°");
                         mainRoomAC = true;
                     }
 
-                    if (acTemp > temperature && mainRoomAC) {
+                    if (acTemp > inDoorTemp && mainRoomAC) {
                         System.out.println(" ");
-                        System.out.println("\nMain room ac OFF!");
+                        System.out.println("\nMain Room AC has switched OFF!");
                         mainRoomAC = false;
                     }
 
@@ -395,20 +403,23 @@ class Simulator {
 
                 //LIVING ROOM - ON
                 if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
+                    inDoorTemp = House.livingRoomTemp();
                     displayLine2 = data.split(", ");
                     acTemp2 = Double.parseDouble(values[3]);
 
                     //Display when device switches on and off
-                    if (acTemp2 < temperature && !livingRoomAc) {
+                    if (acTemp2 < inDoorTemp && !livingRoomAc) {
                         System.out.println(" ");
-                        System.out.println("\nLiving Room ac ON!");
+                        System.out.println("\nLiving Room AC has switched ON!");
+                        System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
+                        System.out.print("°");
+                        System.out.println("Temperature set to: " + decimalFormat.format(inDoorTemp) + "°");
                         livingRoomAc = true;
                     }
 
-                    if (acTemp2 > temperature && livingRoomAc) {
+                    if (acTemp2 > inDoorTemp && livingRoomAc) {
                         System.out.println(" ");
-                        System.out.println("\nLiving Room ac OFF!");
+                        System.out.println("\nLiving Room AC has switched OFF!");
                         livingRoomAc = false;
                     }
 

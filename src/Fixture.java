@@ -21,13 +21,13 @@ import java.io.PrintWriter;
 public class Fixture {
 
     private static int choice, fixtureChoice;
-    static int acTempSetting, changeSettings;
+    static int acTempSetting, changeSettings, ceilingFanTempSetting;
     static String roomLocation, data, updatedList1, updatedList2, x1, x2;
     static String fixtureSwitch = "OFF";
     static double lightSettingOn, lightSettingOff;
     static ArrayList<String> list1;
     static ArrayList<String> list2;
-    static String[] displayLine1, displayLine2, values;
+    static String[] displayLine1, displayLine2, values, displayLine3;
 
     //Used at the very start of the program
     static void initialSetup() throws InterruptedException, FileNotFoundException {
@@ -555,10 +555,126 @@ public class Fixture {
                 System.out.println("Light List failed...");
                 break;
         }
-
     }
 
-    private static void ceilingFan() {
+    private static void ceilingFan() throws FileNotFoundException {
+        Scanner input = new Scanner(System.in);
+
+        //Display rooms status
+        String fileName = "C:\\Users\\James\\Desktop\\ceilingFanConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine3 = data.split(", ");
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine3 = data.split(", ");
+                }
+            }
+
+            System.out.println(roomLocation);
+            if (roomLocation.equals("LIVING ROOM")) {
+                System.out.println("Status: " + Arrays.toString(displayLine3));
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Enter a Temperature below, OR Enter 0 to EXIT.");
+        System.out.println("Different weather conditions will effect the fan switch");
+        System.out.println("Set Temperature for " + roomLocation + ": 22° - 30°");
+
+        ceilingFanTempSetting = input.nextInt();
+
+        //Exits if user chooses 0
+        if (ceilingFanTempSetting == 0) {
+            try {
+                initialSetup();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Makes sure use inputs are in range
+        while (ceilingFanTempSetting > 30) {
+            System.out.println("Wrong input...");
+            System.out.println("Please enter between: 22° - 30°");
+            ceilingFanTempSetting = input.nextInt();
+        }
+        while (ceilingFanTempSetting < 22) {
+            System.out.println("Wrong input...");
+            System.out.println("Please enter between: 22° - 30°");
+            ceilingFanTempSetting = input.nextInt();
+        }
+
+        //saves to user chosen room
+        House ceilingFanTemp = new House();
+        ceilingFanTemp.setCeilingFanTemp(ceilingFanTempSetting);
+
+        fixtureSwitch = "ON";
+
+        switch (fixtureSwitch) {
+            case "ON":
+                String ceilingFanDisplay = ("The " + roomLocation + " Ceiling Fan has been set to: " + ceilingFanTemp.getCeilingFanTemp() + "°");
+                System.out.println(ceilingFanDisplay);
+
+                //Add to a list to be called in sim
+                if (roomLocation.equals("LIVING ROOM")) {
+                    House location = new House();
+                    location.setLocation(roomLocation);
+                    House ceilingFanList = new House();
+                    List<House.ceilingFan> list = new ArrayList<>();
+                    //Location
+                    list.add(new House.ceilingFan(House.getLocation()));
+                    //Device
+                    list.add(new House.ceilingFan("Ceiling Fan"));
+                    //Calibration
+                    list.add(new House.ceilingFan("ON"));
+                    //User Settings
+                    list.add(new House.ceilingFan(String.valueOf(ceilingFanTemp.getCeilingFanTemp())));
+                    //Set list
+                    ceilingFanList.setListCeilingFan(list);
+                    updatedList2 = list.toString();
+                    x2 = String.valueOf((updatedList2));
+
+                    //Full list view of what is being saved
+                    System.out.println("Ceiling Fan List: " + list);
+
+                    //Shows what room the ac is in
+                    System.out.println("ROOM: " + list.get(0));
+
+                }
+
+                //Updates any new AC fixtures into one list
+                //Refreshes the list by erasing then recreating
+                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\ceilingFanConfig.txt");
+                pw.close();
+
+
+                System.out.println(x2);
+
+                StringBuilder sb = new StringBuilder();
+                //x2 = insert full updated list here
+                sb.append(x2).append("\n");
+
+                try {
+                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\ceilingFanConfig.txt"), sb.toString().replace("[","").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                System.out.println("Ceiling Fan List failed...");
+                break;
+        }
+
+
     }
 
     private static void garageDoor() {

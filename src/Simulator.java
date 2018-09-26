@@ -5,14 +5,15 @@ import java.util.Random;
 import java.util.Scanner;
 
 class Simulator {
-    static double temperature, inDoorTemp, inDoorTempSetter;
-    static double acTemp, acTemp2, lightOn, lightOff, sunLightValue;
+    static double temperature, inDoorTemp, inDoorTempSetter, ceilingFanTemp;
+    static double acTemp, acTemp2, lightOn, lightOff, sunLightValue, ceilingFanListTemp;
     static double time = 5;
     static String weatherChange, oldWeather, simChoice, data;
-    static boolean deviceLight, mainRoomAC, livingRoomAc;
-    static String[] displayLine1, displayLine2, values;
+    static boolean deviceLight, mainRoomAC, livingRoomAc, livingRoomCeilingFan;
+    static String[] displayLine1, displayLine2, values, displayLine3;
+    static int ceilingFanSpeed;
 
-    static void runSimulator(String weatherType) throws InterruptedException {
+    static void runSimulator(String weatherType) throws InterruptedException, FileNotFoundException {
 
         do {
             simChoice = Menu.weatherType;
@@ -25,7 +26,7 @@ class Simulator {
             if (time >= 12) {
                 temperature += Weather.dynamicIncrease();
                 sunLightValue += Sun.sunLightIncrease();
-            //Time after 12:00pm
+                //Time after 12:00pm
             } else if (time < 12) {
                 temperature += Weather.dynamicIncrease();
                 sunLightValue += Sun.sunLightIncrease();
@@ -33,10 +34,10 @@ class Simulator {
                 System.out.println("Temperature change - Failed...");
             }
 
-
             dynamicWeather();
             dynamicLights();
             dynamicAC();
+            dynamicCeilingFan();
 
             if (temperature > 28) {
                 simChoice = "SUNNY";
@@ -357,7 +358,7 @@ class Simulator {
 
     private static void dynamicAC() {
         inDoorTempSetter = temperature;
-        DecimalFormat decimalFormat=new DecimalFormat("#");
+        DecimalFormat decimalFormat = new DecimalFormat("#");
 
         //Change file name to be more specific for method
         String fileName = "C:\\Users\\James\\Desktop\\input.txt";
@@ -392,7 +393,7 @@ class Simulator {
                     }
 
 
-                //MAIN BEDROOM - OFF
+                    //MAIN BEDROOM - OFF
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
@@ -423,7 +424,7 @@ class Simulator {
                         livingRoomAc = false;
                     }
 
-                //LIVING ROOM - OFF
+                    //LIVING ROOM - OFF
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
@@ -471,5 +472,103 @@ class Simulator {
 
     }
 
+    private static void dynamicCeilingFan() throws FileNotFoundException {
+        DecimalFormat decimalFormat = new DecimalFormat("#");
 
+        //Users Set temp they want room to stay at
+
+        String fileName = "C:\\Users\\James\\Desktop\\ceilingFanConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+
+            //Runs through each If statement and displays Ac status
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                ceilingFanTemp = House.livingRoomTemp();
+                values = data.split(",");
+                //LIVING ROOM - ON
+                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    inDoorTemp = House.livingRoomTemp();
+                    displayLine3 = data.split(", ");
+                    ceilingFanListTemp = Double.parseDouble(values[3]);
+                    switch (Menu.weatherType) {
+                        // 30 - 1
+                        case "SUNNY":
+                            if (ceilingFanTemp < 28 && ceilingFanTemp > 26) {
+                                //Cool the room down by 2 degrees
+                                ceilingFanSpeed = 1;
+                            } else if (ceilingFanTemp < 26 && ceilingFanTemp > 24) {
+                                //Cool the room down by 4 degrees
+                                ceilingFanSpeed = 2;
+                            } else if (ceilingFanTemp < 24 && ceilingFanTemp > 22){
+                                //Cool the room down by 6 degrees
+                                ceilingFanSpeed = 3;
+                            } else if (ceilingFanTemp >= 29 && inDoorTemp >= 29) {
+                                ceilingFanSpeed = 0;
+                            }
+                            break;
+                        // 28 - 1
+                        case "CLOUDY":
+                            if ((ceilingFanTemp < 26 && ceilingFanTemp > 24) && (inDoorTemp < 27 && inDoorTemp > 22)) {
+                                //Cool the room down by 2 degrees
+                                ceilingFanSpeed = 1;
+                            } else if ((ceilingFanTemp < 24 && ceilingFanTemp > 22) && (inDoorTemp < 27 && inDoorTemp > 22)) {
+                                //Cool the room down by 4 degrees
+                                ceilingFanSpeed = 2;
+                            } else if ((ceilingFanTemp < 22 && ceilingFanTemp > 20) && (inDoorTemp < 27 && inDoorTemp > 22)) {
+                                //Cool the room down by 6 degrees
+                                ceilingFanSpeed = 3;
+                            } else if (ceilingFanTemp >= 27 && inDoorTemp >= 27) {
+                                ceilingFanSpeed = 0;
+                            }
+                            break;
+                        // 26
+                        case "RAINY":
+                            if ((ceilingFanTemp < 25 && ceilingFanTemp > 23) && (inDoorTemp < 26 && inDoorTemp > 21)) {
+                                //Cool the room down by 2 degrees
+                                ceilingFanSpeed = 1;
+                            } else if ((ceilingFanTemp < 23 && ceilingFanTemp > 21) && (inDoorTemp < 26 && inDoorTemp > 21)) {
+                                //Cool the room down by 4 degrees
+                                ceilingFanSpeed = 2;
+                            } else if ((ceilingFanTemp < 21 && ceilingFanTemp > 19) && (inDoorTemp < 26 && inDoorTemp > 21)) {
+                                //Cool the room down by 6 degrees
+                                ceilingFanSpeed = 3;
+                            } else if (ceilingFanTemp >= 26 && inDoorTemp >= 26) {
+                                ceilingFanSpeed = 0;
+                            }
+                            break;
+                    }
+
+                    //Display when device switches on and off
+                    if (ceilingFanListTemp < inDoorTemp && !livingRoomCeilingFan) {
+                        System.out.println(" ");
+                        System.out.println("\nLiving Room Ceiling Fan has switched ON!");
+                        System.out.printf("Outdoor Temperature: " + "%.2f", temperature);
+                        System.out.print("°");
+                        System.out.println("\nTemperature set to: " + decimalFormat.format(inDoorTemp) + "°");
+                        System.out.println("Ceiling Fan Speed set to: " + ceilingFanSpeed);
+                        livingRoomCeilingFan = true;
+                    }
+
+                    if (ceilingFanListTemp > inDoorTemp && livingRoomCeilingFan) {
+                        System.out.println(" ");
+                        System.out.println("\nLiving Room Ceiling Fan has switched OFF!");
+                        livingRoomCeilingFan = false;
+                    }
+                                        //LIVING ROOM - OFF
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine3 = data.split(", ");
+                    ceilingFanListTemp = 0;
+                    values[3] = String.valueOf(ceilingFanListTemp);
+                    //Re-format user inputs to act as a refresher
+                }
+
+            }
+
+        }catch (Exception e) {
+
+        }
+    }
 }

@@ -127,6 +127,40 @@ public class House {
 
     }
 
+
+    private List<garageDoor> listGarageDoor;
+
+    public void setListGarageDoor(List<garageDoor> list) {
+        this.listGarageDoor = new ArrayList<>(list);
+    }
+
+    public List<garageDoor> getListGarageDoor() {
+        return new ArrayList<>(this.listGarageDoor);
+    }
+
+
+
+    static class garageDoor {
+        private String name;
+        garageDoor(String name) {
+            this.name = name;
+        }
+
+
+        String getName() {
+            return this.name;
+        }
+
+        void setName(String name) {
+            this.name = name;
+        }
+
+        public String toString() {
+            return this.name;
+        }
+    }
+
+
     //Main Bedroom & Second Bedroom Temp settings (-2)
     static double roomTemp() {
         switch (Menu.weatherType) {

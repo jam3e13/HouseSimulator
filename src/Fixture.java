@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 public class Fixture {
 
     private static int choice, fixtureChoice;
-    static int acTempSetting, changeSettings, ceilingFanTempSetting;
+    static int acTempSetting, changeSettings, ceilingFanTempSetting, garageDoorSetting;
     static String roomLocation, data, updatedList1, updatedList2, x1, x2;
     static String fixtureSwitch = "OFF";
     static double lightSettingOn, lightSettingOff;
@@ -677,7 +677,116 @@ public class Fixture {
 
     }
 
-    private static void garageDoor() {
+    private static void garageDoor() throws FileNotFoundException {
+        Scanner input = new Scanner(System.in);
+
+        //Display rooms status
+        String fileName = "C:\\Users\\James\\Desktop\\garageDoorConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine3 = data.split(", ");
+                } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine3 = data.split(", ");
+                }
+            }
+
+            System.out.println(roomLocation);
+            if (roomLocation.equals("GARAGE")) {
+                System.out.println("Status: " + Arrays.toString(displayLine3));
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Enter below, OR Enter 0 to EXIT.");
+        System.out.println("Turn on Security Lock for " + roomLocation + ": 1 - Yes, 2 - No.");
+
+        garageDoorSetting = input.nextInt();
+
+        //Exits if user chooses 0
+        if (garageDoorSetting == 0) {
+            try {
+                initialSetup();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Makes sure use inputs are in range
+        while (garageDoorSetting > 2) {
+            System.out.println("Wrong Input...");
+            System.out.println("Please enter 1 to Turn ON, or 2 turn OFF.");
+            garageDoorSetting = input.nextInt();
+        }
+
+        //saves to user chosen room
+        House ceilingFanTemp = new House();
+        ceilingFanTemp.setCeilingFanTemp(garageDoorSetting);
+
+        fixtureSwitch = "ON";
+
+        switch (fixtureSwitch) {
+            case "ON":
+                String ceilingFanDisplay = ("The " + roomLocation + " Ceiling Fan has been set to: " + ceilingFanTemp.getCeilingFanTemp() + "°");
+                System.out.println(ceilingFanDisplay);
+
+                //Add to a list to be called in sim
+                if (roomLocation.equals("GARAGE")) {
+                    House location = new House();
+                    location.setLocation(roomLocation);
+                    House garageDoorList = new House();
+                    List<House.garageDoor> list = new ArrayList<>();
+                    //Location
+                    list.add(new House.garageDoor(House.getLocation()));
+                    //Device
+                    list.add(new House.garageDoor("Garage Door"));
+                    //Calibration
+                    list.add(new House.garageDoor("ON"));
+                    //User Settings
+                    list.add(new House.garageDoor(String.valueOf(ceilingFanTemp.getCeilingFanTemp())));
+                    //Set list
+                    garageDoorList.setListGarageDoor(list);
+                    updatedList2 = list.toString();
+                    x2 = String.valueOf((updatedList2));
+
+                    //Full list view of what is being saved
+                    System.out.println("Garage List: " + list);
+
+                    //Shows what room the ac is in
+                    System.out.println("ROOM: " + list.get(0));
+
+                }
+
+                //Updates any new AC fixtures into one list
+                //Refreshes the list by erasing then recreating
+                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\garageDoorConfig.txt");
+                pw.close();
+
+
+                System.out.println(x2);
+
+                StringBuilder sb = new StringBuilder();
+                //x2 = insert full updated list here
+                sb.append(x2).append("\n");
+
+                try {
+                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\garageDoorConfig.txt"), sb.toString().replace("[","").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                System.out.println("Garage Door List failed...");
+                break;
+        }
     }
 
     private static void sprinklers() {

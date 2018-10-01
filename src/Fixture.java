@@ -354,7 +354,7 @@ public class Fixture {
         }
 
         //Display rooms status
-        String fileName = "C:\\Users\\James\\Desktop\\input.txt";
+        String fileName = "C:\\Users\\James\\Desktop\\airConConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
@@ -487,7 +487,7 @@ public class Fixture {
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
-                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\input.txt");
+                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\airConConfig.txt");
                 pw.close();
 
 
@@ -502,7 +502,7 @@ public class Fixture {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\input.txt"), sb.toString().replace("[","").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\airConConfig.txt"), sb.toString().replace("[","").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

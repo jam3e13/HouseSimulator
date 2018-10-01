@@ -6,12 +6,13 @@ import java.util.Scanner;
 
 class Simulator {
     static double temperature, inDoorTemp, inDoorTempSetter, ceilingFanTemp;
-    static double acTemp, acTemp2, lightOn, lightOff, sunLightValue, ceilingFanListTemp;
+    static double acTemp, acTemp2, lightOn, lightOff, sunLightValue, ceilingFanListTemp, garageDoorList;
     static double time = 5;
     static String weatherChange, oldWeather, simChoice, data;
-    static boolean deviceLight, mainRoomAC, livingRoomAc, livingRoomCeilingFan;
-    static String[] displayLine1, displayLine2, values, displayLine3;
-    static int ceilingFanSpeed;
+    static boolean deviceLight, mainRoomAC, livingRoomAc, livingRoomCeilingFan, garageDoorBoolean;
+    static String[] displayLine1, displayLine2, values, displayLine3, displayLine4;
+    static int ceilingFanSpeed, randomX;
+    static int garageDoorCloseSequence = 0;
 
     static void runSimulator(String weatherType) throws InterruptedException, FileNotFoundException {
 
@@ -38,6 +39,7 @@ class Simulator {
             dynamicLights();
             dynamicAC();
             dynamicCeilingFan();
+            dynamicGarageDoor();
 
             if (temperature > 28) {
                 simChoice = "SUNNY";
@@ -361,7 +363,7 @@ class Simulator {
         DecimalFormat decimalFormat = new DecimalFormat("#");
 
         //Change file name to be more specific for method
-        String fileName = "C:\\Users\\James\\Desktop\\input.txt";
+        String fileName = "C:\\Users\\James\\Desktop\\airConConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
@@ -501,7 +503,7 @@ class Simulator {
                             } else if (ceilingFanTemp < 26 && ceilingFanTemp > 24) {
                                 //Cool the room down by 4 degrees
                                 ceilingFanSpeed = 2;
-                            } else if (ceilingFanTemp < 24 && ceilingFanTemp > 22){
+                            } else if (ceilingFanTemp < 24 && ceilingFanTemp > 22) {
                                 //Cool the room down by 6 degrees
                                 ceilingFanSpeed = 3;
                             } else if (ceilingFanTemp >= 29 && inDoorTemp >= 29) {
@@ -556,7 +558,7 @@ class Simulator {
                         System.out.println("\nLiving Room Ceiling Fan has switched OFF!");
                         livingRoomCeilingFan = false;
                     }
-                                        //LIVING ROOM - OFF
+                    //LIVING ROOM - OFF
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
@@ -567,7 +569,89 @@ class Simulator {
 
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
+
+        }
+    }
+
+    private static void dynamicGarageDoor() {
+        String fileName = "C:\\Users\\James\\Desktop\\garageDoorConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+
+            //Runs through each If statement and displays Ac status
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                //GARAGE - ON
+                if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                    displayLine4 = data.split(", ");
+                    garageDoorList = Double.parseDouble(values[3]);
+
+
+                    Random rand = new Random();
+                    //1 : 4 chance for Garage Door display chance
+                    randomX = rand.nextInt(4) + 1;
+
+                    if ((randomX == 1) && (time <= 7.301 && time > 7.29)) {
+                        System.out.println(" ");
+                        System.out.println("\nGarage Door is opening Now!");
+                        garageDoorCloseSequence = 1;
+                    } else if ((randomX == 4) && (time <= 7.301 && time > 7.29)) {
+                        System.out.println(" ");
+                        System.out.println("\nGarage Door accessed via Secure Mobile!");
+                        garageDoorCloseSequence = 1;
+                    } else if ((randomX < 4 && randomX > 1) && (time <= 7.301 && time > 7.29)) {
+                        System.out.println(" ");
+                        System.out.println("\nGarage Door accessed remotely! Please Inspect!!");
+                        garageDoorCloseSequence = 1;
+                    }
+
+                    if ((time <= 12.301 && time > 12.29) && (randomX == 1)) {
+                        System.out.println(" ");
+                        System.out.println("\nGarage Door is opening Now!");
+                        garageDoorCloseSequence = 1;
+                    } else if ((time <= 12.301 && time > 12.29) && (randomX == 4)) {
+                        System.out.println(" ");
+                        System.out.println("\nGarage Door accessed via Secure Mobile!");
+                        garageDoorCloseSequence = 1;
+                    } else if ((time <= 12.301 && time > 12.29) && (randomX < 4 && randomX > 1)) {
+                        System.out.println(" ");
+                        System.out.println("\nGarage Door accessed remotely! Please Inspect!!");
+                        garageDoorCloseSequence = 1;
+                    }
+
+                    if ((time <= 17.301 && time > 17.29) && (randomX == 1)) {
+                        System.out.println(" ");
+                        System.out.println("\nGarage Door is opening Now!");
+                        garageDoorCloseSequence = 1;
+                    } else if ((time <= 17.301 && time > 17.29) && (randomX == 4)) {
+                        System.out.println(" ");
+                        System.out.println("\nGarage Door accessed via Secure Mobile!");
+                        garageDoorCloseSequence = 1;
+                    } else if ((time <= 17.301 && time > 17.29) && (randomX < 4 && randomX > 1)) {
+                        System.out.println(" ");
+                        System.out.println("\nGarage Door accessed remotely! Please Inspect!!");
+                        garageDoorCloseSequence = 1;
+                    }
+
+                    //Display when device switches on and off
+                    if (garageDoorList == 1 && garageDoorCloseSequence == 1) {
+                        System.out.println("Garage Door is Closing Now!");
+                        garageDoorCloseSequence = 0;
+                    }
+
+                //GARAGE - OFF
+                } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
+                    displayLine4 = data.split(", ");
+                    garageDoorList = 0;
+                    values[3] = String.valueOf(garageDoorList);
+                }
+
+            }
+
+        } catch (Exception e) {
 
         }
     }

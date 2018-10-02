@@ -21,8 +21,8 @@ import java.io.PrintWriter;
 public class Fixture {
 
     private static int choice, fixtureChoice;
-    static int acTempSetting, changeSettings, ceilingFanTempSetting, garageDoorSetting;
-    static String roomLocation, data, updatedList1, updatedList2, x1, x2;
+    static int acTempSetting, changeSettings, ceilingFanTempSetting, garageDoorSetting, sprinklerSetting;
+    static String roomLocation, data, updatedList1, updatedList2, x1, x2, sprinklerMode;
     static String fixtureSwitch = "OFF";
     static double lightSettingOn, lightSettingOff;
     static ArrayList<String> list1;
@@ -98,10 +98,10 @@ public class Fixture {
                 while (fixtureChoice > 4) {
                     System.out.println("Wrong input...");
                     System.out.println("Please enter only (0), (1), (2), (3) OR (4)");
-                    System.out.println("\n1) MOTION SENSOR - Not done");
+                    System.out.println("\n1) MOTION SENSOR");
                     System.out.println("2) AIR CONDITIONER");
                     System.out.println("3) LIGHTS");
-                    System.out.println("4) CEILING FAN - Not done");
+                    System.out.println("4) CEILING FAN");
                     System.out.println("0) BACK");
                     fixtureChoice = input.nextInt();
                 }
@@ -205,8 +205,8 @@ public class Fixture {
                 System.out.println(roomLocation + " - Fixtures...");
 
                 System.out.println("\n1) MOTION SENSOR - Not done");
-                System.out.println("3) LIGHTS");
-                System.out.println("5) GARAGE DOOR - Not done");
+                System.out.println("2) LIGHTS");
+                System.out.println("3) GARAGE DOOR - Not done");
                 System.out.println("0) BACK");
 
                 fixtureChoice = input.nextInt();
@@ -215,8 +215,8 @@ public class Fixture {
                     System.out.println("Wrong input...");
                     System.out.println("Please enter only (0), (1), (2), (3) OR (4)");
                     System.out.println("\n1) MOTION SENSOR - Not done");
-                    System.out.println("3) LIGHTS");
-                    System.out.println("5) GARAGE DOOR - Not done");
+                    System.out.println("2) LIGHTS");
+                    System.out.println("3) GARAGE DOOR - Not done");
                     System.out.println("0) BACK");
                     fixtureChoice = input.nextInt();
                 }
@@ -240,11 +240,12 @@ public class Fixture {
                 }
 
             } else if (choice == 6) {
+                roomLocation = "GARDEN";
                 System.out.println(roomLocation + " - Fixtures...");
 
-                System.out.println("\n1) MOTION SENSOR - Not done");
+                System.out.println("\n1) MOTION SENSOR");
                 System.out.println("2) LIGHTS");
-                System.out.println("3) SPRINKLERS - Not done");
+                System.out.println("3) SPRINKLERS");
                 System.out.println("0) BACK");
 
                 fixtureChoice = input.nextInt();
@@ -621,7 +622,7 @@ public class Fixture {
 
         switch (fixtureSwitch) {
             case "ON":
-                String ceilingFanDisplay = ("The " + roomLocation + " Ceiling Fan has been set to: " + ceilingFanTemp.getCeilingFanTemp() + "°");
+                String ceilingFanDisplay = ("The " + roomLocation + " Garage Door has been set to: " + ceilingFanTemp.getCeilingFanTemp() + "°");
                 System.out.println(ceilingFanDisplay);
 
                 //Add to a list to be called in sim
@@ -728,14 +729,14 @@ public class Fixture {
         }
 
         //saves to user chosen room
-        House ceilingFanTemp = new House();
-        ceilingFanTemp.setCeilingFanTemp(garageDoorSetting);
+        House garageTemp = new House();
+        garageTemp.setGarageTemp(garageDoorSetting);
 
         fixtureSwitch = "ON";
 
         switch (fixtureSwitch) {
             case "ON":
-                String ceilingFanDisplay = ("The " + roomLocation + " Ceiling Fan has been set to: " + ceilingFanTemp.getCeilingFanTemp() + "°");
+                String ceilingFanDisplay = ("The " + roomLocation + " Ceiling Fan has been set to: " + garageTemp.getGarageTemp() + "°");
                 System.out.println(ceilingFanDisplay);
 
                 //Add to a list to be called in sim
@@ -751,7 +752,7 @@ public class Fixture {
                     //Calibration
                     list.add(new House.garageDoor("ON"));
                     //User Settings
-                    list.add(new House.garageDoor(String.valueOf(ceilingFanTemp.getCeilingFanTemp())));
+                    list.add(new House.garageDoor(String.valueOf(garageTemp.getGarageTemp())));
                     //Set list
                     garageDoorList.setListGarageDoor(list);
                     updatedList2 = list.toString();
@@ -789,6 +790,128 @@ public class Fixture {
         }
     }
 
-    private static void sprinklers() {
+    private static void sprinklers() throws FileNotFoundException {
+        Scanner input = new Scanner(System.in);
+
+        //Display rooms status
+        String fileName = "C:\\Users\\James\\Desktop\\sprinklerConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("GARDEN") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine3 = data.split(", ");
+                } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine3 = data.split(", ");
+                }
+            }
+
+            System.out.println(roomLocation);
+            if (roomLocation.equals("GARDEN")) {
+                System.out.println("Status: " + Arrays.toString(displayLine3));
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Enter either; 1, 2 or 3 below, OR Enter 0 to EXIT.");
+        System.out.println("\n1) Extreme Water Saver Mode - Waters Garden Once a Day");
+        System.out.println("2) Water Saver Mode - Waters Garden Twice a Day");
+        System.out.println("3) Full Flow Mode - Waters Garden Three times a Day");
+
+        sprinklerSetting = input.nextInt();
+
+        //Exits if user chooses 0
+        if (sprinklerSetting == 0) {
+            try {
+                initialSetup();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Makes sure use inputs are in range
+        while (sprinklerSetting > 3) {
+            System.out.println("Wrong Input...");
+            System.out.println("Please enter either 1, 2 or 3.");
+            sprinklerSetting = input.nextInt();
+        }
+
+        if (sprinklerSetting == 1) {
+            //1 Water - 6:00pm
+            sprinklerMode = "Extreme Water Saver Mode";
+        } else if (sprinklerSetting == 2) {
+            //2 Water - 9:00am / 6:00pm
+            sprinklerMode = "Water Saver Mode";
+        } else if (sprinklerSetting == 3) {
+            //3 Water - 9:00am / 6:00pm / 2:00am
+            sprinklerMode = "Full Flow Mode";
+        }
+
+        //saves to user chosen room
+        House sprinklerTemp = new House();
+        sprinklerTemp.setSprinklerTemp(sprinklerSetting);
+
+        fixtureSwitch = "ON";
+
+        switch (fixtureSwitch) {
+            case "ON":
+                String sprinklerDisplay = ("The " + roomLocation + " Sprinklers has been set to: " + sprinklerMode);
+                System.out.println(sprinklerDisplay);
+
+                //Add to a list to be called in sim
+                if (roomLocation.equals("GARDEN")) {
+                    House location = new House();
+                    location.setLocation(roomLocation);
+                    House gardenSprinkler = new House();
+                    List<House.gardenSprinkler> list = new ArrayList<>();
+                    //Location
+                    list.add(new House.gardenSprinkler(House.getLocation()));
+                    //Device
+                    list.add(new House.gardenSprinkler("GARDEN"));
+                    //Calibration
+                    list.add(new House.gardenSprinkler("ON"));
+                    //User Settings
+                    list.add(new House.gardenSprinkler(String.valueOf(sprinklerTemp.getSprinklerTemp())));
+                    //Set list
+                    gardenSprinkler.setListGardenSprinkler(list);
+                    updatedList2 = list.toString();
+                    x2 = String.valueOf((updatedList2));
+
+                    //Full list view of what is being saved
+                    System.out.println("Garden List: " + list);
+
+                    //Shows what room the ac is in
+                    System.out.println("ROOM: " + list.get(0));
+
+                }
+
+                //Updates any new AC fixtures into one list
+                //Refreshes the list by erasing then recreating
+                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\sprinklerConfig.txt");
+                pw.close();
+
+
+                System.out.println(x2);
+
+                StringBuilder sb = new StringBuilder();
+                //x2 = insert full updated list here
+                sb.append(x2).append("\n");
+
+                try {
+                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\sprinklerConfig.txt"), sb.toString().replace("[","").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                System.out.println("Garden Sprinkler List failed...");
+                break;
+        }
     }
 }

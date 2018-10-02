@@ -6,11 +6,11 @@ import java.util.Scanner;
 
 class Simulator {
     static double temperature, inDoorTemp, inDoorTempSetter, ceilingFanTemp;
-    static double acTemp, acTemp2, lightOn, lightOff, sunLightValue, ceilingFanListTemp, garageDoorList;
+    static double acTemp, acTemp2, lightOn, lightOff, sunLightValue, ceilingFanListTemp, garageDoorList, sprinklerListTemp, gardenTemp;
     static double time = 5;
-    static String weatherChange, oldWeather, simChoice, data;
-    static boolean deviceLight, mainRoomAC, livingRoomAc, livingRoomCeilingFan, garageDoorBoolean;
-    static String[] displayLine1, displayLine2, values, displayLine3, displayLine4;
+    static String weatherChange, oldWeather, simChoice, data, sprinklerMode;
+    static boolean deviceLight, mainRoomAC, livingRoomAc, livingRoomCeilingFan, gardenSprinkler;
+    static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5;
     static int ceilingFanSpeed, randomX;
     static int garageDoorCloseSequence = 0;
 
@@ -40,6 +40,7 @@ class Simulator {
             dynamicAC();
             dynamicCeilingFan();
             dynamicGarageDoor();
+            dynamicSprinkler();
 
             if (temperature > 28) {
                 simChoice = "SUNNY";
@@ -642,11 +643,163 @@ class Simulator {
                         garageDoorCloseSequence = 0;
                     }
 
-                //GARAGE - OFF
+                    //GARAGE - OFF
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
                     displayLine4 = data.split(", ");
                     garageDoorList = 0;
                     values[3] = String.valueOf(garageDoorList);
+                }
+
+            }
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    private static void dynamicSprinkler() {
+        //Users Set temp they want room to stay at
+        String fileName = "C:\\Users\\James\\Desktop\\sprinklerConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+
+            //Runs through each If statement and displays Ac status
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                //LIVING ROOM - ON
+                if (values[0].equals("GARDEN") && values[2].equals("ON")) {
+                    displayLine5 = data.split(", ");
+                    sprinklerListTemp = Double.parseDouble(values[3]);
+
+                    switch (Menu.weatherType) {
+                        case "SUNNY":
+                            if (sprinklerListTemp == 1) {
+                                //1 Water - 6:00pm
+                                sprinklerMode = "Extreme Water Saver Mode";
+                                if (time > 17.59 && time < 18.01) {
+                                    //6:00pm
+                                    gardenTemp = 25;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                }
+                            } else if (sprinklerListTemp == 2) {
+                                //2 Water - 9:00am / 6:00pm
+                                sprinklerMode = "Water Saver Mode";
+                                if (time > 8.59 && time < 9.01) {
+                                    //9:00am
+                                    gardenTemp = 27;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                } else if (time > 17.59 && time < 18.01) {
+                                    //6:00pm
+                                    gardenTemp = 25;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                }
+                            } else if (sprinklerListTemp == 3) {
+                                //3 Water - 9:00am / 6:00pm / 2:00am
+                                sprinklerMode = "Full Flow Mode";
+                                if (time >= 8.59 && time < 9.01) {
+                                    //9:00am
+                                    gardenTemp = 27;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                } else if (time > 17.59 && time < 18.01) {
+                                    //6:00pm
+                                    gardenTemp = 25;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                } else if (time > 25.59 && time < 26.01) {
+                                    //2:00am
+                                    gardenTemp = 17;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                }
+                            }
+                            break;
+                        case "CLOUDY":
+                            // NO FULL FLOW ON CLOUDY DAYS
+                            if (sprinklerListTemp == 1) {
+                                //1 Water - 6:00pm
+                                sprinklerMode = "Extreme Water Saver Mode";
+                                if (time > 17.59 && time < 18.01) {
+                                    //6:00pm
+                                    gardenTemp = 23;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                }
+                            } else if (sprinklerListTemp == 2) {
+                                //2 Water - 9:00am / 6:00pm
+                                sprinklerMode = "Water Saver Mode";
+                                if (time > 8.59 && time < 9.01) {
+                                    //9:00am
+                                    gardenTemp = 25;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                } else if (time > 17.59 && time < 18.01) {
+                                    //6:00pm
+                                    gardenTemp = 23;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                }
+                            } else if (sprinklerListTemp == 3) {
+                                //2 Water - 9:00am / 6:00pm
+                                sprinklerMode = "Water Saver Mode";
+                                if (time > 8.59 && time < 9.01) {
+                                    //9:00am
+                                    gardenTemp = 25;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                } else if (time > 17.59 && time < 18.01) {
+                                    //6:00pm
+                                    gardenTemp = 23;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                }
+                            }
+                            break;
+                        case "RAINY":
+                            // NO FULL FLOW OR WATER SAVER ON RAINY DAYS
+                            if (sprinklerListTemp == 1) {
+                                //1 Water - 6:00pm
+                                sprinklerMode = "Extreme Water Saver Mode";
+                                if (time > 17.59 && time < 18.01) {
+                                    //6:00pm
+                                    gardenTemp = 22;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                }
+                            } else if (sprinklerListTemp == 2) {
+                                //1 Water - 6:00pm
+                                sprinklerMode = "Extreme Water Saver Mode";
+                                if (time > 17.59 && time < 18.01) {
+                                    //6:00pm
+                                    gardenTemp = 22;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                }
+                            } else if (sprinklerListTemp == 3) {
+                                //1 Water - 6:00pm
+                                sprinklerMode = "Extreme Water Saver Mode";
+                                if (time > 17.59 && time < 18.01) {
+                                    //6:00pm
+                                    gardenTemp = 22;
+                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
+                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                }
+                            }
+                            break;
+                    }
+
+                    //LIVING ROOM - OFF
+                } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine5 = data.split(", ");
+                    sprinklerListTemp = 0;
+                    values[3] = String.valueOf(sprinklerListTemp);
+                    //Re-format user inputs to act as a refresher
                 }
 
             }

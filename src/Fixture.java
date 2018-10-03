@@ -21,13 +21,12 @@ import java.io.PrintWriter;
 public class Fixture {
 
     private static int choice, fixtureChoice;
-    static int acTempSetting, changeSettings, ceilingFanTempSetting, garageDoorSetting, sprinklerSetting;
-    static String roomLocation, data, updatedList1, updatedList2, x1, x2, sprinklerMode;
+    static int acTempSetting, changeSettings, ceilingFanTempSetting, garageDoorSetting, sprinklerSetting, lightSetting;
+    static String roomLocation, data, x1, x2, x3, x4, x5, x6, sprinklerMode, lightMode, updatedList, updatedList1, updatedList2, updatedList3, updatedList4, updatedList5;
     static String fixtureSwitch = "OFF";
     static double lightSettingOn, lightSettingOff;
-    static ArrayList<String> list1;
-    static ArrayList<String> list2;
-    static String[] displayLine1, displayLine2, values, displayLine3;
+    static boolean lightChecker;
+    static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5, displayLine6;
 
     //Used at the very start of the program
     static void initialSetup() throws InterruptedException, FileNotFoundException {
@@ -153,10 +152,10 @@ public class Fixture {
                 if (fixtureChoice == 1) {
                     //MOTION SENSOR
                     motionSensor();
-                } else if (fixtureChoice == 3) {
+                } else if (fixtureChoice == 2) {
                     //LIGHTS
                     lights();
-                } else if (fixtureChoice == 4) {
+                } else if (fixtureChoice == 3) {
                     //CEILING FAN
                     ceilingFan();
                 } else if (fixtureChoice == 0) {
@@ -189,7 +188,7 @@ public class Fixture {
                     //MOTION SENSOR
                     motionSensor();
 
-                } else if (fixtureChoice == 3) {
+                } else if (fixtureChoice == 2) {
                     //LIGHTS
                     lights();
 
@@ -313,46 +312,8 @@ public class Fixture {
     private static void airCon() throws FileNotFoundException {
         Scanner input = new Scanner(System.in);
 
-        //Checks to see if device already set up
-        if (roomLocation.equals("MAIN BEDROOM") && acTempSetting > 0 && values[2].equals("ON")) {
-            System.out.println("MAIN BEDROOM AC is already set up.");
-            System.out.println("Edit MAIN BEDROOM settings?");
-            changeSettings = input.nextInt();
-            while (changeSettings > 1) {
-                System.out.println("Wrong input...");
-                System.out.println("Please enter only (0) - Exit, (1) - Change");
-                changeSettings = input.nextInt();
-            }
-            if (changeSettings == 1) {
-                System.out.println("Changing Settings");
-            } else if (changeSettings == 0) {
-                System.out.println("Returning to Rooms...");
-                try {
-                    initialSetup();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else if (roomLocation.equals("LIVING ROOM") && acTempSetting > 0 && values[2].equals("ON")) {
-            System.out.println("LIVING ROOM AC is already set up.");
-            System.out.println("Edit MAIN BEDROOM settings?");
-            changeSettings = input.nextInt();
-            while (changeSettings > 1) {
-                System.out.println("Wrong input...");
-                System.out.println("Please enter only (0) - Exit, (1) - Change");
-                changeSettings = input.nextInt();
-            }
-            if (changeSettings == 1) {
-                System.out.println("Changing Settings");
-            } else if (changeSettings == 0) {
-                System.out.println("Returning to Rooms...");
-                try {
-                    initialSetup();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+
+
 
         //Display rooms status
         String fileName = "C:\\Users\\James\\Desktop\\airConConfig.txt";
@@ -365,12 +326,50 @@ public class Fixture {
                 if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("MAIN BEDROOM AC is already set up.");
+                    System.out.println("Edit MAIN BEDROOM settings?");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Change");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            initialSetup();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("LIVING ROOM AC is already set up.");
+                    System.out.println("Edit MAIN BEDROOM settings?");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Change");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            initialSetup();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
@@ -503,7 +502,7 @@ public class Fixture {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\airConConfig.txt"), sb.toString().replace("[","").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\airConConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -514,48 +513,529 @@ public class Fixture {
         }
     }
 
-    private static void lights() {
-        System.out.println("Lights config file loading...");
-        System.out.println("Set when the lights switch on for the " + roomLocation + " Example: 18.00, 23.00");
-        System.out.println("Enter Turn ON time: ");
+    private static void lights() throws FileNotFoundException {
         Scanner input = new Scanner(System.in);
-        lightSettingOn = input.nextDouble();
 
-        //Makes sure use inputs 0, 1, 2 or 3 only
-        while (lightSettingOn >= 24 && lightSettingOn <= 5) {
-            System.out.println("Wrong input...");
-            System.out.println("Please enter between: 5.00 and 24.00.");
-            lightSettingOn = input.nextDouble();
+        //Display rooms status
+        String fileName = "C:\\Users\\James\\Desktop\\lightConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine1 = data.split(", ");
+                    System.out.println("LIVING ROOM Lights are already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings..");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            initialSetup();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine1 = data.split(", ");
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine2 = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("MAIN BEDROOM Lights are already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter ONLY (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings...");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            initialSetup();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine2 = data.split(", ");
+                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine3 = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("SECOND ROOM Lights are already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings..");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            initialSetup();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine3 = data.split(", ");
+                } else if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine4 = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("KITCHEN Lights are already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings..");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            initialSetup();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine4 = data.split(", ");
+                } else if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine5 = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("GARAGE Lights are already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings..");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            initialSetup();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine5 = data.split(", ");
+                } else if (values[0].equals("GARDEN") && values[2].equals("ON")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine6 = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("GARDEN Lights are already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings..");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            initialSetup();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
+                    //System.out.println(Arrays.toString(data.split("\t")));
+                    displayLine6 = data.split(", ");
+                }
+            }
+
+            System.out.println(roomLocation);
+            if (roomLocation.equals("LIVING ROOM")) {
+                System.out.println("Status: " + Arrays.toString(displayLine1));
+            }
+            if (roomLocation.equals("MAIN BEDROOM")) {
+                System.out.println("Status: " + Arrays.toString(displayLine2));
+            }
+            if (roomLocation.equals("SECOND BEDROOM")) {
+                System.out.println("Status: " + Arrays.toString(displayLine3));
+            }
+            if (roomLocation.equals("KITCHEN")) {
+                System.out.println("Status: " + Arrays.toString(displayLine4));
+            }
+            if (roomLocation.equals("GARAGE")) {
+                System.out.println("Status: " + Arrays.toString(displayLine5));
+            }
+            if (roomLocation.equals("GARDEN")) {
+                System.out.println("Status: " + Arrays.toString(displayLine6));
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
-        System.out.println("Enter Turn OFF time: ");
-        lightSettingOff = input.nextDouble();
+        System.out.println("Enter either; 1, 2 or 3 below, OR Enter 0 to EXIT.");
+        System.out.println("\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.");
+        System.out.println("2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.");
+        System.out.println("3) Entertainment Mode - Lights always turn on.");
 
-        //Makes sure use inputs 0, 1, 2 or 3 only
-        while (lightSettingOff >= lightSettingOn && lightSettingOff <= 5) {
-            System.out.println("Wrong input...");
-            System.out.println("Please enter between: " + lightSettingOn + " and 24.00.");
-            lightSettingOff = input.nextDouble();
+        lightSetting = input.nextInt();
+
+        //Exits if user chooses 0
+        if (lightSetting == 0) {
+            try {
+                initialSetup();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
-        String itemName = "Ceiling Lights";
+        //Makes sure use inputs are in range
+        while (lightSetting > 3) {
+            System.out.println("Wrong Input...");
+            System.out.println("Please enter either 1, 2 or 3.");
+            lightSetting = input.nextInt();
+        }
+
+        if (lightSetting == 1) {
+            //1 Water - 6:00pm
+            lightMode = "Economy Mode";
+        } else if (lightSetting == 2) {
+            //2 Water - 9:00am / 6:00pm
+            lightMode = "Neutral Mode";
+        } else if (lightSetting == 3) {
+            //3 Water - 9:00am / 6:00pm / 2:00am
+            lightMode = "Entertainment Mode";
+        }
+
+        //saves to user chosen room
+        House lightTemp = new House();
+        lightTemp.setLightTemp(lightSetting);
 
         fixtureSwitch = "ON";
 
         switch (fixtureSwitch) {
             case "ON":
-                ArrayList<String> lightList = new ArrayList<>();
-                lightList.add("Fixture: " + itemName);
-                lightList.add(String.valueOf("Lights will turn on at: " + lightSettingOn));
-                lightList.add(String.valueOf("Lights will turn off at: " + lightSettingOff));
-                lightList.add(String.valueOf("Room: " + roomLocation));
+                String lightDisplay = ("The " + roomLocation + " Lights has been set to: " + lightMode);
+                System.out.println(lightDisplay);
 
-                System.out.println(lightList);
+                //Add to a list to be called in sim
+                if (roomLocation.equals("LIVING ROOM")) {
+                    House location = new House();
+                    location.setLocation(roomLocation);
+                    House allLights = new House();
+                    List<House.allLights> list = new ArrayList<>();
+                    //Location
+                    list.add(new House.allLights(House.getLocation()));
+                    //Device
+                    list.add(new House.allLights("LIGHT"));
+                    //Calibration
+                    list.add(new House.allLights("ON"));
+                    //User Settings
+                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    //Set list
+                    allLights.setListLights(list);
+
+                    updatedList = list.toString();
+                    x1 = String.valueOf((updatedList));
+
+                    updatedList1 = Arrays.toString(displayLine2);
+                    x2 = String.valueOf((updatedList1));
+
+                    updatedList2 = Arrays.toString(displayLine3);
+                    x3 = String.valueOf((updatedList2));
+
+                    updatedList3 = Arrays.toString(displayLine4);
+                    x4 = String.valueOf((updatedList3));
+
+                    updatedList4 = Arrays.toString(displayLine5);
+                    x5 = String.valueOf((updatedList4));
+
+                    updatedList5 = Arrays.toString(displayLine6);
+                    x6 = String.valueOf((updatedList5));
+
+                    //Full list view of what is being saved
+                    System.out.println("Garden List: " + list);
+
+                    //Shows what room the ac is in
+                    System.out.println("ROOM: " + list.get(0));
+
+                } else if (roomLocation.equals("MAIN BEDROOM")) {
+                    House location = new House();
+                    location.setLocation(roomLocation);
+                    House allLights = new House();
+                    List<House.allLights> list = new ArrayList<>();
+                    //Location
+                    list.add(new House.allLights(House.getLocation()));
+                    //Device
+                    list.add(new House.allLights("LIGHT"));
+                    //Calibration
+                    list.add(new House.allLights("ON"));
+                    //User Settings
+                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    //Set list
+                    allLights.setListLights(list);
+
+                    updatedList = Arrays.toString(displayLine1);
+                    x1 = String.valueOf((updatedList));
+
+                    updatedList1 = list.toString();
+                    x2 = String.valueOf((updatedList1));
+
+                    updatedList2 = Arrays.toString(displayLine3);
+                    x3 = String.valueOf((updatedList2));
+
+                    updatedList3 = Arrays.toString(displayLine4);
+                    x4 = String.valueOf((updatedList3));
+
+                    updatedList4 = Arrays.toString(displayLine5);
+                    x5 = String.valueOf((updatedList4));
+
+                    updatedList5 = Arrays.toString(displayLine6);
+                    x6 = String.valueOf((updatedList5));
+
+                    //Full list view of what is being saved
+                    System.out.println("Garden List: " + list);
+
+                    //Shows what room the ac is in
+                    System.out.println("ROOM: " + list.get(0));
+
+                } else if (roomLocation.equals("SECOND BEDROOM")) {
+                    House location = new House();
+                    location.setLocation(roomLocation);
+                    House allLights = new House();
+                    List<House.allLights> list = new ArrayList<>();
+                    //Location
+                    list.add(new House.allLights(House.getLocation()));
+                    //Device
+                    list.add(new House.allLights("LIGHT"));
+                    //Calibration
+                    list.add(new House.allLights("ON"));
+                    //User Settings
+                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    //Set list
+                    allLights.setListLights(list);
+
+                    updatedList = Arrays.toString(displayLine1);
+                    x1 = String.valueOf((updatedList));
+
+                    updatedList1 = Arrays.toString(displayLine2);
+                    x2 = String.valueOf((updatedList1));
+
+                    updatedList2 = list.toString();
+                    x3 = String.valueOf((updatedList2));
+
+                    updatedList3 = Arrays.toString(displayLine4);
+                    x4 = String.valueOf((updatedList3));
+
+                    updatedList4 = Arrays.toString(displayLine5);
+                    x5 = String.valueOf((updatedList4));
+
+                    updatedList5 = Arrays.toString(displayLine6);
+                    x6 = String.valueOf((updatedList5));
+
+                    //Full list view of what is being saved
+                    System.out.println("Garden List: " + list);
+
+                    //Shows what room the ac is in
+                    System.out.println("ROOM: " + list.get(0));
+
+                } else if (roomLocation.equals("KITCHEN")) {
+                    House location = new House();
+                    location.setLocation(roomLocation);
+                    House allLights = new House();
+                    List<House.allLights> list = new ArrayList<>();
+                    //Location
+                    list.add(new House.allLights(House.getLocation()));
+                    //Device
+                    list.add(new House.allLights("LIGHT"));
+                    //Calibration
+                    list.add(new House.allLights("ON"));
+                    //User Settings
+                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    //Set list
+                    allLights.setListLights(list);
+
+                    updatedList = Arrays.toString(displayLine1);
+                    x1 = String.valueOf((updatedList));
+
+                    updatedList1 = Arrays.toString(displayLine2);
+                    x2 = String.valueOf((updatedList1));
+
+                    updatedList2 = Arrays.toString(displayLine3);
+                    x3 = String.valueOf((updatedList2));
+
+                    updatedList3 = list.toString();
+                    x4 = String.valueOf((updatedList3));
+
+                    updatedList4 = Arrays.toString(displayLine5);
+                    x5 = String.valueOf((updatedList4));
+
+                    updatedList5 = Arrays.toString(displayLine6);
+                    x6 = String.valueOf((updatedList5));
+
+                    //Full list view of what is being saved
+                    System.out.println("Garden List: " + list);
+
+                    //Shows what room the ac is in
+                    System.out.println("ROOM: " + list.get(0));
+
+                } else if (roomLocation.equals("GARAGE")) {
+                    House location = new House();
+                    location.setLocation(roomLocation);
+                    House allLights = new House();
+                    List<House.allLights> list = new ArrayList<>();
+                    //Location
+                    list.add(new House.allLights(House.getLocation()));
+                    //Device
+                    list.add(new House.allLights("LIGHT"));
+                    //Calibration
+                    list.add(new House.allLights("ON"));
+                    //User Settings
+                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    //Set list
+                    allLights.setListLights(list);
+
+                    updatedList = Arrays.toString(displayLine1);
+                    x1 = String.valueOf((updatedList));
+
+                    updatedList1 = Arrays.toString(displayLine2);
+                    x2 = String.valueOf((updatedList1));
+
+                    updatedList2 = Arrays.toString(displayLine3);
+                    x3 = String.valueOf((updatedList2));
+
+                    updatedList3 = Arrays.toString(displayLine4);
+                    x4 = String.valueOf((updatedList3));
+
+                    updatedList4 = list.toString();
+                    x5 = String.valueOf((updatedList4));
+
+                    updatedList5 = Arrays.toString(displayLine6);
+                    x6 = String.valueOf((updatedList5));
+
+                    //Full list view of what is being saved
+                    System.out.println("Garden List: " + list);
+
+                    //Shows what room the ac is in
+                    System.out.println("ROOM: " + list.get(0));
+
+                } else if (roomLocation.equals("GARDEN")) {
+                    House location = new House();
+                    location.setLocation(roomLocation);
+                    House allLights = new House();
+                    List<House.allLights> list = new ArrayList<>();
+                    //Location
+                    list.add(new House.allLights(House.getLocation()));
+                    //Device
+                    list.add(new House.allLights("LIGHT"));
+                    //Calibration
+                    list.add(new House.allLights("ON"));
+                    //User Settings
+                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    //Set list
+                    allLights.setListLights(list);
+
+                    updatedList = Arrays.toString(displayLine1);
+                    x1 = String.valueOf((updatedList));
+
+                    updatedList1 = Arrays.toString(displayLine2);
+                    x2 = String.valueOf((updatedList1));
+
+                    updatedList2 = Arrays.toString(displayLine3);
+                    x3 = String.valueOf((updatedList2));
+
+                    updatedList3 = Arrays.toString(displayLine4);
+                    x4 = String.valueOf((updatedList3));
+
+                    updatedList4 = Arrays.toString(displayLine5);
+                    x5 = String.valueOf((updatedList4));
+
+                    updatedList5 = list.toString();
+                    x6 = String.valueOf((updatedList5));
+
+                    //Full list view of what is being saved
+                    System.out.println("Garden List: " + list);
+
+                    //Shows what room the ac is in
+                    System.out.println("ROOM: " + list.get(0));
+                }
+
+                //Updates any new AC fixtures into one list
+                //Refreshes the list by erasing then recreating
+                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\lightConfig.txt");
+                pw.close();
+
+                System.out.println(x1);
+                System.out.println(x2);
+                System.out.println(x3);
+                System.out.println(x4);
+                System.out.println(x5);
+                System.out.println(x6);
+
+                StringBuilder sb = new StringBuilder();
+                //x1 = insert full updated list here
+                sb.append(x1).append("\n");
+                sb.append(System.lineSeparator());
+                //x2 = insert full updated list here
+                sb.append(x2).append("\n");
+                sb.append(System.lineSeparator());
+                //x2 = insert full updated list here
+                sb.append(x3).append("\n");
+                sb.append(System.lineSeparator());
+                //x2 = insert full updated list here
+                sb.append(x4).append("\n");
+                sb.append(System.lineSeparator());
+                //x2 = insert full updated list here
+                sb.append(x5).append("\n");
+                sb.append(System.lineSeparator());
+                //x2 = insert full updated list here
+                sb.append(x6).append("\n");
+
+
+                try {
+                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\lightConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 System.out.println("Light List failed...");
                 break;
         }
+
     }
 
     private static void ceilingFan() throws FileNotFoundException {
@@ -572,6 +1052,26 @@ public class Fixture {
                 if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("LIVING ROOM Ceiling Fan is already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings..");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            initialSetup();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
@@ -665,7 +1165,7 @@ public class Fixture {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\ceilingFanConfig.txt"), sb.toString().replace("[","").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\ceilingFanConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -692,6 +1192,26 @@ public class Fixture {
                 if (values[0].equals("GARAGE") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("GARAGE Door is already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings..");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            initialSetup();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
@@ -779,7 +1299,7 @@ public class Fixture {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\garageDoorConfig.txt"), sb.toString().replace("[","").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\garageDoorConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -804,6 +1324,26 @@ public class Fixture {
                 if (values[0].equals("GARDEN") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("GARDEN Sprinklers are already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings..");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            initialSetup();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
@@ -904,13 +1444,13 @@ public class Fixture {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\sprinklerConfig.txt"), sb.toString().replace("[","").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\sprinklerConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
             default:
-                System.out.println("Garden Sprinkler List failed...");
+                System.out.println("Sprinkler List failed...");
                 break;
         }
     }

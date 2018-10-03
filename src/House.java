@@ -5,7 +5,7 @@ public class House {
 
     String deviceID;
     static String location, powerSwitch;
-    int acTemp, sprinklerTemp, garageTemp;
+    int acTemp, sprinklerTemp, garageTemp, lightTemp;
     static int ceilingFanTemp;
     private ArrayList<String> listTitles;
     static double tempMainRoom, tempLivingRoom, tempGarage, tempGarden;
@@ -166,6 +166,46 @@ public class House {
 
     int getGarageTemp() {
         return garageTemp;
+    }
+
+    private List<allLights> listAllLights;
+
+    public void setListLights(List<allLights> list) {
+        this.listAllLights = new ArrayList<>(list);
+    }
+
+    public List<allLights> getListLights() {
+        return new ArrayList<>(this.listAllLights);
+    }
+
+
+
+    static class allLights {
+        private String name;
+        allLights(String name) {
+            this.name = name;
+        }
+
+
+        String getName() {
+            return this.name;
+        }
+
+        void setName(String name) {
+            this.name = name;
+        }
+
+        public String toString() {
+            return this.name;
+        }
+    }
+
+    void setLightTemp(int lightTemp) {
+        this.lightTemp = lightTemp;
+    }
+
+    int getLightTemp() {
+        return lightTemp;
     }
 
 

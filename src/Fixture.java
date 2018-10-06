@@ -24,12 +24,10 @@ public class Fixture {
     static int acTempSetting, changeSettings, ceilingFanTempSetting, garageDoorSetting, sprinklerSetting, lightSetting, motionSensorSetting;
     static String roomLocation, data, x1, x2, x3, x4, x5, x6, sprinklerMode, lightMode, updatedList, updatedList1, updatedList2, updatedList3, updatedList4, updatedList5, motionSensorMode;
     static String fixtureSwitch = "OFF";
-    static double lightSettingOn, lightSettingOff;
-    static boolean lightChecker;
     static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5, displayLine6;
 
     //Used at the very start of the program
-    static void initialSetup() throws InterruptedException, FileNotFoundException {
+    static void fixtureSetUp() throws InterruptedException, FileNotFoundException {
         System.out.println("Please select a Room to set up...");
         roomDisplay();
         Scanner input = new Scanner(System.in);
@@ -76,7 +74,7 @@ public class Fixture {
                     ceilingFan();
 
                 } else if (fixtureChoice == 0) {
-                    initialSetup();
+                    fixtureSetUp();
                 }
 
                 //ADD APPLIANCES HERE
@@ -122,7 +120,7 @@ public class Fixture {
                     ceilingFan();
 
                 } else if (fixtureChoice == 0) {
-                    initialSetup();
+                    fixtureSetUp();
                 } else {
                     System.out.println("Wrong input...");
                 }
@@ -159,7 +157,7 @@ public class Fixture {
                     //CEILING FAN
                     ceilingFan();
                 } else if (fixtureChoice == 0) {
-                    initialSetup();
+                    fixtureSetUp();
                 } else {
                     System.out.println("Wrong input...");
                 }
@@ -193,7 +191,7 @@ public class Fixture {
                     lights();
 
                 } else if (fixtureChoice == 0) {
-                    initialSetup();
+                    fixtureSetUp();
                 } else {
                     System.out.println("Wrong input...");
                 }
@@ -233,7 +231,7 @@ public class Fixture {
                     garageDoor();
 
                 } else if (fixtureChoice == 0) {
-                    initialSetup();
+                    fixtureSetUp();
                 } else {
                     System.out.println("Wrong input...");
                 }
@@ -272,7 +270,7 @@ public class Fixture {
                     //SPRINKLERS
                     sprinklers();
                 } else if (fixtureChoice == 0) {
-                    initialSetup();
+                    fixtureSetUp();
                 } else {
                     System.out.println("Wrong input...");
                 }
@@ -325,7 +323,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -351,7 +349,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -377,7 +375,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -403,7 +401,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -429,7 +427,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -455,7 +453,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -499,7 +497,7 @@ public class Fixture {
         //Exits if user chooses 0
         if (motionSensorSetting == 0) {
             try {
-                initialSetup();
+                fixtureSetUp();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -521,7 +519,7 @@ public class Fixture {
         }
 
         //saves to user chosen room
-        House motionSensorTemp = new House();
+        Devices motionSensorTemp = new Devices();
         motionSensorTemp.setMotionSensorTemp(motionSensorSetting);
 
         fixtureSwitch = "ON";
@@ -533,18 +531,18 @@ public class Fixture {
 
                 //Add to a list to be called in sim
                 if (roomLocation.equals("LIVING ROOM")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allMotionSensors = new House();
-                    List<House.allMotionSensors> list = new ArrayList<>();
+                    Devices allMotionSensors = new Devices();
+                    List<Devices.allMotionSensors> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allMotionSensors(House.getLocation()));
+                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
                     //Device
-                    list.add(new House.allMotionSensors("Motion Sensor"));
+                    list.add(new Devices.allMotionSensors("Motion Sensor"));
                     //Calibration
-                    list.add(new House.allMotionSensors("ON"));
+                    list.add(new Devices.allMotionSensors("ON"));
                     //User Settings
-                    list.add(new House.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
                     //Set list
                     allMotionSensors.setListMotionSensors(list);
 
@@ -573,18 +571,18 @@ public class Fixture {
                     System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("MAIN BEDROOM")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allMotionSensors = new House();
-                    List<House.allMotionSensors> list = new ArrayList<>();
+                    Devices allMotionSensors = new Devices();
+                    List<Devices.allMotionSensors> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allMotionSensors(House.getLocation()));
+                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
                     //Device
-                    list.add(new House.allMotionSensors("Motion Sensor"));
+                    list.add(new Devices.allMotionSensors("Motion Sensor"));
                     //Calibration
-                    list.add(new House.allMotionSensors("ON"));
+                    list.add(new Devices.allMotionSensors("ON"));
                     //User Settings
-                    list.add(new House.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
                     //Set list
                     allMotionSensors.setListMotionSensors(list);
 
@@ -613,18 +611,18 @@ public class Fixture {
                     System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("SECOND BEDROOM")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allMotionSensors = new House();
-                    List<House.allMotionSensors> list = new ArrayList<>();
+                    Devices allMotionSensors = new Devices();
+                    List<Devices.allMotionSensors> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allMotionSensors(House.getLocation()));
+                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
                     //Device
-                    list.add(new House.allMotionSensors("Motion Sensor"));
+                    list.add(new Devices.allMotionSensors("Motion Sensor"));
                     //Calibration
-                    list.add(new House.allMotionSensors("ON"));
+                    list.add(new Devices.allMotionSensors("ON"));
                     //User Settings
-                    list.add(new House.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
                     //Set list
                     allMotionSensors.setListMotionSensors(list);
 
@@ -653,18 +651,18 @@ public class Fixture {
                     System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("KITCHEN")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allMotionSensors = new House();
-                    List<House.allMotionSensors> list = new ArrayList<>();
+                    Devices allMotionSensors = new Devices();
+                    List<Devices.allMotionSensors> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allMotionSensors(House.getLocation()));
+                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
                     //Device
-                    list.add(new House.allMotionSensors("Motion Sensor"));
+                    list.add(new Devices.allMotionSensors("Motion Sensor"));
                     //Calibration
-                    list.add(new House.allMotionSensors("ON"));
+                    list.add(new Devices.allMotionSensors("ON"));
                     //User Settings
-                    list.add(new House.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
                     //Set list
                     allMotionSensors.setListMotionSensors(list);
 
@@ -693,18 +691,18 @@ public class Fixture {
                     System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("GARAGE")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allMotionSensors = new House();
-                    List<House.allMotionSensors> list = new ArrayList<>();
+                    Devices allMotionSensors = new Devices();
+                    List<Devices.allMotionSensors> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allMotionSensors(House.getLocation()));
+                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
                     //Device
-                    list.add(new House.allMotionSensors("Motion Sensor"));
+                    list.add(new Devices.allMotionSensors("Motion Sensor"));
                     //Calibration
-                    list.add(new House.allMotionSensors("ON"));
+                    list.add(new Devices.allMotionSensors("ON"));
                     //User Settings
-                    list.add(new House.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
                     //Set list
                     allMotionSensors.setListMotionSensors(list);
 
@@ -733,18 +731,18 @@ public class Fixture {
                     System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("GARDEN")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allMotionSensors = new House();
-                    List<House.allMotionSensors> list = new ArrayList<>();
+                    Devices allMotionSensors = new Devices();
+                    List<Devices.allMotionSensors> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allMotionSensors(House.getLocation()));
+                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
                     //Device
-                    list.add(new House.allMotionSensors("Motion Sensor"));
+                    list.add(new Devices.allMotionSensors("Motion Sensor"));
                     //Calibration
-                    list.add(new House.allMotionSensors("ON"));
+                    list.add(new Devices.allMotionSensors("ON"));
                     //User Settings
-                    list.add(new House.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
                     //Set list
                     allMotionSensors.setListMotionSensors(list);
 
@@ -844,7 +842,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -869,7 +867,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -900,7 +898,7 @@ public class Fixture {
         //Exits if user chooses 0
         if (acTempSetting == 0) {
             try {
-                initialSetup();
+                fixtureSetUp();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -919,7 +917,7 @@ public class Fixture {
         }
 
         //saves to user chosen room
-        House acTemp = new House();
+        Devices acTemp = new Devices();
         acTemp.setAcTemp(acTempSetting);
 
         fixtureSwitch = "ON";
@@ -931,19 +929,19 @@ public class Fixture {
 
                 //Add to a list to be called in sim
                 if (roomLocation.equals("MAIN BEDROOM")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
 
-                    House acList = new House();
-                    List<House.airConditioner> list = new ArrayList<>();
+                    Devices acList = new Devices();
+                    List<Devices.airConditioner> list = new ArrayList<>();
                     //Location
-                    list.add(new House.airConditioner(House.getLocation()));
+                    list.add(new Devices.airConditioner(Devices.getLocation()));
                     //Device
-                    list.add(new House.airConditioner("Air Conditioner"));
+                    list.add(new Devices.airConditioner("Air Conditioner"));
                     //Calibration
-                    list.add(new House.airConditioner("ON"));
+                    list.add(new Devices.airConditioner("ON"));
                     //User Settings
-                    list.add(new House.airConditioner(String.valueOf(acTemp.getAcTemp())));
+                    list.add(new Devices.airConditioner(String.valueOf(acTemp.getAcTemp())));
                     //Set list
                     acList.setListAirCon(list);
 
@@ -960,18 +958,18 @@ public class Fixture {
                     System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("LIVING ROOM")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House acList = new House();
-                    List<House.airConditioner> list = new ArrayList<>();
+                    Devices acList = new Devices();
+                    List<Devices.airConditioner> list = new ArrayList<>();
                     //Location
-                    list.add(new House.airConditioner(House.getLocation()));
+                    list.add(new Devices.airConditioner(Devices.getLocation()));
                     //Device
-                    list.add(new House.airConditioner("Air Conditioner"));
+                    list.add(new Devices.airConditioner("Air Conditioner"));
                     //Calibration
-                    list.add(new House.airConditioner("ON"));
+                    list.add(new Devices.airConditioner("ON"));
                     //User Settings
-                    list.add(new House.airConditioner(String.valueOf(acTemp.getAcTemp())));
+                    list.add(new Devices.airConditioner(String.valueOf(acTemp.getAcTemp())));
                     //Set list
                     acList.setListAirCon(list);
 
@@ -1045,7 +1043,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -1071,7 +1069,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -1097,7 +1095,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -1123,7 +1121,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -1149,7 +1147,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -1175,7 +1173,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -1220,7 +1218,7 @@ public class Fixture {
         //Exits if user chooses 0
         if (lightSetting == 0) {
             try {
-                initialSetup();
+                fixtureSetUp();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -1245,7 +1243,7 @@ public class Fixture {
         }
 
         //saves to user chosen room
-        House lightTemp = new House();
+        Devices lightTemp = new Devices();
         lightTemp.setLightTemp(lightSetting);
 
         fixtureSwitch = "ON";
@@ -1257,18 +1255,18 @@ public class Fixture {
 
                 //Add to a list to be called in sim
                 if (roomLocation.equals("LIVING ROOM")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allLights = new House();
-                    List<House.allLights> list = new ArrayList<>();
+                    Devices allLights = new Devices();
+                    List<Devices.allLights> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allLights(House.getLocation()));
+                    list.add(new Devices.allLights(Devices.getLocation()));
                     //Device
-                    list.add(new House.allLights("Light"));
+                    list.add(new Devices.allLights("Light"));
                     //Calibration
-                    list.add(new House.allLights("ON"));
+                    list.add(new Devices.allLights("ON"));
                     //User Settings
-                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    list.add(new Devices.allLights(String.valueOf(lightTemp.getLightTemp())));
                     //Set list
                     allLights.setListLights(list);
 
@@ -1297,18 +1295,18 @@ public class Fixture {
                     System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("MAIN BEDROOM")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allLights = new House();
-                    List<House.allLights> list = new ArrayList<>();
+                    Devices allLights = new Devices();
+                    List<Devices.allLights> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allLights(House.getLocation()));
+                    list.add(new Devices.allLights(Devices.getLocation()));
                     //Device
-                    list.add(new House.allLights("Light"));
+                    list.add(new Devices.allLights("Light"));
                     //Calibration
-                    list.add(new House.allLights("ON"));
+                    list.add(new Devices.allLights("ON"));
                     //User Settings
-                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    list.add(new Devices.allLights(String.valueOf(lightTemp.getLightTemp())));
                     //Set list
                     allLights.setListLights(list);
 
@@ -1337,18 +1335,18 @@ public class Fixture {
                     System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("SECOND BEDROOM")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allLights = new House();
-                    List<House.allLights> list = new ArrayList<>();
+                    Devices allLights = new Devices();
+                    List<Devices.allLights> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allLights(House.getLocation()));
+                    list.add(new Devices.allLights(Devices.getLocation()));
                     //Device
-                    list.add(new House.allLights("Light"));
+                    list.add(new Devices.allLights("Light"));
                     //Calibration
-                    list.add(new House.allLights("ON"));
+                    list.add(new Devices.allLights("ON"));
                     //User Settings
-                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    list.add(new Devices.allLights(String.valueOf(lightTemp.getLightTemp())));
                     //Set list
                     allLights.setListLights(list);
 
@@ -1377,18 +1375,18 @@ public class Fixture {
                     System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("KITCHEN")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allLights = new House();
-                    List<House.allLights> list = new ArrayList<>();
+                    Devices allLights = new Devices();
+                    List<Devices.allLights> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allLights(House.getLocation()));
+                    list.add(new Devices.allLights(Devices.getLocation()));
                     //Device
-                    list.add(new House.allLights("Light"));
+                    list.add(new Devices.allLights("Light"));
                     //Calibration
-                    list.add(new House.allLights("ON"));
+                    list.add(new Devices.allLights("ON"));
                     //User Settings
-                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    list.add(new Devices.allLights(String.valueOf(lightTemp.getLightTemp())));
                     //Set list
                     allLights.setListLights(list);
 
@@ -1417,18 +1415,18 @@ public class Fixture {
                     System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("GARAGE")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allLights = new House();
-                    List<House.allLights> list = new ArrayList<>();
+                    Devices allLights = new Devices();
+                    List<Devices.allLights> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allLights(House.getLocation()));
+                    list.add(new Devices.allLights(Devices.getLocation()));
                     //Device
-                    list.add(new House.allLights("Light"));
+                    list.add(new Devices.allLights("Light"));
                     //Calibration
-                    list.add(new House.allLights("ON"));
+                    list.add(new Devices.allLights("ON"));
                     //User Settings
-                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    list.add(new Devices.allLights(String.valueOf(lightTemp.getLightTemp())));
                     //Set list
                     allLights.setListLights(list);
 
@@ -1457,18 +1455,18 @@ public class Fixture {
                     System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("GARDEN")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House allLights = new House();
-                    List<House.allLights> list = new ArrayList<>();
+                    Devices allLights = new Devices();
+                    List<Devices.allLights> list = new ArrayList<>();
                     //Location
-                    list.add(new House.allLights(House.getLocation()));
+                    list.add(new Devices.allLights(Devices.getLocation()));
                     //Device
-                    list.add(new House.allLights("Light"));
+                    list.add(new Devices.allLights("Light"));
                     //Calibration
-                    list.add(new House.allLights("ON"));
+                    list.add(new Devices.allLights("ON"));
                     //User Settings
-                    list.add(new House.allLights(String.valueOf(lightTemp.getLightTemp())));
+                    list.add(new Devices.allLights(String.valueOf(lightTemp.getLightTemp())));
                     //Set list
                     allLights.setListLights(list);
 
@@ -1571,7 +1569,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -1600,7 +1598,7 @@ public class Fixture {
         //Exits if user chooses 0
         if (ceilingFanTempSetting == 0) {
             try {
-                initialSetup();
+                fixtureSetUp();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -1619,7 +1617,7 @@ public class Fixture {
         }
 
         //saves to user chosen room
-        House ceilingFanTemp = new House();
+        Devices ceilingFanTemp = new Devices();
         ceilingFanTemp.setCeilingFanTemp(ceilingFanTempSetting);
 
         fixtureSwitch = "ON";
@@ -1631,18 +1629,18 @@ public class Fixture {
 
                 //Add to a list to be called in sim
                 if (roomLocation.equals("LIVING ROOM")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House ceilingFanList = new House();
-                    List<House.ceilingFan> list = new ArrayList<>();
+                    Devices ceilingFanList = new Devices();
+                    List<Devices.ceilingFan> list = new ArrayList<>();
                     //Location
-                    list.add(new House.ceilingFan(House.getLocation()));
+                    list.add(new Devices.ceilingFan(Devices.getLocation()));
                     //Device
-                    list.add(new House.ceilingFan("Ceiling Fan"));
+                    list.add(new Devices.ceilingFan("Ceiling Fan"));
                     //Calibration
-                    list.add(new House.ceilingFan("ON"));
+                    list.add(new Devices.ceilingFan("ON"));
                     //User Settings
-                    list.add(new House.ceilingFan(String.valueOf(ceilingFanTemp.getCeilingFanTemp())));
+                    list.add(new Devices.ceilingFan(String.valueOf(ceilingFanTemp.getCeilingFanTemp())));
                     //Set list
                     ceilingFanList.setListCeilingFan(list);
                     updatedList2 = list.toString();
@@ -1711,7 +1709,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -1739,7 +1737,7 @@ public class Fixture {
         //Exits if user chooses 0
         if (garageDoorSetting == 0) {
             try {
-                initialSetup();
+                fixtureSetUp();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -1753,7 +1751,7 @@ public class Fixture {
         }
 
         //saves to user chosen room
-        House garageTemp = new House();
+        Devices garageTemp = new Devices();
         garageTemp.setGarageTemp(garageDoorSetting);
 
         fixtureSwitch = "ON";
@@ -1765,18 +1763,18 @@ public class Fixture {
 
                 //Add to a list to be called in sim
                 if (roomLocation.equals("GARAGE")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House garageDoorList = new House();
-                    List<House.garageDoor> list = new ArrayList<>();
+                    Devices garageDoorList = new Devices();
+                    List<Devices.garageDoor> list = new ArrayList<>();
                     //Location
-                    list.add(new House.garageDoor(House.getLocation()));
+                    list.add(new Devices.garageDoor(Devices.getLocation()));
                     //Device
-                    list.add(new House.garageDoor("Garage Door"));
+                    list.add(new Devices.garageDoor("Garage Door"));
                     //Calibration
-                    list.add(new House.garageDoor("ON"));
+                    list.add(new Devices.garageDoor("ON"));
                     //User Settings
-                    list.add(new House.garageDoor(String.valueOf(garageTemp.getGarageTemp())));
+                    list.add(new Devices.garageDoor(String.valueOf(garageTemp.getGarageTemp())));
                     //Set list
                     garageDoorList.setListGarageDoor(list);
                     updatedList2 = list.toString();
@@ -1843,7 +1841,7 @@ public class Fixture {
                     } else if (changeSettings == 0) {
                         System.out.println("Returning to Rooms...");
                         try {
-                            initialSetup();
+                            fixtureSetUp();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -1873,7 +1871,7 @@ public class Fixture {
         //Exits if user chooses 0
         if (sprinklerSetting == 0) {
             try {
-                initialSetup();
+                fixtureSetUp();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -1898,7 +1896,7 @@ public class Fixture {
         }
 
         //saves to user chosen room
-        House sprinklerTemp = new House();
+        Devices sprinklerTemp = new Devices();
         sprinklerTemp.setSprinklerTemp(sprinklerSetting);
 
         fixtureSwitch = "ON";
@@ -1910,18 +1908,18 @@ public class Fixture {
 
                 //Add to a list to be called in sim
                 if (roomLocation.equals("GARDEN")) {
-                    House location = new House();
+                    Devices location = new Devices();
                     location.setLocation(roomLocation);
-                    House gardenSprinkler = new House();
-                    List<House.gardenSprinkler> list = new ArrayList<>();
+                    Devices gardenSprinkler = new Devices();
+                    List<Devices.gardenSprinkler> list = new ArrayList<>();
                     //Location
-                    list.add(new House.gardenSprinkler(House.getLocation()));
+                    list.add(new Devices.gardenSprinkler(Devices.getLocation()));
                     //Device
-                    list.add(new House.gardenSprinkler("Sprinkler"));
+                    list.add(new Devices.gardenSprinkler("Sprinkler"));
                     //Calibration
-                    list.add(new House.gardenSprinkler("ON"));
+                    list.add(new Devices.gardenSprinkler("ON"));
                     //User Settings
-                    list.add(new House.gardenSprinkler(String.valueOf(sprinklerTemp.getSprinklerTemp())));
+                    list.add(new Devices.gardenSprinkler(String.valueOf(sprinklerTemp.getSprinklerTemp())));
                     //Set list
                     gardenSprinkler.setListGardenSprinkler(list);
                     updatedList2 = list.toString();

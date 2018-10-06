@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 
 public class Menu {
-    static int weatherValue;
     private static int choice;
     static int x;
     static String weatherType;
@@ -12,7 +11,7 @@ public class Menu {
 
     public static void main(String args[]) throws InterruptedException, FileNotFoundException {
         //Welcome message
-        System.out.println("Welcome to the Autonomous House Simulator");
+        System.out.println("Welcome to the Autonomous Devices Simulator");
         System.out.println("\n" + "Please Enter the simulation run speed");
         System.out.println("1) Normal Speed");
         System.out.println("2) Test Speed");
@@ -73,8 +72,8 @@ public class Menu {
             //Configure Appliances and Fixtures
             System.out.println("Configure opening...");
             if (initialStart) {
-                Fixture.initialSetup();
-                //Appliance.initialSetup();
+                Fixture.fixtureSetUp();
+                Appliance.applianceSetUp();
                 initialStart = false;
                 //Displays menu
                 menuDisplay();
@@ -117,7 +116,8 @@ public class Menu {
             //Configure Appliances and Fixtures
             System.out.println("Configure opening...");
             if (initialStart) {
-                Fixture.initialSetup();
+                Fixture.fixtureSetUp();
+                Appliance.applianceSetUp();
                 initialStart = false;
             } else {
                 //Fixture.fixtureFlow();
@@ -134,7 +134,7 @@ public class Menu {
     }
 
     static String getSimInfo() {
-        weatherValue = Weather.getWeather();
+        int weatherValue = Weather.getWeather();
 
         if (weatherValue >= 1 && weatherValue <= 5) {
             weatherType = "SUNNY";

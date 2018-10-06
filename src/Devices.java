@@ -1,16 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class House {
+public class Devices {
 
-    String deviceID;
-    static String location, powerSwitch;
-    int acTemp, sprinklerTemp, garageTemp, lightTemp, motionSensorTemp;
-    static int ceilingFanTemp;
+    private String deviceID;
+    private static String location, powerSwitch;
+    private int acTemp, sprinklerTemp, garageTemp, lightTemp, motionSensorTemp;
+    private static int ceilingFanTemp;
     private ArrayList<String> listTitles;
-    static double tempMainRoom, tempLivingRoom, tempGarage, tempGarden;
 
-
+//FIXTURES
     void setAcTemp(int acTemp) {
         this.acTemp = acTemp;
     }
@@ -20,7 +19,7 @@ public class House {
     }
 
     void setCeilingFanTemp(int ceilingFanTemp) {
-        this.ceilingFanTemp = ceilingFanTemp;
+        Devices.ceilingFanTemp = ceilingFanTemp;
     }
 
     int getCeilingFanTemp() {
@@ -37,7 +36,7 @@ public class House {
 
 
     void setLocation(String location) {
-        this.location = location;
+        Devices.location = location;
     }
 
     static String getLocation() {
@@ -45,11 +44,11 @@ public class House {
     }
 
     void setPowerSwitch(String powerSwitch) {
-        this.powerSwitch = powerSwitch;
+        Devices.powerSwitch = powerSwitch;
     }
 
     public String setPowerSwitch() {
-        return this.powerSwitch;
+        return powerSwitch;
     }
 
     static String getPowerSwitch() {
@@ -59,7 +58,7 @@ public class House {
 
     private List<airConditioner> listAirCon;
 
-    public void setListAirCon(List<airConditioner> list) {
+    void setListAirCon(List<airConditioner> list) {
         this.listAirCon = new ArrayList<airConditioner>(list);
     }
 
@@ -73,7 +72,7 @@ public class House {
 
     private List<ceilingFan> listCeilingFan;
 
-    public void setListCeilingFan(List<ceilingFan> list) {
+    void setListCeilingFan(List<ceilingFan> list) {
         this.listCeilingFan = new ArrayList<ceilingFan>(list);
     }
 
@@ -81,6 +80,13 @@ public class House {
         return new ArrayList<ceilingFan>(this.listCeilingFan);
     }
 
+    public ArrayList<String> getListTitles() {
+        return listTitles;
+    }
+
+    public void setListTitles(ArrayList<String> listTitles) {
+        this.listTitles = listTitles;
+    }
 
 
     static class ceilingFan {
@@ -130,7 +136,7 @@ public class House {
 
     private List<garageDoor> listGarageDoor;
 
-    public void setListGarageDoor(List<garageDoor> list) {
+    void setListGarageDoor(List<garageDoor> list) {
         this.listGarageDoor = new ArrayList<>(list);
     }
 
@@ -170,7 +176,7 @@ public class House {
 
     private List<allLights> listAllLights;
 
-    public void setListLights(List<allLights> list) {
+    void setListLights(List<allLights> list) {
         this.listAllLights = new ArrayList<>(list);
     }
 
@@ -214,7 +220,7 @@ public class House {
 
     private List<allMotionSensors> listAllMotionSensors;
 
-    public void setListMotionSensors(List<allMotionSensors> list) {
+    void setListMotionSensors(List<allMotionSensors> list) {
         this.listAllMotionSensors = new ArrayList<>(list);
     }
 
@@ -261,7 +267,7 @@ public class House {
 
     private List<gardenSprinkler> listGardenSprinkler;
 
-    public void setListGardenSprinkler(List<gardenSprinkler> list) {
+    void setListGardenSprinkler(List<gardenSprinkler> list) {
         this.listGardenSprinkler = new ArrayList<>(list);
     }
 
@@ -298,10 +304,24 @@ public class House {
     int getSprinklerTemp() {
         return sprinklerTemp;
     }
+//END - FIXTURES
 
+//APPLIANCES
+
+
+
+
+
+
+
+
+
+
+//END - APPLIANCES
 
     //Main Bedroom & Second Bedroom Temp settings (-2)
     static double roomTemp() {
+        double tempMainRoom;
         switch (Menu.weatherType) {
             case "SUNNY":
                 tempMainRoom = Simulator.inDoorTempSetter - 1;
@@ -321,6 +341,7 @@ public class House {
 
     //Living Room & Kitchen Temp settings (-3)
     static double livingRoomTemp() {
+        double tempLivingRoom;
         switch (Menu.weatherType) {
             case "SUNNY":
                 tempLivingRoom = Simulator.inDoorTempSetter - 1;
@@ -340,6 +361,7 @@ public class House {
 
     //Living Room & Kitchen Temp settings (-1)
     static double garageTemp() {
+        double tempGarage;
         switch (Menu.weatherType) {
             case "SUNNY":
                 tempGarage = Simulator.inDoorTempSetter - 1;
@@ -359,6 +381,7 @@ public class House {
 
     //Living Room & Kitchen Temp settings (+2)
     static double gardenTemps() {
+        double tempGarden;
         switch (Menu.weatherType) {
             case "SUNNY":
                 tempGarden = Simulator.inDoorTempSetter + 2;

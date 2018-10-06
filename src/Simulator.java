@@ -5,19 +5,18 @@ import java.util.Random;
 import java.util.Scanner;
 
 class Simulator {
-    static double temperature, inDoorTemp, inDoorTempSetter, ceilingFanTemp;
-    static double acTemp, acTemp2, lightOn, lightOn2, sunLightValue, ceilingFanListTemp, garageDoorList, sprinklerListTemp, gardenTemp, lightTemp;
-    static double time = 5;
-    static String weatherChange, oldWeather, simChoice, data, sprinklerMode, travelTo;
-    static boolean deviceLight, mainRoomAC, livingRoomAc, livingRoomCeilingFan, gardenSprinkler;
-    static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5;
-    static int ceilingFanSpeed, randomX, x, n;
-    static int garageDoorCloseSequence = 0;
+    static double inDoorTempSetter, time = 5;
+    private static double temperature, inDoorTemp, lightOn, lightOn2, sunLightValue;
+    private static String data;
+    private static boolean mainRoomAC, livingRoomAc, livingRoomCeilingFan;
+    private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5;
+    private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0;
+    private static String travelTo = "";
 
-    static void runSimulator(String weatherType) throws InterruptedException, FileNotFoundException {
+    static void runSimulator(String weatherType) throws InterruptedException {
 
         do {
-            simChoice = Menu.weatherType;
+            String simChoice = Menu.weatherType;
             time = Weather.timeCorrection();
             temperature = Weather.tempCorrection();
             sunLightValue = Sun.getSunLightChange();// change to solid light not increase
@@ -35,12 +34,19 @@ class Simulator {
                 System.out.println("Temperature change - Failed...");
             }
 
+            //Gets the Weather for sim
             dynamicWeather();
+            //Finds where the Person is for sim
             dynamicMotionSensors();
+            //Turns on lights for user inputs/sensors
             dynamicLights();
+            //Turns on AC for user inputs/sensors
             dynamicAC();
+            //Turns on Ceiling Fan for user inputs/sensors
             dynamicCeilingFan();
+            //Turns on Garage for user inputs/sensors
             dynamicGarageDoor();
+            //Turns on Sprinklers for user inputs/sensors
             dynamicSprinkler();
 
             if (temperature > 28) {
@@ -66,345 +72,343 @@ class Simulator {
         } while (time < 30);
     }
 
-    private static void halfHourlyDisplay() {
+    static void halfHourlyDisplay() {
         if (time == 5.00) {
             System.out.printf("%n" + "Time: 05:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 5.30 && time > 5.29) {
             System.out.printf("%n" + "Time: 05:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 6.00) {
             System.out.printf("%n" + "Time: 06:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 6.30 && time > 6.29) {
             System.out.printf("%n" + "Time: 06:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 7.00) {
             System.out.printf("%n" + "Time: 07:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
-            System.out.printf("%n" + "Person Location: " + travelTo);
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
+            dynamicTravel();
         } else if (time <= 7.30 && time > 7.29) {
             System.out.printf("%n" + "Time: 07:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
-            System.out.printf("%n" + "Person Location: " + travelTo);
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
+            dynamicTravel();
         } else if (time == 8.00) {
             System.out.printf("%n" + "Time: 08:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 8.30 && time > 8.29) {
             System.out.printf("%n" + "Time: 08:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 9.00) {
             System.out.printf("%n" + "Time: 09:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 9.30 && time > 9.29) {
             System.out.printf("%n" + "Time: 09:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 10.00) {
             System.out.printf("%n" + "Time: 10:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 10.30 && time > 10.29) {
             System.out.printf("%n" + "Time: 10:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 11.00) {
             System.out.printf("%n" + "Time: 11:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 11.30 && time > 11.29) {
             System.out.printf("%n" + "Time: 11:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 12.00) {
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
             System.out.printf("%n" + "Time: 12:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 12.30 && time > 12.29) {
             System.out.printf("%n" + "Time: 12:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 13.00) {
             System.out.printf("%n" + "Time: 01:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 13.30 && time > 13.29) {
             System.out.printf("%n" + "Time: 01:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 14.00) {
             System.out.printf("%n" + "Time: 02:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 14.30 && time > 14.29) {
             System.out.printf("%n" + "Time: 02:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 15.00) {
             System.out.printf("%n" + "Time: 03:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 15.30 && time > 15.29) {
             System.out.printf("%n" + "Time: 03:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 16.00) {
             System.out.printf("%n" + "Time: 04:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 16.301 && time > 16.29) {
             System.out.printf("%n" + "Time: 04:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 17.00) {
             System.out.printf("%n" + "Time: 05:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 17.301 && time > 17.29) {
             System.out.printf("%n" + "Time: 05:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 18.00) {
             System.out.printf("%n" + "Time: 06:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 18.301 && time > 18.29) {
             System.out.printf("%n" + "Time: 06:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 19.00) {
             System.out.printf("%n" + "Time: 07:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 19.301 && time > 19.29) {
             System.out.printf("%n" + "Time: 07:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 20.00) {
             System.out.printf("%n" + "Time: 08:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 20.301 && time > 20.29) {
             System.out.printf("%n" + "Time: 08:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 21.00) {
             System.out.printf("%n" + "Time: 09:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 21.301 && time > 21.29) {
             System.out.printf("%n" + "Time: 09:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 22.00) {
             System.out.printf("%n" + "Time: 10:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 22.301 && time > 22.29) {
             System.out.printf("%n" + "Time: 10:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 23.00) {
             System.out.printf("%n" + "Time: 11:00 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 23.301 && time > 23.29) {
             System.out.printf("%n" + "Time: 11:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 24.00) {
             System.out.printf("%n" + "Time: 00:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 24.301 && time > 24.29) {
             System.out.printf("%n" + "Time: 00:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 25.00) {
             System.out.printf("%n" + "Time: 01:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 25.301 && time > 25.29) {
             System.out.printf("%n" + "Time: 01:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 26.00) {
             System.out.printf("%n" + "Time: 02:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 26.301 && time > 26.29) {
             System.out.printf("%n" + "Time: 02:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 27.00) {
             System.out.printf("%n" + "Time: 03:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 27.301 && time > 27.29) {
             System.out.printf("%n" + "Time: 03:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time == 28.00) {
             System.out.printf("%n" + "Time: 04:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         } else if (time <= 28.301 && time > 28.29) {
             System.out.printf("%n" + "Time: 04:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
-            System.out.printf("%n" + "Person Location: " + travelTo);
+            dynamicTravel();
         }
     }
 
@@ -424,8 +428,9 @@ class Simulator {
                 values = data.split(",");
 
                 //MAIN BEDROOM - ON
+                double acTemp;
                 if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    inDoorTemp = House.roomTemp();
+                    inDoorTemp = Devices.roomTemp();
                     displayLine1 = data.split(", ");
                     acTemp = Double.parseDouble(values[3]);
                     //Display when device switches on and off
@@ -455,8 +460,9 @@ class Simulator {
                 }
 
                 //LIVING ROOM - ON
+                double acTemp2;
                 if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    inDoorTemp = House.livingRoomTemp();
+                    inDoorTemp = Devices.livingRoomTemp();
                     displayLine2 = data.split(", ");
                     acTemp2 = Double.parseDouble(values[3]);
 
@@ -497,10 +503,10 @@ class Simulator {
         //1 : 150 chance for weather to change every minute
         int n = rand.nextInt(150) + 1;
 
-        oldWeather = Menu.weatherType;
+        String oldWeather = Menu.weatherType;
 
         if (n == 1) {
-            weatherChange = Menu.getSimInfo();
+            String weatherChange = Menu.getSimInfo();
 
             if (!weatherChange.equals(oldWeather)) {
                 Menu.weatherType = weatherChange;
@@ -508,13 +514,13 @@ class Simulator {
         }
     }
 
-    private static void dynamicMotionSensors() {
+    private static String dynamicMotionSensors() {
         if (time > 21) {
             travelTo = "MAIN BEDROOM";
         } else {
             Random rand = new Random();
             //5% chance for Person to enter a new Room every minute
-            n = rand.nextInt(100) + 1;
+            int n = rand.nextInt(100) + 1;
 
             if (n > 95) {
                 //1 : 6 chance for Room to enter a different room
@@ -550,6 +556,63 @@ class Simulator {
                 travelTo = "GARDEN";
             }
         }
+        return travelTo;
+    }
+
+    private static void dynamicTravel() {
+        //Add in possibility for people to leave property and appliances switch off automatically.
+        String oldRoom;
+        String changeRoom;
+        switch (travelTo) {
+            case "MAIN BEDROOM":
+                oldRoom = travelTo;
+                changeRoom = dynamicMotionSensors();
+                if (!changeRoom.equals(oldRoom)) {
+                    travelTo = changeRoom;
+                    System.out.println("\nPerson Moved from: " + oldRoom + " to " + changeRoom);
+                }
+                break;
+            case "LIVING ROOM":
+                oldRoom = travelTo;
+                changeRoom = dynamicMotionSensors();
+                if (!changeRoom.equals(oldRoom)) {
+                    travelTo = changeRoom;
+                    System.out.println("\nPerson Moved from: " + oldRoom + " to " + changeRoom);
+                }
+                break;
+            case "SECOND BEDROOM":
+                oldRoom = travelTo;
+                changeRoom = dynamicMotionSensors();
+                if (!changeRoom.equals(oldRoom)) {
+                    travelTo = changeRoom;
+                    System.out.println("\nPerson Moved from: " + oldRoom + " to " + changeRoom);
+                }
+                break;
+            case "KITCHEN":
+                oldRoom = travelTo;
+                changeRoom = dynamicMotionSensors();
+                if (!changeRoom.equals(oldRoom)) {
+                    travelTo = changeRoom;
+                    System.out.println("\nPerson Moved from: " + oldRoom + " to " + changeRoom);
+                }
+                break;
+            case "GARAGE":
+                oldRoom = travelTo;
+                changeRoom = dynamicMotionSensors();
+                if (!changeRoom.equals(oldRoom)) {
+                    travelTo = changeRoom;
+                    System.out.println("\nPerson Moved from: " + oldRoom + " to " + changeRoom);
+                }
+                break;
+            case "GARDEN":
+                oldRoom = travelTo;
+                changeRoom = dynamicMotionSensors();
+                if (!changeRoom.equals(oldRoom)) {
+                    travelTo = changeRoom;
+                    System.out.println("\nPerson Moved from: " + oldRoom + " to " + changeRoom);
+                }
+                break;
+        }
     }
 
     private static void dynamicLights() {
@@ -565,8 +628,9 @@ class Simulator {
                 values = data.split(",");
 
                 //MAIN BEDROOM - ON
+                double lightTemp;
                 if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    inDoorTemp = House.roomTemp();
+                    inDoorTemp = Devices.roomTemp();
                     displayLine1 = data.split(", ");
                     lightTemp = Double.parseDouble(values[3]);
 
@@ -622,7 +686,7 @@ class Simulator {
 
                 //LIVING ROOM - ON
                 if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    inDoorTemp = House.roomTemp();
+                    inDoorTemp = Devices.roomTemp();
                     displayLine1 = data.split(", ");
                     lightTemp = Double.parseDouble(values[3]);
 
@@ -677,7 +741,7 @@ class Simulator {
                 }
                 //SECOND BEDROOM - ON
                 if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                    inDoorTemp = House.roomTemp();
+                    inDoorTemp = Devices.roomTemp();
                     displayLine1 = data.split(", ");
                     lightTemp = Double.parseDouble(values[3]);
 
@@ -733,7 +797,7 @@ class Simulator {
                 }
                 //KITCHEN - ON
                 if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
-                    inDoorTemp = House.roomTemp();
+                    inDoorTemp = Devices.roomTemp();
                     displayLine1 = data.split(", ");
                     lightTemp = Double.parseDouble(values[3]);
 
@@ -789,7 +853,7 @@ class Simulator {
                 }
                 //GARAGE - ON
                 if (values[0].equals("GARAGE") && values[2].equals("ON")) {
-                    inDoorTemp = House.roomTemp();
+                    inDoorTemp = Devices.roomTemp();
                     displayLine1 = data.split(", ");
                     lightTemp = Double.parseDouble(values[3]);
 
@@ -845,7 +909,7 @@ class Simulator {
                 }
                 //GARDEN - ON
                 if (values[0].equals("GARDEN") && values[2].equals("ON")) {
-                    inDoorTemp = House.roomTemp();
+                    inDoorTemp = Devices.roomTemp();
                     displayLine1 = data.split(", ");
                     lightTemp = Double.parseDouble(values[3]);
 
@@ -906,7 +970,7 @@ class Simulator {
         }
     }
 
-    private static void dynamicCeilingFan() throws FileNotFoundException {
+    private static void dynamicCeilingFan() {
         DecimalFormat decimalFormat = new DecimalFormat("#");
 
         //Users Set temp they want room to stay at
@@ -919,11 +983,12 @@ class Simulator {
             //Runs through each If statement and displays Ac status
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
-                ceilingFanTemp = House.livingRoomTemp();
+                double ceilingFanTemp = Devices.livingRoomTemp();
                 values = data.split(",");
                 //LIVING ROOM - ON
+                double ceilingFanListTemp;
                 if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    inDoorTemp = House.livingRoomTemp();
+                    inDoorTemp = Devices.livingRoomTemp();
                     displayLine3 = data.split(", ");
                     ceilingFanListTemp = Double.parseDouble(values[3]);
                     switch (Menu.weatherType) {
@@ -1001,7 +1066,7 @@ class Simulator {
 
             }
 
-        } catch (Exception e) {
+        } catch (FileNotFoundException | NumberFormatException ignored) {
 
         }
     }
@@ -1017,6 +1082,7 @@ class Simulator {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 //GARAGE - ON
+                double garageDoorList;
                 if (values[0].equals("GARAGE") && values[2].equals("ON")) {
                     displayLine4 = data.split(", ");
                     garageDoorList = Double.parseDouble(values[3]);
@@ -1024,7 +1090,7 @@ class Simulator {
 
                     Random rand = new Random();
                     //1 : 4 chance for Garage Door display chance
-                    randomX = rand.nextInt(4) + 1;
+                    int randomX = rand.nextInt(4) + 1;
 
                     if ((randomX == 1) && (time <= 7.301 && time > 7.29)) {
                         System.out.println(" ");
@@ -1083,7 +1149,7 @@ class Simulator {
 
             }
 
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -1100,10 +1166,13 @@ class Simulator {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 //LIVING ROOM - ON
+                double sprinklerListTemp;
                 if (values[0].equals("GARDEN") && values[2].equals("ON")) {
                     displayLine5 = data.split(", ");
                     sprinklerListTemp = Double.parseDouble(values[3]);
 
+                    double gardenTemp;
+                    String sprinklerMode;
                     switch (Menu.weatherType) {
                         case "SUNNY":
                             if (sprinklerListTemp == 1) {
@@ -1235,8 +1304,48 @@ class Simulator {
 
             }
 
-        } catch (Exception e) {
+        } catch (FileNotFoundException | NumberFormatException ignored) {
 
         }
+    }
+
+    public static String[] getDisplayLine5() {
+        return displayLine5;
+    }
+
+    public static void setDisplayLine5(String[] displayLine5) {
+        Simulator.displayLine5 = displayLine5;
+    }
+
+    public static String[] getDisplayLine4() {
+        return displayLine4;
+    }
+
+    public static void setDisplayLine4(String[] displayLine4) {
+        Simulator.displayLine4 = displayLine4;
+    }
+
+    public static String[] getDisplayLine3() {
+        return displayLine3;
+    }
+
+    public static void setDisplayLine3(String[] displayLine3) {
+        Simulator.displayLine3 = displayLine3;
+    }
+
+    public static String[] getDisplayLine2() {
+        return displayLine2;
+    }
+
+    public static void setDisplayLine2(String[] displayLine2) {
+        Simulator.displayLine2 = displayLine2;
+    }
+
+    public static String[] getDisplayLine1() {
+        return displayLine1;
+    }
+
+    public static void setDisplayLine1(String[] displayLine1) {
+        Simulator.displayLine1 = displayLine1;
     }
 }

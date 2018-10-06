@@ -6,61 +6,183 @@
 //5. Coffee Machine
 //6. Vacuum
 
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class Appliance {
-    public String itemName;
-    public int number;
-    public boolean applianeSwitch;
-    public int roomNumber;
+
+    private static int choice, fixtureChoice;
+    static String roomLocation;
+
+    static void applianceSetUp() throws InterruptedException, FileNotFoundException {
+        System.out.println("Please select a Room to set up...");
+        roomDisplay();
+        Scanner input = new Scanner(System.in);
+        choice = input.nextInt();
+        do {
+            if (choice == 1) {
+                //LIVING ROOM
+                roomLocation = "LIVING ROOM";
+                System.out.println(roomLocation + " - Appliances...");
+
+                System.out.println("\n1) TV");
+                System.out.println("2) VACUUM");
+                System.out.println("0) BACK");
+
+                fixtureChoice = input.nextInt();
+
+                while (fixtureChoice > 2) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please Enter: 1, 2 OR 0 - Exit");
+                    System.out.println("\n1) TV");
+                    System.out.println("2) VACUUM");
+                    System.out.println("0) BACK");
+                    fixtureChoice = input.nextInt();
+                }
+
+                if (fixtureChoice == 1) {
+                    //TV
+                    applianceTV();
 
 
-    public static void main(String args[]) {
+                } else if (fixtureChoice == 2) {
+                    //OVEN
+                    applianceOven();
+
+
+                } else if (fixtureChoice == 0) {
+                    applianceSetUp();
+                }
+
+            } else if (choice == 2) {
+                //MAIN BEDROOM
+                roomLocation = "MAIN BEDROOM";
+                System.out.println(roomLocation + " - Appliances...");
+
+                System.out.println("\n1) TV");
+                System.out.println("0) BACK");
+
+                fixtureChoice = input.nextInt();
+
+                while (fixtureChoice > 1) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please Enter: 1 OR 0 - Exit");
+                    System.out.println("\n1) TV");
+                    System.out.println("0) BACK");
+                    fixtureChoice = input.nextInt();
+                }
+
+                if (fixtureChoice == 1) {
+                    //TV
+                    applianceTV();
+
+                } else if (fixtureChoice == 0) {
+                    applianceSetUp();
+                } else {
+                    System.out.println("Wrong input...");
+                }
+
+            } else if (choice == 3) {
+                //KITCHEN
+                roomLocation = "KITCHEN";
+                System.out.println(roomLocation + " - Appliances...");
+
+                System.out.println("\n1) OVEN");
+                System.out.println("2) KETTLE");
+                System.out.println("3) COFFEE MACHINE");
+                System.out.println("0) BACK");
+
+                fixtureChoice = input.nextInt();
+
+                while (fixtureChoice > 3) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please Enter: 1, 2, 3 OR 0 - Exit");
+                    System.out.println("\n1) OVEN");
+                    System.out.println("2) KETTLE");
+                    System.out.println("2) COFFEE MACHINE");
+                    System.out.println("0) BACK");
+                    fixtureChoice = input.nextInt();
+                }
+
+                if (fixtureChoice == 1) {
+                    //OVEN
+                    applianceOven();
+
+                } else if (fixtureChoice == 2) {
+                    //KETTLE
+                    applianceKettle();
+
+                } else if (fixtureChoice == 3) {
+                    //COFFEE MACHINE
+                    applianceCoffeeMachine();
+
+                } else if (fixtureChoice == 0) {
+                    applianceSetUp();
+                } else {
+                    System.out.println("Wrong input...");
+                }
+
+            } else if (choice == 4) {
+                //GARAGE
+                roomLocation = "GARAGE";
+                System.out.println(roomLocation + " - Appliances...");
+
+                System.out.println("\n1) CAR");
+                System.out.println("0) BACK");
+
+                fixtureChoice = input.nextInt();
+
+                while (fixtureChoice > 4) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please Enter: 1 OR 0 - Exit");
+                    System.out.println("\n1) CAR");
+                    System.out.println("0) BACK");
+                    fixtureChoice = input.nextInt();
+                }
+
+                if (fixtureChoice == 1) {
+                    //CAR
+                    applianceCar();
+
+                } else if (fixtureChoice == 0) {
+                    applianceSetUp();
+                } else {
+                    System.out.println("Wrong input...");
+                }
+
+            }
+
+            //Displays menu
+            Menu.menuDisplay();
+            //User choice to run option
+            Menu.initialChoice();
+        } while (choice != 0);
 
     }
 
-
-    static void applianceFlow() {
-        livingRoom();
-        mainBedroom();
-        secondBedroom();
-        kitchen();
-        garage();
-        garden();
+    private static void roomDisplay() {
+        //Menu options
+        System.out.println("\n0) Menu");
+        System.out.println("1) LIVING ROOM");
+        System.out.println("2) MAIN BEDROOM");
+        System.out.println("3) KITCHEN");
+        System.out.println("4) GARAGE");
     }
 
-    static void initialSetup() {
-        System.out.println("Appliances: ");
+    private static void applianceTV() {
     }
 
-    private static void livingRoom() {
-        //Living Room Appliances
-        //1. TV
-        //2. Vacuum
+    private static void applianceOven() {
     }
 
-    private static void mainBedroom() {
-        //Living Room Appliances
-        //1. TV
+    private static void applianceCar() {
+        //When user enters garage car turns on automatically
     }
 
-    private static void secondBedroom() {
-        //No Appliance
+    private static void applianceKettle() {
     }
 
-    private static void kitchen() {
-        //Living Room Appliances
-        //1. Oven
-        //2. Kettle
-        //3. Coffee Machine
+    private static void applianceCoffeeMachine() {
     }
-
-    private static void garage() {
-        //No Appliance
-        //1. Car
-    }
-
-    private static void garden() {
-        //No Appliance
-    }
-
 
 }

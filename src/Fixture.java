@@ -28,6 +28,7 @@ public class Fixture {
 
     //Used at the very start of the program
     static void fixtureSetUp() throws InterruptedException, FileNotFoundException {
+        System.out.println("FIXTURES");
         System.out.println("Please select a Room to set up...");
         roomDisplay();
         Scanner input = new Scanner(System.in);
@@ -530,258 +531,246 @@ public class Fixture {
                 System.out.println(lightDisplay);
 
                 //Add to a list to be called in sim
-                if (roomLocation.equals("LIVING ROOM")) {
-                    Devices location = new Devices();
-                    location.setLocation(roomLocation);
-                    Devices allMotionSensors = new Devices();
-                    List<Devices.allMotionSensors> list = new ArrayList<>();
-                    //Location
-                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
-                    //Device
-                    list.add(new Devices.allMotionSensors("Motion Sensor"));
-                    //Calibration
-                    list.add(new Devices.allMotionSensors("ON"));
-                    //User Settings
-                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
-                    //Set list
-                    allMotionSensors.setListMotionSensors(list);
+                switch (roomLocation) {
+                    case "LIVING ROOM": {
+                        Devices location = new Devices();
+                        location.setLocation(roomLocation);
+                        Devices allMotionSensors = new Devices();
+                        List<Devices.allMotionSensors> list = new ArrayList<>();
+                        //Location
+                        list.add(new Devices.allMotionSensors(Devices.getLocation()));
+                        //Device
+                        list.add(new Devices.allMotionSensors("Motion Sensor"));
+                        //Calibration
+                        list.add(new Devices.allMotionSensors("ON"));
+                        //User Settings
+                        list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                        //Set list
+                        allMotionSensors.setListMotionSensors(list);
 
-                    updatedList = list.toString();
-                    x1 = String.valueOf((updatedList));
+                        updatedList = list.toString();
+                        x1 = String.valueOf((updatedList));
 
-                    updatedList1 = Arrays.toString(displayLine2);
-                    x2 = String.valueOf((updatedList1));
+                        updatedList1 = Arrays.toString(displayLine2);
+                        x2 = String.valueOf((updatedList1));
 
-                    updatedList2 = Arrays.toString(displayLine3);
-                    x3 = String.valueOf((updatedList2));
+                        updatedList2 = Arrays.toString(displayLine3);
+                        x3 = String.valueOf((updatedList2));
 
-                    updatedList3 = Arrays.toString(displayLine4);
-                    x4 = String.valueOf((updatedList3));
+                        updatedList3 = Arrays.toString(displayLine4);
+                        x4 = String.valueOf((updatedList3));
 
-                    updatedList4 = Arrays.toString(displayLine5);
-                    x5 = String.valueOf((updatedList4));
+                        updatedList4 = Arrays.toString(displayLine5);
+                        x5 = String.valueOf((updatedList4));
 
-                    updatedList5 = Arrays.toString(displayLine6);
-                    x6 = String.valueOf((updatedList5));
+                        updatedList5 = Arrays.toString(displayLine6);
+                        x6 = String.valueOf((updatedList5));
 
-                    //Full list view of what is being saved
-                    System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
+                        //Full list view of what is being saved
+                        System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
 
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
+                        break;
+                    }
+                    case "MAIN BEDROOM": {
+                        Devices location = new Devices();
+                        location.setLocation(roomLocation);
+                        Devices allMotionSensors = new Devices();
+                        List<Devices.allMotionSensors> list = new ArrayList<>();
+                        //Location
+                        list.add(new Devices.allMotionSensors(Devices.getLocation()));
+                        //Device
+                        list.add(new Devices.allMotionSensors("Motion Sensor"));
+                        //Calibration
+                        list.add(new Devices.allMotionSensors("ON"));
+                        //User Settings
+                        list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                        //Set list
+                        allMotionSensors.setListMotionSensors(list);
 
-                } else if (roomLocation.equals("MAIN BEDROOM")) {
-                    Devices location = new Devices();
-                    location.setLocation(roomLocation);
-                    Devices allMotionSensors = new Devices();
-                    List<Devices.allMotionSensors> list = new ArrayList<>();
-                    //Location
-                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
-                    //Device
-                    list.add(new Devices.allMotionSensors("Motion Sensor"));
-                    //Calibration
-                    list.add(new Devices.allMotionSensors("ON"));
-                    //User Settings
-                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
-                    //Set list
-                    allMotionSensors.setListMotionSensors(list);
+                        updatedList = Arrays.toString(displayLine1);
+                        x1 = String.valueOf((updatedList));
 
-                    updatedList = Arrays.toString(displayLine1);
-                    x1 = String.valueOf((updatedList));
+                        updatedList1 = list.toString();
+                        x2 = String.valueOf((updatedList1));
 
-                    updatedList1 = list.toString();
-                    x2 = String.valueOf((updatedList1));
+                        updatedList2 = Arrays.toString(displayLine3);
+                        x3 = String.valueOf((updatedList2));
 
-                    updatedList2 = Arrays.toString(displayLine3);
-                    x3 = String.valueOf((updatedList2));
+                        updatedList3 = Arrays.toString(displayLine4);
+                        x4 = String.valueOf((updatedList3));
 
-                    updatedList3 = Arrays.toString(displayLine4);
-                    x4 = String.valueOf((updatedList3));
+                        updatedList4 = Arrays.toString(displayLine5);
+                        x5 = String.valueOf((updatedList4));
 
-                    updatedList4 = Arrays.toString(displayLine5);
-                    x5 = String.valueOf((updatedList4));
+                        updatedList5 = Arrays.toString(displayLine6);
+                        x6 = String.valueOf((updatedList5));
 
-                    updatedList5 = Arrays.toString(displayLine6);
-                    x6 = String.valueOf((updatedList5));
+                        //Full list view of what is being saved
+                        System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
 
-                    //Full list view of what is being saved
-                    System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
+                        break;
+                    }
+                    case "SECOND BEDROOM": {
+                        Devices location = new Devices();
+                        location.setLocation(roomLocation);
+                        Devices allMotionSensors = new Devices();
+                        List<Devices.allMotionSensors> list = new ArrayList<>();
+                        //Location
+                        list.add(new Devices.allMotionSensors(Devices.getLocation()));
+                        //Device
+                        list.add(new Devices.allMotionSensors("Motion Sensor"));
+                        //Calibration
+                        list.add(new Devices.allMotionSensors("ON"));
+                        //User Settings
+                        list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                        //Set list
+                        allMotionSensors.setListMotionSensors(list);
 
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
+                        updatedList = Arrays.toString(displayLine1);
+                        x1 = String.valueOf((updatedList));
 
-                } else if (roomLocation.equals("SECOND BEDROOM")) {
-                    Devices location = new Devices();
-                    location.setLocation(roomLocation);
-                    Devices allMotionSensors = new Devices();
-                    List<Devices.allMotionSensors> list = new ArrayList<>();
-                    //Location
-                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
-                    //Device
-                    list.add(new Devices.allMotionSensors("Motion Sensor"));
-                    //Calibration
-                    list.add(new Devices.allMotionSensors("ON"));
-                    //User Settings
-                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
-                    //Set list
-                    allMotionSensors.setListMotionSensors(list);
+                        updatedList1 = Arrays.toString(displayLine2);
+                        x2 = String.valueOf((updatedList1));
 
-                    updatedList = Arrays.toString(displayLine1);
-                    x1 = String.valueOf((updatedList));
+                        updatedList2 = list.toString();
+                        x3 = String.valueOf((updatedList2));
 
-                    updatedList1 = Arrays.toString(displayLine2);
-                    x2 = String.valueOf((updatedList1));
+                        updatedList3 = Arrays.toString(displayLine4);
+                        x4 = String.valueOf((updatedList3));
 
-                    updatedList2 = list.toString();
-                    x3 = String.valueOf((updatedList2));
+                        updatedList4 = Arrays.toString(displayLine5);
+                        x5 = String.valueOf((updatedList4));
 
-                    updatedList3 = Arrays.toString(displayLine4);
-                    x4 = String.valueOf((updatedList3));
+                        updatedList5 = Arrays.toString(displayLine6);
+                        x6 = String.valueOf((updatedList5));
 
-                    updatedList4 = Arrays.toString(displayLine5);
-                    x5 = String.valueOf((updatedList4));
+                        //Full list view of what is being saved
+                        System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
 
-                    updatedList5 = Arrays.toString(displayLine6);
-                    x6 = String.valueOf((updatedList5));
+                        break;
+                    }
+                    case "KITCHEN": {
+                        Devices location = new Devices();
+                        location.setLocation(roomLocation);
+                        Devices allMotionSensors = new Devices();
+                        List<Devices.allMotionSensors> list = new ArrayList<>();
+                        //Location
+                        list.add(new Devices.allMotionSensors(Devices.getLocation()));
+                        //Device
+                        list.add(new Devices.allMotionSensors("Motion Sensor"));
+                        //Calibration
+                        list.add(new Devices.allMotionSensors("ON"));
+                        //User Settings
+                        list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                        //Set list
+                        allMotionSensors.setListMotionSensors(list);
 
-                    //Full list view of what is being saved
-                    System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
+                        updatedList = Arrays.toString(displayLine1);
+                        x1 = String.valueOf((updatedList));
 
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
+                        updatedList1 = Arrays.toString(displayLine2);
+                        x2 = String.valueOf((updatedList1));
 
-                } else if (roomLocation.equals("KITCHEN")) {
-                    Devices location = new Devices();
-                    location.setLocation(roomLocation);
-                    Devices allMotionSensors = new Devices();
-                    List<Devices.allMotionSensors> list = new ArrayList<>();
-                    //Location
-                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
-                    //Device
-                    list.add(new Devices.allMotionSensors("Motion Sensor"));
-                    //Calibration
-                    list.add(new Devices.allMotionSensors("ON"));
-                    //User Settings
-                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
-                    //Set list
-                    allMotionSensors.setListMotionSensors(list);
+                        updatedList2 = Arrays.toString(displayLine3);
+                        x3 = String.valueOf((updatedList2));
 
-                    updatedList = Arrays.toString(displayLine1);
-                    x1 = String.valueOf((updatedList));
+                        updatedList3 = list.toString();
+                        x4 = String.valueOf((updatedList3));
 
-                    updatedList1 = Arrays.toString(displayLine2);
-                    x2 = String.valueOf((updatedList1));
+                        updatedList4 = Arrays.toString(displayLine5);
+                        x5 = String.valueOf((updatedList4));
 
-                    updatedList2 = Arrays.toString(displayLine3);
-                    x3 = String.valueOf((updatedList2));
+                        updatedList5 = Arrays.toString(displayLine6);
+                        x6 = String.valueOf((updatedList5));
 
-                    updatedList3 = list.toString();
-                    x4 = String.valueOf((updatedList3));
+                        //Full list view of what is being saved
+                        System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
 
-                    updatedList4 = Arrays.toString(displayLine5);
-                    x5 = String.valueOf((updatedList4));
+                        break;
+                    }
+                    case "GARAGE": {
+                        Devices location = new Devices();
+                        location.setLocation(roomLocation);
+                        Devices allMotionSensors = new Devices();
+                        List<Devices.allMotionSensors> list = new ArrayList<>();
+                        //Location
+                        list.add(new Devices.allMotionSensors(Devices.getLocation()));
+                        //Device
+                        list.add(new Devices.allMotionSensors("Motion Sensor"));
+                        //Calibration
+                        list.add(new Devices.allMotionSensors("ON"));
+                        //User Settings
+                        list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                        //Set list
+                        allMotionSensors.setListMotionSensors(list);
 
-                    updatedList5 = Arrays.toString(displayLine6);
-                    x6 = String.valueOf((updatedList5));
+                        updatedList = Arrays.toString(displayLine1);
+                        x1 = String.valueOf((updatedList));
 
-                    //Full list view of what is being saved
-                    System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
+                        updatedList1 = Arrays.toString(displayLine2);
+                        x2 = String.valueOf((updatedList1));
 
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
+                        updatedList2 = Arrays.toString(displayLine3);
+                        x3 = String.valueOf((updatedList2));
 
-                } else if (roomLocation.equals("GARAGE")) {
-                    Devices location = new Devices();
-                    location.setLocation(roomLocation);
-                    Devices allMotionSensors = new Devices();
-                    List<Devices.allMotionSensors> list = new ArrayList<>();
-                    //Location
-                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
-                    //Device
-                    list.add(new Devices.allMotionSensors("Motion Sensor"));
-                    //Calibration
-                    list.add(new Devices.allMotionSensors("ON"));
-                    //User Settings
-                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
-                    //Set list
-                    allMotionSensors.setListMotionSensors(list);
+                        updatedList3 = Arrays.toString(displayLine4);
+                        x4 = String.valueOf((updatedList3));
 
-                    updatedList = Arrays.toString(displayLine1);
-                    x1 = String.valueOf((updatedList));
+                        updatedList4 = list.toString();
+                        x5 = String.valueOf((updatedList4));
 
-                    updatedList1 = Arrays.toString(displayLine2);
-                    x2 = String.valueOf((updatedList1));
+                        updatedList5 = Arrays.toString(displayLine6);
+                        x6 = String.valueOf((updatedList5));
 
-                    updatedList2 = Arrays.toString(displayLine3);
-                    x3 = String.valueOf((updatedList2));
+                        //Full list view of what is being saved
+                        System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
 
-                    updatedList3 = Arrays.toString(displayLine4);
-                    x4 = String.valueOf((updatedList3));
+                        break;
+                    }
+                    case "GARDEN": {
+                        Devices location = new Devices();
+                        location.setLocation(roomLocation);
+                        Devices allMotionSensors = new Devices();
+                        List<Devices.allMotionSensors> list = new ArrayList<>();
+                        //Location
+                        list.add(new Devices.allMotionSensors(Devices.getLocation()));
+                        //Device
+                        list.add(new Devices.allMotionSensors("Motion Sensor"));
+                        //Calibration
+                        list.add(new Devices.allMotionSensors("ON"));
+                        //User Settings
+                        list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                        //Set list
+                        allMotionSensors.setListMotionSensors(list);
 
-                    updatedList4 = list.toString();
-                    x5 = String.valueOf((updatedList4));
+                        updatedList = Arrays.toString(displayLine1);
+                        x1 = String.valueOf((updatedList));
 
-                    updatedList5 = Arrays.toString(displayLine6);
-                    x6 = String.valueOf((updatedList5));
+                        updatedList1 = Arrays.toString(displayLine2);
+                        x2 = String.valueOf((updatedList1));
 
-                    //Full list view of what is being saved
-                    System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
+                        updatedList2 = Arrays.toString(displayLine3);
+                        x3 = String.valueOf((updatedList2));
 
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
+                        updatedList3 = Arrays.toString(displayLine4);
+                        x4 = String.valueOf((updatedList3));
 
-                } else if (roomLocation.equals("GARDEN")) {
-                    Devices location = new Devices();
-                    location.setLocation(roomLocation);
-                    Devices allMotionSensors = new Devices();
-                    List<Devices.allMotionSensors> list = new ArrayList<>();
-                    //Location
-                    list.add(new Devices.allMotionSensors(Devices.getLocation()));
-                    //Device
-                    list.add(new Devices.allMotionSensors("Motion Sensor"));
-                    //Calibration
-                    list.add(new Devices.allMotionSensors("ON"));
-                    //User Settings
-                    list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
-                    //Set list
-                    allMotionSensors.setListMotionSensors(list);
+                        updatedList4 = Arrays.toString(displayLine5);
+                        x5 = String.valueOf((updatedList4));
 
-                    updatedList = Arrays.toString(displayLine1);
-                    x1 = String.valueOf((updatedList));
+                        updatedList5 = list.toString();
+                        x6 = String.valueOf((updatedList5));
 
-                    updatedList1 = Arrays.toString(displayLine2);
-                    x2 = String.valueOf((updatedList1));
-
-                    updatedList2 = Arrays.toString(displayLine3);
-                    x3 = String.valueOf((updatedList2));
-
-                    updatedList3 = Arrays.toString(displayLine4);
-                    x4 = String.valueOf((updatedList3));
-
-                    updatedList4 = Arrays.toString(displayLine5);
-                    x5 = String.valueOf((updatedList4));
-
-                    updatedList5 = list.toString();
-                    x6 = String.valueOf((updatedList5));
-
-                    //Full list view of what is being saved
-                    System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
-
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
+                        //Full list view of what is being saved
+                        System.out.println("Motion Sensor List for " + roomLocation + ": " + list);
+                        break;
+                    }
                 }
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
                 PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\motionSensorConfig.txt");
                 pw.close();
-
-                System.out.println(x1);
-                System.out.println(x2);
-                System.out.println(x3);
-                System.out.println(x4);
-                System.out.println(x5);
-                System.out.println(x6);
 
                 StringBuilder sb = new StringBuilder();
                 //x1 = insert full updated list here
@@ -981,20 +970,12 @@ public class Fixture {
 
                     //Full list view of what is being saved
                     System.out.println("Air Conditioner List for " + roomLocation + ": " + list);
-
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
-
                 }
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
                 PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\airConConfig.txt");
                 pw.close();
-
-
-                System.out.println(x1);
-                System.out.println(x2);
 
                 StringBuilder sb = new StringBuilder();
                 //x1 = insert full updated list here
@@ -1291,9 +1272,6 @@ public class Fixture {
                     //Full list view of what is being saved
                     System.out.println("Light List for " + roomLocation + ": " + list);
 
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
-
                 } else if (roomLocation.equals("MAIN BEDROOM")) {
                     Devices location = new Devices();
                     location.setLocation(roomLocation);
@@ -1330,9 +1308,6 @@ public class Fixture {
 
                     //Full list view of what is being saved
                     System.out.println("Light List for " + roomLocation + ": " + list);
-
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("SECOND BEDROOM")) {
                     Devices location = new Devices();
@@ -1371,9 +1346,6 @@ public class Fixture {
                     //Full list view of what is being saved
                     System.out.println("Light List for " + roomLocation + ": " + list);
 
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
-
                 } else if (roomLocation.equals("KITCHEN")) {
                     Devices location = new Devices();
                     location.setLocation(roomLocation);
@@ -1410,9 +1382,6 @@ public class Fixture {
 
                     //Full list view of what is being saved
                     System.out.println("Light List for " + roomLocation + ": " + list);
-
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
 
                 } else if (roomLocation.equals("GARAGE")) {
                     Devices location = new Devices();
@@ -1451,9 +1420,6 @@ public class Fixture {
                     //Full list view of what is being saved
                     System.out.println("Light List for " + roomLocation + ": " + list);
 
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
-
                 } else if (roomLocation.equals("GARDEN")) {
                     Devices location = new Devices();
                     location.setLocation(roomLocation);
@@ -1490,22 +1456,12 @@ public class Fixture {
 
                     //Full list view of what is being saved
                     System.out.println("Light List for " + roomLocation + ": " + list);
-
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
                 }
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
                 PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\lightConfig.txt");
                 pw.close();
-
-                System.out.println(x1);
-                System.out.println(x2);
-                System.out.println(x3);
-                System.out.println(x4);
-                System.out.println(x5);
-                System.out.println(x6);
 
                 StringBuilder sb = new StringBuilder();
                 //x1 = insert full updated list here
@@ -1648,19 +1604,12 @@ public class Fixture {
 
                     //Full list view of what is being saved
                     System.out.println("Ceiling Fan List for " + roomLocation + ": " + list);
-
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
-
                 }
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
                 PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\ceilingFanConfig.txt");
                 pw.close();
-
-
-                System.out.println(x2);
 
                 StringBuilder sb = new StringBuilder();
                 //x2 = insert full updated list here
@@ -1782,19 +1731,12 @@ public class Fixture {
 
                     //Full list view of what is being saved
                     System.out.println("Garage Door List for " + roomLocation + ": " + list);
-
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
-
                 }
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
                 PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\garageDoorConfig.txt");
                 pw.close();
-
-
-                System.out.println(x2);
 
                 StringBuilder sb = new StringBuilder();
                 //x2 = insert full updated list here
@@ -1927,19 +1869,12 @@ public class Fixture {
 
                     //Full list view of what is being saved
                     System.out.println("Sprinkler List for " + roomLocation + ": " + list);
-
-                    //Shows what room the ac is in
-                    System.out.println("ROOM: " + list.get(0));
-
                 }
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
                 PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\sprinklerConfig.txt");
                 pw.close();
-
-
-                System.out.println(x2);
 
                 StringBuilder sb = new StringBuilder();
                 //x2 = insert full updated list here

@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 class Simulator {
     static double inDoorTempSetter, time = 5;
-    private static double temperature, inDoorTemp, lightOn, lightOn2, sunLightValue;
-    private static String data;
-    private static boolean mainRoomAC, livingRoomAc, livingRoomCeilingFan;
+    private static double temperature, inDoorTemp, lightOn, lightOn2, sunLightValue, livingRTemp, mainRTemp, secondRTemp, kitchenTemp, garageTemp, gardenTemp;
+    private static String data, carMode;
+    private static boolean mainRoomAC, livingRoomAc, livingRoomCeilingFan, carRunning;
     private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5;
     private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0;
-    private static String travelTo = "";
+    static String travelTo = "";
 
     static void runSimulator(String weatherType) throws InterruptedException {
 
@@ -21,6 +21,13 @@ class Simulator {
             temperature = Weather.tempCorrection();
             sunLightValue = Sun.getSunLightChange();// change to solid light not increase
 
+            //Sets temperature for each room
+            livingRTemp = Devices.livingRoomTemp();
+            mainRTemp = Devices.roomTemp();
+            secondRTemp = Devices.roomTemp();
+            kitchenTemp = Devices.livingRoomTemp();
+            garageTemp = Devices.garageTemp();
+            gardenTemp = Devices.gardenTemps();
 
             //Time before 12:00pm
             if (time >= 12) {
@@ -49,6 +56,9 @@ class Simulator {
             //Turns on Sprinklers for user inputs/sensors
             dynamicSprinkler();
 
+            //Behaviour change for Car Appliance
+            dynamicCar();
+
             if (temperature > 28) {
                 simChoice = "SUNNY";
             }
@@ -72,7 +82,7 @@ class Simulator {
         } while (time < 30);
     }
 
-    static void halfHourlyDisplay() {
+    private static void halfHourlyDisplay() {
         if (time == 5.00) {
             System.out.printf("%n" + "Time: 05:00 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
@@ -452,7 +462,6 @@ class Simulator {
 
                     //MAIN BEDROOM - OFF
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                     acTemp = 0;
                     values[3] = String.valueOf(acTemp);
@@ -484,7 +493,6 @@ class Simulator {
 
                     //LIVING ROOM - OFF
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
                     acTemp2 = 0;
                     values[3] = String.valueOf(acTemp2);
@@ -663,7 +671,7 @@ class Simulator {
                         mainRoomAC = true;
                     }
 
-                    if (lightOn <sunLightValue && mainRoomAC && values[3].equals("1")) {
+                    if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
                         if (lightOn < sunLightValue && lightOn2 > time) {
                             System.out.println(" ");
                             System.out.println("\nMain Room Lights have switched OFF!");
@@ -676,7 +684,7 @@ class Simulator {
                     }
 
 
-                //MAIN BEDROOM - OFF
+                    //MAIN BEDROOM - OFF
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     displayLine1 = data.split(", ");
                     lightTemp = 0;
@@ -789,7 +797,6 @@ class Simulator {
 
                     //SECOND BEDROOM - OFF
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                     lightTemp = 0;
                     values[3] = String.valueOf(lightTemp);
@@ -845,7 +852,6 @@ class Simulator {
 
                     //KITCHEN - OFF
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                     lightTemp = 0;
                     values[3] = String.valueOf(lightTemp);
@@ -957,7 +963,6 @@ class Simulator {
 
                     //GARDEN - OFF
                 } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                     lightTemp = 0;
                     values[3] = String.valueOf(lightTemp);
@@ -1057,7 +1062,6 @@ class Simulator {
                     }
                     //LIVING ROOM - OFF
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                     ceilingFanListTemp = 0;
                     values[3] = String.valueOf(ceilingFanListTemp);
@@ -1165,7 +1169,7 @@ class Simulator {
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
-                //LIVING ROOM - ON
+                //GARDEN - ON
                 double sprinklerListTemp;
                 if (values[0].equals("GARDEN") && values[2].equals("ON")) {
                     displayLine5 = data.split(", ");
@@ -1293,9 +1297,8 @@ class Simulator {
                             break;
                     }
 
-                    //LIVING ROOM - OFF
+                    //GARDEN - OFF
                 } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine5 = data.split(", ");
                     sprinklerListTemp = 0;
                     values[3] = String.valueOf(sprinklerListTemp);
@@ -1306,6 +1309,75 @@ class Simulator {
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
 
+        }
+    }
+
+    private static void dynamicCar() {
+        //Users Set temp they want room to stay at
+        String fileName = "C:\\Users\\James\\Desktop\\carConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+
+            //Runs through each If statement and displays Ac status
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                //GARAGE - ON
+                if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                    displayLine5 = data.split(", ");
+
+                    switch (values[3]) {
+                        case "1":
+                            carMode = "Auto Start";
+                            if (travelTo.equals("GARAGE") && !carRunning){
+                                System.out.println("\nCar Status: " + carMode + ", Turning Engine ON now...");
+                                carRunning = true;
+                            }
+
+                            if (!travelTo.equals("GARAGE") && carRunning) {
+                                carRunning = false;
+                                System.out.println("\nCar Status: Returned, Engine OFF...");
+                            } else if (!travelTo.equals("GARAGE")) {
+                                carRunning = false;
+                            }
+                            break;
+                        case "2":
+                            carMode = "Economy Start";
+                            if (travelTo.equals("GARAGE") && !carRunning){
+                                System.out.println("\nCar Status: " + carMode + ", Turning Engine ON when enter Garage...");
+                            }
+
+                            if (!travelTo.equals("GARAGE") && carRunning) {
+                                carRunning = false;
+                                System.out.println("\nCar Status: Returned, Engine OFF...");
+                            } else if (!travelTo.equals("GARAGE")) {
+                                carRunning = false;
+                            }
+                            break;
+                        case "3":
+                            carMode = "Manual Start";
+                            if (travelTo.equals("GARAGE") && !carRunning){
+                                System.out.println("\nCar Status: " + carMode + ", Turning Engine ON once in Car...");
+                            }
+
+                            if (!travelTo.equals("GARAGE") && carRunning) {
+                                carRunning = false;
+                                System.out.println("\nCar Status: Returned, Engine OFF...");
+                            } else if (!travelTo.equals("GARAGE")) {
+                                carRunning = false;
+                            }
+                            break;
+                    }
+
+                    //GARAGE - OFF
+                } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
+                    displayLine5 = data.split(", ");
+                    //Re-format user inputs to act as a refresher
+                }
+            }
+
+        } catch (FileNotFoundException | NumberFormatException ignored) {
         }
     }
 
@@ -1347,5 +1419,53 @@ class Simulator {
 
     public static void setDisplayLine1(String[] displayLine1) {
         Simulator.displayLine1 = displayLine1;
+    }
+
+    public static double getLivingRTemp() {
+        return livingRTemp;
+    }
+
+    public static void setLivingRTemp(double livingRTemp) {
+        Simulator.livingRTemp = livingRTemp;
+    }
+
+    public static double getMainRTemp() {
+        return mainRTemp;
+    }
+
+    public static void setMainRTemp(double mainRTemp) {
+        Simulator.mainRTemp = mainRTemp;
+    }
+
+    public static double getSecondRTemp() {
+        return secondRTemp;
+    }
+
+    public static void setSecondRTemp(double secondRTemp) {
+        Simulator.secondRTemp = secondRTemp;
+    }
+
+    public static double getKitchenTemp() {
+        return kitchenTemp;
+    }
+
+    public static void setKitchenTemp(double kitchenTemp) {
+        Simulator.kitchenTemp = kitchenTemp;
+    }
+
+    public static double getGarageTemp() {
+        return garageTemp;
+    }
+
+    public static void setGarageTemp(double garageTemp) {
+        Simulator.garageTemp = garageTemp;
+    }
+
+    public static double getGardenTemp() {
+        return gardenTemp;
+    }
+
+    public static void setGardenTemp(double gardenTemp) {
+        Simulator.gardenTemp = gardenTemp;
     }
 }

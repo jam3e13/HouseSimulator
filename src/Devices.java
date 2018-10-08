@@ -5,11 +5,11 @@ public class Devices {
 
     private String deviceID;
     private static String location, powerSwitch;
-    private int acTemp, sprinklerTemp, garageTemp, lightTemp, motionSensorTemp;
+    private int acTemp, sprinklerTemp, garageTemp, lightTemp, motionSensorTemp, carTemp, kettleTemp, coffeeMachineTemp, alarmClockTemp;
     private static int ceilingFanTemp;
     private ArrayList<String> listTitles;
 
-//FIXTURES
+    //FIXTURES
     void setAcTemp(int acTemp) {
         this.acTemp = acTemp;
     }
@@ -67,9 +67,6 @@ public class Devices {
     }
 
 
-
-
-
     private List<ceilingFan> listCeilingFan;
 
     void setListCeilingFan(List<ceilingFan> list) {
@@ -91,22 +88,23 @@ public class Devices {
 
     static class ceilingFan {
         private String name;
-         ceilingFan(String name) {
-             this.name = name;
-         }
+
+        ceilingFan(String name) {
+            this.name = name;
+        }
 
 
-         String getName() {
-             return this.name;
-         }
+        String getName() {
+            return this.name;
+        }
 
-         void setName(String name) {
-             this.name = name;
-         }
+        void setName(String name) {
+            this.name = name;
+        }
 
-         public String toString() {
-             return this.name;
-         }
+        public String toString() {
+            return this.name;
+        }
     }
 
 
@@ -145,9 +143,9 @@ public class Devices {
     }
 
 
-
     static class garageDoor {
         private String name;
+
         garageDoor(String name) {
             this.name = name;
         }
@@ -185,9 +183,9 @@ public class Devices {
     }
 
 
-
     static class allLights {
         private String name;
+
         allLights(String name) {
             this.name = name;
         }
@@ -215,9 +213,6 @@ public class Devices {
     }
 
 
-
-
-
     private List<allMotionSensors> listAllMotionSensors;
 
     void setListMotionSensors(List<allMotionSensors> list) {
@@ -229,9 +224,9 @@ public class Devices {
     }
 
 
-
     static class allMotionSensors {
         private String name;
+
         allMotionSensors(String name) {
             this.name = name;
         }
@@ -259,12 +254,6 @@ public class Devices {
     }
 
 
-
-
-
-
-
-
     private List<gardenSprinkler> listGardenSprinkler;
 
     void setListGardenSprinkler(List<gardenSprinkler> list) {
@@ -276,9 +265,9 @@ public class Devices {
     }
 
 
-
     static class gardenSprinkler {
         private String name;
+
         gardenSprinkler(String name) {
             this.name = name;
         }
@@ -308,13 +297,168 @@ public class Devices {
 
 //APPLIANCES
 
+    private List<garageCar> listGarageCar;
+
+    void setListGarageCar(List<garageCar> list) {
+        this.listGarageCar = new ArrayList<>(list);
+    }
+
+    public List<garageCar> getListGarageCar() {
+        return new ArrayList<>(this.listGarageCar);
+    }
 
 
+    static class garageCar {
+        private String name;
+
+        garageCar(String name) {
+            this.name = name;
+        }
 
 
+        String getName() {
+            return this.name;
+        }
+
+        void setName(String name) {
+            this.name = name;
+        }
+
+        public String toString() {
+            return this.name;
+        }
+    }
+
+    void setCarTemp(int carTemp) {
+        this.carTemp = carTemp;
+    }
+
+    int getCarTemp() {
+        return carTemp;
+    }
 
 
+    private List<kitchenKettle> listKitchenKettle;
 
+    void setListKitchenKettle(List<kitchenKettle> list) {
+        this.listKitchenKettle = new ArrayList<>(list);
+    }
+
+    public List<kitchenKettle> getListKitchenKettle() {
+        return new ArrayList<>(this.listKitchenKettle);
+    }
+
+
+    static class kitchenKettle {
+        private String name;
+
+        kitchenKettle(String name) {
+            this.name = name;
+        }
+
+
+        String getName() {
+            return this.name;
+        }
+
+        void setName(String name) {
+            this.name = name;
+        }
+
+        public String toString() {
+            return this.name;
+        }
+    }
+
+    void setKettleTemp(int kettleTemp) {
+        this.kettleTemp = kettleTemp;
+    }
+
+    int getKettleTemp() {
+        return kettleTemp;
+    }
+
+
+    private List<kitchenCoffeeMachine> listKitchenCoffeeMachine;
+
+    void setListKitchenCoffeeMachine(List<kitchenCoffeeMachine> list) {
+        this.listKitchenCoffeeMachine = new ArrayList<>(list);
+    }
+
+    public List<kitchenCoffeeMachine> getListKitchenCoffeeMachine() {
+        return new ArrayList<>(this.listKitchenCoffeeMachine);
+    }
+
+
+    static class kitchenCoffeeMachine {
+        private String name;
+
+        kitchenCoffeeMachine(String name) {
+            this.name = name;
+        }
+
+
+        String getName() {
+            return this.name;
+        }
+
+        void setName(String name) {
+            this.name = name;
+        }
+
+        public String toString() {
+            return this.name;
+        }
+    }
+
+    void setCoffeeMachineTemp(int coffeeMachineTemp) {
+        this.coffeeMachineTemp = coffeeMachineTemp;
+    }
+
+    int getCoffeeMachineTemp() {
+        return coffeeMachineTemp;
+    }
+
+
+    private List<roomAlarmClock> listRoomAlarmClock;
+
+    void setListRoomAlarmClock(List<roomAlarmClock> list) {
+        this.listRoomAlarmClock = new ArrayList<>(list);
+    }
+
+    public List<roomAlarmClock> getListRoomAlarmClock() {
+        return new ArrayList<>(this.listRoomAlarmClock);
+    }
+
+
+    static class roomAlarmClock {
+        private String name;
+
+        roomAlarmClock(String name) {
+            this.name = name;
+        }
+
+
+        String getName() {
+            return this.name;
+        }
+
+        void setName(String name) {
+            this.name = name;
+        }
+
+        public String toString() {
+            return this.name;
+        }
+    }
+
+    void setAlarmClockTemp(int alarmClockTemp) {
+        this.alarmClockTemp = alarmClockTemp;
+    }
+
+    int getAlarmClockTemp() {
+        return alarmClockTemp;
+    }
 
 
 //END - APPLIANCES
@@ -359,7 +503,7 @@ public class Devices {
         return tempLivingRoom;
     }
 
-    //Living Room & Kitchen Temp settings (-1)
+    //Garage Temp settings (-1)
     static double garageTemp() {
         double tempGarage;
         switch (Menu.weatherType) {
@@ -379,7 +523,7 @@ public class Devices {
         return tempGarage;
     }
 
-    //Living Room & Kitchen Temp settings (+2)
+    //Garden Temp settings (+2)
     static double gardenTemps() {
         double tempGarden;
         switch (Menu.weatherType) {

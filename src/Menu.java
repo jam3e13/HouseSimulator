@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 
 public class Menu {
-    private static int choice;
+    private static int choice, configChoice;
     static int x;
     static String weatherType;
     private static boolean initialStart = true;
@@ -72,8 +72,20 @@ public class Menu {
             //Configure Appliances and Fixtures
             System.out.println("Configure opening...");
             if (initialStart) {
-                Fixture.fixtureSetUp();
-                Appliance.applianceSetUp();
+                System.out.println("Configure 1) Fixtures OR 2) Appliances");
+                configChoice = input.nextInt();
+
+                if (configChoice == 1) {
+                    Fixture.fixtureSetUp();
+                } else if (configChoice == 2) {
+                    Appliance.applianceSetUp();
+                }
+
+                while (configChoice > 2) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please enter only (0), (1) OR ()");
+                    configChoice = input.nextInt();
+                }
                 initialStart = false;
                 //Displays menu
                 menuDisplay();
@@ -116,8 +128,20 @@ public class Menu {
             //Configure Appliances and Fixtures
             System.out.println("Configure opening...");
             if (initialStart) {
-                Fixture.fixtureSetUp();
-                Appliance.applianceSetUp();
+                System.out.println("Configure 1) Fixtures OR 2) Appliances");
+                configChoice = input.nextInt();
+
+                if (configChoice == 1) {
+                    Fixture.fixtureSetUp();
+                } else if (configChoice == 2) {
+                    Appliance.applianceSetUp();
+                }
+
+                while (configChoice > 2) {
+                    System.out.println("Wrong input...");
+                    System.out.println("Please enter only (0), (1) OR ()");
+                    configChoice = input.nextInt();
+                }
                 initialStart = false;
             } else {
                 //Fixture.fixtureFlow();

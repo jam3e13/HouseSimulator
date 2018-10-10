@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +22,8 @@ import java.util.Scanner;
 public class Appliance {
 
     private static int choice, fixtureChoice;
-    static int changeSettings, carSetting, alarmClockSetting;
+    static double alarmClockUserSettings, alarmClockAlarm1;
+    static int changeSettings, carSetting, alarmClockSetting, alarmClockSetting1, alarmClockAlarm;
     static String roomLocation, data, updatedList, fixtureSwitch, x1, x2, carMode, carDisplay, kettleMode, updatedList1;
     static String[] values, displayLine, displayLine1, displayLine2;
 
@@ -36,6 +38,7 @@ public class Appliance {
                 //LIVING ROOM
                 roomLocation = "LIVING ROOM";
 
+                System.out.println("\nLIVING ROOM");
                 System.out.println("\n1) TV");
                 System.out.println("2) VACUUM");
                 System.out.println("0) BACK");
@@ -69,7 +72,9 @@ public class Appliance {
                 //MAIN BEDROOM
                 roomLocation = "MAIN BEDROOM";
 
+                System.out.println("\nMAIN BEDROOM");
                 System.out.println("\n1) TV");
+                System.out.println("\n2) ALARM CLOCK");
                 System.out.println("0) BACK");
 
                 fixtureChoice = input.nextInt();
@@ -96,9 +101,10 @@ public class Appliance {
                 }
 
             } else if (choice == 3) {
-                //MAIN BEDROOM
+                //SECOND BEDROOM
                 roomLocation = "SECOND BEDROOM";
 
+                System.out.println("\nSECOND BEDROOM");
                 System.out.println("\n1) ALARM CLOCK");
                 System.out.println("0) BACK");
 
@@ -124,6 +130,7 @@ public class Appliance {
                 //KITCHEN
                 roomLocation = "KITCHEN";
 
+                System.out.println("\nKITCHEN");
                 System.out.println("\n1) OVEN");
                 System.out.println("2) KETTLE");
                 System.out.println("3) COFFEE MACHINE");
@@ -197,29 +204,30 @@ public class Appliance {
     }
 
 
-
     private static void roomDisplay() {
         //Menu options
         System.out.println("\n0) Menu");
         System.out.println("1) LIVING ROOM");
         System.out.println("2) MAIN BEDROOM");
-        System.out.println("3) KITCHEN");
-        System.out.println("4) GARAGE");
+        System.out.println("3) SECOND BEDROOM");
+        System.out.println("4) KITCHEN");
+        System.out.println("5) GARAGE");
     }
 
     private static void applianceAlarmClock() throws FileNotFoundException {
+        DecimalFormat decimalFormat = new DecimalFormat("#");
         //When user enters garage car turns on automatically
         Scanner input = new Scanner(System.in);
 
         //Display rooms status
-        String fileName = "C:\\Users\\James\\Desktop\\alarmClockConfig.txt";
+        String fileName = "ConfigFiles\\alarmClockConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
-                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                if (roomLocation.equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
                     displayLine = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("MAIN BEDROOM Alarm Clock is already set up.");
@@ -243,8 +251,8 @@ public class Appliance {
                     }
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     displayLine = data.split(", ");
-                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                    displayLine = data.split(", ");
+                } else if (roomLocation.equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                    displayLine1 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("SECOND BEDROOM Alarm Clock is already set up.");
                     System.out.println("0) Exit");
@@ -266,26 +274,74 @@ public class Appliance {
                         }
                     }
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                    displayLine = data.split(", ");
+                    displayLine1 = data.split(", ");
                 }
             }
 
             System.out.println(roomLocation);
-            if (roomLocation.equals("KITCHEN")) {
+            if (roomLocation.equals("MAIN BEDROOM")) {
                 System.out.println("Status: " + Arrays.toString(displayLine));
+            } else if (roomLocation.equals("SECOND BEDROOM")) {
+                System.out.println("Status: " + Arrays.toString(displayLine1));
             }
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Enter Alarm Time, OR Enter 0 to EXIT.");
-        System.out.println("\nRecommended Alarm Time - 6:30am ");
+        //Gets alarm setting for time
+        System.out.println("Enter Alarm Settings OR Enter 0 to EXIT anytime");
+        System.out.println("\nPlease enter Alarm Clock alarm time;");
+        System.out.println("\nHour: ");
+        alarmClockAlarm = input.nextInt();
+        while (alarmClockAlarm > 12) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Alarm Clock Hours (5 - 12)");
+            System.out.println("\nHour: ");
+            alarmClockAlarm = input.nextInt();
+        }
+        while (alarmClockAlarm < 5) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Alarm Clock Hours (5 - 12)");
+            System.out.println("\nHour: ");
+            alarmClockAlarm = input.nextInt();
+        }
+        System.out.println("\nMinute: ");
+        alarmClockAlarm1 = input.nextDouble();
+        while (alarmClockAlarm1 > 60.00) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Alarm Clock Minutes (00 - 60)");
+            System.out.println("Minute: ");
+            alarmClockAlarm1 = input.nextDouble();
+        }
+        while (alarmClockAlarm1 < 00.00) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Alarm Clock Minutes (00 - 60)");
+            System.out.println("Minute: ");
+            alarmClockAlarm1 = input.nextDouble();
+        }
 
+        alarmClockUserSettings = alarmClockAlarm1 / 100;
+        alarmClockUserSettings = alarmClockUserSettings + alarmClockAlarm;
+
+        System.out.printf("Alarm Set: " + "%.2f", alarmClockUserSettings);
+
+        //Gets Smart appliance settings
+        System.out.println("\nPlease ENABLE Alarm Clock's Smart Ability;");
+        System.out.println("1 - Morning Coffee always");
+        System.out.println("2 - Morning Coffee never");
         alarmClockSetting = input.nextInt();
 
+        //Makes sure use inputs are in range
+        while (alarmClockSetting > 2) {
+            System.out.println("Wrong Input...");
+            System.out.println("Please enter either 1 or 2.");
+            alarmClockSetting = input.nextInt();
+        }
+
+
         //Exits if user chooses 0
-        if (alarmClockSetting == 0) {
+        if (alarmClockAlarm == 0) {
             try {
                 applianceSetUp();
             } catch (InterruptedException e) {
@@ -293,27 +349,22 @@ public class Appliance {
             }
         }
 
-        //Makes sure use inputs are in range
-        while (alarmClockSetting > 3) {
-            System.out.println("Wrong Input...");
-            System.out.println("Please enter either 1, 2 or 3.");
-            alarmClockSetting = input.nextInt();
+        if (alarmClockAlarm1 == 0) {
+            try {
+                applianceSetUp();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
-        if (alarmClockSetting == 1) {
-            //1 Water - 6:00pm
-            kettleMode = "Coffee Addiction";
-        } else if (alarmClockSetting == 2) {
-            //2 Water - 9:00am / 6:00pm
-            kettleMode = "All day Coffee";
-        } else if (alarmClockSetting == 3) {
-            //3 Water - 9:00am / 6:00pm / 2:00am
-            kettleMode = "Fresh Blend";
-        }
 
         //saves to user chosen room
         Devices alarmClockTemp = new Devices();
-        alarmClockTemp.setAlarmClockTemp(alarmClockSetting);
+        alarmClockTemp.setAlarmClockTemp(alarmClockUserSettings);
+
+        //saves smart choice
+        Devices alarmClockSmart = new Devices();
+        alarmClockSmart.setAlarmClockSmart(alarmClockSetting);
 
         fixtureSwitch = "ON";
 
@@ -336,13 +387,15 @@ public class Appliance {
                     list.add(new Devices.roomAlarmClock("ON"));
                     //User Settings
                     list.add(new Devices.roomAlarmClock(String.valueOf(alarmClockTemp.getAlarmClockTemp())));
+                    //Smart Settings
+                    list.add(new Devices.roomAlarmClock(String.valueOf(alarmClockSmart.getAlarmClockSmart())));
                     //Set list
                     roomAlarmClock.setListRoomAlarmClock(list);
 
                     updatedList = list.toString();
                     x1 = String.valueOf((updatedList));
 
-                    updatedList1 = Arrays.toString(displayLine2);
+                    updatedList1 = Arrays.toString(displayLine1);
                     x2 = String.valueOf((updatedList1));
 
                     //Full list view of what is being saved
@@ -360,10 +413,12 @@ public class Appliance {
                     list.add(new Devices.roomAlarmClock("ON"));
                     //User Settings
                     list.add(new Devices.roomAlarmClock(String.valueOf(alarmClockTemp.getAlarmClockTemp())));
+                    //Smart Settings
+                    list.add(new Devices.roomAlarmClock(String.valueOf(alarmClockSmart.getAlarmClockSmart())));
                     //Set list
                     roomAlarmClock.setListRoomAlarmClock(list);
 
-                    updatedList = Arrays.toString(displayLine1);
+                    updatedList = Arrays.toString(displayLine);
                     x1 = String.valueOf((updatedList));
 
                     updatedList1 = list.toString();
@@ -376,15 +431,22 @@ public class Appliance {
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
-                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\alarmClockConfig.txt");
+                PrintWriter pw = new PrintWriter("ConfigFiles\\alarmClockConfig.txt");
                 pw.close();
 
                 StringBuilder sb = new StringBuilder();
-                //x2 = insert full updated list here
+
+
+                System.out.println(x1);
+
+                System.out.println(x2);
+
+                sb.append(x1).append("\n");
+                sb.append(System.lineSeparator());
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\alarmClockConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("ConfigFiles\\alarmClockConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -406,14 +468,14 @@ public class Appliance {
         Scanner input = new Scanner(System.in);
 
         //Display rooms status
-        String fileName = "C:\\Users\\James\\Desktop\\carConfig.txt";
+        String fileName = "ConfigFiles\\carConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
-                if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                if (roomLocation.equals("GARAGE") && values[0].equals("GARAGE") && values[2].equals("ON")) {
                     displayLine = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("GARAGE Car is already set up.");
@@ -519,7 +581,7 @@ public class Appliance {
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
-                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\carConfig.txt");
+                PrintWriter pw = new PrintWriter("ConfigFiles\\carConfig.txt");
                 pw.close();
 
                 StringBuilder sb = new StringBuilder();
@@ -527,7 +589,7 @@ public class Appliance {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\carConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("ConfigFiles\\carConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -543,14 +605,14 @@ public class Appliance {
         Scanner input = new Scanner(System.in);
 
         //Display rooms status
-        String fileName = "C:\\Users\\James\\Desktop\\kettleConfig.txt";
+        String fileName = "ConfigFiles\\kettleConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
-                if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                if (roomLocation.equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
                     displayLine = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("KITCHEN Kettle is already set up.");
@@ -652,7 +714,7 @@ public class Appliance {
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
-                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\kettleConfig.txt");
+                PrintWriter pw = new PrintWriter("ConfigFiles\\kettleConfig.txt");
                 pw.close();
 
                 StringBuilder sb = new StringBuilder();
@@ -660,7 +722,7 @@ public class Appliance {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\kettleConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("ConfigFiles\\kettleConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -676,14 +738,14 @@ public class Appliance {
         Scanner input = new Scanner(System.in);
 
         //Display rooms status
-        String fileName = "C:\\Users\\James\\Desktop\\coffeeMachineConfig.txt";
+        String fileName = "ConfigFiles\\coffeeMachineConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
-                if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                if (roomLocation.equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
                     displayLine = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("KITCHEN Coffee Machine is already set up.");
@@ -789,7 +851,7 @@ public class Appliance {
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
-                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\coffeeMachineConfig.txt");
+                PrintWriter pw = new PrintWriter("ConfigFiles\\coffeeMachineConfig.txt");
                 pw.close();
 
                 StringBuilder sb = new StringBuilder();
@@ -797,7 +859,7 @@ public class Appliance {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\coffeeMachineConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("ConfigFiles\\coffeeMachineConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

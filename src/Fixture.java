@@ -300,14 +300,14 @@ public class Fixture {
         Scanner input = new Scanner(System.in);
 
         //Display rooms status
-        String fileName = "C:\\Users\\James\\Desktop\\motionSensorConfig.txt";
+        String fileName = "ConfigFiles/motionSensorConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
-                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                if (roomLocation.equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                     System.out.println("LIVING ROOM Motion Sensor is already set up.");
@@ -332,7 +332,7 @@ public class Fixture {
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
-                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                } else if (roomLocation.equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
                     //Checks to see if device already set up
@@ -358,7 +358,7 @@ public class Fixture {
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
-                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                } else if (roomLocation.equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                     //Checks to see if device already set up
@@ -384,7 +384,7 @@ public class Fixture {
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
-                } else if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                } else if (roomLocation.equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine4 = data.split(", ");
                     //Checks to see if device already set up
@@ -410,7 +410,7 @@ public class Fixture {
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine4 = data.split(", ");
-                } else if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                } else if (roomLocation.equals("GARAGE") && values[0].equals("GARAGE") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine5 = data.split(", ");
                     //Checks to see if device already set up
@@ -436,7 +436,7 @@ public class Fixture {
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine5 = data.split(", ");
-                } else if (values[0].equals("GARDEN") && values[2].equals("ON")) {
+                } else if (roomLocation.equals("GARDEN") && values[0].equals("GARDEN") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine6 = data.split(", ");
                     //Checks to see if device already set up
@@ -769,7 +769,7 @@ public class Fixture {
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
-                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\motionSensorConfig.txt");
+                PrintWriter pw = new PrintWriter("ConfigFiles/motionSensorConfig.txt");
                 pw.close();
 
                 StringBuilder sb = new StringBuilder();
@@ -793,7 +793,7 @@ public class Fixture {
 
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\motionSensorConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("ConfigFiles/motionSensorConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -807,19 +807,21 @@ public class Fixture {
     private static void airCon() throws FileNotFoundException {
         Scanner input = new Scanner(System.in);
         //Display rooms status
-        String fileName = "C:\\Users\\James\\Desktop\\airConConfig.txt";
+        String fileName = "ConfigFiles\\airConConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
-                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                if (roomLocation.equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("MAIN BEDROOM AC is already set up.");
                     System.out.println("Edit MAIN BEDROOM settings?");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
                     changeSettings = input.nextInt();
                     while (changeSettings > 1) {
                         System.out.println("Wrong input...");
@@ -839,12 +841,14 @@ public class Fixture {
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
-                } else if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                } else if (roomLocation.equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("LIVING ROOM AC is already set up.");
                     System.out.println("Edit MAIN BEDROOM settings?");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
                     changeSettings = input.nextInt();
                     while (changeSettings > 1) {
                         System.out.println("Wrong input...");
@@ -974,7 +978,7 @@ public class Fixture {
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
-                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\airConConfig.txt");
+                PrintWriter pw = new PrintWriter("ConfigFiles\\airConConfig.txt");
                 pw.close();
 
                 StringBuilder sb = new StringBuilder();
@@ -985,7 +989,7 @@ public class Fixture {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\airConConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("ConfigFiles\\airConConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -1000,14 +1004,14 @@ public class Fixture {
         Scanner input = new Scanner(System.in);
 
         //Display rooms status
-        String fileName = "C:\\Users\\James\\Desktop\\lightConfig.txt";
+        String fileName = "ConfigFiles\\lightConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
-                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                if (roomLocation.equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                     System.out.println("LIVING ROOM Lights are already set up.");
@@ -1032,7 +1036,7 @@ public class Fixture {
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
-                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                } else if (roomLocation.equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
                     //Checks to see if device already set up
@@ -1058,7 +1062,7 @@ public class Fixture {
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
-                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                } else if (roomLocation.equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                     //Checks to see if device already set up
@@ -1084,7 +1088,7 @@ public class Fixture {
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
-                } else if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                } else if (roomLocation.equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine4 = data.split(", ");
                     //Checks to see if device already set up
@@ -1110,7 +1114,7 @@ public class Fixture {
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine4 = data.split(", ");
-                } else if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                } else if (roomLocation.equals("GARAGE") && values[0].equals("GARAGE") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine5 = data.split(", ");
                     //Checks to see if device already set up
@@ -1136,7 +1140,7 @@ public class Fixture {
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine5 = data.split(", ");
-                } else if (values[0].equals("GARDEN") && values[2].equals("ON")) {
+                } else if (roomLocation.equals("GARDEN") && values[0].equals("GARDEN") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine6 = data.split(", ");
                     //Checks to see if device already set up
@@ -1460,7 +1464,7 @@ public class Fixture {
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
-                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\lightConfig.txt");
+                PrintWriter pw = new PrintWriter("ConfigFiles\\lightConfig.txt");
                 pw.close();
 
                 StringBuilder sb = new StringBuilder();
@@ -1484,7 +1488,7 @@ public class Fixture {
 
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\lightConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("ConfigFiles\\lightConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -1500,14 +1504,14 @@ public class Fixture {
         Scanner input = new Scanner(System.in);
 
         //Display rooms status
-        String fileName = "C:\\Users\\James\\Desktop\\ceilingFanConfig.txt";
+        String fileName = "ConfigFiles\\ceilingFanConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
-                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                if (roomLocation.equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                     //Checks to see if device already set up
@@ -1608,7 +1612,7 @@ public class Fixture {
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
-                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\ceilingFanConfig.txt");
+                PrintWriter pw = new PrintWriter("ConfigFiles\\ceilingFanConfig.txt");
                 pw.close();
 
                 StringBuilder sb = new StringBuilder();
@@ -1616,7 +1620,7 @@ public class Fixture {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\ceilingFanConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("ConfigFiles\\ceilingFanConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -1633,14 +1637,14 @@ public class Fixture {
         Scanner input = new Scanner(System.in);
 
         //Display rooms status
-        String fileName = "C:\\Users\\James\\Desktop\\garageDoorConfig.txt";
+        String fileName = "ConfigFiles\\garageDoorConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
-                if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                if (roomLocation.equals("GARAGE") && values[0].equals("GARAGE") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                     //Checks to see if device already set up
@@ -1735,7 +1739,7 @@ public class Fixture {
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
-                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\garageDoorConfig.txt");
+                PrintWriter pw = new PrintWriter("ConfigFiles\\garageDoorConfig.txt");
                 pw.close();
 
                 StringBuilder sb = new StringBuilder();
@@ -1743,7 +1747,7 @@ public class Fixture {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\garageDoorConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("ConfigFiles\\garageDoorConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -1758,14 +1762,14 @@ public class Fixture {
         Scanner input = new Scanner(System.in);
 
         //Display rooms status
-        String fileName = "C:\\Users\\James\\Desktop\\sprinklerConfig.txt";
+        String fileName = "ConfigFiles\\sprinklerConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
-                if (values[0].equals("GARDEN") && values[2].equals("ON")) {
+                if (roomLocation.equals("GARDEN") && values[0].equals("GARDEN") && values[2].equals("ON")) {
                     //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                     //Checks to see if device already set up
@@ -1873,7 +1877,7 @@ public class Fixture {
 
                 //Updates any new AC fixtures into one list
                 //Refreshes the list by erasing then recreating
-                PrintWriter pw = new PrintWriter("C:\\Users\\James\\Desktop\\sprinklerConfig.txt");
+                PrintWriter pw = new PrintWriter("ConfigFiles\\sprinklerConfig.txt");
                 pw.close();
 
                 StringBuilder sb = new StringBuilder();
@@ -1881,7 +1885,7 @@ public class Fixture {
                 sb.append(x2).append("\n");
 
                 try {
-                    Files.write(Paths.get("C:\\Users\\James\\Desktop\\sprinklerConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("ConfigFiles\\sprinklerConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

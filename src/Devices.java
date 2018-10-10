@@ -5,7 +5,16 @@ public class Devices {
 
     private String deviceID;
     private static String location, powerSwitch;
-    private int acTemp, sprinklerTemp, garageTemp, lightTemp, motionSensorTemp, carTemp, kettleTemp, coffeeMachineTemp, alarmClockTemp;
+    private int acTemp;
+    private int sprinklerTemp;
+    private int garageTemp;
+    private int lightTemp;
+    private int motionSensorTemp;
+    private int carTemp;
+    private int kettleTemp;
+    private int coffeeMachineTemp;
+    private double alarmClockTemp;
+    private int alarmClockSmart;
     private static int ceilingFanTemp;
     private ArrayList<String> listTitles;
 
@@ -420,6 +429,8 @@ public class Devices {
     }
 
 
+
+
     private List<roomAlarmClock> listRoomAlarmClock;
 
     void setListRoomAlarmClock(List<roomAlarmClock> list) {
@@ -452,12 +463,20 @@ public class Devices {
         }
     }
 
-    void setAlarmClockTemp(int alarmClockTemp) {
+    void setAlarmClockTemp(double alarmClockTemp) {
         this.alarmClockTemp = alarmClockTemp;
     }
 
-    int getAlarmClockTemp() {
+    double getAlarmClockTemp() {
         return alarmClockTemp;
+    }
+
+    void setAlarmClockSmart(int alarmClockSmart) {
+        this.alarmClockSmart = alarmClockSmart;
+    }
+
+    int getAlarmClockSmart() {
+        return alarmClockSmart;
     }
 
 

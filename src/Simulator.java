@@ -56,6 +56,8 @@ class Simulator {
             //Turns on Sprinklers for user inputs/sensors
             dynamicSprinkler();
 
+            //Behaviour change for Alarm Clock
+            dynamicAlarm();
             //Behaviour change for Car Appliance
             dynamicCar();
 
@@ -427,7 +429,7 @@ class Simulator {
         DecimalFormat decimalFormat = new DecimalFormat("#");
 
         //Change file name to be more specific for method
-        String fileName = "C:\\Users\\James\\Desktop\\airConConfig.txt";
+        String fileName = "ConfigFiles\\airConConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
@@ -625,7 +627,7 @@ class Simulator {
 
     private static void dynamicLights() {
         //Change file name to be more specific for method
-        String fileName = "C:\\Users\\James\\Desktop\\lightConfig.txt";
+        String fileName = "ConfigFiles\\lightConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
@@ -980,7 +982,7 @@ class Simulator {
 
         //Users Set temp they want room to stay at
 
-        String fileName = "C:\\Users\\James\\Desktop\\ceilingFanConfig.txt";
+        String fileName = "ConfigFiles\\ceilingFanConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
@@ -1076,7 +1078,7 @@ class Simulator {
     }
 
     private static void dynamicGarageDoor() {
-        String fileName = "C:\\Users\\James\\Desktop\\garageDoorConfig.txt";
+        String fileName = "ConfigFiles\\garageDoorConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
@@ -1160,7 +1162,7 @@ class Simulator {
 
     private static void dynamicSprinkler() {
         //Users Set temp they want room to stay at
-        String fileName = "C:\\Users\\James\\Desktop\\sprinklerConfig.txt";
+        String fileName = "ConfigFiles\\sprinklerConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
@@ -1312,6 +1314,45 @@ class Simulator {
         }
     }
 
+    private static void dynamicAlarm() {
+        String fileName = "ConfigFiles\\alarmClockConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+
+            //Runs through each If statement and displays Ac status
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+
+                //GARAGE - ON
+                double garageDoorList;
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    displayLine4 = data.split(", ");
+                    garageDoorList = Double.parseDouble(values[3]);
+
+                    //GARAGE - OFF
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    displayLine4 = data.split(", ");
+                    garageDoorList = 0;
+                    values[3] = String.valueOf(garageDoorList);
+                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                    displayLine4 = data.split(", ");
+                    garageDoorList = Double.parseDouble(values[3]);
+
+                    //GARAGE - OFF
+                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
+                    displayLine4 = data.split(", ");
+                    garageDoorList = 0;
+                    values[3] = String.valueOf(garageDoorList);
+                }
+            }
+
+        } catch (Exception ignored) {
+
+        }
+    }
+
     private static void dynamicCar() {
         //Users Set temp they want room to stay at
         String fileName = "C:\\Users\\James\\Desktop\\carConfig.txt";
@@ -1330,7 +1371,7 @@ class Simulator {
                     switch (values[3]) {
                         case "1":
                             carMode = "Auto Start";
-                            if (travelTo.equals("GARAGE") && !carRunning){
+                            if (travelTo.equals("GARAGE") && !carRunning) {
                                 System.out.println("\nCar Status: " + carMode + ", Turning Engine ON now...");
                                 carRunning = true;
                             }
@@ -1344,7 +1385,7 @@ class Simulator {
                             break;
                         case "2":
                             carMode = "Economy Start";
-                            if (travelTo.equals("GARAGE") && !carRunning){
+                            if (travelTo.equals("GARAGE") && !carRunning) {
                                 System.out.println("\nCar Status: " + carMode + ", Turning Engine ON when enter Garage...");
                             }
 
@@ -1357,7 +1398,7 @@ class Simulator {
                             break;
                         case "3":
                             carMode = "Manual Start";
-                            if (travelTo.equals("GARAGE") && !carRunning){
+                            if (travelTo.equals("GARAGE") && !carRunning) {
                                 System.out.println("\nCar Status: " + carMode + ", Turning Engine ON once in Car...");
                             }
 

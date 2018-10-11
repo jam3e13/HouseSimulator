@@ -1,0 +1,1 @@
+GARDEN,Sprinkler,OFF,0

@@ -6,11 +6,12 @@ import java.util.Scanner;
 
 class Simulator {
     static double inDoorTempSetter, time = 5;
-    private static double temperature, inDoorTemp, lightOn, lightOn2, sunLightValue, livingRTemp, mainRTemp, secondRTemp, kitchenTemp, garageTemp, gardenTemp;
-    private static String data, carMode;
+    private static double temperature, inDoorTemp, lightOn, lightOn2, sunLightValue, livingRTemp, mainRTemp, secondRTemp, kitchenTemp, garageTemp, gardenTemp, morningAlarm, lunchAlarm, dinnerAlarm;
+    private static String data, morningMode, lunchMode, dinnerMode;
     private static boolean mainRoomAC, livingRoomAc, livingRoomCeilingFan, carRunning;
     private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5;
-    private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0;
+    private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0 ;
+    private static int morningChoice, lunchChoice, dinnerChoice;
     static String travelTo = "";
 
     static void runSimulator(String weatherType) throws InterruptedException {
@@ -58,8 +59,16 @@ class Simulator {
 
             //Behaviour change for Alarm Clock
             dynamicAlarm();
-            //Behaviour change for Car Appliance
+            //Behaviour change for Car
             dynamicCar();
+            //Behaviour change for Oven
+            dynamicOven();
+            //Behaviour change for Tv
+            dynamicTv();
+            //Behaviour change for Kettle
+            dynamicKettle();
+            //Behaviour change for Coffee Machine
+            dynamicCoffeeMachine();
 
             if (temperature > 28) {
                 simChoice = "SUNNY";
@@ -1355,7 +1364,7 @@ class Simulator {
 
     private static void dynamicCar() {
         //Users Set temp they want room to stay at
-        String fileName = "C:\\Users\\James\\Desktop\\carConfig.txt";
+        String fileName = "ConfigFiles\\carConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
@@ -1370,7 +1379,7 @@ class Simulator {
 
                     switch (values[3]) {
                         case "1":
-                            carMode = "Auto Start";
+                            String carMode = "Auto Start";
                             if (travelTo.equals("GARAGE") && !carRunning) {
                                 System.out.println("\nCar Status: " + carMode + ", Turning Engine ON now...");
                                 carRunning = true;
@@ -1414,6 +1423,153 @@ class Simulator {
                     //GARAGE - OFF
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
                     displayLine5 = data.split(", ");
+                    //Re-format user inputs to act as a refresher
+                }
+            }
+
+        } catch (FileNotFoundException | NumberFormatException ignored) {
+        }
+    }
+
+    private static void dynamicCoffeeMachine() {
+        //Users Set temp they want room to stay at
+        String fileName = "ConfigFiles\\coffeeMachineConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+
+            //Runs through each If statement and displays  status
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                //KITCHEN - ON
+                if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                    displayLine1 = data.split(", ");
+                    //KITCHEN - OFF
+                } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
+                    displayLine1 = data.split(", ");
+                    //Re-format user inputs to act as a refresher
+                }
+            }
+
+        } catch (FileNotFoundException | NumberFormatException ignored) {
+        }
+    }
+
+    private static void dynamicKettle() {
+        //Users Set temp they want room to stay at
+        String fileName = "ConfigFiles\\kettleConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+
+            //Runs through each If statement and displays  status
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                //KITCHEN - ON
+                if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                    displayLine1 = data.split(", ");
+                    //KITCHEN - OFF
+                } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
+                    displayLine1 = data.split(", ");
+                    //Re-format user inputs to act as a refresher
+                }
+            }
+
+        } catch (FileNotFoundException | NumberFormatException ignored) {
+        }
+    }
+
+    private static void dynamicTv() {
+        //Users Set temp they want room to stay at
+        String fileName = "ConfigFiles\\tvConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+
+            //Runs through each If statement and displays status
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                //LIVING ROOM - ON
+                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    displayLine5 = data.split(", ");
+                    //LIVING ROOM - OFF
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    displayLine5 = data.split(", ");
+                    //Re-format user inputs to act as a refresher
+                }
+
+                //MAIN BEDROOM - ON
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    displayLine5 = data.split(", ");
+                    //MAIN BEDROOM - OFF
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    displayLine5 = data.split(", ");
+                    //Re-format user inputs to act as a refresher
+                }
+            }
+
+        } catch (FileNotFoundException | NumberFormatException ignored) {
+        }
+    }
+
+    private static void dynamicOven() {
+        //Users Set temp they want room to stay at
+        String fileName = "ConfigFiles\\ovenConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+
+            //Runs through each If statement and displays status
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                //KITCHEN - ON
+                if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                    displayLine1 = data.split(", ");
+                    morningAlarm = Double.parseDouble(values[3]); // (6am - 9am)
+                    morningChoice = Integer.parseInt(values[4]); // 1, 2, 3.
+                    lunchAlarm = Double.parseDouble(values[5]); // (11am - 2pm)
+                    lunchChoice = Integer.parseInt(values[6]); // 1, 2, 3.
+                    dinnerAlarm = Double.parseDouble(values[7]); // (6pm - 9pm)
+                    dinnerChoice = Integer.parseInt(values[8]); // 1, 2, 3.
+
+                    
+
+                    if (morningChoice == 1) {
+                        morningMode = "Pancakes";
+                    } else if (morningChoice == 2) {
+                        morningMode = "Toast";
+                    } else if (morningChoice == 3) {
+                        morningMode = "Eggs and Bacon";
+                    }
+
+
+                    if (lunchChoice == 1) {
+                        lunchMode = "Muffins";
+                    } else if (lunchChoice == 2) {
+                        lunchMode = "Toasted Sandwich";
+                    } else if (lunchChoice == 3) {
+                        lunchMode = "Chicken and Rice Salad";
+                    }
+
+
+
+                    if (dinnerChoice == 1) {
+                        dinnerMode = "Roast Pork & Veggies";
+                    } else if (dinnerChoice == 2) {
+                        dinnerMode = "Lasagna";
+                    } else if (dinnerChoice == 3) {
+                        dinnerMode = "Smoked Mackerel";
+                    }
+
+
+
+                //KITCHEN - OFF
+                } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
+                    displayLine1 = data.split(", ");
                     //Re-format user inputs to act as a refresher
                 }
             }
@@ -1508,5 +1664,53 @@ class Simulator {
 
     public static void setGardenTemp(double gardenTemp) {
         Simulator.gardenTemp = gardenTemp;
+    }
+
+    public static int getMorningChoice() {
+        return morningChoice;
+    }
+
+    public static void setMorningChoice(int morningChoice) {
+        Simulator.morningChoice = morningChoice;
+    }
+
+    public static int getLunchChoice() {
+        return lunchChoice;
+    }
+
+    public static void setLunchChoice(int lunchChoice) {
+        Simulator.lunchChoice = lunchChoice;
+    }
+
+    public static int getDinnerChoice() {
+        return dinnerChoice;
+    }
+
+    public static void setDinnerChoice(int dinnerChoice) {
+        Simulator.dinnerChoice = dinnerChoice;
+    }
+
+    public static String getMorningMode() {
+        return morningMode;
+    }
+
+    public static void setMorningMode(String morningMode) {
+        Simulator.morningMode = morningMode;
+    }
+
+    public static String getLunchMode() {
+        return lunchMode;
+    }
+
+    public static void setLunchMode(String lunchMode) {
+        Simulator.lunchMode = lunchMode;
+    }
+
+    public static String getDinnerMode() {
+        return dinnerMode;
+    }
+
+    public static void setDinnerMode(String dinnerMode) {
+        Simulator.dinnerMode = dinnerMode;
     }
 }

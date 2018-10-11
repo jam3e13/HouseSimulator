@@ -10,8 +10,9 @@ public class Devices {
     private int garageTemp;
     private int lightTemp;
     private int motionSensorTemp;
-    private int carTemp;
-    private int kettleTemp;
+    private int carTemp, tvTemp;
+    private int kettleTemp, kitchenOvenOptionMorning, kitchenOvenOptionLunch, kitchenOvenOptionDinner;
+    private double kitchenOvenMorning, kitchenOvenLunch, kitchenOvenDinner, tvTimer;
     private int coffeeMachineTemp;
     private double alarmClockTemp;
     private int alarmClockSmart;
@@ -477,6 +478,149 @@ public class Devices {
 
     int getAlarmClockSmart() {
         return alarmClockSmart;
+    }
+
+
+
+
+
+    private List<kitchenOven> listKitchenOven;
+
+    void setListKitchenOven(List<kitchenOven> list) {
+        this.listKitchenOven = new ArrayList<>(list);
+    }
+
+    public List<kitchenOven> getListKitchenOven() {
+        return new ArrayList<>(this.listKitchenOven);
+    }
+
+    static class kitchenOven {
+        private String name;
+
+        kitchenOven(String name) {
+            this.name = name;
+        }
+
+
+        String getName() {
+            return this.name;
+        }
+
+        void setName(String name) {
+            this.name = name;
+        }
+
+        public String toString() {
+            return this.name;
+        }
+    }
+
+    void setKitchenOvenMorning(double kitchenOvenMorning) {
+        this.kitchenOvenMorning = kitchenOvenMorning;
+    }
+
+    double getKitchenOvenMorning() {
+        return kitchenOvenMorning;
+    }
+
+
+
+    void setKitchenOvenOptionMorning(int kitchenOvenOptionMorning) {
+        this.kitchenOvenOptionMorning = kitchenOvenOptionMorning;
+    }
+
+    int getKitchenOvenOptionMorning() {
+        return kitchenOvenOptionMorning;
+    }
+
+
+
+
+
+    void setKitchenOvenLunch(double kitchenOvenLunch) {
+        this.kitchenOvenLunch = kitchenOvenLunch;
+    }
+
+    double getKitchenOvenLunch() {
+        return kitchenOvenLunch;
+    }
+
+
+
+
+    void setKitchenOvenOptionLunch(int kitchenOvenOptionLunch) {
+        this.kitchenOvenOptionLunch = kitchenOvenOptionLunch;
+    }
+
+    int getKitchenOvenOptionLunch() {
+        return kitchenOvenOptionLunch;
+    }
+
+
+
+
+
+
+    void setKitchenOvenDinner(double kitchenOvenDinner) {
+        this.kitchenOvenDinner = kitchenOvenDinner;
+    }
+
+    double getKitchenOvenDinner() {
+        return kitchenOvenDinner;
+    }
+    void setKitchenOvenOptionDinner(int kitchenOvenOptionDinner) {
+        this.kitchenOvenOptionDinner = kitchenOvenOptionDinner;
+    }
+
+    int getKitchenOvenOptionDinner() {
+        return kitchenOvenOptionDinner;
+    }
+
+
+
+
+
+
+
+
+    private List<roomTv> listRoomTv;
+
+    void setListRoomTv(List<roomTv> list) {
+        this.listRoomTv = new ArrayList<>(list);
+    }
+
+    public List<roomTv> getListRoomTv() {
+        return new ArrayList<>(this.listRoomTv);
+    }
+
+
+    static class roomTv {
+        private String name;
+
+        roomTv(String name) {
+            this.name = name;
+        }
+
+
+        String getName() {
+            return this.name;
+        }
+
+        void setName(String name) {
+            this.name = name;
+        }
+
+        public String toString() {
+            return this.name;
+        }
+    }
+
+    void setTvTimer(double tvTimer) {
+        this.tvTimer = tvTimer;
+    }
+
+    double getTvTimer() {
+        return tvTimer;
     }
 
 

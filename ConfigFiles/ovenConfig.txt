@@ -1,0 +1,1 @@
+KITCHEN,Oven,OFF,0,0,0,0,0,0

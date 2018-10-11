@@ -1,0 +1,2 @@
+MAIN BEDROOM,Alarm Clock,OFF,0,0
+SECOND BEDROOM,Alarm Clock,OFF,0,0

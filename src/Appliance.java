@@ -13,7 +13,6 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,10 +21,10 @@ import java.util.Scanner;
 public class Appliance {
 
     private static int choice, fixtureChoice;
-    static double alarmClockUserSettings, alarmClockAlarm1;
-    static int changeSettings, carSetting, alarmClockSetting, alarmClockSetting1, alarmClockAlarm;
-    static String roomLocation, data, updatedList, fixtureSwitch, x1, x2, carMode, carDisplay, kettleMode, updatedList1;
-    static String[] values, displayLine, displayLine1, displayLine2;
+    static double alarmClockUserSettings, tvUserSettings, alarmClockAlarm1, setUpTvOption1, ovenAlarmMorning, ovenAlarmLunch, ovenAlarmDinner, morningAlarm1, lunchAlarm1, dinnerAlarm1;
+    static int changeSettings, carSetting, alarmClockSetting, alarmClockAlarm, ovenMorning, ovenLunch, ovenDinner, morningAlarm, lunchAlarm, dinnerAlarm, setUpTvOption, tvMotionSensor;
+    static String roomLocation, data, updatedList, fixtureSwitch, x1, x2, carMode, carDisplay, kettleMode, updatedList1, morningMode, lunchMode, dinnerMode;
+    static String[] values, displayLine, displayLine1;
 
     static void applianceSetUp() throws InterruptedException, FileNotFoundException {
         System.out.println("APPLIANCES");
@@ -215,7 +214,6 @@ public class Appliance {
     }
 
     private static void applianceAlarmClock() throws FileNotFoundException {
-        DecimalFormat decimalFormat = new DecimalFormat("#");
         //When user enters garage car turns on automatically
         Scanner input = new Scanner(System.in);
 
@@ -291,18 +289,18 @@ public class Appliance {
 
         //Gets alarm setting for time
         System.out.println("Enter Alarm Settings OR Enter 0 to EXIT anytime");
-        System.out.println("\nPlease enter Alarm Clock alarm time;");
+        System.out.println("\nPlease enter Alarm Clock alarm time; (5am - 12pm)");
         System.out.println("\nHour: ");
         alarmClockAlarm = input.nextInt();
         while (alarmClockAlarm > 12) {
             System.out.println("Wrong Minute Input...");
-            System.out.println("\nPlease enter Alarm Clock Hours (5 - 12)");
+            System.out.println("\nPlease enter Alarm Clock Hours (5am - 12pm)");
             System.out.println("\nHour: ");
             alarmClockAlarm = input.nextInt();
         }
         while (alarmClockAlarm < 5) {
             System.out.println("Wrong Minute Input...");
-            System.out.println("\nPlease enter Alarm Clock Hours (5 - 12)");
+            System.out.println("\nPlease enter Alarm Clock Hours (5am - 12pm)");
             System.out.println("\nHour: ");
             alarmClockAlarm = input.nextInt();
         }
@@ -457,10 +455,549 @@ public class Appliance {
         }
     }
 
-    private static void applianceTV() {
+    private static void applianceTV() throws FileNotFoundException {
+        //When user enters garage car turns on automatically
+        Scanner input = new Scanner(System.in);
+
+        //Display rooms status
+        String fileName = "ConfigFiles\\tvConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (roomLocation.equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    displayLine = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("LIVING ROOM TV is already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings..");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            applianceSetUp();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    displayLine = data.split(", ");
+                } else if (roomLocation.equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    displayLine1 = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("MAIN BEDROOM TV is already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings..");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            applianceSetUp();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    displayLine1 = data.split(", ");
+                }
+            }
+
+            System.out.println(roomLocation);
+            if (roomLocation.equals("LIVING ROOM")) {
+                System.out.println("Status: " + Arrays.toString(displayLine));
+            } else if (roomLocation.equals("MAIN BEDROOM")) {
+                System.out.println("Status: " + Arrays.toString(displayLine1));
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //Gets alarm setting for time
+        System.out.println("Enter Turn Off Time for TV OR Enter 0 to EXIT anytime");
+        System.out.println("\nPlease enter Turn Off Time for Tv; (12pm - 12am)");
+        System.out.println("\nHour: ");
+        setUpTvOption = input.nextInt();
+
+        //Exits if user chooses 0
+        if (setUpTvOption == 0) {
+            try {
+                applianceSetUp();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (setUpTvOption == 1) {
+            setUpTvOption = 13;
+        } else if (setUpTvOption == 2) {
+            setUpTvOption = 14;
+        } else if (setUpTvOption == 3) {
+            setUpTvOption = 15;
+        } else if (setUpTvOption == 4) {
+            setUpTvOption = 16;
+        } else if (setUpTvOption == 5) {
+            setUpTvOption = 17;
+        } else if (setUpTvOption == 6) {
+            setUpTvOption = 18;
+        } else if (setUpTvOption == 7) {
+            setUpTvOption = 19;
+        } else if (setUpTvOption == 8) {
+            setUpTvOption = 20;
+        } else if (setUpTvOption == 9) {
+            setUpTvOption = 21;
+        } else if (setUpTvOption == 10) {
+            setUpTvOption = 22;
+        } else if (setUpTvOption == 11) {
+            setUpTvOption = 23;
+        } else if (setUpTvOption == 12) {
+            setUpTvOption = 24;
+        }
+
+        while (setUpTvOption > 24) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Alarm Clock Hours (12pm - 12am)");
+            System.out.println("\nHour: ");
+            setUpTvOption = input.nextInt();
+        }
+        while (setUpTvOption < 12) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Alarm Clock Hours (12pm - 12am)");
+            System.out.println("\nHour: ");
+            setUpTvOption = input.nextInt();
+        }
+        System.out.println("\nMinute: ");
+        setUpTvOption1 = input.nextDouble();
+        while (setUpTvOption1 > 60.00) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Alarm Clock Minutes (00 - 60)");
+            System.out.println("Minute: ");
+            setUpTvOption1 = input.nextDouble();
+        }
+        while (setUpTvOption1 < 00.00) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Alarm Clock Minutes (00 - 60)");
+            System.out.println("Minute: ");
+            setUpTvOption1 = input.nextDouble();
+        }
+
+        tvUserSettings = setUpTvOption1 / 100;
+        tvUserSettings = tvUserSettings + setUpTvOption;
+
+        System.out.printf("Alarm Set: " + "%.2f", tvUserSettings);
+
+        //saves to user chosen room
+        //Timer settings
+        Devices tvTimer = new Devices();
+        tvTimer.setTvTimer(tvUserSettings);
+
+        fixtureSwitch = "ON";
+
+        switch (fixtureSwitch) {
+            case "ON":
+                //Add to a list to be called in sim
+                if (roomLocation.equals("LIVING ROOM")) {
+                    Devices location = new Devices();
+                    location.setLocation(roomLocation);
+                    Devices roomTv = new Devices();
+                    List<Devices.roomTv> list = new ArrayList<>();
+                    //Location
+                    list.add(new Devices.roomTv(Devices.getLocation()));
+                    //Device
+                    list.add(new Devices.roomTv("TV"));
+                    //Calibration
+                    list.add(new Devices.roomTv("ON"));
+                    //User Settings
+                    list.add(new Devices.roomTv(String.valueOf(tvTimer.getTvTimer())));
+                    //Set list
+                    roomTv.setListRoomTv(list);
+
+                    updatedList = list.toString();
+                    x1 = String.valueOf((updatedList));
+
+                    updatedList1 = Arrays.toString(displayLine1);
+                    x2 = String.valueOf((updatedList1));
+
+                    //Full list view of what is being saved
+                    System.out.println("TV List for " + roomLocation + ": " + list);
+                } else if (roomLocation.equals("MAIN BEDROOM")) {
+                    Devices location = new Devices();
+                    location.setLocation(roomLocation);
+                    Devices roomTv = new Devices();
+                    List<Devices.roomTv> list = new ArrayList<>();
+                    //Location
+                    list.add(new Devices.roomTv(Devices.getLocation()));
+                    //Device
+                    list.add(new Devices.roomTv("TV"));
+                    //Calibration
+                    list.add(new Devices.roomTv("ON"));
+                    //User Settings
+                    list.add(new Devices.roomTv(String.valueOf(tvTimer.getTvTimer())));
+                    //Set list
+                    roomTv.setListRoomTv(list);
+
+                    updatedList = Arrays.toString(displayLine);
+                    x1 = String.valueOf((updatedList));
+
+                    updatedList1 = list.toString();
+                    x2 = String.valueOf((updatedList1));
+
+                    //Full list view of what is being saved
+                    System.out.println("TV List for " + roomLocation + ": " + list);
+                }
+
+                //Updates any new AC fixtures into one list
+                //Refreshes the list by erasing then recreating
+                PrintWriter pw = new PrintWriter("ConfigFiles\\tvConfig.txt");
+                pw.close();
+
+                StringBuilder sb = new StringBuilder();
+                //x2 = insert full updated list here
+                sb.append(x1).append("\n");
+                sb.append(System.lineSeparator());
+                sb.append(x2).append("\n");
+
+                try {
+                    Files.write(Paths.get("ConfigFiles\\tvConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                System.out.println("TV List failed...");
+                break;
+        }
     }
 
-    private static void applianceOven() {
+    private static void applianceOven() throws FileNotFoundException {
+        //When user enters garage car turns on automatically
+        Scanner input = new Scanner(System.in);
+
+        //Display rooms status
+        String fileName = "ConfigFiles\\ovenConfig.txt";
+        File file = new File(fileName);
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (roomLocation.equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                    displayLine = data.split(", ");
+                    //Checks to see if device already set up
+                    System.out.println("KITCHEN Oven is already set up.");
+                    System.out.println("0) Exit");
+                    System.out.println("1) Edit Settings");
+                    changeSettings = input.nextInt();
+                    while (changeSettings > 1) {
+                        System.out.println("Wrong input...");
+                        System.out.println("Please enter only (0) - Exit, (1) - Edit");
+                        changeSettings = input.nextInt();
+                    }
+                    if (changeSettings == 1) {
+                        System.out.println("Changing Settings..");
+                    } else if (changeSettings == 0) {
+                        System.out.println("Returning to Rooms...");
+                        try {
+                            applianceSetUp();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
+                    displayLine = data.split(", ");
+                }
+            }
+
+            System.out.println(roomLocation);
+            if (roomLocation.equals("KITCHEN")) {
+                System.out.println("Status: " + Arrays.toString(displayLine));
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Please Follow and Select options to configure Smart Oven below OR Enter 0 to Exit.");
+        System.out.println("\nMorning:");
+        System.out.println("1) Pancakes");
+        System.out.println("2) Toast");
+        System.out.println("3) Eggs and Bacon");
+        ovenMorning = input.nextInt();
+
+        //Exits if user chooses 0
+        if (ovenMorning == 0) {
+            try {
+                applianceSetUp();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (ovenMorning == 1) {
+            //1
+            morningMode = "Pancakes";
+        } else if (ovenMorning == 2) {
+            //2
+            morningMode = "Toast";
+        } else if (ovenMorning == 3) {
+            //3
+            morningMode = "Eggs and Bacon";
+        }
+
+        System.out.println("Enter Time you'd like the " + morningMode + " to be ready. (6am - 9am)");
+        System.out.println("\nPlease enter Oven alarm time;");
+        System.out.println("\nHour: ");
+        morningAlarm = input.nextInt();
+        //MORNING 6 - 9
+        while (morningAlarm > 9) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Hours (6am - 9am)");
+            System.out.println("\nHour: ");
+            morningAlarm = input.nextInt();
+        }
+        while (morningAlarm < 6) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Hours (6am - 9am)");
+            System.out.println("\nHour: ");
+            morningAlarm = input.nextInt();
+        }
+        System.out.println("\nMinute: ");
+        morningAlarm1 = input.nextDouble();
+        while (morningAlarm1 > 60.00) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Minutes (00 - 60)");
+            System.out.println("Minute: ");
+            morningAlarm1 = input.nextDouble();
+        }
+        while (morningAlarm1 < 00.00) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Minutes (00 - 60)");
+            System.out.println("Minute: ");
+            morningAlarm1 = input.nextDouble();
+        }
+
+        ovenAlarmMorning = morningAlarm1 / 100;
+        ovenAlarmMorning = ovenAlarmMorning + morningAlarm;
+
+        System.out.println("Morning breakfast: " + morningMode);
+        System.out.printf("Ready at: " + "%.2f", ovenAlarmMorning);
+
+
+        System.out.println("\nLunch: ");
+        System.out.println("1) Muffins");
+        System.out.println("2) Toasted Sandwich");
+        System.out.println("3) Chicken and Rice Salad");
+        ovenLunch = input.nextInt();
+
+        if (ovenLunch == 1) {
+            //1
+            lunchMode = "Muffins";
+        } else if (ovenLunch == 2) {
+            //2
+            lunchMode = "Toasted Sandwich";
+        } else if (ovenLunch == 3) {
+            //3
+            lunchMode = "Chicken and Rice Salad";
+        }
+
+        System.out.println("Enter Time you'd like the " + lunchMode + " to be ready. (11am - 2pm)");
+        System.out.println("\nPlease enter Oven alarm time;");
+        System.out.println("\nHour: ");
+        lunchAlarm = input.nextInt();
+
+        if (lunchAlarm == 1) {
+            lunchAlarm = 13;
+        } else if (lunchAlarm == 2) {
+            lunchAlarm = 14;
+        }
+
+        //LUNCH 11 - 2
+        while (lunchAlarm > 14) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Hours (11am - 2pm)");
+            System.out.println("\nHour: ");
+            lunchAlarm = input.nextInt();
+        }
+        while (lunchAlarm < 11) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Hours (11am - 2pm)");
+            System.out.println("\nHour: ");
+            lunchAlarm = input.nextInt();
+        }
+        System.out.println("\nMinute: ");
+        lunchAlarm1 = input.nextDouble();
+        while (lunchAlarm1 > 60.00) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Minutes (00 - 60)");
+            System.out.println("Minute: ");
+            lunchAlarm1 = input.nextDouble();
+        }
+        while (lunchAlarm1 < 00.00) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Minutes (00 - 60)");
+            System.out.println("Minute: ");
+            lunchAlarm1 = input.nextDouble();
+        }
+
+        ovenAlarmLunch = lunchAlarm1 / 100;
+        ovenAlarmLunch = ovenAlarmLunch + lunchAlarm;
+
+        System.out.println("Lunch: " + lunchMode);
+        System.out.printf("Ready at: " + "%.2f", ovenAlarmLunch);
+
+        System.out.println("\nDinner: ");
+        System.out.println("1) Roast Pork & Veggies");
+        System.out.println("2) Lasagna");
+        System.out.println("3) Smoked Mackerel");
+        ovenDinner = input.nextInt();
+        if (ovenDinner == 1) {
+            //1
+            dinnerMode = "Roast Pork + Veggies";
+        } else if (ovenDinner == 2) {
+            //2
+            dinnerMode = "Lasagna";
+        } else if (ovenDinner == 3) {
+            //3
+            dinnerMode = "Smoked Mackerel";
+        }
+
+        System.out.println("Enter Time you'd like the " + dinnerMode + " to be ready. (6pm - 9pm)");
+        System.out.println("\nPlease enter Oven alarm time;");
+        System.out.println("\nHour: ");
+        dinnerAlarm = input.nextInt();
+
+        if (dinnerAlarm == 6) {
+            dinnerAlarm = 18;
+        } else if (dinnerAlarm == 7) {
+            dinnerAlarm = 19;
+        } else if (dinnerAlarm == 8) {
+            dinnerAlarm = 20;
+        } else if (dinnerAlarm == 9) {
+            dinnerAlarm = 21;
+        }
+
+        //DINNER 6 - 9
+        while (dinnerAlarm > 21) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Hours (6pm - 9pm)");
+            System.out.println("\nHour: ");
+            dinnerAlarm = input.nextInt();
+        }
+        while (dinnerAlarm < 18) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Hours (6pm - 9pm)");
+            System.out.println("\nHour: ");
+            dinnerAlarm = input.nextInt();
+        }
+        System.out.println("\nMinute: ");
+        dinnerAlarm1 = input.nextDouble();
+        while (dinnerAlarm1 > 60.00) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Minutes (00 - 60)");
+            System.out.println("Minute: ");
+            dinnerAlarm1 = input.nextDouble();
+        }
+        while (dinnerAlarm1 < 00.00) {
+            System.out.println("Wrong Minute Input...");
+            System.out.println("\nPlease enter Minutes (00 - 60)");
+            System.out.println("Minute: ");
+            dinnerAlarm1 = input.nextDouble();
+        }
+
+        ovenAlarmDinner = dinnerAlarm1 / 100;
+        ovenAlarmDinner = ovenAlarmDinner + dinnerAlarm;
+
+        System.out.println("Dinner: " + dinnerMode);
+        System.out.printf("Ready at: " + "%.2f", ovenAlarmDinner);
+
+        //saves to user chosen room
+        Devices kitchenOvenMorning = new Devices();
+        kitchenOvenMorning.setKitchenOvenMorning(ovenAlarmMorning);
+
+        Devices kitchenOvenOptionMorning = new Devices();
+        kitchenOvenOptionMorning.setKitchenOvenOptionMorning(ovenMorning);
+
+        Devices kitchenOvenLunch = new Devices();
+        kitchenOvenLunch.setKitchenOvenLunch(ovenAlarmLunch);
+
+        Devices kitchenOvenOptionLunch = new Devices();
+        kitchenOvenOptionLunch.setKitchenOvenOptionLunch(ovenLunch);
+
+        Devices kitchenOvenDinner = new Devices();
+        kitchenOvenDinner.setKitchenOvenDinner(ovenAlarmDinner);
+
+        Devices kitchenOvenOptionDinner = new Devices();
+        kitchenOvenOptionDinner.setKitchenOvenOptionDinner(ovenDinner);
+
+        fixtureSwitch = "ON";
+
+        switch (fixtureSwitch) {
+            case "ON":
+                //Add to a list to be called in sim
+                if (roomLocation.equals("KITCHEN")) {
+                    Devices location = new Devices();
+                    location.setLocation(roomLocation);
+                    Devices kitchenOven = new Devices();
+                    List<Devices.kitchenOven> list = new ArrayList<>();
+                    //Location
+                    list.add(new Devices.kitchenOven(Devices.getLocation()));
+                    //Device
+                    list.add(new Devices.kitchenOven("Oven"));
+                    //Calibration
+                    list.add(new Devices.kitchenOven("ON"));
+                    //User Settings
+                    list.add(new Devices.kitchenOven(String.valueOf(kitchenOvenMorning.getKitchenOvenMorning())));
+                    list.add(new Devices.kitchenOven(String.valueOf(kitchenOvenOptionMorning.getKitchenOvenOptionMorning())));
+                    //User Settings
+                    list.add(new Devices.kitchenOven(String.valueOf(kitchenOvenLunch.getKitchenOvenLunch())));
+                    list.add(new Devices.kitchenOven(String.valueOf(kitchenOvenOptionLunch.getKitchenOvenOptionLunch())));
+                    //User Settings
+                    list.add(new Devices.kitchenOven(String.valueOf(kitchenOvenDinner.getKitchenOvenDinner())));
+                    list.add(new Devices.kitchenOven(String.valueOf(kitchenOvenOptionDinner.getKitchenOvenOptionDinner())));
+                    //Set list
+                    kitchenOven.setListKitchenOven(list);
+                    updatedList = list.toString();
+                    x2 = String.valueOf((updatedList));
+
+                    //Full list view of what is being saved
+                    System.out.println("Oven List for " + roomLocation + ": " + list);
+                }
+
+                //Updates any new AC fixtures into one list
+                //Refreshes the list by erasing then recreating
+                PrintWriter pw = new PrintWriter("ConfigFiles\\ovenConfig.txt");
+                pw.close();
+
+                StringBuilder sb = new StringBuilder();
+                //x2 = insert full updated list here
+                sb.append(x2).append("\n");
+
+                try {
+                    Files.write(Paths.get("ConfigFiles\\ovenConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                System.out.println("Oven List failed...");
+                break;
+        }
     }
 
     private static void applianceCar() throws FileNotFoundException {

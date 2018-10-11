@@ -1,0 +1,1 @@
+GARAGE,Garage Door,OFF,0

@@ -6,9 +6,14 @@ import java.util.Scanner;
 
 class Simulator {
     static double inDoorTempSetter, time = 5;
-    private static double temperature, inDoorTemp, lightOn, lightOn2, sunLightValue, livingRTemp, mainRTemp, secondRTemp, kitchenTemp, garageTemp, gardenTemp, morningAlarm, lunchAlarm, dinnerAlarm;
+    private static double temperature, inDoorTemp, lightOn, lightOn2, sunLightValue, livingRTemp;
+    private static double mainRTemp, morningTotal, lunchTotal, dinnerTotal;
+    private static double secondRTemp;
+    private static double kitchenTemp;
+    private static double garageTemp;
+    private static double gardenTemp;
     private static String data, morningMode, lunchMode, dinnerMode;
-    private static boolean mainRoomAC, livingRoomAc, livingRoomCeilingFan, carRunning;
+    private static boolean mainRoomAC, livingRoomAc, livingRoomCeilingFan, carRunning, morningBoolean, lunchBoolean, dinnerBoolean;
     private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5;
     private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0 ;
     private static int morningChoice, lunchChoice, dinnerChoice;
@@ -89,7 +94,7 @@ class Simulator {
                     Thread.sleep(Menu.x);
                     break;
             }
-            time += 0.1;
+            time += 0.06;// 10 hits every 60 minutes, 1 hit equals 6 minutes.
         } while (time < 30);
     }
 
@@ -101,7 +106,7 @@ class Simulator {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
             dynamicTravel();
-        } else if (time <= 5.30 && time > 5.29) {
+        } else if (time <= 5.301 && time > 5.29) {
             System.out.printf("%n" + "Time: 05:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
@@ -115,7 +120,7 @@ class Simulator {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
             dynamicTravel();
-        } else if (time <= 6.30 && time > 6.29) {
+        } else if (time <= 6.301 && time > 6.29) {
             System.out.printf("%n" + "Time: 06:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
@@ -129,7 +134,7 @@ class Simulator {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
             dynamicTravel();
-        } else if (time <= 7.30 && time > 7.29) {
+        } else if (time <= 7.301 && time > 7.29) {
             System.out.printf("%n" + "Time: 07:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
@@ -143,7 +148,7 @@ class Simulator {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
             dynamicTravel();
-        } else if (time <= 8.30 && time > 8.29) {
+        } else if (time <= 8.301 && time > 8.29) {
             System.out.printf("%n" + "Time: 08:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
@@ -157,7 +162,7 @@ class Simulator {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
             dynamicTravel();
-        } else if (time <= 9.30 && time > 9.29) {
+        } else if (time <= 9.301 && time > 9.29) {
             System.out.printf("%n" + "Time: 09:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
@@ -171,7 +176,7 @@ class Simulator {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
             dynamicTravel();
-        } else if (time <= 10.30 && time > 10.29) {
+        } else if (time <= 10.301 && time > 10.29) {
             System.out.printf("%n" + "Time: 10:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
@@ -185,7 +190,7 @@ class Simulator {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
             dynamicTravel();
-        } else if (time <= 11.30 && time > 11.29) {
+        } else if (time <= 11.301 && time > 11.29) {
             System.out.printf("%n" + "Time: 11:30 am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
@@ -199,7 +204,7 @@ class Simulator {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
             dynamicTravel();
-        } else if (time <= 12.30 && time > 12.29) {
+        } else if (time <= 12.301 && time > 12.29) {
             System.out.printf("%n" + "Time: 12:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
@@ -213,7 +218,7 @@ class Simulator {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
             dynamicTravel();
-        } else if (time <= 13.30 && time > 13.29) {
+        } else if (time <= 13.301 && time > 13.29) {
             System.out.printf("%n" + "Time: 01:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
@@ -227,7 +232,7 @@ class Simulator {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
             dynamicTravel();
-        } else if (time <= 14.30 && time > 14.29) {
+        } else if (time <= 14.301 && time > 14.29) {
             System.out.printf("%n" + "Time: 02:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
@@ -241,7 +246,7 @@ class Simulator {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
             System.out.print("%");
             dynamicTravel();
-        } else if (time <= 15.30 && time > 15.29) {
+        } else if (time <= 15.301 && time > 15.29) {
             System.out.printf("%n" + "Time: 03:30 pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
@@ -1527,16 +1532,13 @@ class Simulator {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 //KITCHEN - ON
+                double morningAlarm;
+                double lunchAlarm;
+                double dinnerAlarm;
                 if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
                     displayLine1 = data.split(", ");
-                    morningAlarm = Double.parseDouble(values[3]); // (6am - 9am)
+                    morningAlarm = Double.parseDouble(values[3]);
                     morningChoice = Integer.parseInt(values[4]); // 1, 2, 3.
-                    lunchAlarm = Double.parseDouble(values[5]); // (11am - 2pm)
-                    lunchChoice = Integer.parseInt(values[6]); // 1, 2, 3.
-                    dinnerAlarm = Double.parseDouble(values[7]); // (6pm - 9pm)
-                    dinnerChoice = Integer.parseInt(values[8]); // 1, 2, 3.
-
-                    
 
                     if (morningChoice == 1) {
                         morningMode = "Pancakes";
@@ -1546,6 +1548,20 @@ class Simulator {
                         morningMode = "Eggs and Bacon";
                     }
 
+                    if (morningAlarm < time && !morningBoolean) {
+                        System.out.println("\nThe Oven has Turned ON");
+                        System.out.println("Your " + morningMode + " are/is Cooking.");
+                        morningBoolean = true;
+                        morningTotal = morningAlarm + 0.06;
+                    }
+
+                    if (morningTotal > time && morningBoolean) {
+                        System.out.println("\nThe Oven has Turned OFF");
+                        System.out.println("Your " + morningMode + " are/is Ready!");
+                    }
+
+                    lunchAlarm = Double.parseDouble(values[5]);
+                    lunchChoice = Integer.parseInt(values[6]); // 1, 2, 3.
 
                     if (lunchChoice == 1) {
                         lunchMode = "Muffins";
@@ -1555,7 +1571,20 @@ class Simulator {
                         lunchMode = "Chicken and Rice Salad";
                     }
 
+                    if (lunchAlarm < time && !lunchBoolean) {
+                        System.out.println("The Oven has Turned ON");
+                        System.out.println("Your " + lunchMode + " are/is Cooking.");
+                        lunchBoolean = true;
+                        lunchTotal = lunchAlarm + 0.12;
+                    }
 
+                    if (lunchTotal > time && lunchBoolean) {
+                        System.out.println("The Oven has Turned OFF");
+                        System.out.println("Your " + lunchMode + " are/is Ready!");
+                    }
+
+                    dinnerAlarm = Double.parseDouble(values[7]);
+                    dinnerChoice = Integer.parseInt(values[8]); // 1, 2, 3.
 
                     if (dinnerChoice == 1) {
                         dinnerMode = "Roast Pork & Veggies";
@@ -1565,6 +1594,18 @@ class Simulator {
                         dinnerMode = "Smoked Mackerel";
                     }
 
+
+                    if (dinnerAlarm < time && !dinnerBoolean) {
+                        System.out.println("The Oven has Turned ON");
+                        System.out.println("Your " + dinnerMode + " are/is Cooking.");
+                        dinnerBoolean = true;
+                        dinnerTotal = dinnerAlarm + 0.06;
+                    }
+
+                    if (dinnerTotal > time && dinnerBoolean) {
+                        System.out.println("The Oven has Turned OFF");
+                        System.out.println("Your " + dinnerMode + " are/is Ready!");
+                    }
 
 
                 //KITCHEN - OFF

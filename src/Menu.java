@@ -72,13 +72,23 @@ public class Menu {
             //Configure Appliances and Fixtures
             System.out.println("Configure opening...");
             if (initialStart) {
-                System.out.println("Configure 1) Fixtures OR 2) Appliances");
+                System.out.println("1) Fixtures");
+                System.out.println("2) Appliances");
+                System.out.println("3) Wipe Config Files Clean");
+                System.out.println("0) Back");
                 configChoice = input.nextInt();
 
                 if (configChoice == 1) {
                     Fixture.fixtureSetUp();
                 } else if (configChoice == 2) {
                     Appliance.applianceSetUp();
+                } else if (configChoice == 3) {
+                    Clean.cleanUserInputs();
+                } else if (configChoice == 0) {
+                    //Displays menu
+                    menuDisplay();
+                    //User choice to run option
+                    initialChoice();
                 }
 
                 while (configChoice > 2) {
@@ -128,16 +138,26 @@ public class Menu {
             //Configure Appliances and Fixtures
             System.out.println("Configure opening...");
             if (initialStart) {
-                System.out.println("Configure 1) Fixtures OR 2) Appliances");
+                System.out.println("1) Fixtures");
+                System.out.println("2) Appliances");
+                System.out.println("3) Wipe Config Files Clean");
+                System.out.println("0) Back");
                 configChoice = input.nextInt();
 
                 if (configChoice == 1) {
                     Fixture.fixtureSetUp();
                 } else if (configChoice == 2) {
                     Appliance.applianceSetUp();
+                } else if (configChoice == 3) {
+                    Clean.cleanUserInputs();
+                } else if (configChoice == 0) {
+                    //Displays menu
+                    menuDisplay();
+                    //User choice to run option
+                    initialChoice();
                 }
 
-                while (configChoice > 2) {
+                while (configChoice > 3) {
                     System.out.println("Wrong input...");
                     System.out.println("Please enter only (0), (1) OR ()");
                     configChoice = input.nextInt();

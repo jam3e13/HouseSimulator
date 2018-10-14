@@ -308,7 +308,6 @@ public class Fixture {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (roomLocation.equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                     System.out.println("LIVING ROOM Motion Sensor is already set up.");
                     System.out.println("0) Exit");
@@ -330,10 +329,8 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                 } else if (roomLocation.equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("MAIN BEDROOM Motion Sensor is already set up.");
@@ -356,10 +353,8 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
                 } else if (roomLocation.equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("SECOND ROOM Motion Sensor is already set up.");
@@ -382,10 +377,8 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                 } else if (roomLocation.equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine4 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("KITCHEN Motion Sensor is already set up.");
@@ -408,10 +401,8 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine4 = data.split(", ");
                 } else if (roomLocation.equals("GARAGE") && values[0].equals("GARAGE") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine5 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("GARAGE Motion Sensor is already set up.");
@@ -434,10 +425,8 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine5 = data.split(", ");
                 } else if (roomLocation.equals("GARDEN") && values[0].equals("GARDEN") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine6 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("GARDEN Motion Sensor is already set up.");
@@ -460,7 +449,6 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine6 = data.split(", ");
                 }
             }
@@ -1008,7 +996,6 @@ public class Fixture {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (roomLocation.equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                     System.out.println("LIVING ROOM Lights are already set up.");
                     System.out.println("0) Exit");
@@ -1030,10 +1017,8 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine1 = data.split(", ");
                 } else if (roomLocation.equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("MAIN BEDROOM Lights are already set up.");
@@ -1056,10 +1041,8 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine2 = data.split(", ");
                 } else if (roomLocation.equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("SECOND ROOM Lights are already set up.");
@@ -1082,10 +1065,8 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                 } else if (roomLocation.equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine4 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("KITCHEN Lights are already set up.");
@@ -1108,10 +1089,8 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine4 = data.split(", ");
                 } else if (roomLocation.equals("GARAGE") && values[0].equals("GARAGE") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine5 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("GARAGE Lights are already set up.");
@@ -1134,10 +1113,8 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine5 = data.split(", ");
                 } else if (roomLocation.equals("GARDEN") && values[0].equals("GARDEN") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine6 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("GARDEN Lights are already set up.");
@@ -1160,7 +1137,6 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine6 = data.split(", ");
                 }
             }
@@ -1508,7 +1484,6 @@ public class Fixture {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (roomLocation.equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                     //Checks to see if device already set up
                     System.out.println("LIVING ROOM Ceiling Fan is already set up.");
@@ -1531,7 +1506,6 @@ public class Fixture {
                         }
                     }
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
-                    //System.out.println(Arrays.toString(data.split("\t")));
                     displayLine3 = data.split(", ");
                 }
             }

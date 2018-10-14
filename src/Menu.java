@@ -46,7 +46,6 @@ public class Menu {
         System.out.println("\n0) Exit Program");
         System.out.println("1) Run Simulation");
         System.out.println("2) Configure Simulation");
-        System.out.println("3) Access Device - Not done");
     }
 
     static void initialChoice() throws InterruptedException, FileNotFoundException {
@@ -54,10 +53,10 @@ public class Menu {
         Scanner input = new Scanner(System.in);
         choice = input.nextInt();
 
-        //Makes sure use inputs 0, 1, 2 or 3 only
-        while (choice > 3) {
+        //Makes sure use inputs 0, 1 or 2 only
+        while (choice > 2) {
             System.out.println("Wrong input...");
-            System.out.println("Please enter only (0), (1), (2) OR (3)");
+            System.out.println("Please enter only (0), (1) OR (2)");
             choice = input.nextInt();
         }
 
@@ -104,10 +103,6 @@ public class Menu {
             } else {
                 //Add code for second try
             }
-        } else if (choice == 3) {
-            //Access Device
-            System.out.println("Accessing Device...");
-
         } else if (choice == 0) {
             //Quit program
             System.out.println("Good Bye...");
@@ -120,9 +115,9 @@ public class Menu {
         choice = input.nextInt();
 
         //Makes sure use inputs 0, 1, 2 or 3 only
-        while (choice >= 4) {
+        while (choice > 2) {
             System.out.println("Wrong input...");
-            System.out.println("Please enter only (0), (1), (2) OR (3)");
+            System.out.println("Please enter only (0), (1) OR (2)");
             choice = input.nextInt();
         }
 
@@ -167,10 +162,6 @@ public class Menu {
                 //Fixture.fixtureFlow();
                 //Appliance.applianceFlow();
             }
-        } else if (choice == 3) {
-            //Access Device
-            System.out.println("Accessing Device...");
-
         } else if (choice == 0) {
             //Quit program
             System.out.println("Good Bye...");

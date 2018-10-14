@@ -10,14 +10,11 @@ import java.util.List;
 
 class Clean {
 
-    private static int choice, fixtureChoice;
-    static int acTempSetting, changeSettings, ceilingFanTempSetting, garageDoorSetting, sprinklerSetting, lightSetting, motionSensorSetting;
-    static String roomLocation, data, x1, x2, x3, x4, x5, x6, sprinklerMode, lightMode, updatedList, updatedList1, updatedList2, updatedList3, updatedList4, updatedList5, motionSensorMode;
-    static String fixtureSwitch = "OFF";
-    static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5, displayLine6;
+    static String roomLocation, x1, x2, x3, x4, x5, x6, updatedList, updatedList1, updatedList2, updatedList3, updatedList4, updatedList5;
+    static String[] displayLine, displayLine1, displayLine2, displayLine3, displayLine4, displayLine5, displayLine6;
 
 
-    static void cleanUserInputs() throws FileNotFoundException, InterruptedException {
+    static void cleanUserInputs() throws FileNotFoundException {
 
         //Fixtures overwrite with empty user inputs
         cleanMotionSensors();
@@ -474,29 +471,283 @@ class Clean {
         }
     }
 
-    private static void cleanGarageDoor() {
+    private static void cleanGarageDoor() throws FileNotFoundException {
+        if (roomLocation.equals("GARAGE")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices garageDoorList = new Devices();
+            List<Devices.garageDoor> list = new ArrayList<>();
+            list.add(new Devices.garageDoor(Devices.getLocation()));
+            list.add(new Devices.garageDoor("Garage Door"));
+            list.add(new Devices.garageDoor("ON"));
+            list.add(new Devices.garageDoor("0"));
+            garageDoorList.setListGarageDoor(list);
 
+            updatedList2 = list.toString();
+            x2 = String.valueOf((updatedList2));
+
+        }
+        PrintWriter pw = new PrintWriter("ConfigFiles\\garageDoorConfig.txt");
+        pw.close();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(x2).append("\n");
+
+        try {
+            Files.write(Paths.get("ConfigFiles\\garageDoorConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void cleanSprinklers() {
+
+    private static void cleanSprinklers() throws FileNotFoundException {
+        if (roomLocation.equals("GARDEN")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices gardenSprinkler = new Devices();
+            List<Devices.gardenSprinkler> list = new ArrayList<>();
+            list.add(new Devices.gardenSprinkler(Devices.getLocation()));
+            list.add(new Devices.gardenSprinkler("Sprinkler"));
+            list.add(new Devices.gardenSprinkler("ON"));
+            list.add(new Devices.gardenSprinkler("0"));
+            gardenSprinkler.setListGardenSprinkler(list);
+
+            updatedList2 = list.toString();
+            x2 = String.valueOf((updatedList2));
+        }
+
+        PrintWriter pw = new PrintWriter("ConfigFiles\\sprinklerConfig.txt");
+        pw.close();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(x2).append("\n");
+
+        try {
+            Files.write(Paths.get("ConfigFiles\\sprinklerConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void cleanCar() {
+    private static void cleanCar() throws FileNotFoundException {
+        if (roomLocation.equals("GARAGE")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices garageCar = new Devices();
+            List<Devices.garageCar> list = new ArrayList<>();
+            list.add(new Devices.garageCar(Devices.getLocation()));
+            list.add(new Devices.garageCar("Car"));
+            list.add(new Devices.garageCar("ON"));
+            list.add(new Devices.garageCar("0"));
+            garageCar.setListGarageCar(list);
+            updatedList = list.toString();
+            x2 = String.valueOf((updatedList));
+        }
+        PrintWriter pw = new PrintWriter("ConfigFiles\\carConfig.txt");
+        pw.close();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(x2).append("\n");
+
+        try {
+            Files.write(Paths.get("ConfigFiles\\carConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void cleanOven() {
+    private static void cleanOven() throws FileNotFoundException {
+        if (roomLocation.equals("KITCHEN")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices kitchenOven = new Devices();
+            List<Devices.kitchenOven> list = new ArrayList<>();
+            list.add(new Devices.kitchenOven(Devices.getLocation()));
+            list.add(new Devices.kitchenOven("Oven"));
+            list.add(new Devices.kitchenOven("ON"));
+            list.add(new Devices.kitchenOven("0"));
+            list.add(new Devices.kitchenOven("0"));
+            list.add(new Devices.kitchenOven("0"));
+            list.add(new Devices.kitchenOven("0"));
+            list.add(new Devices.kitchenOven("0"));
+            list.add(new Devices.kitchenOven("0"));
+            kitchenOven.setListKitchenOven(list);
+            updatedList = list.toString();
+            x2 = String.valueOf((updatedList));
+        }
+
+        PrintWriter pw = new PrintWriter("ConfigFiles\\ovenConfig.txt");
+        pw.close();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(x2).append("\n");
+
+        try {
+            Files.write(Paths.get("ConfigFiles\\ovenConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void cleanTv() {
+    private static void cleanTv() throws FileNotFoundException {
+        if (roomLocation.equals("LIVING ROOM")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices roomTv = new Devices();
+            List<Devices.roomTv> list = new ArrayList<>();
+            list.add(new Devices.roomTv(Devices.getLocation()));
+            list.add(new Devices.roomTv("TV"));
+            list.add(new Devices.roomTv("ON"));
+            list.add(new Devices.roomTv("0"));
+            roomTv.setListRoomTv(list);
+
+            updatedList = list.toString();
+            x1 = String.valueOf((updatedList));
+
+            updatedList1 = Arrays.toString(displayLine1);
+            x2 = String.valueOf((updatedList1));
+
+        } else if (roomLocation.equals("MAIN BEDROOM")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices roomTv = new Devices();
+            List<Devices.roomTv> list = new ArrayList<>();
+            list.add(new Devices.roomTv(Devices.getLocation()));
+            list.add(new Devices.roomTv("TV"));
+            list.add(new Devices.roomTv("ON"));
+            list.add(new Devices.roomTv("0"));
+            roomTv.setListRoomTv(list);
+
+            updatedList = Arrays.toString(displayLine);
+            x1 = String.valueOf((updatedList));
+
+            updatedList1 = list.toString();
+            x2 = String.valueOf((updatedList1));
+
+        }
+        PrintWriter pw = new PrintWriter("ConfigFiles\\tvConfig.txt");
+        pw.close();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(x1).append("\n");
+        sb.append(System.lineSeparator());
+        sb.append(x2).append("\n");
+
+        try {
+            Files.write(Paths.get("ConfigFiles\\tvConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void cleanKettle() {
+    private static void cleanKettle() throws FileNotFoundException {
+        if (roomLocation.equals("KITCHEN")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices kitchenKettle = new Devices();
+            List<Devices.kitchenKettle> list = new ArrayList<>();
+            list.add(new Devices.kitchenKettle(Devices.getLocation()));
+            list.add(new Devices.kitchenKettle("Kettle"));
+            list.add(new Devices.kitchenKettle("ON"));
+            list.add(new Devices.kitchenKettle("0"));
+            kitchenKettle.setListKitchenKettle(list);
+            updatedList = list.toString();
+            x2 = String.valueOf((updatedList));
+        }
+
+        PrintWriter pw = new PrintWriter("ConfigFiles\\kettleConfig.txt");
+        pw.close();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(x2).append("\n");
+
+        try {
+            Files.write(Paths.get("ConfigFiles\\kettleConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void cleanCoffeeMachine() {
+    private static void cleanCoffeeMachine() throws FileNotFoundException {
+        if (roomLocation.equals("KITCHEN")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices kitchenCoffeeMachine = new Devices();
+            List<Devices.kitchenCoffeeMachine> list = new ArrayList<>();
+            list.add(new Devices.kitchenCoffeeMachine(Devices.getLocation()));
+            list.add(new Devices.kitchenCoffeeMachine("Coffee Machine"));
+            list.add(new Devices.kitchenCoffeeMachine("ON"));
+            list.add(new Devices.kitchenCoffeeMachine("0"));
+            //Set list
+            kitchenCoffeeMachine.setListKitchenCoffeeMachine(list);
+            updatedList = list.toString();
+            x2 = String.valueOf((updatedList));
+        }
+        PrintWriter pw = new PrintWriter("ConfigFiles\\coffeeMachineConfig.txt");
+        pw.close();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(x2).append("\n");
+
+        try {
+            Files.write(Paths.get("ConfigFiles\\coffeeMachineConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void cleanAlarmClock() {
+    private static void cleanAlarmClock() throws FileNotFoundException {
+        if (roomLocation.equals("MAIN BEDROOM")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices roomAlarmClock = new Devices();
+            List<Devices.roomAlarmClock> list = new ArrayList<>();
+            list.add(new Devices.roomAlarmClock(Devices.getLocation()));
+            list.add(new Devices.roomAlarmClock("Alarm Clock"));
+            list.add(new Devices.roomAlarmClock("ON"));
+            list.add(new Devices.roomAlarmClock("0"));
+            list.add(new Devices.roomAlarmClock("0"));
+            roomAlarmClock.setListRoomAlarmClock(list);
+
+            updatedList = list.toString();
+            x1 = String.valueOf((updatedList));
+
+            updatedList1 = Arrays.toString(displayLine1);
+            x2 = String.valueOf((updatedList1));
+
+        } else if (roomLocation.equals("SECOND BEDROOM")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices roomAlarmClock = new Devices();
+            List<Devices.roomAlarmClock> list = new ArrayList<>();
+            list.add(new Devices.roomAlarmClock(Devices.getLocation()));
+            list.add(new Devices.roomAlarmClock("Alarm Clock"));
+            list.add(new Devices.roomAlarmClock("ON"));
+            list.add(new Devices.roomAlarmClock("0"));
+            list.add(new Devices.roomAlarmClock("0"));
+            roomAlarmClock.setListRoomAlarmClock(list);
+
+            updatedList = Arrays.toString(displayLine);
+            x1 = String.valueOf((updatedList));
+
+            updatedList1 = list.toString();
+            x2 = String.valueOf((updatedList1));
+        }
+        PrintWriter pw = new PrintWriter("ConfigFiles\\alarmClockConfig.txt");
+        pw.close();
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(x1).append("\n");
+        sb.append(System.lineSeparator());
+        sb.append(x2).append("\n");
+
+        try {
+            Files.write(Paths.get("ConfigFiles\\alarmClockConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

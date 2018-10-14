@@ -538,7 +538,7 @@ class Simulator {
         }
     }
 
-    private static String dynamicMotionSensors() {
+    static String dynamicMotionSensors() {
         if (time > 21) {
             travelTo = "MAIN BEDROOM";
         } else {

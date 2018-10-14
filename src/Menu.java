@@ -55,7 +55,7 @@ public class Menu {
         choice = input.nextInt();
 
         //Makes sure use inputs 0, 1, 2 or 3 only
-        while (choice >= 4) {
+        while (choice > 3) {
             System.out.println("Wrong input...");
             System.out.println("Please enter only (0), (1), (2) OR (3)");
             choice = input.nextInt();
@@ -91,9 +91,9 @@ public class Menu {
                     initialChoice();
                 }
 
-                while (configChoice > 2) {
+                while (configChoice > 3) {
                     System.out.println("Wrong input...");
-                    System.out.println("Please enter only (0), (1) OR ()");
+                    System.out.println("Please enter only (0), (1) OR (3)");
                     configChoice = input.nextInt();
                 }
                 initialStart = false;

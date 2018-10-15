@@ -559,6 +559,18 @@ class Clean {
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
                     displayLine3 = data.split(", ");
                 }
+
+                if (values[0].equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    displayLine3 = data.split(", ");
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    displayLine3 = data.split(", ");
+                }
+
+                if (values[0].equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                    displayLine3 = data.split(", ");
+                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
+                    displayLine3 = data.split(", ");
+                }
             }
             inputStream.close();
         } catch (FileNotFoundException e) {
@@ -576,15 +588,60 @@ class Clean {
             list.add(new Devices.ceilingFan("0"));
             ceilingFanList.setListCeilingFan(list);
 
+            updatedList = list.toString();
+            x1 = String.valueOf((updatedList));
+            updatedList1 = Arrays.toString(displayLine2);
+            x2 = String.valueOf((updatedList1));
+            updatedList2 = Arrays.toString(displayLine3);
+            x3 = String.valueOf((updatedList2));
+
+        } else if (values[0].equals("MAIN BEDROOM")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices ceilingFanList = new Devices();
+            List<Devices.ceilingFan> list = new ArrayList<>();
+            list.add(new Devices.ceilingFan("MAIN BEDROOM"));
+            list.add(new Devices.ceilingFan("Ceiling Fan"));
+            list.add(new Devices.ceilingFan("OFF"));
+            list.add(new Devices.ceilingFan("0"));
+            ceilingFanList.setListCeilingFan(list);
+
+            updatedList = Arrays.toString(displayLine1);
+            x1 = String.valueOf((updatedList));
+            updatedList1 = list.toString();
+            x2 = String.valueOf((updatedList1));
+            updatedList2 = Arrays.toString(displayLine3);
+            x3 = String.valueOf((updatedList2));
+
+        } else if (values[0].equals("SECOND BEDROOM")) {
+            Devices location = new Devices();
+            location.setLocation(roomLocation);
+            Devices ceilingFanList = new Devices();
+            List<Devices.ceilingFan> list = new ArrayList<>();
+            list.add(new Devices.ceilingFan("SECOND BEDROOM"));
+            list.add(new Devices.ceilingFan("Ceiling Fan"));
+            list.add(new Devices.ceilingFan("OFF"));
+            list.add(new Devices.ceilingFan("0"));
+            ceilingFanList.setListCeilingFan(list);
+
+            updatedList = Arrays.toString(displayLine1);
+            x1 = String.valueOf((updatedList));
+            updatedList1 = Arrays.toString(displayLine2);
+            x2 = String.valueOf((updatedList1));
             updatedList2 = list.toString();
-            x2 = String.valueOf((updatedList2));
+            x3 = String.valueOf((updatedList2));
 
         }
+
         PrintWriter pw = new PrintWriter("ConfigFiles\\ceilingFanConfig.txt");
         pw.close();
 
         StringBuilder sb = new StringBuilder();
+        sb.append(x1).append("\n");
+        sb.append(System.lineSeparator());
         sb.append(x2).append("\n");
+        sb.append(System.lineSeparator());
+        sb.append(x3).append("\n");
 
         try {
             Files.write(Paths.get("ConfigFiles\\ceilingFanConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);

@@ -178,7 +178,24 @@ class House {
             e.printStackTrace();
         }
         //Fan
-        //Needs to be coded still
+        String fileName3 = "ConfigFiles\\ceilingFanConfig.txt";
+        File file3 = new File(fileName3);
+        try {
+            Scanner inputStream = new Scanner(file3);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    displayLine4 = data.split(", ");
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    displayLine4 = data.split(", ");
+                }
+            }
+            System.out.println(Arrays.toString(displayLine4));
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         //TV
         String fileName4 = "ConfigFiles\\tvConfig.txt";
@@ -260,7 +277,24 @@ class House {
             e.printStackTrace();
         }
         //Fan
-        //Still needs to be coded
+        String fileName2 = "ConfigFiles\\ceilingFanConfig.txt";
+        File file2 = new File(fileName2);
+        try {
+            Scanner inputStream = new Scanner(file2);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                    displayLine3 = data.split(", ");
+                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
+                    displayLine3 = data.split(", ");
+                }
+            }
+            System.out.println(Arrays.toString(displayLine3));
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         //Alarm Clock
         String fileName3 = "ConfigFiles\\alarmClockConfig.txt";

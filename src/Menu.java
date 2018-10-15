@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Menu {
     static int x;
     static String weatherType;
-    private static boolean initialStart = true;
 
 
     public static void main(String args[]) throws InterruptedException, FileNotFoundException {

@@ -1010,7 +1010,7 @@ class Simulator {
                 double ceilingFanListTemp;
                 if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
                     inDoorTemp = Devices.livingRoomTemp();
-                    displayLine3 = data.split(", ");
+                    displayLine1 = data.split(", ");
                     ceilingFanListTemp = Double.parseDouble(values[3]);
                     switch (Menu.weatherType) {
                         // 30 - 1
@@ -1078,6 +1078,158 @@ class Simulator {
                     }
                     //LIVING ROOM - OFF
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    displayLine1 = data.split(", ");
+                    ceilingFanListTemp = 0;
+                    values[3] = String.valueOf(ceilingFanListTemp);
+                    //Re-format user inputs to act as a refresher
+                }
+
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    inDoorTemp = Devices.livingRoomTemp();
+                    displayLine2 = data.split(", ");
+                    ceilingFanListTemp = Double.parseDouble(values[3]);
+                    switch (Menu.weatherType) {
+                        // 30 - 1
+                        case "SUNNY":
+                            if (ceilingFanTemp < 28 && ceilingFanTemp > 26) {
+                                //Cool the room down by 2 degrees
+                                ceilingFanSpeed = 1;
+                            } else if (ceilingFanTemp < 26 && ceilingFanTemp > 24) {
+                                //Cool the room down by 4 degrees
+                                ceilingFanSpeed = 2;
+                            } else if (ceilingFanTemp < 24 && ceilingFanTemp > 22) {
+                                //Cool the room down by 6 degrees
+                                ceilingFanSpeed = 3;
+                            } else if (ceilingFanTemp >= 29 && inDoorTemp >= 29) {
+                                ceilingFanSpeed = 0;
+                            }
+                            break;
+                        // 28 - 1
+                        case "CLOUDY":
+                            if ((ceilingFanTemp < 26 && ceilingFanTemp > 24) && (inDoorTemp < 27 && inDoorTemp > 22)) {
+                                //Cool the room down by 2 degrees
+                                ceilingFanSpeed = 1;
+                            } else if ((ceilingFanTemp < 24 && ceilingFanTemp > 22) && (inDoorTemp < 27 && inDoorTemp > 22)) {
+                                //Cool the room down by 4 degrees
+                                ceilingFanSpeed = 2;
+                            } else if ((ceilingFanTemp < 22 && ceilingFanTemp > 20) && (inDoorTemp < 27 && inDoorTemp > 22)) {
+                                //Cool the room down by 6 degrees
+                                ceilingFanSpeed = 3;
+                            } else if (ceilingFanTemp >= 27 && inDoorTemp >= 27) {
+                                ceilingFanSpeed = 0;
+                            }
+                            break;
+                        // 26
+                        case "RAINY":
+                            if ((ceilingFanTemp < 25 && ceilingFanTemp > 23) && (inDoorTemp < 26 && inDoorTemp > 21)) {
+                                //Cool the room down by 2 degrees
+                                ceilingFanSpeed = 1;
+                            } else if ((ceilingFanTemp < 23 && ceilingFanTemp > 21) && (inDoorTemp < 26 && inDoorTemp > 21)) {
+                                //Cool the room down by 4 degrees
+                                ceilingFanSpeed = 2;
+                            } else if ((ceilingFanTemp < 21 && ceilingFanTemp > 19) && (inDoorTemp < 26 && inDoorTemp > 21)) {
+                                //Cool the room down by 6 degrees
+                                ceilingFanSpeed = 3;
+                            } else if (ceilingFanTemp >= 26 && inDoorTemp >= 26) {
+                                ceilingFanSpeed = 0;
+                            }
+                            break;
+                    }
+
+                    //Display when device switches on and off
+                    if (ceilingFanListTemp < inDoorTemp && !livingRoomCeilingFan) {
+                        System.out.println(" ");
+                        System.out.println("\nMain Bedroom Ceiling Fan has switched ON!");
+                        System.out.printf("Outdoor Temperature: " + "%.2f", temperature);
+                        System.out.print("°");
+                        System.out.println("\nTemperature set to: " + decimalFormat.format(inDoorTemp) + "°");
+                        System.out.println("Ceiling Fan Speed set to: " + ceilingFanSpeed);
+                        livingRoomCeilingFan = true;
+                    }
+
+                    if (ceilingFanListTemp > inDoorTemp && livingRoomCeilingFan) {
+                        System.out.println(" ");
+                        System.out.println("\nMain Bedroom Ceiling Fan has switched OFF!");
+                        livingRoomCeilingFan = false;
+                    }
+                    //LIVING ROOM - OFF
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    displayLine2 = data.split(", ");
+                    ceilingFanListTemp = 0;
+                    values[3] = String.valueOf(ceilingFanListTemp);
+                    //Re-format user inputs to act as a refresher
+                }
+
+                if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                    inDoorTemp = Devices.livingRoomTemp();
+                    displayLine3 = data.split(", ");
+                    ceilingFanListTemp = Double.parseDouble(values[3]);
+                    switch (Menu.weatherType) {
+                        // 30 - 1
+                        case "SUNNY":
+                            if (ceilingFanTemp < 28 && ceilingFanTemp > 26) {
+                                //Cool the room down by 2 degrees
+                                ceilingFanSpeed = 1;
+                            } else if (ceilingFanTemp < 26 && ceilingFanTemp > 24) {
+                                //Cool the room down by 4 degrees
+                                ceilingFanSpeed = 2;
+                            } else if (ceilingFanTemp < 24 && ceilingFanTemp > 22) {
+                                //Cool the room down by 6 degrees
+                                ceilingFanSpeed = 3;
+                            } else if (ceilingFanTemp >= 29 && inDoorTemp >= 29) {
+                                ceilingFanSpeed = 0;
+                            }
+                            break;
+                        // 28 - 1
+                        case "CLOUDY":
+                            if ((ceilingFanTemp < 26 && ceilingFanTemp > 24) && (inDoorTemp < 27 && inDoorTemp > 22)) {
+                                //Cool the room down by 2 degrees
+                                ceilingFanSpeed = 1;
+                            } else if ((ceilingFanTemp < 24 && ceilingFanTemp > 22) && (inDoorTemp < 27 && inDoorTemp > 22)) {
+                                //Cool the room down by 4 degrees
+                                ceilingFanSpeed = 2;
+                            } else if ((ceilingFanTemp < 22 && ceilingFanTemp > 20) && (inDoorTemp < 27 && inDoorTemp > 22)) {
+                                //Cool the room down by 6 degrees
+                                ceilingFanSpeed = 3;
+                            } else if (ceilingFanTemp >= 27 && inDoorTemp >= 27) {
+                                ceilingFanSpeed = 0;
+                            }
+                            break;
+                        // 26
+                        case "RAINY":
+                            if ((ceilingFanTemp < 25 && ceilingFanTemp > 23) && (inDoorTemp < 26 && inDoorTemp > 21)) {
+                                //Cool the room down by 2 degrees
+                                ceilingFanSpeed = 1;
+                            } else if ((ceilingFanTemp < 23 && ceilingFanTemp > 21) && (inDoorTemp < 26 && inDoorTemp > 21)) {
+                                //Cool the room down by 4 degrees
+                                ceilingFanSpeed = 2;
+                            } else if ((ceilingFanTemp < 21 && ceilingFanTemp > 19) && (inDoorTemp < 26 && inDoorTemp > 21)) {
+                                //Cool the room down by 6 degrees
+                                ceilingFanSpeed = 3;
+                            } else if (ceilingFanTemp >= 26 && inDoorTemp >= 26) {
+                                ceilingFanSpeed = 0;
+                            }
+                            break;
+                    }
+
+                    //Display when device switches on and off
+                    if (ceilingFanListTemp < inDoorTemp && !livingRoomCeilingFan) {
+                        System.out.println(" ");
+                        System.out.println("\nSecond Bedroom Ceiling Fan has switched ON!");
+                        System.out.printf("Outdoor Temperature: " + "%.2f", temperature);
+                        System.out.print("°");
+                        System.out.println("\nTemperature set to: " + decimalFormat.format(inDoorTemp) + "°");
+                        System.out.println("Ceiling Fan Speed set to: " + ceilingFanSpeed);
+                        livingRoomCeilingFan = true;
+                    }
+
+                    if (ceilingFanListTemp > inDoorTemp && livingRoomCeilingFan) {
+                        System.out.println(" ");
+                        System.out.println("\nSecond Bedroom Ceiling Fan has switched OFF!");
+                        livingRoomCeilingFan = false;
+                    }
+                    //LIVING ROOM - OFF
+                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
                     displayLine3 = data.split(", ");
                     ceilingFanListTemp = 0;
                     values[3] = String.valueOf(ceilingFanListTemp);

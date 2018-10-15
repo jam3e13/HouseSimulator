@@ -1,1 +1,5 @@
 LIVING ROOM,Ceiling Fan,OFF,0
+
+MAIN BEDROOM,Ceiling Fan,OFF,0
+
+SECOND BEDROOM,Ceiling Fan,OFF,0

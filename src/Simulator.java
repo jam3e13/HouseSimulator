@@ -13,9 +13,9 @@ class Simulator {
     private static double garageTemp;
     private static double gardenTemp;
     private static String data, morningMode, lunchMode, dinnerMode;
-    private static boolean mainRoomAC, livingRoomAc, livingRoomCeilingFan, carRunning, morningBoolean, lunchBoolean, dinnerBoolean;
+    private static boolean tvON, kettleBoiled, behaviour1, behaviour2, behaviour3, mainRoomAC, livingRoomAc, livingRoomCeilingFan, carRunning, morningBoolean, lunchBoolean, dinnerBoolean, alarmSound, makeMainBedroomCoffee, makeSecondBedroomCoffee, alarmCoffee;
     private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5;
-    private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0 ;
+    private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0;
     private static int morningChoice, lunchChoice, dinnerChoice;
     static String travelTo = "";
 
@@ -538,7 +538,7 @@ class Simulator {
         }
     }
 
-    static String dynamicMotionSensors() {
+    private static String dynamicMotionSensors() {
         if (time > 21) {
             travelTo = "MAIN BEDROOM";
         } else {
@@ -1339,26 +1339,58 @@ class Simulator {
                 data = inputStream.nextLine();
                 values = data.split(",");
 
-                //GARAGE - ON
-                double garageDoorList;
+                //MAIN BEDROOM - ON
+                double alarmTime;
+                String alarmBehaviour;
                 if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
                     displayLine4 = data.split(", ");
-                    garageDoorList = Double.parseDouble(values[3]);
+                    alarmTime = Double.parseDouble(values[3]);
+                    alarmBehaviour = values[4];
 
-                    //GARAGE - OFF
+                    if (alarmTime < time && !alarmSound) {
+                        System.out.println("\nAlarm has Turned ON");
+                        System.out.println("BEEP.. BEEP.. BEEP..");
+                        alarmSound = true;
+                    } else if (time <= 29) {
+                        alarmSound = false;
+                    }
+
+                    if (alarmBehaviour.equals("1")) {
+                        //Morning Coffee always
+                        makeMainBedroomCoffee = true;
+                    } else if (alarmBehaviour.equals("2")) {
+                        //Morning Coffee never
+                        makeMainBedroomCoffee = false;
+                    }
+
+
+                    //MAIN BEDROOM - OFF
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     displayLine4 = data.split(", ");
-                    garageDoorList = 0;
-                    values[3] = String.valueOf(garageDoorList);
+
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
                     displayLine4 = data.split(", ");
-                    garageDoorList = Double.parseDouble(values[3]);
+                    alarmTime = Double.parseDouble(values[3]);
+                    alarmBehaviour = values[4];
 
-                    //GARAGE - OFF
+                    if (alarmTime < time && !alarmSound) {
+                        System.out.println("\nAlarm has Turned ON");
+                        System.out.println("BEEP.. BEEP.. BEEP..");
+                        alarmSound = true;
+                    } else if (time <= 29) {
+                        alarmSound = false;
+                    }
+
+                    if (alarmBehaviour.equals("1")) {
+                        //Morning Coffee always
+                        makeSecondBedroomCoffee = true;
+                    } else if (alarmBehaviour.equals("2")) {
+                        //Morning Coffee never
+                        makeSecondBedroomCoffee = false;
+                    }
+
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
                     displayLine4 = data.split(", ");
-                    garageDoorList = 0;
-                    values[3] = String.valueOf(garageDoorList);
                 }
             }
 
@@ -1447,13 +1479,66 @@ class Simulator {
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
+                String coffeeBehaviour;
                 //KITCHEN - ON
                 if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
                     displayLine1 = data.split(", ");
+
+                    if (makeMainBedroomCoffee && makeSecondBedroomCoffee && !alarmCoffee) {
+                        System.out.println("\nMorning Coffee Boiling!");
+                        alarmCoffee = true;
+                    } else if (makeMainBedroomCoffee && !alarmCoffee) {
+                        System.out.println("\nMorning Coffee Boiling!");
+                        alarmCoffee = true;
+                    } else if (makeSecondBedroomCoffee && !alarmCoffee) {
+                        System.out.println("\nMorning Coffee Boiling!");
+                        alarmCoffee = true;
+                    } else if (time <= 29 && alarmCoffee) {
+                        alarmCoffee = false;
+                    }
+                    coffeeBehaviour = values[3];
+
+                    if (coffeeBehaviour.equals("1") && !alarmCoffee) {
+                        //Coffee Addiction
+                        if (time < 7 && !behaviour1) {
+                            behaviour1 = true;
+                            System.out.println("\nMorning Coffee Boiling!");
+                        } else if (time <= 29 && behaviour1) {
+                            behaviour1 = false;
+                        }
+                    } else if (coffeeBehaviour.equals("2")) {
+                        //All day Coffee
+                        if (time < 7 && !behaviour2) {
+                            System.out.println("\nAll Day Coffee Boiling!");
+                            behaviour2 = true;
+                        } else if (time < 12 && !behaviour2) {
+                            System.out.println("\nAll Day Coffee Boiling!");
+                            behaviour2 = true;
+                        } else if (time < 16.30 && !behaviour2) {
+                            System.out.println("\nAll Day Coffee Boiling!");
+                            behaviour2 = true;
+                        } else if (time <= 29 && behaviour2) {
+                            behaviour2 = false;
+                        }
+                    } else if (coffeeBehaviour.equals("3")) {
+                        //Fresh Blend
+                        if (time < 7 && time > 9 && travelTo.equals("KITCHEN") && !behaviour3) {
+                            System.out.println("\nFresh Blend, Morning Coffee Boiling!");
+                            behaviour3 = true;
+                        } else if (time < 12 && time > 14 && travelTo.equals("KITCHEN") && !behaviour3) {
+                            System.out.println("\nFresh Blend, Lunch Coffee Boiling!");
+                            behaviour3 = true;
+                        } else if (time < 16.30 && time > 18 && travelTo.equals("KITCHEN") && !behaviour3) {
+                            System.out.println("\nFresh Blend, Afternoon Coffee Boiling!");
+                            behaviour3 = true;
+                        } else if (time <= 29 && behaviour3) {
+                            behaviour3 = false;
+                        }
+                    }
+
                     //KITCHEN - OFF
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
                     displayLine1 = data.split(", ");
-                    //Re-format user inputs to act as a refresher
                 }
             }
 
@@ -1472,13 +1557,32 @@ class Simulator {
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
+                String kettleBehaviour;
                 //KITCHEN - ON
                 if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
                     displayLine1 = data.split(", ");
+                    kettleBehaviour = values[3];
+
+                    if (kettleBehaviour.equals("1") && travelTo.equals("KITCHEN") && !kettleBoiled) {
+                        //Auto Boil - Turns on when person walks into kitchen
+                        System.out.println("\nKettle has Started to Boil!");
+                        kettleBoiled = true;
+                    } else if (kettleBehaviour.equals("2") && travelTo.equals("KITCHEN") && !kettleBoiled) {
+                        //Manual Boil - Randomly turns on when person in kitchen
+                        Random rand = new Random();
+                        //1 : 5 chance for weather to change every minute
+                        int n = rand.nextInt(5) + 1;
+                        kettleBoiled = true;
+                        if (n == 1) {
+                            System.out.println("\nKettle has Started to Boil!");
+                        }
+                    } else if (time <= 29 && kettleBoiled) {
+                        kettleBoiled = false;
+                    }
+
                     //KITCHEN - OFF
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
                     displayLine1 = data.split(", ");
-                    //Re-format user inputs to act as a refresher
                 }
             }
 
@@ -1497,22 +1601,47 @@ class Simulator {
             while (inputStream.hasNext()) {
                 data = inputStream.nextLine();
                 values = data.split(",");
+                double tvOffTime;
                 //LIVING ROOM - ON
                 if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
                     displayLine5 = data.split(", ");
+                    tvOffTime = Double.parseDouble(values[3]);
+
+                    if (time < 7.30 && travelTo.equals("LIVING ROOM") && !tvON) {
+                        System.out.println("\nTV has Turned ON in LIVING ROOM!");
+                        tvON = true;
+                    } else if (tvOffTime < time && travelTo.equals("LIVING ROOM") && tvON) {
+                        System.out.println("\nTV has Turned OFF in LIVING ROOM!");
+                        tvON = false;
+                    } else if (!travelTo.equals("LIVING ROOM") && tvON) {
+                        tvON = false;
+                        System.out.println("\nTV has Turned OFF in LIVING ROOM!");
+                    }
+
                     //LIVING ROOM - OFF
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
                     displayLine5 = data.split(", ");
-                    //Re-format user inputs to act as a refresher
                 }
 
                 //MAIN BEDROOM - ON
                 if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
                     displayLine5 = data.split(", ");
+                    tvOffTime = Double.parseDouble(values[3]);
+
+                    if (time < 7.30 && travelTo.equals("LIVING ROOM") && !tvON) {
+                        System.out.println("\nTV has Turned ON in LIVING ROOM!");
+                        tvON = true;
+                    } else if (tvOffTime < time && travelTo.equals("LIVING ROOM") && tvON) {
+                        System.out.println("\nTV has Turned OFF in LIVING ROOM!");
+                        tvON = false;
+                    } else if (!travelTo.equals("LIVING ROOM") && tvON) {
+                        tvON = false;
+                        System.out.println("\nTV has Turned OFF in LIVING ROOM!");
+                    }
+
                     //MAIN BEDROOM - OFF
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     displayLine5 = data.split(", ");
-                    //Re-format user inputs to act as a refresher
                 }
             }
 
@@ -1608,7 +1737,7 @@ class Simulator {
                     }
 
 
-                //KITCHEN - OFF
+                    //KITCHEN - OFF
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
                     displayLine1 = data.split(", ");
                     //Re-format user inputs to act as a refresher

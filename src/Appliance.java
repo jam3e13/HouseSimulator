@@ -1321,7 +1321,7 @@ public class Appliance {
         System.out.println("Enter either; 1, 2 or 3 below, OR Enter 0 to EXIT.");
         System.out.println("\n1) Coffee Addiction - Wakes you up to the smell of fresh coffee; every morning.");
         System.out.println("2) All day Coffee - Prepares; Breakfast, Lunch, Afternoon coffee.");
-        System.out.println("3) Fresh Blend - Starts making coffee when you enter Kitchen; specified times.");
+        System.out.println("3) Fresh Blend - Starts making coffee when you enter Kitchen; During specified times.");
 
         carSetting = input.nextInt();
 
@@ -1342,13 +1342,10 @@ public class Appliance {
         }
 
         if (carSetting == 1) {
-            //1 Water - 6:00pm
             kettleMode = "Coffee Addiction";
         } else if (carSetting == 2) {
-            //2 Water - 9:00am / 6:00pm
             kettleMode = "All day Coffee";
         } else if (carSetting == 3) {
-            //3 Water - 9:00am / 6:00pm / 2:00am
             kettleMode = "Fresh Blend";
         }
 

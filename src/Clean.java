@@ -15,6 +15,9 @@ class Clean {
 
     static void cleanUserInputs() throws FileNotFoundException {
 
+
+
+
         //Fixtures overwrite with empty user inputs
         cleanMotionSensors();
         cleanAirCon();

@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 
 public class Menu {
-    private static int choice, configChoice;
     static int x;
     static String weatherType;
     private static boolean initialStart = true;
@@ -35,10 +34,6 @@ public class Menu {
         menuDisplay();
         //User choice to run option
         initialChoice();
-        //Displays menu second time to re-run sim with changes
-        //menuDisplay();
-        //User choice to run sim again
-        //secondChoice();
     }
 
     static void menuDisplay() {
@@ -46,17 +41,18 @@ public class Menu {
         System.out.println("\n0) Exit Program");
         System.out.println("1) Run Simulation");
         System.out.println("2) Configure Simulation");
+        System.out.println("3) House Contents");
     }
 
     static void initialChoice() throws InterruptedException, FileNotFoundException {
         //Gets user input
         Scanner input = new Scanner(System.in);
-        choice = input.nextInt();
+        int choice = input.nextInt();
 
         //Makes sure use inputs 0, 1 or 2 only
-        while (choice > 2) {
+        while (choice > 3) {
             System.out.println("Wrong input...");
-            System.out.println("Please enter only (0), (1) OR (2)");
+            System.out.println("Please enter only (0), (1), (2) OR (3)");
             choice = input.nextInt();
         }
 
@@ -67,101 +63,66 @@ public class Menu {
             getSimInfo();
             Simulator.runSimulator(weatherType);
             System.out.println("Simulation Finished...");
+            //Displays menu
+            menuDisplay();
+            //User choice to run option
+            initialChoice();
         } else if (choice == 2) {
             //Configure Appliances and Fixtures
             System.out.println("Configure opening...");
-            if (initialStart) {
-                System.out.println("1) Fixtures");
-                System.out.println("2) Appliances");
-                System.out.println("3) Wipe Config Files Clean");
-                System.out.println("0) Back");
-                configChoice = input.nextInt();
 
-                if (configChoice == 1) {
-                    Fixture.fixtureSetUp();
-                } else if (configChoice == 2) {
-                    Appliance.applianceSetUp();
-                } else if (configChoice == 3) {
+            System.out.println("1) Fixtures");
+            System.out.println("2) Appliances");
+            System.out.println("3) Wipe Config Files Clean");
+            System.out.println("0) Back");
+            int configChoice = input.nextInt();
+
+            if (configChoice == 1) {
+                Fixture.fixtureSetUp();
+            } else if (configChoice == 2) {
+                Appliance.applianceSetUp();
+            } else if (configChoice == 3) {
+                System.out.println("Are you sure you want to erase previous user inputs?");
+                System.out.println("1) - Continue");
+                System.out.println("0) - Back");
+                int eraseChoice = input.nextInt();
+                if (eraseChoice == 1) {
                     Clean.cleanUserInputs();
-                } else if (configChoice == 0) {
+                } else if (eraseChoice == 2) {
                     //Displays menu
                     menuDisplay();
                     //User choice to run option
                     initialChoice();
                 }
 
-                while (configChoice > 3) {
+                while (eraseChoice > 2) {
                     System.out.println("Wrong input...");
-                    System.out.println("Please enter only (0), (1) OR (3)");
-                    configChoice = input.nextInt();
+                    System.out.println("Please enter only (1) OR (0)");
+                    eraseChoice = input.nextInt();
                 }
-                initialStart = false;
+            } else if (configChoice == 0) {
                 //Displays menu
                 menuDisplay();
                 //User choice to run option
                 initialChoice();
-            } else {
-                //Add code for second try
             }
-        } else if (choice == 0) {
-            //Quit program
-            System.out.println("Good Bye...");
-        }
-    }
 
-    private static void secondChoice() throws InterruptedException, FileNotFoundException {
-        //Gets user input
-        Scanner input = new Scanner(System.in);
-        choice = input.nextInt();
-
-        //Makes sure use inputs 0, 1, 2 or 3 only
-        while (choice > 2) {
-            System.out.println("Wrong input...");
-            System.out.println("Please enter only (0), (1) OR (2)");
-            choice = input.nextInt();
-        }
-
-        //User choices
-        if (choice == 1) {
-            //Run simulation
-            System.out.println("Simulation Started...");
-            getSimInfo();
-            //Simulator simulator = new Simulator();
-            Simulator.runSimulator(weatherType);
-            System.out.println("Simulation Finished...");
-        } else if (choice == 2) {
-            //Configure Appliances and Fixtures
-            System.out.println("Configure opening...");
-            if (initialStart) {
-                System.out.println("1) Fixtures");
-                System.out.println("2) Appliances");
-                System.out.println("3) Wipe Config Files Clean");
-                System.out.println("0) Back");
+            while (configChoice > 3) {
+                System.out.println("Wrong input...");
+                System.out.println("Please enter only (0), (1), (2) OR (3)");
                 configChoice = input.nextInt();
-
-                if (configChoice == 1) {
-                    Fixture.fixtureSetUp();
-                } else if (configChoice == 2) {
-                    Appliance.applianceSetUp();
-                } else if (configChoice == 3) {
-                    Clean.cleanUserInputs();
-                } else if (configChoice == 0) {
-                    //Displays menu
-                    menuDisplay();
-                    //User choice to run option
-                    initialChoice();
-                }
-
-                while (configChoice > 3) {
-                    System.out.println("Wrong input...");
-                    System.out.println("Please enter only (0), (1) OR ()");
-                    configChoice = input.nextInt();
-                }
-                initialStart = false;
-            } else {
-                //Fixture.fixtureFlow();
-                //Appliance.applianceFlow();
             }
+            //Displays menu
+            menuDisplay();
+            //User choice to run option
+            initialChoice();
+
+        } else if (choice == 3) {
+            House.viewHouseDevices();
+            //Displays menu
+            menuDisplay();
+            //User choice to run option
+            initialChoice();
         } else if (choice == 0) {
             //Quit program
             System.out.println("Good Bye...");

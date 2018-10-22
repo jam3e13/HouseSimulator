@@ -1,10 +1,18 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-class Simulator {
+class Simulator extends JFrame {
     static double inDoorTempSetter, time = 5;
     private static double temperature, inDoorTemp, lightOn, lightOn2, sunLightValue, livingRTemp;
     private static double mainRTemp, morningTotal, lunchTotal, dinnerTotal;
@@ -19,7 +27,21 @@ class Simulator {
     private static int morningChoice, lunchChoice, dinnerChoice;
     static String travelTo = "";
 
+    private static final String stop = "Stop";
+    private static final String start = "Start";
+    private final ClockListener clock = new ClockListener();
+    private final Timer timer = new Timer(53, clock);
+    private final JTextField tf = new JTextField(9);
+    private final SimpleDateFormat date = new SimpleDateFormat("hh.mm.ss");
+    private long startTime;
+
     static void runSimulator(String weatherType) throws InterruptedException {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        SwingUtilities.invokeLater(() -> new Simulator().setVisible(true));
 
         do {
             String simChoice = Menu.weatherType;
@@ -97,6 +119,155 @@ class Simulator {
             time += 0.06;// 10 hits every 60 minutes, 1 hit equals 6 minutes.
         } while (time < 30);
     }
+
+    private Simulator() {
+        JPanel newPanel = new JPanel();
+        newPanel.setLayout(new GridBagLayout());
+
+        JLabel labelTime = new JLabel("TIME");
+
+        timer.setInitialDelay(0);
+
+        JPanel panelTime = new JPanel();
+        tf.setHorizontalAlignment(JTextField.RIGHT);
+        tf.setEditable(false);
+        panelTime.add(tf);
+        final JToggleButton b = new JToggleButton(start);
+        b.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (b.isSelected()) {
+                    startTime = System.currentTimeMillis();
+                    timer.start();
+                    b.setText(stop);
+                }
+                else {
+                    updateClock();
+                    startTime = 0;
+
+                    timer.stop();
+                    b.setText(start);
+                }
+            }
+        });
+        panelTime.add(b);
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.add(panelTime);
+        this.setTitle("House Simulator");
+        this.pack();
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+
+        JLabel labelTemp = new JLabel("TEMPERATURE");
+        JLabel labelSun = new JLabel("SUN LIGHT");
+
+        JTextField textTime = new JTextField(20);
+        JTextField textTemperature = new JTextField(20);
+        JTextField textSun = new JTextField(20);
+
+        JButton buttonLivingRoom = new JButton("LivingRoom");
+        JButton buttonMainBedroom = new JButton("MainBedroom");
+        JButton buttonSecondBedroom = new JButton("SecondBedroom");
+        JButton buttonKitchen = new JButton("Kitchen");
+        JButton buttonGarage = new JButton("Garage");
+        JButton buttonGarden = new JButton("Garden");
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.insets = new Insets(10, 10, 10, 10);
+
+        // add components to the panel
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        newPanel.add(labelTime, constraints);
+
+        constraints.gridx = 1;
+        newPanel.add(textTime, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        newPanel.add(labelTemp, constraints);
+
+        constraints.gridx = 1;
+        newPanel.add(textTemperature, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        newPanel.add(labelSun, constraints);
+
+        constraints.gridx = 1;
+        newPanel.add(textSun, constraints);
+
+        //Living Room Button Position
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.WEST;
+        newPanel.add(buttonLivingRoom, constraints);
+
+        //Main Bedroom Button Position
+        constraints.gridx = 1;
+        constraints.gridy = 2;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.CENTER;
+        newPanel.add(buttonMainBedroom, constraints);
+
+        //Second Bedroom Button Position
+        constraints.gridx = 2;
+        constraints.gridy = 2;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.EAST;
+        newPanel.add(buttonSecondBedroom, constraints);
+
+        //Kitchen Button Position
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.WEST;
+        newPanel.add(buttonKitchen, constraints);
+
+        //Garage Button Position
+        constraints.gridx = 1;
+        constraints.gridy = 3;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.CENTER;
+        newPanel.add(buttonGarage, constraints);
+
+        //Garden Button Position
+        constraints.gridx = 2;
+        constraints.gridy = 3;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.EAST;
+        newPanel.add(buttonGarden, constraints);
+
+        // set border for the panel
+        newPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Enter Description"));
+
+        // add the panel to this frame
+        add(newPanel);
+
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    private void updateClock() {
+        Date elapsed = new Date(System.currentTimeMillis() - startTime);
+        tf.setText(date.format(elapsed));
+    }
+    private class ClockListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            updateClock();
+        }
+    }
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            Simulator clock = new Simulator();
+        });
+    }
+
 
     private static void halfHourlyDisplay() {
         if (time == 5.00) {

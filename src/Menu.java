@@ -1,13 +1,27 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 
-public class Menu {
+public class Menu extends JFrame {
     static int x;
     static String weatherType;
 
 
     public static void main(String args[]) throws InterruptedException, FileNotFoundException {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            new Menu().setVisible(true);
+        });
+
         //Welcome message
         System.out.println("Welcome to the Autonomous Devices Simulator");
         System.out.println("\n" + "Please Enter the simulation run speed");
@@ -33,6 +47,82 @@ public class Menu {
         menuDisplay();
         //User choice to run option
         initialChoice();
+    }
+
+    private Menu() {
+        JPanel newPanel = new JPanel();
+        newPanel.setLayout(new GridBagLayout());
+        newPanel.setBackground(Color.LIGHT_GRAY);
+        this.setTitle("MENU");
+
+        JButton buttonRunSim = new JButton("RUN SIMULATION");
+        buttonRunSim.setBackground(Color.BLUE);
+        JButton buttonConfig = new JButton("CONFIGURE DEVICES");
+        buttonConfig.setBackground(Color.BLUE);
+        JButton buttonDevice = new JButton("DEVICE VIEW");
+        buttonDevice.setBackground(Color.BLUE);
+
+
+        buttonRunSim.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Simulator.runSimulator(Menu.weatherType);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            }
+        });
+
+        buttonConfig.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TabConfig.main();
+                JOptionPane.showMessageDialog(null,"Config Display");
+            }
+        });
+
+        buttonDevice.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null,"Device Display");
+            }
+        });
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(10, 10, 10, 10);
+
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.insets = new Insets(10, 10, 10, 10);
+        newPanel.add(buttonRunSim, constraints);
+
+        constraints.gridx = 2;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.insets = new Insets(10, 10, 10, 10);
+        newPanel.add(buttonConfig, constraints);
+
+        constraints.gridx = 4;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.insets = new Insets(10, 10, 10, 10);
+        newPanel.add(buttonDevice, constraints);
+
+        // set border for the panel
+        newPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder()));
+
+        // add the panel to this frame
+        add(newPanel);
+
+        pack();
+        setLocationRelativeTo(null);
     }
 
     static void menuDisplay() {

@@ -4199,7 +4199,7 @@ public class TabConfig extends JFrame {
 
         //Updates any new AC fixtures into one list
         //Refreshes the list by erasing then recreating
-        PrintWriter pw = new PrintWriter("ConfigFiles/kettleConfig.txt");
+        PrintWriter pw = new PrintWriter("ConfigFiles/coffeeMachineConfig.txt");
         pw.close();
 
         StringBuilder sb = new StringBuilder();
@@ -4207,7 +4207,7 @@ public class TabConfig extends JFrame {
         sb.append(x1).append("\n");
 
         try {
-            Files.write(Paths.get("ConfigFiles/kettleConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+            Files.write(Paths.get("ConfigFiles/coffeeMachineConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
         }

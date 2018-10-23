@@ -572,13 +572,13 @@ public class Appliance {
 
         while (setUpTvOption > 24) {
             System.out.println("Wrong Minute Input...");
-            System.out.println("\nPlease enter Alarm Clock Hours (12pm - 12am)");
+            System.out.println("\nPlease enter Hours (12pm - 12am)");
             System.out.println("\nHour: ");
             setUpTvOption = input.nextInt();
         }
         while (setUpTvOption < 12) {
             System.out.println("Wrong Minute Input...");
-            System.out.println("\nPlease enter Alarm Clock Hours (12pm - 12am)");
+            System.out.println("\nPlease enter Hours (12pm - 12am)");
             System.out.println("\nHour: ");
             setUpTvOption = input.nextInt();
         }
@@ -586,13 +586,13 @@ public class Appliance {
         setUpTvOption1 = input.nextDouble();
         while (setUpTvOption1 > 60.00) {
             System.out.println("Wrong Minute Input...");
-            System.out.println("\nPlease enter Alarm Clock Minutes (00 - 60)");
+            System.out.println("\nPlease enter Minutes (00 - 60)");
             System.out.println("Minute: ");
             setUpTvOption1 = input.nextDouble();
         }
         while (setUpTvOption1 < 00.00) {
             System.out.println("Wrong Minute Input...");
-            System.out.println("\nPlease enter Alarm Clock Minutes (00 - 60)");
+            System.out.println("\nPlease enter Minutes (00 - 60)");
             System.out.println("Minute: ");
             setUpTvOption1 = input.nextDouble();
         }
@@ -600,7 +600,7 @@ public class Appliance {
         tvUserSettings = setUpTvOption1 / 100;
         tvUserSettings = tvUserSettings + setUpTvOption;
 
-        System.out.printf("Alarm Set: " + "%.2f", tvUserSettings);
+        System.out.printf("Turn Off, Set: " + "%.2f", tvUserSettings);
 
         //saves to user chosen room
         //Timer settings

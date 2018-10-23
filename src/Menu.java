@@ -79,7 +79,7 @@ public class Menu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TabConfig.main();
-                JOptionPane.showMessageDialog(null,"Config Display");
+                //JOptionPane.showMessageDialog(null,"Config Display");
             }
         });
 

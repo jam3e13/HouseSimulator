@@ -16,7 +16,7 @@ import javax.swing.*;
 import javax.swing.JOptionPane;
 
 public class TabConfig extends JFrame {
-    final static String LIVINGROOMPANEL = "LIVING ROOM";
+    private final static String LIVINGROOMPANEL = "LIVING ROOM";
     final static String MAINBEDROOMPANEL = "MAIN BEDROOM";
     final static String SECONDBEDROOMPANEL = "SECOND BEDROOM";
     final static String KITCHENPANEL = "KITCHEN";
@@ -25,7 +25,7 @@ public class TabConfig extends JFrame {
     static double livingRoomTvOffTime, livingRoomTvMinuteInput, mainBedroomAlarmMinInput, alarmClockTotal, ovenMorningAlarmMinute, ovenLunchAlarmMinute, ovenDinnerAlarmMinute, ovenAlarmMorning, ovenAlarmLunch, ovenAlarmDinner;
     static String morningAfternoon, carMode, kettleMode, coffeMachineMode, sprinklerMode, morningMode, lunchMode, dinnerMode, smartAlarmMode, data, x1, x2, x3, x4, x5, x6, updatedList, updatedList1, updatedList2, updatedList3, updatedList4, updatedList5, livingRoomLightMode, livingRoomMotionSensorMode;
     static int livingRoomTvHourInput, ovenMorningInput, coffeeMachineInput, kettleAlarm, ovenLunchInput, ovenDinnerInput, garageCarLightsInput, smartAlarmInput, mainBedroomAlarmInput, sprinklerInput, garageDoorLightsInput, livingRoomAirConInput, livingRoomLightsInput, livingRoomMotionSensorInput, livingRoomFanInput, ovenMorningAlarmHour, ovenLunchAlarmHour, ovenDinnerAlarmHour;
-    static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5, displayLine6;
+    private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5, displayLine6;
 
     private final static int extraWindowWidth = 100;
 

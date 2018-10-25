@@ -277,10 +277,6 @@ public class Fixture {
                 }
             }
 
-            //Displays menu
-            Menu.menuDisplay();
-            //User choice to run option
-            Menu.initialChoice();
         } while (choice != 0);
 
     }

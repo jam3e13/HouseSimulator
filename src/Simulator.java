@@ -1,53 +1,63 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.Scanner;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalTime;
+
 
 class Simulator extends JFrame {
-    static double inDoorTempSetter, time = 5;
-    private static double temperature, inDoorTemp, lightOn, lightOn2, sunLightValue, livingRTemp;
+    private static final LocalTime SIM_START_TIME = LocalTime.parse("05:00");
+    public static LocalTime time = SIM_START_TIME;
+    static double inDoorTempSetter;
+    public static double temperature, inDoorTemp, lightOn, lightOn2, sunLight, sunLightValue, livingRTemp;
     private static double mainRTemp, morningTotal, lunchTotal, dinnerTotal;
     private static double secondRTemp;
     private static double kitchenTemp;
     private static double garageTemp;
-    private static double gardenTemp;
-    private static String data, morningMode, lunchMode, dinnerMode;
+    static double gardenTemp, fullClock = time.getHour() + time.getMinute();
+    public static String data, morningMode, lunchMode, dinnerMode, timeStatusText;
     private static boolean tvON, kettleBoiled, behaviour1, behaviour2, behaviour3, mainRoomAC, livingRoomAc, livingRoomCeilingFan, carRunning, morningBoolean, lunchBoolean, dinnerBoolean, alarmSound, makeMainBedroomCoffee, makeSecondBedroomCoffee, alarmCoffee;
     private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5;
     private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0;
     private static int morningChoice, lunchChoice, dinnerChoice;
     static String travelTo = "";
+    private static SimGUI gui = new SimGUI();
 
-    private static final String stop = "Stop";
-    private static final String start = "Start";
-    private final ClockListener clock = new ClockListener();
-    private final Timer timer = new Timer(53, clock);
-    private final JTextField tf = new JTextField(9);
-    private final SimpleDateFormat date = new SimpleDateFormat("hh.mm.ss");
-    private long startTime;
 
-    static void runSimulator(String weatherType) throws InterruptedException {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        SwingUtilities.invokeLater(() -> new Simulator().setVisible(true));
+    public static void main(String weatherType) {
+        //TODO make GUI appear same time as Sim is run to update GUI
+        gui.setVisible(true);
+        Simulator.runSimulator(Menu.weatherType);
+    }
 
+
+    public static void runSimulator(String weatherType) {
         do {
-            String simChoice = Menu.weatherType;
-            time = Weather.timeCorrection();
-            temperature = Weather.tempCorrection();
-            sunLightValue = Sun.getSunLightChange();// change to solid light not increase
+            //Clock starts at 05:00AM
+            time = time.plusMinutes(1);
+
+            //Gets the morning weather type
+            temperature = Weather.getTemperature();
+
+            //Adds Temperature value every minute
+            temperature += Weather.dynamicIncrease();
+
+            //Sets the Light value for weather every hour
+            sunLight = Sun.getSunLight();
+
+            //TODO make the sun light increase and decrease show right values
+            //Before 12:00 Increase Light | After 12:00 Decrease Light
+            if (time.getHour() < 12) {
+                //am
+                sunLight += Sun.sunLightIncrease();
+            } else if (time.getHour() > 12) {
+                //pm
+                sunLight += Sun.sunLightDecrease();
+            }
+
 
             //Sets temperature for each room
             livingRTemp = Devices.livingRoomTemp();
@@ -57,17 +67,6 @@ class Simulator extends JFrame {
             garageTemp = Devices.garageTemp();
             gardenTemp = Devices.gardenTemps();
 
-            //Time before 12:00pm
-            if (time >= 12) {
-                temperature += Weather.dynamicIncrease();
-                sunLightValue += Sun.sunLightIncrease();
-                //Time after 12:00pm
-            } else if (time < 12) {
-                temperature += Weather.dynamicIncrease();
-                sunLightValue += Sun.sunLightIncrease();
-            } else {
-                System.out.println("Temperature change - Failed...");
-            }
 
             //Gets the Weather for sim
             dynamicWeather();
@@ -97,515 +96,38 @@ class Simulator extends JFrame {
             //Behaviour change for Coffee Machine
             dynamicCoffeeMachine();
 
-            if (temperature > 28) {
-                simChoice = "SUNNY";
-            }
+            //Updates GUI
+            updateLabels();
 
-            switch (simChoice) {
+            //Display for System.out()
+            halfHourlyDisplay();
 
-                case "SUNNY":
-                    halfHourlyDisplay();
-                    Thread.sleep(Menu.x);
-                    break;
-                case "CLOUDY":
-                    halfHourlyDisplay();
-                    Thread.sleep(Menu.x);
-                    break;
-                case "RAINY":
-                    halfHourlyDisplay();
-                    Thread.sleep(Menu.x);
-                    break;
-            }
-            time += 0.06;// 10 hits every 60 minutes, 1 hit equals 6 minutes.
-        } while (time < 30);
+
+            //Loop finish once 24 Hours has passed.
+        } while (!(time == SIM_START_TIME));
     }
 
-    private Simulator() {
-        JPanel newPanel = new JPanel();
-        newPanel.setLayout(new GridBagLayout());
+    private static void updateLabels() {
 
-        JLabel labelTime = new JLabel("TIME");
+        final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
 
-        timer.setInitialDelay(0);
-
-        JPanel panelTime = new JPanel();
-        tf.setHorizontalAlignment(JTextField.RIGHT);
-        tf.setEditable(false);
-        panelTime.add(tf);
-        final JToggleButton b = new JToggleButton(start);
-        b.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (b.isSelected()) {
-                    startTime = System.currentTimeMillis();
-                    timer.start();
-                    b.setText(stop);
-                }
-                else {
-                    updateClock();
-                    startTime = 0;
-
-                    timer.stop();
-                    b.setText(start);
-                }
-            }
-        });
-        panelTime.add(b);
-
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.add(panelTime);
-        this.setTitle("House Simulator");
-        this.pack();
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-
-        JLabel labelTemp = new JLabel("TEMPERATURE");
-        JLabel labelSun = new JLabel("SUN LIGHT");
-
-        JTextField textTime = new JTextField(20);
-        JTextField textTemperature = new JTextField(20);
-        JTextField textSun = new JTextField(20);
-
-        JButton buttonLivingRoom = new JButton("LivingRoom");
-        JButton buttonMainBedroom = new JButton("MainBedroom");
-        JButton buttonSecondBedroom = new JButton("SecondBedroom");
-        JButton buttonKitchen = new JButton("Kitchen");
-        JButton buttonGarage = new JButton("Garage");
-        JButton buttonGarden = new JButton("Garden");
-
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(10, 10, 10, 10);
-
-        // add components to the panel
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        newPanel.add(labelTime, constraints);
-
-        constraints.gridx = 1;
-        newPanel.add(textTime, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        newPanel.add(labelTemp, constraints);
-
-        constraints.gridx = 1;
-        newPanel.add(textTemperature, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        newPanel.add(labelSun, constraints);
-
-        constraints.gridx = 1;
-        newPanel.add(textSun, constraints);
-
-        //Living Room Button Position
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.WEST;
-        newPanel.add(buttonLivingRoom, constraints);
-
-        //Main Bedroom Button Position
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.CENTER;
-        newPanel.add(buttonMainBedroom, constraints);
-
-        //Second Bedroom Button Position
-        constraints.gridx = 2;
-        constraints.gridy = 2;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.EAST;
-        newPanel.add(buttonSecondBedroom, constraints);
-
-        //Kitchen Button Position
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.WEST;
-        newPanel.add(buttonKitchen, constraints);
-
-        //Garage Button Position
-        constraints.gridx = 1;
-        constraints.gridy = 3;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.CENTER;
-        newPanel.add(buttonGarage, constraints);
-
-        //Garden Button Position
-        constraints.gridx = 2;
-        constraints.gridy = 3;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.EAST;
-        newPanel.add(buttonGarden, constraints);
-
-        // set border for the panel
-        newPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Enter Description"));
-
-        // add the panel to this frame
-        add(newPanel);
-
-        pack();
-        setLocationRelativeTo(null);
-    }
-
-    private void updateClock() {
-        Date elapsed = new Date(System.currentTimeMillis() - startTime);
-        tf.setText(date.format(elapsed));
-    }
-    private class ClockListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            updateClock();
-        }
-    }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            Simulator clock = new Simulator();
-        });
+        timeStatusText = (TIME_FORMAT.format(time));
     }
 
 
     private static void halfHourlyDisplay() {
-        if (time == 5.00) {
-            System.out.printf("%n" + "Time: 05:00 am");
+        if (time.getHour() < 12) {
+            System.out.println(time + " am");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
+            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLight);
             System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 5.301 && time > 5.29) {
-            System.out.printf("%n" + "Time: 05:30 am");
+        } else if (time.getHour() > 12) {
+            System.out.println(time + " pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 6.00) {
-            System.out.printf("%n" + "Time: 06:00 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 6.301 && time > 6.29) {
-            System.out.printf("%n" + "Time: 06:30 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 7.00) {
-            System.out.printf("%n" + "Time: 07:00 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 7.301 && time > 7.29) {
-            System.out.printf("%n" + "Time: 07:30 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 8.00) {
-            System.out.printf("%n" + "Time: 08:00 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 8.301 && time > 8.29) {
-            System.out.printf("%n" + "Time: 08:30 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 9.00) {
-            System.out.printf("%n" + "Time: 09:00 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 9.301 && time > 9.29) {
-            System.out.printf("%n" + "Time: 09:30 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 10.00) {
-            System.out.printf("%n" + "Time: 10:00 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 10.301 && time > 10.29) {
-            System.out.printf("%n" + "Time: 10:30 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 11.00) {
-            System.out.printf("%n" + "Time: 11:00 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 11.301 && time > 11.29) {
-            System.out.printf("%n" + "Time: 11:30 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 12.00) {
-            System.out.printf("%n" + "Time: 12:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 12.301 && time > 12.29) {
-            System.out.printf("%n" + "Time: 12:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 13.00) {
-            System.out.printf("%n" + "Time: 01:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 13.301 && time > 13.29) {
-            System.out.printf("%n" + "Time: 01:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 14.00) {
-            System.out.printf("%n" + "Time: 02:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 14.301 && time > 14.29) {
-            System.out.printf("%n" + "Time: 02:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 15.00) {
-            System.out.printf("%n" + "Time: 03:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 15.301 && time > 15.29) {
-            System.out.printf("%n" + "Time: 03:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 16.00) {
-            System.out.printf("%n" + "Time: 04:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 16.301 && time > 16.29) {
-            System.out.printf("%n" + "Time: 04:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 17.00) {
-            System.out.printf("%n" + "Time: 05:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 17.301 && time > 17.29) {
-            System.out.printf("%n" + "Time: 05:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 18.00) {
-            System.out.printf("%n" + "Time: 06:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 18.301 && time > 18.29) {
-            System.out.printf("%n" + "Time: 06:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 19.00) {
-            System.out.printf("%n" + "Time: 07:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 19.301 && time > 19.29) {
-            System.out.printf("%n" + "Time: 07:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 20.00) {
-            System.out.printf("%n" + "Time: 08:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 20.301 && time > 20.29) {
-            System.out.printf("%n" + "Time: 08:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 21.00) {
-            System.out.printf("%n" + "Time: 09:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 21.301 && time > 21.29) {
-            System.out.printf("%n" + "Time: 09:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 22.00) {
-            System.out.printf("%n" + "Time: 10:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 22.301 && time > 22.29) {
-            System.out.printf("%n" + "Time: 10:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 23.00) {
-            System.out.printf("%n" + "Time: 11:00 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 23.301 && time > 23.29) {
-            System.out.printf("%n" + "Time: 11:30 pm");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 24.00) {
-            System.out.printf("%n" + "Time: 00:00 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 24.301 && time > 24.29) {
-            System.out.printf("%n" + "Time: 00:30 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 25.00) {
-            System.out.printf("%n" + "Time: 01:00 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 25.301 && time > 25.29) {
-            System.out.printf("%n" + "Time: 01:30 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 26.00) {
-            System.out.printf("%n" + "Time: 02:00 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 26.301 && time > 26.29) {
-            System.out.printf("%n" + "Time: 02:30 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 27.00) {
-            System.out.printf("%n" + "Time: 03:00 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 27.301 && time > 27.29) {
-            System.out.printf("%n" + "Time: 03:30 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time == 28.00) {
-            System.out.printf("%n" + "Time: 04:00 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
-        } else if (time <= 28.301 && time > 28.29) {
-            System.out.printf("%n" + "Time: 04:30 am");
-            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-            System.out.print("°");
-            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLightValue);
-            System.out.print("%");
-            dynamicTravel();
+            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLight);
+            System.out.print("%\n");
         }
     }
 
@@ -701,7 +223,7 @@ class Simulator extends JFrame {
         String oldWeather = Menu.weatherType;
 
         if (n == 1) {
-            String weatherChange = Menu.getSimInfo();
+            String weatherChange = Menu.getWeatherType();
 
             if (!weatherChange.equals(oldWeather)) {
                 Menu.weatherType = weatherChange;
@@ -710,7 +232,7 @@ class Simulator extends JFrame {
     }
 
     private static String dynamicMotionSensors() {
-        if (time > 21) {
+        if (time.getHour() > 21) {
             travelTo = "MAIN BEDROOM";
         } else {
             Random rand = new Random();
@@ -847,7 +369,7 @@ class Simulator extends JFrame {
 
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
-                        if (lightOn > sunLightValue && lightOn2 < time) {
+                        if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nMain Room Lights have switched ON!");
                             mainRoomAC = true;
@@ -859,7 +381,7 @@ class Simulator extends JFrame {
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
-                        if (lightOn < sunLightValue && lightOn2 > time) {
+                        if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nMain Room Lights have switched OFF!");
                             mainRoomAC = false;
@@ -903,7 +425,7 @@ class Simulator extends JFrame {
 
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
-                        if (lightOn > sunLightValue && lightOn2 < time) {
+                        if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nLiving Room Lights have switched ON!");
                             mainRoomAC = true;
@@ -915,7 +437,7 @@ class Simulator extends JFrame {
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
-                        if (lightOn < sunLightValue && lightOn2 > time) {
+                        if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nLiving Room Lights have switched OFF!");
                             mainRoomAC = false;
@@ -958,7 +480,7 @@ class Simulator extends JFrame {
 
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
-                        if (lightOn > sunLightValue && lightOn2 < time) {
+                        if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nSecond Bedroom Lights have switched ON!");
                             mainRoomAC = true;
@@ -970,7 +492,7 @@ class Simulator extends JFrame {
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
-                        if (lightOn < sunLightValue && lightOn2 > time) {
+                        if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nSecond Bedroom Lights have switched OFF!");
                             mainRoomAC = false;
@@ -1013,7 +535,7 @@ class Simulator extends JFrame {
 
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
-                        if (lightOn > sunLightValue && lightOn2 < time) {
+                        if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nKitchen Lights have switched ON!");
                             mainRoomAC = true;
@@ -1025,7 +547,7 @@ class Simulator extends JFrame {
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
-                        if (lightOn < sunLightValue && lightOn2 > time) {
+                        if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nKitchen Lights have switched OFF!");
                             mainRoomAC = false;
@@ -1068,7 +590,7 @@ class Simulator extends JFrame {
 
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
-                        if (lightOn > sunLightValue && lightOn2 < time) {
+                        if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nGarage Lights have switched ON!");
                             mainRoomAC = true;
@@ -1080,7 +602,7 @@ class Simulator extends JFrame {
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
-                        if (lightOn < sunLightValue && lightOn2 > time) {
+                        if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nGarage Lights have switched OFF!");
                             mainRoomAC = false;
@@ -1124,7 +646,7 @@ class Simulator extends JFrame {
 
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
-                        if (lightOn > sunLightValue && lightOn2 < time) {
+                        if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nGarden Lights have switched ON!");
                             mainRoomAC = true;
@@ -1136,7 +658,7 @@ class Simulator extends JFrame {
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
-                        if (lightOn < sunLightValue && lightOn2 > time) {
+                        if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
                             System.out.println(" ");
                             System.out.println("\nGarden Lights have switched OFF!");
                             mainRoomAC = false;
@@ -1426,6 +948,11 @@ class Simulator extends JFrame {
                 values = data.split(",");
                 //GARAGE - ON
                 double garageDoorList;
+
+                LocalTime a = LocalTime.parse("07:30");
+                LocalTime b = LocalTime.parse("12:30");
+                LocalTime c = LocalTime.parse("17:30");
+
                 if (values[0].equals("GARAGE") && values[2].equals("ON")) {
                     displayLine4 = data.split(", ");
                     garageDoorList = Double.parseDouble(values[3]);
@@ -1435,43 +962,43 @@ class Simulator extends JFrame {
                     //1 : 4 chance for Garage Door display chance
                     int randomX = rand.nextInt(4) + 1;
 
-                    if ((randomX == 1) && (time <= 7.301 && time > 7.29)) {
+                    if ((randomX == 1) && (time.equals(a))) {
                         System.out.println(" ");
                         System.out.println("\nGarage Door is opening Now!");
                         garageDoorCloseSequence = 1;
-                    } else if ((randomX == 4) && (time <= 7.301 && time > 7.29)) {
+                    } else if ((randomX == 4) && (time.equals(a))) {
                         System.out.println(" ");
                         System.out.println("\nGarage Door accessed via Secure Mobile!");
                         garageDoorCloseSequence = 1;
-                    } else if ((randomX < 4 && randomX > 1) && (time <= 7.301 && time > 7.29)) {
+                    } else if ((randomX < 4 && randomX > 1) && (time.equals(a))) {
                         System.out.println(" ");
                         System.out.println("\nGarage Door accessed remotely! Please Inspect!!");
                         garageDoorCloseSequence = 1;
                     }
 
-                    if ((time <= 12.301 && time > 12.29) && (randomX == 1)) {
+                    if ((time.equals(b)) && (randomX == 1)) {
                         System.out.println(" ");
                         System.out.println("\nGarage Door is opening Now!");
                         garageDoorCloseSequence = 1;
-                    } else if ((time <= 12.301 && time > 12.29) && (randomX == 4)) {
+                    } else if ((time.equals(b)) && (randomX == 4)) {
                         System.out.println(" ");
                         System.out.println("\nGarage Door accessed via Secure Mobile!");
                         garageDoorCloseSequence = 1;
-                    } else if ((time <= 12.301 && time > 12.29) && (randomX < 4 && randomX > 1)) {
+                    } else if ((time.equals(b)) && (randomX < 4 && randomX > 1)) {
                         System.out.println(" ");
                         System.out.println("\nGarage Door accessed remotely! Please Inspect!!");
                         garageDoorCloseSequence = 1;
                     }
 
-                    if ((time <= 17.301 && time > 17.29) && (randomX == 1)) {
+                    if ((time.equals(c)) && (randomX == 1)) {
                         System.out.println(" ");
                         System.out.println("\nGarage Door is opening Now!");
                         garageDoorCloseSequence = 1;
-                    } else if ((time <= 17.301 && time > 17.29) && (randomX == 4)) {
+                    } else if ((time.equals(c)) && (randomX == 4)) {
                         System.out.println(" ");
                         System.out.println("\nGarage Door accessed via Secure Mobile!");
                         garageDoorCloseSequence = 1;
-                    } else if ((time <= 17.301 && time > 17.29) && (randomX < 4 && randomX > 1)) {
+                    } else if ((time.equals(c)) && (randomX < 4 && randomX > 1)) {
                         System.out.println(" ");
                         System.out.println("\nGarage Door accessed remotely! Please Inspect!!");
                         garageDoorCloseSequence = 1;
@@ -1519,9 +1046,10 @@ class Simulator extends JFrame {
                     switch (Menu.weatherType) {
                         case "SUNNY":
                             if (sprinklerListTemp == 1) {
+
                                 //1 Water - 6:00pm
                                 sprinklerMode = "Extreme Water Saver Mode";
-                                if (time > 17.59 && time < 18.01) {
+                                if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 25;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
@@ -1530,12 +1058,12 @@ class Simulator extends JFrame {
                             } else if (sprinklerListTemp == 2) {
                                 //2 Water - 9:00am / 6:00pm
                                 sprinklerMode = "Water Saver Mode";
-                                if (time > 8.59 && time < 9.01) {
+                                if (time.getHour() == 9) {
                                     //9:00am
                                     gardenTemp = 27;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
                                     System.out.println("Garden Temperature: " + gardenTemp);
-                                } else if (time > 17.59 && time < 18.01) {
+                                } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 25;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
@@ -1544,17 +1072,17 @@ class Simulator extends JFrame {
                             } else if (sprinklerListTemp == 3) {
                                 //3 Water - 9:00am / 6:00pm / 2:00am
                                 sprinklerMode = "Full Flow Mode";
-                                if (time >= 8.59 && time < 9.01) {
+                                if (time.getHour() == 9) {
                                     //9:00am
                                     gardenTemp = 27;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
                                     System.out.println("Garden Temperature: " + gardenTemp);
-                                } else if (time > 17.59 && time < 18.01) {
+                                } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 25;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
                                     System.out.println("Garden Temperature: " + gardenTemp);
-                                } else if (time > 25.59 && time < 26.01) {
+                                } else if (time.getHour() == 2) {
                                     //2:00am
                                     gardenTemp = 17;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
@@ -1567,7 +1095,7 @@ class Simulator extends JFrame {
                             if (sprinklerListTemp == 1) {
                                 //1 Water - 6:00pm
                                 sprinklerMode = "Extreme Water Saver Mode";
-                                if (time > 17.59 && time < 18.01) {
+                                if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 23;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
@@ -1576,12 +1104,12 @@ class Simulator extends JFrame {
                             } else if (sprinklerListTemp == 2) {
                                 //2 Water - 9:00am / 6:00pm
                                 sprinklerMode = "Water Saver Mode";
-                                if (time > 8.59 && time < 9.01) {
+                                if (time.getHour() == 9) {
                                     //9:00am
                                     gardenTemp = 25;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
                                     System.out.println("Garden Temperature: " + gardenTemp);
-                                } else if (time > 17.59 && time < 18.01) {
+                                } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 23;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
@@ -1590,12 +1118,12 @@ class Simulator extends JFrame {
                             } else if (sprinklerListTemp == 3) {
                                 //2 Water - 9:00am / 6:00pm
                                 sprinklerMode = "Water Saver Mode";
-                                if (time > 8.59 && time < 9.01) {
+                                if (time.getHour() == 9) {
                                     //9:00am
                                     gardenTemp = 25;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
                                     System.out.println("Garden Temperature: " + gardenTemp);
-                                } else if (time > 17.59 && time < 18.01) {
+                                } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 23;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
@@ -1608,7 +1136,7 @@ class Simulator extends JFrame {
                             if (sprinklerListTemp == 1) {
                                 //1 Water - 6:00pm
                                 sprinklerMode = "Extreme Water Saver Mode";
-                                if (time > 17.59 && time < 18.01) {
+                                if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 22;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
@@ -1617,7 +1145,7 @@ class Simulator extends JFrame {
                             } else if (sprinklerListTemp == 2) {
                                 //1 Water - 6:00pm
                                 sprinklerMode = "Extreme Water Saver Mode";
-                                if (time > 17.59 && time < 18.01) {
+                                if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 22;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
@@ -1626,7 +1154,7 @@ class Simulator extends JFrame {
                             } else if (sprinklerListTemp == 3) {
                                 //1 Water - 6:00pm
                                 sprinklerMode = "Extreme Water Saver Mode";
-                                if (time > 17.59 && time < 18.01) {
+                                if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 22;
                                     System.out.println("\n" + sprinklerMode + " - Now Watering");
@@ -1670,11 +1198,11 @@ class Simulator extends JFrame {
                     alarmTime = Double.parseDouble(values[3]);
                     alarmBehaviour = values[4];
 
-                    if (alarmTime < time && !alarmSound) {
+                    if (alarmTime < fullClock && !alarmSound) {
                         System.out.println("\nAlarm has Turned ON");
                         System.out.println("BEEP.. BEEP.. BEEP..");
                         alarmSound = true;
-                    } else if (time <= 29) {
+                    } else if (time.getHour() == 4) {
                         alarmSound = false;
                     }
 
@@ -1696,11 +1224,11 @@ class Simulator extends JFrame {
                     alarmTime = Double.parseDouble(values[3]);
                     alarmBehaviour = values[4];
 
-                    if (alarmTime < time && !alarmSound) {
+                    if (alarmTime < fullClock && !alarmSound) {
                         System.out.println("\nAlarm has Turned ON");
                         System.out.println("BEEP.. BEEP.. BEEP..");
                         alarmSound = true;
-                    } else if (time <= 29) {
+                    } else if (time.getHour() == 4) {
                         alarmSound = false;
                     }
 
@@ -1816,45 +1344,45 @@ class Simulator extends JFrame {
                     } else if (makeSecondBedroomCoffee && !alarmCoffee) {
                         System.out.println("\nMorning Coffee Boiling!");
                         alarmCoffee = true;
-                    } else if (time <= 29 && alarmCoffee) {
+                    } else if (time.getHour() == 4 && alarmCoffee) {
                         alarmCoffee = false;
                     }
                     coffeeBehaviour = values[3];
 
                     if (coffeeBehaviour.equals("1") && !alarmCoffee) {
                         //Coffee Addiction
-                        if (time < 7 && !behaviour1) {
+                        if (time.getHour() < 7 && !behaviour1) {
                             behaviour1 = true;
                             System.out.println("\nMorning Coffee Boiling!");
-                        } else if (time <= 29 && behaviour1) {
+                        } else if (time.getHour() == 4 && behaviour1) {
                             behaviour1 = false;
                         }
                     } else if (coffeeBehaviour.equals("2")) {
                         //All day Coffee
-                        if (time < 7 && !behaviour2) {
+                        if (time.getHour() < 7 && !behaviour2) {
                             System.out.println("\nAll Day Coffee Boiling!");
                             behaviour2 = true;
-                        } else if (time < 12 && !behaviour2) {
+                        } else if (time.getHour() < 12 && !behaviour2) {
                             System.out.println("\nAll Day Coffee Boiling!");
                             behaviour2 = true;
-                        } else if (time < 16.30 && !behaviour2) {
+                        } else if (fullClock < 16.30 && !behaviour2) {
                             System.out.println("\nAll Day Coffee Boiling!");
                             behaviour2 = true;
-                        } else if (time <= 29 && behaviour2) {
+                        } else if (time.getHour() == 4 && behaviour2) {
                             behaviour2 = false;
                         }
                     } else if (coffeeBehaviour.equals("3")) {
                         //Fresh Blend
-                        if (time < 7 && time > 9 && travelTo.equals("KITCHEN") && !behaviour3) {
+                        if (time.getHour() < 7 && time.getHour() > 9 && travelTo.equals("KITCHEN") && !behaviour3) {
                             System.out.println("\nFresh Blend, Morning Coffee Boiling!");
                             behaviour3 = true;
-                        } else if (time < 12 && time > 14 && travelTo.equals("KITCHEN") && !behaviour3) {
+                        } else if (time.getHour() < 12 && time.getHour() > 14 && travelTo.equals("KITCHEN") && !behaviour3) {
                             System.out.println("\nFresh Blend, Lunch Coffee Boiling!");
                             behaviour3 = true;
-                        } else if (time < 16.30 && time > 18 && travelTo.equals("KITCHEN") && !behaviour3) {
+                        } else if (fullClock < 16.30 && time.getHour() > 18 && travelTo.equals("KITCHEN") && !behaviour3) {
                             System.out.println("\nFresh Blend, Afternoon Coffee Boiling!");
                             behaviour3 = true;
-                        } else if (time <= 29 && behaviour3) {
+                        } else if (time.getHour() == 4 && behaviour3) {
                             behaviour3 = false;
                         }
                     }
@@ -1899,7 +1427,7 @@ class Simulator extends JFrame {
                         if (n == 1) {
                             System.out.println("\nKettle has Started to Boil!");
                         }
-                    } else if (time <= 29 && kettleBoiled) {
+                    } else if (time.getHour() == 4 && kettleBoiled) {
                         kettleBoiled = false;
                     }
 
@@ -1930,10 +1458,10 @@ class Simulator extends JFrame {
                     displayLine5 = data.split(", ");
                     tvOffTime = Double.parseDouble(values[3]);
 
-                    if (time < 7.30 && travelTo.equals("LIVING ROOM") && !tvON) {
+                    if (fullClock < 7.30 && travelTo.equals("LIVING ROOM") && !tvON) {
                         System.out.println("\nTV has Turned ON in LIVING ROOM!");
                         tvON = true;
-                    } else if (tvOffTime < time && travelTo.equals("LIVING ROOM") && tvON) {
+                    } else if (tvOffTime < fullClock && travelTo.equals("LIVING ROOM") && tvON) {
                         System.out.println("\nTV has Turned OFF in LIVING ROOM!");
                         tvON = false;
                     } else if (!travelTo.equals("LIVING ROOM") && tvON) {
@@ -1951,10 +1479,10 @@ class Simulator extends JFrame {
                     displayLine5 = data.split(", ");
                     tvOffTime = Double.parseDouble(values[3]);
 
-                    if (time < 7.30 && travelTo.equals("LIVING ROOM") && !tvON) {
+                    if (fullClock < 7.30 && travelTo.equals("LIVING ROOM") && !tvON) {
                         System.out.println("\nTV has Turned ON in LIVING ROOM!");
                         tvON = true;
-                    } else if (tvOffTime < time && travelTo.equals("LIVING ROOM") && tvON) {
+                    } else if (tvOffTime < fullClock && travelTo.equals("LIVING ROOM") && tvON) {
                         System.out.println("\nTV has Turned OFF in LIVING ROOM!");
                         tvON = false;
                     } else if (!travelTo.equals("LIVING ROOM") && tvON) {
@@ -2000,14 +1528,14 @@ class Simulator extends JFrame {
                         morningMode = "Eggs and Bacon";
                     }
 
-                    if (morningAlarm < time && !morningBoolean) {
+                    if (morningAlarm < fullClock && !morningBoolean) {
                         System.out.println("\nThe Oven has Turned ON");
                         System.out.println("Your " + morningMode + " are/is Cooking.");
                         morningBoolean = true;
                         morningTotal = morningAlarm + 0.06;
                     }
 
-                    if (morningTotal > time && morningBoolean) {
+                    if (morningTotal > fullClock && morningBoolean) {
                         System.out.println("\nThe Oven has Turned OFF");
                         System.out.println("Your " + morningMode + " are/is Ready!");
                     }
@@ -2023,14 +1551,14 @@ class Simulator extends JFrame {
                         lunchMode = "Chicken and Rice Salad";
                     }
 
-                    if (lunchAlarm < time && !lunchBoolean) {
+                    if (lunchAlarm < fullClock && !lunchBoolean) {
                         System.out.println("The Oven has Turned ON");
                         System.out.println("Your " + lunchMode + " are/is Cooking.");
                         lunchBoolean = true;
                         lunchTotal = lunchAlarm + 0.12;
                     }
 
-                    if (lunchTotal > time && lunchBoolean) {
+                    if (lunchTotal > fullClock && lunchBoolean) {
                         System.out.println("The Oven has Turned OFF");
                         System.out.println("Your " + lunchMode + " are/is Ready!");
                     }
@@ -2047,14 +1575,14 @@ class Simulator extends JFrame {
                     }
 
 
-                    if (dinnerAlarm < time && !dinnerBoolean) {
+                    if (dinnerAlarm < fullClock && !dinnerBoolean) {
                         System.out.println("The Oven has Turned ON");
                         System.out.println("Your " + dinnerMode + " are/is Cooking.");
                         dinnerBoolean = true;
                         dinnerTotal = dinnerAlarm + 0.06;
                     }
 
-                    if (dinnerTotal > time && dinnerBoolean) {
+                    if (dinnerTotal > fullClock && dinnerBoolean) {
                         System.out.println("The Oven has Turned OFF");
                         System.out.println("Your " + dinnerMode + " are/is Ready!");
                     }
@@ -2206,4 +1734,5 @@ class Simulator extends JFrame {
     public static void setDinnerMode(String dinnerMode) {
         Simulator.dinnerMode = dinnerMode;
     }
+
 }

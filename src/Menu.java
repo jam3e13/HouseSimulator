@@ -1,7 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 
 
 public class Menu extends JFrame {
@@ -24,25 +28,35 @@ public class Menu extends JFrame {
         });
     }
 
+
     private Menu() {
         JPanel newPanel = new JPanel();
         newPanel.setLayout(new GridBagLayout());
         newPanel.setBackground(Color.LIGHT_GRAY);
+        newPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        newPanel.setPreferredSize(new Dimension(640, 200));
         this.setTitle("MENU");
 
-        JButton buttonRunSim = new JButton("RUN SIMULATION");
-        buttonRunSim.setBackground(Color.BLUE);
+        JButton buttonRunSim = new JButton("SIMULATION");
+        buttonRunSim.setBorder(new BasicBorders.ToggleButtonBorder(Color.LIGHT_GRAY, Color.gray, Color.DARK_GRAY, Color.gray));
+        buttonRunSim.setPreferredSize(new Dimension(160, 80));
+
         JButton buttonConfig = new JButton("CONFIGURE DEVICES");
-        buttonConfig.setBackground(Color.BLUE);
+        buttonConfig.setBorder(new BasicBorders.ToggleButtonBorder(Color.LIGHT_GRAY, Color.gray, Color.DARK_GRAY, Color.gray));
+        buttonConfig.setPreferredSize(new Dimension(160, 80));
+        buttonConfig.setBackground(Color.white);
+
         JButton buttonDevice = new JButton("DEVICE VIEW");
-        buttonDevice.setBackground(Color.BLUE);
+        buttonDevice.setBorder(new BasicBorders.ToggleButtonBorder(Color.LIGHT_GRAY, Color.gray, Color.DARK_GRAY, Color.gray));
+        buttonDevice.setPreferredSize(new Dimension(160, 80));
+        buttonDevice.setBackground(Color.white);
 
 
         buttonRunSim.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //getWeatherType();
-                Simulator.main(weatherType);
+                Simulator.main();
 
             }
         });

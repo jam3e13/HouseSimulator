@@ -9,14 +9,14 @@ import java.time.LocalTime;
 
 
 class Simulator extends JFrame {
-    private static final LocalTime SIM_START_TIME = LocalTime.parse("05:00");
+    public static final LocalTime SIM_START_TIME = LocalTime.parse("09:00");
     public static LocalTime time = SIM_START_TIME;
     static double inDoorTempSetter;
     public static double temperature, inDoorTemp, lightOn, lightOn2, sunLight, sunLightValue, livingRTemp;
-    private static double mainRTemp, morningTotal, lunchTotal, dinnerTotal;
-    private static double secondRTemp;
-    private static double kitchenTemp;
-    private static double garageTemp;
+    public static double mainRTemp, morningTotal, lunchTotal, dinnerTotal;
+    public static double secondRTemp;
+    public static double kitchenTemp;
+    public static double garageTemp;
     static double gardenTemp, fullClock = time.getHour() + time.getMinute();
     public static String data, morningMode, lunchMode, dinnerMode, ovenDisplay, tvDisplay, coffeeDisplay, kettleDisplay, carDisplay, alarmDisplay, sprinklerDisplay, garageDoorDisplay, acDisplay, lightDisplay, fanDisplay;
     private static boolean tvON, kettleBoiled, behaviour1, behaviour2, behaviour3, mainRoomAC, livingRoomAc, livingRoomCeilingFan, carRunning, morningBoolean, lunchBoolean, dinnerBoolean, alarmSound, makeMainBedroomCoffee, makeSecondBedroomCoffee, alarmCoffee;
@@ -27,14 +27,14 @@ class Simulator extends JFrame {
     private static SimGUI gui = new SimGUI();
 
 
-    public static void main(String weatherType) {
+    public static void main() {
         //TODO make GUI appear same time as Sim is run to update GUI
+        SimGUI gui = new SimGUI();
         gui.setVisible(true);
-        runSimulator(Menu.weatherType);
     }
 
 
-    public static void runSimulator(String weatherType) {
+    static void runSimulator() throws InterruptedException {
         do {
             //Clock starts at 05:00AM
             time = time.plusMinutes(1);
@@ -100,13 +100,17 @@ class Simulator extends JFrame {
             //Updates string to say what room person is in and change location
             travelTo = dynamicTravel();
             //Updates GUI
-            gui.updateDisplays(time, temperature, sunLight, Menu.weatherType, travelTo, lightDisplay, acDisplay, fanDisplay, garageDoorDisplay, sprinklerDisplay, acDisplay, carDisplay, ovenDisplay, tvDisplay, kettleDisplay, coffeeDisplay);
+            gui.updateDisplays();
             //Display for System.out()
-            halfHourlyDisplay();
+            //halfHourlyDisplay();
+
+
+            Thread.sleep(1000);
 
             //Loop finish once 24 Hours has passed.
         } while (!(time == SIM_START_TIME));
     }
+
 
     private static void halfHourlyDisplay() {
         if (time.getHour() < 12) {

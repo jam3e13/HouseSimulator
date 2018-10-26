@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.JOptionPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicBorders;
 
 public class TabConfig extends JFrame {
     private final static String LIVINGROOMPANEL = "LIVING ROOM";
@@ -31,22 +33,28 @@ public class TabConfig extends JFrame {
 
     private void addComponentToPane(Container pane) {
         JTabbedPane tabbedPane = new JTabbedPane();
-
+        tabbedPane.setBackground(Color.gray);
         //Create the "cards".
         JPanel card1 = new JPanel() {
             //Make the panel wider than it really needs, so
             //the window's wide enough for the tabs to stay
             //in one row.
             public Dimension getPreferredSize() {
-                Dimension size = super.getPreferredSize();
+                Dimension size = new Dimension(800, 200);
                 size.width += extraWindowWidth;
                 return size;
             }
         };
 
+
         //LIVING ROOM
+
+        card1.setBackground(Color.lightGray);
+        card1.setBorder(new BasicBorders.ToggleButtonBorder(Color.white, Color.gray, Color.darkGray, Color.black));
         JButton livingRoomMotionSensor = new JButton("Motion Sensors");
-        livingRoomMotionSensor.setBackground(Color.lightGray);
+        livingRoomMotionSensor.setPreferredSize(new Dimension(160, 80));
+        livingRoomMotionSensor.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+        livingRoomMotionSensor.setBackground(Color.gray);
         card1.add(livingRoomMotionSensor);
         livingRoomMotionSensor.addActionListener(new ActionListener() {
             @Override
@@ -146,7 +154,9 @@ public class TabConfig extends JFrame {
         });
 
         JButton livingRoomLights = new JButton("Lights");
-        livingRoomLights.setBackground(Color.lightGray);
+        livingRoomLights.setPreferredSize(new Dimension(160, 80));
+        livingRoomLights.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+        livingRoomLights.setBackground(Color.gray);
         card1.add(livingRoomLights);
         livingRoomLights.addActionListener(new ActionListener() {
             @Override
@@ -254,7 +264,9 @@ public class TabConfig extends JFrame {
         });
 
         JButton livingRoomAirCon = new JButton("Air Conditioner");
-        livingRoomAirCon.setBackground(Color.lightGray);
+        livingRoomAirCon.setPreferredSize(new Dimension(160, 80));
+        livingRoomAirCon.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+        livingRoomAirCon.setBackground(Color.gray);
         card1.add(livingRoomAirCon);
         livingRoomAirCon.addActionListener(new ActionListener() {
             @Override
@@ -330,7 +342,9 @@ public class TabConfig extends JFrame {
         });
 
         JButton livingRoomFan = new JButton("Ceiling Fan");
-        livingRoomFan.setBackground(Color.lightGray);
+        livingRoomFan.setPreferredSize(new Dimension(160, 80));
+        livingRoomFan.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+        livingRoomFan.setBackground(Color.gray);
         card1.add(livingRoomFan);
         livingRoomFan.addActionListener(new ActionListener() {
             @Override
@@ -407,7 +421,9 @@ public class TabConfig extends JFrame {
         });
 
         JButton livingRoomTv = new JButton("Tv");
-        livingRoomTv.setBackground(Color.lightGray);
+        livingRoomTv.setPreferredSize(new Dimension(160, 80));
+        livingRoomTv.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+        livingRoomTv.setBackground(Color.gray);
         card1.add(livingRoomTv);
         livingRoomTv.addActionListener(new ActionListener() {
             @Override
@@ -568,7 +584,10 @@ public class TabConfig extends JFrame {
 
         //MAIN BEDROOM
         JPanel card2 = new JPanel();
+        card2.setBackground(Color.lightGray);
+        card2.setBorder(new BasicBorders.ToggleButtonBorder(Color.white, Color.gray, Color.darkGray, Color.black));
         JButton mainBedroomMotionSensor = new JButton("Motion Sensors");
+        mainBedroomMotionSensor.setPreferredSize(new Dimension(160, 80));
         mainBedroomMotionSensor.setBackground(Color.lightGray);
         card2.add(mainBedroomMotionSensor);
         mainBedroomMotionSensor.addActionListener(new ActionListener() {
@@ -669,6 +688,7 @@ public class TabConfig extends JFrame {
         });
 
         JButton mainBedroomLights = new JButton("Lights");
+        mainBedroomLights.setPreferredSize(new Dimension(160, 80));
         mainBedroomLights.setBackground(Color.lightGray);
         card2.add(mainBedroomLights);
         mainBedroomLights.addActionListener(new ActionListener() {
@@ -1227,7 +1247,8 @@ public class TabConfig extends JFrame {
 
         //SECOND BEDROOM
         JPanel card3 = new JPanel();
-
+        card3.setBackground(Color.lightGray);
+        card3.setBorder(new BasicBorders.ToggleButtonBorder(Color.white, Color.gray, Color.darkGray, Color.black));
         JButton secondBedroomMotionSensor = new JButton("Motion Sensors");
         secondBedroomMotionSensor.setBackground(Color.lightGray);
         card3.add(secondBedroomMotionSensor);

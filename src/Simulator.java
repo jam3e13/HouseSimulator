@@ -18,7 +18,7 @@ class Simulator extends JFrame {
     private static double kitchenTemp;
     private static double garageTemp;
     static double gardenTemp, fullClock = time.getHour() + time.getMinute();
-    public static String data, morningMode, lunchMode, dinnerMode, timeStatusText;
+    public static String data, morningMode, lunchMode, dinnerMode, ovenDisplay, tvDisplay, coffeeDisplay, kettleDisplay, carDisplay, alarmDisplay, sprinklerDisplay, garageDoorDisplay, acDisplay, lightDisplay, fanDisplay;
     private static boolean tvON, kettleBoiled, behaviour1, behaviour2, behaviour3, mainRoomAC, livingRoomAc, livingRoomCeilingFan, carRunning, morningBoolean, lunchBoolean, dinnerBoolean, alarmSound, makeMainBedroomCoffee, makeSecondBedroomCoffee, alarmCoffee;
     private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5;
     private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0;
@@ -30,7 +30,7 @@ class Simulator extends JFrame {
     public static void main(String weatherType) {
         //TODO make GUI appear same time as Sim is run to update GUI
         gui.setVisible(true);
-        Simulator.runSimulator(Menu.weatherType);
+        runSimulator(Menu.weatherType);
     }
 
 
@@ -47,6 +47,8 @@ class Simulator extends JFrame {
 
             //Sets the Light value for weather every hour
             sunLight = Sun.getSunLight();
+
+            //TODO add water and energy functions for simulator
 
             //TODO make the sun light increase and decrease show right values
             //Before 12:00 Increase Light | After 12:00 Decrease Light
@@ -69,51 +71,42 @@ class Simulator extends JFrame {
 
 
             //Gets the Weather for sim
-            dynamicWeather();
+            Menu.weatherType = dynamicWeather();
             //Finds where the Person is for sim
-            dynamicMotionSensors();
+            travelTo = dynamicMotionSensors();
             //Turns on lights for user inputs/sensors
-            dynamicLights();
+            lightDisplay = dynamicLights();
             //Turns on AC for user inputs/sensors
-            dynamicAC();
+            acDisplay = dynamicAC();
             //Turns on Ceiling Fan for user inputs/sensors
-            dynamicCeilingFan();
+            fanDisplay = dynamicCeilingFan();
             //Turns on Garage for user inputs/sensors
-            dynamicGarageDoor();
+            garageDoorDisplay = dynamicGarageDoor();
             //Turns on Sprinklers for user inputs/sensors
-            dynamicSprinkler();
+            sprinklerDisplay = dynamicSprinkler();
 
             //Behaviour change for Alarm Clock
-            dynamicAlarm();
+            acDisplay = dynamicAlarm();
             //Behaviour change for Car
-            dynamicCar();
+            carDisplay = dynamicCar();
             //Behaviour change for Oven
-            dynamicOven();
+            ovenDisplay = dynamicOven();
             //Behaviour change for Tv
-            dynamicTv();
+            tvDisplay = dynamicTv();
             //Behaviour change for Kettle
-            dynamicKettle();
+            kettleDisplay = dynamicKettle();
             //Behaviour change for Coffee Machine
-            dynamicCoffeeMachine();
-
+            coffeeDisplay = dynamicCoffeeMachine();
+            //Updates string to say what room person is in and change location
+            travelTo = dynamicTravel();
             //Updates GUI
-            updateLabels();
-
+            gui.updateDisplays(time, temperature, sunLight, Menu.weatherType, travelTo, lightDisplay, acDisplay, fanDisplay, garageDoorDisplay, sprinklerDisplay, acDisplay, carDisplay, ovenDisplay, tvDisplay, kettleDisplay, coffeeDisplay);
             //Display for System.out()
             halfHourlyDisplay();
-
 
             //Loop finish once 24 Hours has passed.
         } while (!(time == SIM_START_TIME));
     }
-
-    private static void updateLabels() {
-
-        final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
-
-        timeStatusText = (TIME_FORMAT.format(time));
-    }
-
 
     private static void halfHourlyDisplay() {
         if (time.getHour() < 12) {
@@ -131,7 +124,7 @@ class Simulator extends JFrame {
         }
     }
 
-    private static void dynamicAC() {
+    private static String dynamicAC() {
         inDoorTempSetter = temperature;
         DecimalFormat decimalFormat = new DecimalFormat("#");
 
@@ -154,17 +147,12 @@ class Simulator extends JFrame {
                     acTemp = Double.parseDouble(values[3]);
                     //Display when device switches on and off
                     if (acTemp < inDoorTemp && !mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nMain Room AC has switched ON!");
-                        System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-                        System.out.print("°");
-                        System.out.println("Main Room Temperature set to: " + decimalFormat.format(inDoorTemp) + "°");
+                        acDisplay = "Main Room AC has switched ON! \nIn-door Temp set to: " + decimalFormat.format(inDoorTemp) + " °";
                         mainRoomAC = true;
                     }
 
                     if (acTemp > inDoorTemp && mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nMain Room AC has switched OFF!");
+                        acDisplay = "Main Room AC has switched OFF!";
                         mainRoomAC = false;
                     }
 
@@ -186,17 +174,12 @@ class Simulator extends JFrame {
 
                     //Display when device switches on and off
                     if (acTemp2 < inDoorTemp && !livingRoomAc) {
-                        System.out.println(" ");
-                        System.out.println("\nLiving Room AC has switched ON!");
-                        System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
-                        System.out.print("°");
-                        System.out.println("Temperature set to: " + decimalFormat.format(inDoorTemp) + "°");
+                        acDisplay = "Living Room AC has switched ON! \nIn-door Temp set to: " + decimalFormat.format(inDoorTemp) + " °";
                         livingRoomAc = true;
                     }
 
                     if (acTemp2 > inDoorTemp && livingRoomAc) {
-                        System.out.println(" ");
-                        System.out.println("\nLiving Room AC has switched OFF!");
+                        acDisplay = "Living Room AC has switched OFF!";
                         livingRoomAc = false;
                     }
 
@@ -212,9 +195,11 @@ class Simulator extends JFrame {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return acDisplay;
     }
 
-    private static void dynamicWeather() {
+    static String dynamicWeather() {
+
 
         Random rand = new Random();
         //1 : 150 chance for weather to change every minute
@@ -229,6 +214,7 @@ class Simulator extends JFrame {
                 Menu.weatherType = weatherChange;
             }
         }
+        return Menu.weatherType;
     }
 
     private static String dynamicMotionSensors() {
@@ -276,7 +262,7 @@ class Simulator extends JFrame {
         return travelTo;
     }
 
-    private static void dynamicTravel() {
+    private static String dynamicTravel() {
         //Add in possibility for people to leave property and appliances switch off automatically.
         String oldRoom;
         String changeRoom;
@@ -330,9 +316,10 @@ class Simulator extends JFrame {
                 }
                 break;
         }
+        return travelTo;
     }
 
-    private static void dynamicLights() {
+    private static String dynamicLights() {
         //Change file name to be more specific for method
         String fileName = "ConfigFiles\\lightConfig.txt";
         File file = new File(fileName);
@@ -370,25 +357,21 @@ class Simulator extends JFrame {
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
                         if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nMain Room Lights have switched ON!");
+                            lightDisplay = "Main Room Lights have switched OFF!";
                             mainRoomAC = true;
                         }
                     } else if (lightOn > sunLightValue && !mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nMain Room Lights have switched ON!");
+                        lightDisplay = "Main Room Lights have switched OFF!";
                         mainRoomAC = true;
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
                         if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nMain Room Lights have switched OFF!");
+                            lightDisplay = "Main Room Lights have switched OFF!";
                             mainRoomAC = false;
                         }
                     } else if (lightOn < sunLightValue && mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nMain Room Lights have switched OFF!");
+                        lightDisplay = "Main Room Lights have switched OFF!";
                         mainRoomAC = false;
                     }
 
@@ -426,25 +409,21 @@ class Simulator extends JFrame {
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
                         if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nLiving Room Lights have switched ON!");
+                            lightDisplay = "Living Room Lights have switched ON!";
                             mainRoomAC = true;
                         }
                     } else if (lightOn > sunLightValue && !mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nLiving Room Lights have switched ON!");
+                        lightDisplay = "Living Room Lights have switched ON!";
                         mainRoomAC = true;
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
                         if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nLiving Room Lights have switched OFF!");
+                            lightDisplay = "Living Room Lights have switched OFF!";
                             mainRoomAC = false;
                         }
                     } else if (lightOn < sunLightValue && mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nLiving Room Lights have switched OFF!");
+                        lightDisplay = "Living Room Lights have switched OFF!";
                         mainRoomAC = false;
                     }
 
@@ -481,25 +460,21 @@ class Simulator extends JFrame {
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
                         if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nSecond Bedroom Lights have switched ON!");
+                            lightDisplay = "Second Bedroom Lights have switched ON!";
                             mainRoomAC = true;
                         }
                     } else if (lightOn > sunLightValue && !mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nSecond Bedroom Lights have switched ON!");
+                        lightDisplay = "Second Bedroom Lights have switched ON!";
                         mainRoomAC = true;
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
                         if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nSecond Bedroom Lights have switched OFF!");
+                            lightDisplay = "Second Bedroom Lights have switched OFF!";
                             mainRoomAC = false;
                         }
                     } else if (lightOn < sunLightValue && mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nSecond Bedroom Lights have switched OFF!");
+                        lightDisplay = "Second Bedroom Lights have switched OFF!";
                         mainRoomAC = false;
                     }
 
@@ -536,25 +511,21 @@ class Simulator extends JFrame {
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
                         if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nKitchen Lights have switched ON!");
+                            lightDisplay = "Kitchen Lights have switched ON!";
                             mainRoomAC = true;
                         }
                     } else if (lightOn > sunLightValue && !mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nKitchen Lights have switched ON!");
+                        lightDisplay = "Kitchen Lights have switched ON!";
                         mainRoomAC = true;
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
                         if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nKitchen Lights have switched OFF!");
+                            lightDisplay = "Kitchen Lights have switched OFF!";
                             mainRoomAC = false;
                         }
                     } else if (lightOn < sunLightValue && mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nKitchen Lights have switched OFF!");
+                        lightDisplay = "Kitchen Lights have switched OFF!";
                         mainRoomAC = false;
                     }
 
@@ -591,25 +562,21 @@ class Simulator extends JFrame {
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
                         if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nGarage Lights have switched ON!");
+                            lightDisplay = "Garage Lights have switched ON!";
                             mainRoomAC = true;
                         }
                     } else if (lightOn > sunLightValue && !mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nGarage Lights have switched ON!");
+                        lightDisplay = "Garage Lights have switched ON!";
                         mainRoomAC = true;
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
                         if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nGarage Lights have switched OFF!");
+                            lightDisplay = "Garage Lights have switched OFF!";
                             mainRoomAC = false;
                         }
                     } else if (lightOn < sunLightValue && mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nGarage Lights have switched OFF!");
+                        lightDisplay = "Garage Lights have switched OFF!";
                         mainRoomAC = false;
                     }
 
@@ -647,25 +614,21 @@ class Simulator extends JFrame {
                     //Display when device switches on and off
                     if (lightOn > sunLightValue && !mainRoomAC && values[3].equals("1")) {
                         if (lightOn > sunLightValue && lightOn2 < time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nGarden Lights have switched ON!");
+                            lightDisplay = "Garden Lights have switched ON!";
                             mainRoomAC = true;
                         }
                     } else if (lightOn > sunLightValue && !mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nGarden Lights have switched ON!");
+                        lightDisplay = "Garden Lights have switched ON!";
                         mainRoomAC = true;
                     }
 
                     if (lightOn < sunLightValue && mainRoomAC && values[3].equals("1")) {
                         if (lightOn < sunLightValue && lightOn2 > time.getHour()) {
-                            System.out.println(" ");
-                            System.out.println("\nGarden Lights have switched OFF!");
+                            lightDisplay = "Garden Lights have switched OFF!";
                             mainRoomAC = false;
                         }
                     } else if (lightOn < sunLightValue && mainRoomAC) {
-                        System.out.println(" ");
-                        System.out.println("\nGarden Lights have switched OFF!");
+                        lightDisplay = "Garden Lights have switched OFF!";
                         mainRoomAC = false;
                     }
 
@@ -682,9 +645,10 @@ class Simulator extends JFrame {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return lightDisplay;
     }
 
-    private static void dynamicCeilingFan() {
+    private static String dynamicCeilingFan() {
         DecimalFormat decimalFormat = new DecimalFormat("#");
 
         //Users Set temp they want room to stay at
@@ -755,18 +719,12 @@ class Simulator extends JFrame {
 
                     //Display when device switches on and off
                     if (ceilingFanListTemp < inDoorTemp && !livingRoomCeilingFan) {
-                        System.out.println(" ");
-                        System.out.println("\nLiving Room Ceiling Fan has switched ON!");
-                        System.out.printf("Outdoor Temperature: " + "%.2f", temperature);
-                        System.out.print("°");
-                        System.out.println("\nTemperature set to: " + decimalFormat.format(inDoorTemp) + "°");
-                        System.out.println("Ceiling Fan Speed set to: " + ceilingFanSpeed);
+                        fanDisplay = ("Living Room Ceiling Fan has switched ON! Fan Speed: " + ceilingFanSpeed);
                         livingRoomCeilingFan = true;
                     }
 
                     if (ceilingFanListTemp > inDoorTemp && livingRoomCeilingFan) {
-                        System.out.println(" ");
-                        System.out.println("\nLiving Room Ceiling Fan has switched OFF!");
+                        fanDisplay = ("Living Room Ceiling Fan has switched OFF! ");
                         livingRoomCeilingFan = false;
                     }
                     //LIVING ROOM - OFF
@@ -831,18 +789,12 @@ class Simulator extends JFrame {
 
                     //Display when device switches on and off
                     if (ceilingFanListTemp < inDoorTemp && !livingRoomCeilingFan) {
-                        System.out.println(" ");
-                        System.out.println("\nMain Bedroom Ceiling Fan has switched ON!");
-                        System.out.printf("Outdoor Temperature: " + "%.2f", temperature);
-                        System.out.print("°");
-                        System.out.println("\nTemperature set to: " + decimalFormat.format(inDoorTemp) + "°");
-                        System.out.println("Ceiling Fan Speed set to: " + ceilingFanSpeed);
+                        fanDisplay = ("Main Bedroom Ceiling Fan has switched ON! Fan Speed: " + ceilingFanSpeed);
                         livingRoomCeilingFan = true;
                     }
 
                     if (ceilingFanListTemp > inDoorTemp && livingRoomCeilingFan) {
-                        System.out.println(" ");
-                        System.out.println("\nMain Bedroom Ceiling Fan has switched OFF!");
+                        fanDisplay = ("Main Bedroom Ceiling Fan has switched OFF! ");
                         livingRoomCeilingFan = false;
                     }
                     //LIVING ROOM - OFF
@@ -907,18 +859,12 @@ class Simulator extends JFrame {
 
                     //Display when device switches on and off
                     if (ceilingFanListTemp < inDoorTemp && !livingRoomCeilingFan) {
-                        System.out.println(" ");
-                        System.out.println("\nSecond Bedroom Ceiling Fan has switched ON!");
-                        System.out.printf("Outdoor Temperature: " + "%.2f", temperature);
-                        System.out.print("°");
-                        System.out.println("\nTemperature set to: " + decimalFormat.format(inDoorTemp) + "°");
-                        System.out.println("Ceiling Fan Speed set to: " + ceilingFanSpeed);
+                        fanDisplay = ("Second Bedroom Ceiling Fan has switched ON! Fan Speed: " + ceilingFanSpeed);
                         livingRoomCeilingFan = true;
                     }
 
                     if (ceilingFanListTemp > inDoorTemp && livingRoomCeilingFan) {
-                        System.out.println(" ");
-                        System.out.println("\nSecond Bedroom Ceiling Fan has switched OFF!");
+                        fanDisplay = ("Second Bedroom Ceiling Fan has switched OFF! ");
                         livingRoomCeilingFan = false;
                     }
                     //LIVING ROOM - OFF
@@ -934,9 +880,10 @@ class Simulator extends JFrame {
         } catch (FileNotFoundException | NumberFormatException ignored) {
 
         }
+        return fanDisplay;
     }
 
-    private static void dynamicGarageDoor() {
+    private static String dynamicGarageDoor() {
         String fileName = "ConfigFiles\\garageDoorConfig.txt";
         File file = new File(fileName);
         try {
@@ -963,44 +910,35 @@ class Simulator extends JFrame {
                     int randomX = rand.nextInt(4) + 1;
 
                     if ((randomX == 1) && (time.equals(a))) {
-                        System.out.println(" ");
-                        System.out.println("\nGarage Door is opening Now!");
+                        garageDoorDisplay = "Garage Door is opening Now!";
                         garageDoorCloseSequence = 1;
                     } else if ((randomX == 4) && (time.equals(a))) {
-                        System.out.println(" ");
-                        System.out.println("\nGarage Door accessed via Secure Mobile!");
+                        garageDoorDisplay = "Garage Door accessed via Secure Mobile!";
                         garageDoorCloseSequence = 1;
                     } else if ((randomX < 4 && randomX > 1) && (time.equals(a))) {
-                        System.out.println(" ");
-                        System.out.println("\nGarage Door accessed remotely! Please Inspect!!");
+                        garageDoorDisplay = "Garage Door accessed remotely! Please Inspect!!";
                         garageDoorCloseSequence = 1;
                     }
 
                     if ((time.equals(b)) && (randomX == 1)) {
-                        System.out.println(" ");
-                        System.out.println("\nGarage Door is opening Now!");
+                        garageDoorDisplay = "Garage Door is opening Now!";
                         garageDoorCloseSequence = 1;
                     } else if ((time.equals(b)) && (randomX == 4)) {
-                        System.out.println(" ");
-                        System.out.println("\nGarage Door accessed via Secure Mobile!");
+                        garageDoorDisplay = "Garage Door accessed via Secure Mobile!";
                         garageDoorCloseSequence = 1;
                     } else if ((time.equals(b)) && (randomX < 4 && randomX > 1)) {
-                        System.out.println(" ");
-                        System.out.println("\nGarage Door accessed remotely! Please Inspect!!");
+                        garageDoorDisplay = "Garage Door accessed remotely! Please Inspect!!";
                         garageDoorCloseSequence = 1;
                     }
 
                     if ((time.equals(c)) && (randomX == 1)) {
-                        System.out.println(" ");
-                        System.out.println("\nGarage Door is opening Now!");
+                        garageDoorDisplay = "Garage Door is opening Now!";
                         garageDoorCloseSequence = 1;
                     } else if ((time.equals(c)) && (randomX == 4)) {
-                        System.out.println(" ");
-                        System.out.println("\nGarage Door accessed via Secure Mobile!");
+                        garageDoorDisplay = "Garage Door accessed via Secure Mobile!";
                         garageDoorCloseSequence = 1;
                     } else if ((time.equals(c)) && (randomX < 4 && randomX > 1)) {
-                        System.out.println(" ");
-                        System.out.println("\nGarage Door accessed remotely! Please Inspect!!");
+                        garageDoorDisplay = "Garage Door accessed remotely! Please Inspect!!";
                         garageDoorCloseSequence = 1;
                     }
 
@@ -1022,9 +960,10 @@ class Simulator extends JFrame {
         } catch (Exception ignored) {
 
         }
+        return garageDoorDisplay;
     }
 
-    private static void dynamicSprinkler() {
+    private static String dynamicSprinkler() {
         //Users Set temp they want room to stay at
         String fileName = "ConfigFiles\\sprinklerConfig.txt";
         File file = new File(fileName);
@@ -1052,8 +991,7 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 25;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 2) {
                                 //2 Water - 9:00am / 6:00pm
@@ -1061,13 +999,11 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 9) {
                                     //9:00am
                                     gardenTemp = 27;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 25;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 3) {
                                 //3 Water - 9:00am / 6:00pm / 2:00am
@@ -1075,18 +1011,15 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 9) {
                                     //9:00am
                                     gardenTemp = 27;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 25;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 } else if (time.getHour() == 2) {
                                     //2:00am
                                     gardenTemp = 17;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             }
                             break;
@@ -1098,8 +1031,7 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 23;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 2) {
                                 //2 Water - 9:00am / 6:00pm
@@ -1107,13 +1039,11 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 9) {
                                     //9:00am
                                     gardenTemp = 25;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 23;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 3) {
                                 //2 Water - 9:00am / 6:00pm
@@ -1121,13 +1051,11 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 9) {
                                     //9:00am
                                     gardenTemp = 25;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 23;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             }
                             break;
@@ -1139,8 +1067,7 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 22;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 2) {
                                 //1 Water - 6:00pm
@@ -1148,8 +1075,7 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 22;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 3) {
                                 //1 Water - 6:00pm
@@ -1157,8 +1083,7 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 22;
-                                    System.out.println("\n" + sprinklerMode + " - Now Watering");
-                                    System.out.println("Garden Temperature: " + gardenTemp);
+                                    sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             }
                             break;
@@ -1177,9 +1102,10 @@ class Simulator extends JFrame {
         } catch (FileNotFoundException | NumberFormatException ignored) {
 
         }
+        return sprinklerDisplay;
     }
 
-    private static void dynamicAlarm() {
+    private static String dynamicAlarm() {
         String fileName = "ConfigFiles\\alarmClockConfig.txt";
         File file = new File(fileName);
         try {
@@ -1199,8 +1125,7 @@ class Simulator extends JFrame {
                     alarmBehaviour = values[4];
 
                     if (alarmTime < fullClock && !alarmSound) {
-                        System.out.println("\nAlarm has Turned ON");
-                        System.out.println("BEEP.. BEEP.. BEEP..");
+                        alarmDisplay = "Alarm has Turned ON!";
                         alarmSound = true;
                     } else if (time.getHour() == 4) {
                         alarmSound = false;
@@ -1225,8 +1150,7 @@ class Simulator extends JFrame {
                     alarmBehaviour = values[4];
 
                     if (alarmTime < fullClock && !alarmSound) {
-                        System.out.println("\nAlarm has Turned ON");
-                        System.out.println("BEEP.. BEEP.. BEEP..");
+                        alarmDisplay = "Alarm has Turned ON!";
                         alarmSound = true;
                     } else if (time.getHour() == 4) {
                         alarmSound = false;
@@ -1248,9 +1172,10 @@ class Simulator extends JFrame {
         } catch (Exception ignored) {
 
         }
+        return alarmDisplay;
     }
 
-    private static void dynamicCar() {
+    private static String dynamicCar() {
         //Users Set temp they want room to stay at
         String fileName = "ConfigFiles\\carConfig.txt";
         File file = new File(fileName);
@@ -1269,13 +1194,13 @@ class Simulator extends JFrame {
                         case "1":
                             String carMode = "Auto Start";
                             if (travelTo.equals("GARAGE") && !carRunning) {
-                                System.out.println("\nCar Status: " + carMode + ", Turning Engine ON now...");
+                                carDisplay = ("Car Status: " + carMode + ", Turning Engine ON once in Car...");
                                 carRunning = true;
                             }
 
                             if (!travelTo.equals("GARAGE") && carRunning) {
+                                carDisplay = "Car Status: Returned, Engine OFF...";
                                 carRunning = false;
-                                System.out.println("\nCar Status: Returned, Engine OFF...");
                             } else if (!travelTo.equals("GARAGE")) {
                                 carRunning = false;
                             }
@@ -1283,12 +1208,12 @@ class Simulator extends JFrame {
                         case "2":
                             carMode = "Economy Start";
                             if (travelTo.equals("GARAGE") && !carRunning) {
-                                System.out.println("\nCar Status: " + carMode + ", Turning Engine ON when enter Garage...");
+                                carDisplay = ("Car Status: " + carMode + ", Turning Engine ON once in Car...");
                             }
 
                             if (!travelTo.equals("GARAGE") && carRunning) {
+                                carDisplay = "Car Status: Returned, Engine OFF...";
                                 carRunning = false;
-                                System.out.println("\nCar Status: Returned, Engine OFF...");
                             } else if (!travelTo.equals("GARAGE")) {
                                 carRunning = false;
                             }
@@ -1296,12 +1221,12 @@ class Simulator extends JFrame {
                         case "3":
                             carMode = "Manual Start";
                             if (travelTo.equals("GARAGE") && !carRunning) {
-                                System.out.println("\nCar Status: " + carMode + ", Turning Engine ON once in Car...");
+                                carDisplay = ("Car Status: " + carMode + ", Turning Engine ON once in Car...");
                             }
 
                             if (!travelTo.equals("GARAGE") && carRunning) {
+                                carDisplay = "Car Status: Returned, Engine OFF...";
                                 carRunning = false;
-                                System.out.println("\nCar Status: Returned, Engine OFF...");
                             } else if (!travelTo.equals("GARAGE")) {
                                 carRunning = false;
                             }
@@ -1317,9 +1242,10 @@ class Simulator extends JFrame {
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
         }
+        return carDisplay;
     }
 
-    private static void dynamicCoffeeMachine() {
+    private static String dynamicCoffeeMachine() {
         //Users Set temp they want room to stay at
         String fileName = "ConfigFiles\\coffeeMachineConfig.txt";
         File file = new File(fileName);
@@ -1336,13 +1262,13 @@ class Simulator extends JFrame {
                     displayLine1 = data.split(", ");
 
                     if (makeMainBedroomCoffee && makeSecondBedroomCoffee && !alarmCoffee) {
-                        System.out.println("\nMorning Coffee Boiling!");
+                        coffeeDisplay = "Morning Coffee Boiling!";
                         alarmCoffee = true;
                     } else if (makeMainBedroomCoffee && !alarmCoffee) {
-                        System.out.println("\nMorning Coffee Boiling!");
+                        coffeeDisplay = "Morning Coffee Boiling!";
                         alarmCoffee = true;
                     } else if (makeSecondBedroomCoffee && !alarmCoffee) {
-                        System.out.println("\nMorning Coffee Boiling!");
+                        coffeeDisplay = "Morning Coffee Boiling!";
                         alarmCoffee = true;
                     } else if (time.getHour() == 4 && alarmCoffee) {
                         alarmCoffee = false;
@@ -1353,20 +1279,20 @@ class Simulator extends JFrame {
                         //Coffee Addiction
                         if (time.getHour() < 7 && !behaviour1) {
                             behaviour1 = true;
-                            System.out.println("\nMorning Coffee Boiling!");
+                            coffeeDisplay = "Morning Coffee Boiling!";
                         } else if (time.getHour() == 4 && behaviour1) {
                             behaviour1 = false;
                         }
                     } else if (coffeeBehaviour.equals("2")) {
                         //All day Coffee
                         if (time.getHour() < 7 && !behaviour2) {
-                            System.out.println("\nAll Day Coffee Boiling!");
+                            coffeeDisplay = "All Day Coffee Boiling!";
                             behaviour2 = true;
                         } else if (time.getHour() < 12 && !behaviour2) {
-                            System.out.println("\nAll Day Coffee Boiling!");
+                            coffeeDisplay = "All Day Coffee Boiling!";
                             behaviour2 = true;
                         } else if (fullClock < 16.30 && !behaviour2) {
-                            System.out.println("\nAll Day Coffee Boiling!");
+                            coffeeDisplay = "All Day Coffee Boiling!";
                             behaviour2 = true;
                         } else if (time.getHour() == 4 && behaviour2) {
                             behaviour2 = false;
@@ -1374,13 +1300,13 @@ class Simulator extends JFrame {
                     } else if (coffeeBehaviour.equals("3")) {
                         //Fresh Blend
                         if (time.getHour() < 7 && time.getHour() > 9 && travelTo.equals("KITCHEN") && !behaviour3) {
-                            System.out.println("\nFresh Blend, Morning Coffee Boiling!");
+                            coffeeDisplay = "Fresh Blend, Morning Coffee Boiling!";
                             behaviour3 = true;
                         } else if (time.getHour() < 12 && time.getHour() > 14 && travelTo.equals("KITCHEN") && !behaviour3) {
-                            System.out.println("\nFresh Blend, Lunch Coffee Boiling!");
+                            coffeeDisplay = "Fresh Blend, Lunch Coffee Boiling!";
                             behaviour3 = true;
                         } else if (fullClock < 16.30 && time.getHour() > 18 && travelTo.equals("KITCHEN") && !behaviour3) {
-                            System.out.println("\nFresh Blend, Afternoon Coffee Boiling!");
+                            coffeeDisplay = "Fresh Blend, Afternoon Coffee Boiling!";
                             behaviour3 = true;
                         } else if (time.getHour() == 4 && behaviour3) {
                             behaviour3 = false;
@@ -1395,9 +1321,10 @@ class Simulator extends JFrame {
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
         }
+        return coffeeDisplay;
     }
 
-    private static void dynamicKettle() {
+    private static String dynamicKettle() {
         //Users Set temp they want room to stay at
         String fileName = "ConfigFiles\\kettleConfig.txt";
         File file = new File(fileName);
@@ -1416,7 +1343,7 @@ class Simulator extends JFrame {
 
                     if (kettleBehaviour.equals("1") && travelTo.equals("KITCHEN") && !kettleBoiled) {
                         //Auto Boil - Turns on when person walks into kitchen
-                        System.out.println("\nKettle has Started to Boil!");
+                        kettleDisplay = "Kettle has Started to Boil!";
                         kettleBoiled = true;
                     } else if (kettleBehaviour.equals("2") && travelTo.equals("KITCHEN") && !kettleBoiled) {
                         //Manual Boil - Randomly turns on when person in kitchen
@@ -1425,7 +1352,7 @@ class Simulator extends JFrame {
                         int n = rand.nextInt(5) + 1;
                         kettleBoiled = true;
                         if (n == 1) {
-                            System.out.println("\nKettle has Started to Boil!");
+                            kettleDisplay = "Kettle has Started to Boil!";
                         }
                     } else if (time.getHour() == 4 && kettleBoiled) {
                         kettleBoiled = false;
@@ -1439,9 +1366,10 @@ class Simulator extends JFrame {
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
         }
+        return  kettleDisplay;
     }
 
-    private static void dynamicTv() {
+    private static String dynamicTv() {
         //Users Set temp they want room to stay at
         String fileName = "ConfigFiles\\tvConfig.txt";
         File file = new File(fileName);
@@ -1459,14 +1387,14 @@ class Simulator extends JFrame {
                     tvOffTime = Double.parseDouble(values[3]);
 
                     if (fullClock < 7.30 && travelTo.equals("LIVING ROOM") && !tvON) {
-                        System.out.println("\nTV has Turned ON in LIVING ROOM!");
+                        tvDisplay = "TV has Turned ON in LIVING ROOM!";
                         tvON = true;
                     } else if (tvOffTime < fullClock && travelTo.equals("LIVING ROOM") && tvON) {
-                        System.out.println("\nTV has Turned OFF in LIVING ROOM!");
+                        tvDisplay = "TV has Turned OFF in LIVING ROOM!";
                         tvON = false;
                     } else if (!travelTo.equals("LIVING ROOM") && tvON) {
+                        tvDisplay = "TV has Turned OFF in LIVING ROOM!";
                         tvON = false;
-                        System.out.println("\nTV has Turned OFF in LIVING ROOM!");
                     }
 
                     //LIVING ROOM - OFF
@@ -1480,14 +1408,14 @@ class Simulator extends JFrame {
                     tvOffTime = Double.parseDouble(values[3]);
 
                     if (fullClock < 7.30 && travelTo.equals("LIVING ROOM") && !tvON) {
-                        System.out.println("\nTV has Turned ON in LIVING ROOM!");
+                        tvDisplay = "TV has Turned ON in LIVING ROOM!";
                         tvON = true;
                     } else if (tvOffTime < fullClock && travelTo.equals("LIVING ROOM") && tvON) {
-                        System.out.println("\nTV has Turned OFF in LIVING ROOM!");
+                        tvDisplay = "TV has Turned OFF in LIVING ROOM!";
                         tvON = false;
                     } else if (!travelTo.equals("LIVING ROOM") && tvON) {
+                        tvDisplay = "TV has Turned OFF in LIVING ROOM!";
                         tvON = false;
-                        System.out.println("\nTV has Turned OFF in LIVING ROOM!");
                     }
 
                     //MAIN BEDROOM - OFF
@@ -1498,9 +1426,10 @@ class Simulator extends JFrame {
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
         }
+        return tvDisplay;
     }
 
-    private static void dynamicOven() {
+    private static String dynamicOven() {
         //Users Set temp they want room to stay at
         String fileName = "ConfigFiles\\ovenConfig.txt";
         File file = new File(fileName);
@@ -1529,15 +1458,13 @@ class Simulator extends JFrame {
                     }
 
                     if (morningAlarm < fullClock && !morningBoolean) {
-                        System.out.println("\nThe Oven has Turned ON");
-                        System.out.println("Your " + morningMode + " are/is Cooking.");
+                        ovenDisplay = ("The Oven has Turned ON Your " + morningMode + " are/is Cooking!");
                         morningBoolean = true;
                         morningTotal = morningAlarm + 0.06;
                     }
 
                     if (morningTotal > fullClock && morningBoolean) {
-                        System.out.println("\nThe Oven has Turned OFF");
-                        System.out.println("Your " + morningMode + " are/is Ready!");
+                        ovenDisplay = ("The Oven has Turned OFF Your " + morningMode + " are/is Ready!");
                     }
 
                     lunchAlarm = Double.parseDouble(values[5]);
@@ -1552,15 +1479,13 @@ class Simulator extends JFrame {
                     }
 
                     if (lunchAlarm < fullClock && !lunchBoolean) {
-                        System.out.println("The Oven has Turned ON");
-                        System.out.println("Your " + lunchMode + " are/is Cooking.");
+                        ovenDisplay = ("The Oven has Turned ON Your " + lunchMode + " are/is Cooking!");
                         lunchBoolean = true;
                         lunchTotal = lunchAlarm + 0.12;
                     }
 
                     if (lunchTotal > fullClock && lunchBoolean) {
-                        System.out.println("The Oven has Turned OFF");
-                        System.out.println("Your " + lunchMode + " are/is Ready!");
+                        ovenDisplay = ("The Oven has Turned OFF Your " + lunchMode + " are/is Ready!");
                     }
 
                     dinnerAlarm = Double.parseDouble(values[7]);
@@ -1576,15 +1501,13 @@ class Simulator extends JFrame {
 
 
                     if (dinnerAlarm < fullClock && !dinnerBoolean) {
-                        System.out.println("The Oven has Turned ON");
-                        System.out.println("Your " + dinnerMode + " are/is Cooking.");
+                        ovenDisplay = ("The Oven has Turned ON Your " + dinnerMode + " are/is Cooking!");
                         dinnerBoolean = true;
                         dinnerTotal = dinnerAlarm + 0.06;
                     }
 
                     if (dinnerTotal > fullClock && dinnerBoolean) {
-                        System.out.println("The Oven has Turned OFF");
-                        System.out.println("Your " + dinnerMode + " are/is Ready!");
+                        ovenDisplay = ("The Oven has Turned OFF Your " + dinnerMode + " are/is Ready!");
                     }
 
 
@@ -1597,6 +1520,7 @@ class Simulator extends JFrame {
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
         }
+        return ovenDisplay;
     }
 
     public static String[] getDisplayLine5() {

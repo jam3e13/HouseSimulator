@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class SimGUI extends javax.swing.JFrame {
@@ -11,13 +12,19 @@ public class SimGUI extends javax.swing.JFrame {
     }
 
 
-    public void updateDisplays() {
+    public void updateDisplays(LocalTime time, double temperature, double sunLight, String weatherType, String travelTo, String lightDisplay, String acDisplay, String fanDisplay, String garageDoorDisplay, String sprinklerDisplay, String display, String carDisplay, String ovenDisplay, String tvDisplay, String kettleDisplay, String coffeeDisplay) {
         final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("hh:mm a");
 
-        //
+        //Update Top panel
+        timeInt.setText(time.format(TIME_FORMAT));
+        temperatureInt.setText(String.valueOf(temperature));
+        lightInt.setText(String.valueOf(sunLight));
+        waterInt.setText(String.valueOf(temperature));
+        energyInt.setText(String.valueOf(temperature));
 
-        //timeStatus.setText(Simulator.time.format(TIME_FORMAT));
-        //tempStatusDisplay.setText(String.format("%.1f°C", Simulator.temperature));
+        //Update Center panel
+
+        //Update Bottom panel
     }
 
     private void initComponents() {
@@ -27,6 +34,11 @@ public class SimGUI extends javax.swing.JFrame {
         time1 = new javax.swing.JPanel();
         timeName = new javax.swing.JPanel();
         timeStatus = new javax.swing.JPanel();
+        temperatureInt = new javax.swing.JLabel();
+        timeInt = new javax.swing.JLabel();
+        lightInt = new javax.swing.JLabel();
+        waterInt = new javax.swing.JLabel();
+        energyInt = new javax.swing.JLabel();
 
         temp = new javax.swing.JPanel();
         tempName = new javax.swing.JPanel();
@@ -180,29 +192,44 @@ public class SimGUI extends javax.swing.JFrame {
         elementDisplay.add(energy);
 
         //top panel labels
+        //TODO add a weather type label
         //Time name
         timeName.setFont(new Font("Serif", Font.BOLD, 28));
         timeName.add(new JLabel("Time"), BorderLayout.NORTH);
 
-        //add pm instance for time
-        timeStatus.add(new JLabel(String.valueOf(Simulator.time) + " am"), BorderLayout.NORTH);
+        JLabel timeInt = new JLabel("05:00");
+        JLabel timeIcon = new JLabel(" am");
+        timeStatus.add(timeInt, BorderLayout.NORTH);
+        timeStatus.add(timeIcon, BorderLayout.NORTH);
 
 
         tempName.add(new JLabel("Temp"), BorderLayout.NORTH);
-        tempStatus.add(new JLabel(String.valueOf(Simulator.temperature) + " °"), BorderLayout.SOUTH);
+        JLabel temperatureInt = new JLabel("14");
+        JLabel temperatureIcon = new JLabel(" °");
+        tempStatus.add(temperatureInt, BorderLayout.NORTH);
+        tempStatus.add(temperatureIcon, BorderLayout.NORTH);
 
 
         lightName.add(new JLabel("Light"), BorderLayout.NORTH);
-        lightName.setFont(new Font("Sans Serif", Font.BOLD, 12));
-        lightStatus.add(new JLabel("58%"), BorderLayout.SOUTH);
+        JLabel lightInt = new JLabel("58");
+        JLabel lightIcon = new JLabel(" %");
+        //lightInt.setFont(new Font("Sans Serif", Font.BOLD, 12));
+        lightStatus.add(lightInt, BorderLayout.SOUTH);
+        lightStatus.add(lightIcon, BorderLayout.SOUTH);
 
         waterName.add(new JLabel("Water"), BorderLayout.NORTH);
         waterName.setFont(new Font("Sans Serif", Font.BOLD, 12));
-        waterStatus.add(new JLabel("68L"), BorderLayout.SOUTH);
+        JLabel waterInt = new JLabel("68");
+        JLabel waterIcon = new JLabel(" L");
+        waterStatus.add(waterInt, BorderLayout.SOUTH);
+        waterStatus.add(waterIcon, BorderLayout.SOUTH);
 
         energyName.add(new JLabel("Energy"), BorderLayout.NORTH);
         energyName.setFont(new Font("Sans Serif", Font.BOLD, 12));
-        energyStatus.add(new JLabel("1300kw"), BorderLayout.SOUTH);
+        JLabel energyInt = new JLabel("1300");
+        JLabel energyIcon = new JLabel(" Kw");
+        energyStatus.add(energyInt, BorderLayout.SOUTH);
+        energyStatus.add(energyIcon, BorderLayout.SOUTH);
 
         //center panel labels
         behaviourDisplay.add(new JLabel("Status"), BorderLayout.NORTH);
@@ -243,6 +270,11 @@ public class SimGUI extends javax.swing.JFrame {
     private javax.swing.JPanel energyStatus;
     private javax.swing.JPanel behaviourDisplay;
     private javax.swing.JPanel roomDisplay;
+    public javax.swing.JLabel temperatureInt;
+    public javax.swing.JLabel timeInt;
+    public javax.swing.JLabel lightInt;
+    public javax.swing.JLabel waterInt;
+    public javax.swing.JLabel energyInt;
 
 
 }

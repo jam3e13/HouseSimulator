@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.JOptionPane;
-import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicBorders;
 
 public class TabConfig extends JFrame {
@@ -32,8 +31,60 @@ public class TabConfig extends JFrame {
     private final static int extraWindowWidth = 100;
 
     private void addComponentToPane(Container pane) {
+        //Motion Sensor
+        livingRoomMotionSensor = new javax.swing.JButton();
+        mainBedroomMotionSensor = new javax.swing.JButton();
+        secondBedroomMotionSensor = new javax.swing.JButton();
+        kitchenMotionSensor = new javax.swing.JButton();
+        garageMotionSensor = new javax.swing.JButton();
+        gardenMotionSensor = new javax.swing.JButton();
+
+        //Lights
+        livingRoomLights = new javax.swing.JButton();
+        mainBedroomLights = new javax.swing.JButton();
+        secondBedroomLights = new javax.swing.JButton();
+        kitchenLights = new javax.swing.JButton();
+        garageLights = new javax.swing.JButton();
+        gardenLights = new javax.swing.JButton();
+
+        //Air Conditioner
+        livingRoomAirCon = new javax.swing.JButton();
+        mainBedroomAc = new javax.swing.JButton();
+
+        //Ceiling Fan
+        livingRoomFan = new javax.swing.JButton();
+        mainBedroomFan = new javax.swing.JButton();
+        secondBedroomFan = new javax.swing.JButton();
+
+        //Garage Door
+        garageGarage = new javax.swing.JButton();
+
+        //Sprinklers
+        gardenMotionSprinklers = new javax.swing.JButton();
+
+        //Car
+        garageCar = new javax.swing.JButton();
+
+        //Oven
+        kitchenOven = new javax.swing.JButton();
+
+        //Tv
+        livingRoomTv = new javax.swing.JButton();
+        mainBedroomTv = new javax.swing.JButton();
+
+        //Kettle
+        kitchenKettle = new javax.swing.JButton();
+
+        //Coffee Machine
+        kitchenCoffee = new javax.swing.JButton();
+
+        //Alarm Clock
+        mainBedroomAlarm = new javax.swing.JButton();
+        secondBedroomAlarm = new javax.swing.JButton();
+
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setBackground(Color.gray);
+
         //Create the "cards".
         JPanel card1 = new JPanel() {
             //Make the panel wider than it really needs, so
@@ -46,24 +97,39 @@ public class TabConfig extends JFrame {
             }
         };
 
-
         //LIVING ROOM
-
         card1.setBackground(Color.lightGray);
         card1.setBorder(new BasicBorders.ToggleButtonBorder(Color.white, Color.gray, Color.darkGray, Color.black));
         JButton livingRoomMotionSensor = new JButton("Motion Sensors");
         livingRoomMotionSensor.setPreferredSize(new Dimension(160, 80));
         livingRoomMotionSensor.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
-        livingRoomMotionSensor.setBackground(Color.gray);
+
+        String fileMotionSensor = "ConfigFiles/motionSensorConfig.txt";
+        File file = new File(fileMotionSensor);
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    livingRoomMotionSensor.setBackground(Color.green);
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    livingRoomMotionSensor.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card1.add(livingRoomMotionSensor);
         livingRoomMotionSensor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Display rooms status
-                String fileName = "ConfigFiles/motionSensorConfig.txt";
-                File file = new File(fileName);
+                String fileMotionSensor = "ConfigFiles/motionSensorConfig.txt";
+                File file1 = new File(fileMotionSensor);
                 try {
-                    Scanner inputStream = new Scanner(file);
+                    Scanner inputStream = new Scanner(file1);
                     while (inputStream.hasNext()) {
                         data = inputStream.nextLine();
                         values = data.split(",");
@@ -156,7 +222,24 @@ public class TabConfig extends JFrame {
         JButton livingRoomLights = new JButton("Lights");
         livingRoomLights.setPreferredSize(new Dimension(160, 80));
         livingRoomLights.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
-        livingRoomLights.setBackground(Color.gray);
+
+        String fileLights = "ConfigFiles/lightConfig.txt";
+        File file1 = new File(fileLights);
+        try {
+            Scanner inputStream = new Scanner(file1);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    livingRoomLights.setBackground(Color.green);
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    livingRoomLights.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card1.add(livingRoomLights);
         livingRoomLights.addActionListener(new ActionListener() {
             @Override
@@ -266,7 +349,24 @@ public class TabConfig extends JFrame {
         JButton livingRoomAirCon = new JButton("Air Conditioner");
         livingRoomAirCon.setPreferredSize(new Dimension(160, 80));
         livingRoomAirCon.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
-        livingRoomAirCon.setBackground(Color.gray);
+
+        String fileAirConditioner = "ConfigFiles/airConConfig.txt";
+        File file2 = new File(fileAirConditioner);
+        try {
+            Scanner inputStream = new Scanner(file2);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    livingRoomAirCon.setBackground(Color.green);
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    livingRoomAirCon.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card1.add(livingRoomAirCon);
         livingRoomAirCon.addActionListener(new ActionListener() {
             @Override
@@ -344,7 +444,24 @@ public class TabConfig extends JFrame {
         JButton livingRoomFan = new JButton("Ceiling Fan");
         livingRoomFan.setPreferredSize(new Dimension(160, 80));
         livingRoomFan.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
-        livingRoomFan.setBackground(Color.gray);
+
+        String fileCeilingFan = "ConfigFiles/ceilingFanConfig.txt";
+        File file3 = new File(fileCeilingFan);
+        try {
+            Scanner inputStream = new Scanner(file3);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    livingRoomFan.setBackground(Color.green);
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    livingRoomFan.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card1.add(livingRoomFan);
         livingRoomFan.addActionListener(new ActionListener() {
             @Override
@@ -423,7 +540,24 @@ public class TabConfig extends JFrame {
         JButton livingRoomTv = new JButton("Tv");
         livingRoomTv.setPreferredSize(new Dimension(160, 80));
         livingRoomTv.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
-        livingRoomTv.setBackground(Color.gray);
+
+        String fileTv = "ConfigFiles/tvConfig.txt";
+        File file4 = new File(fileTv);
+        try {
+            Scanner inputStream = new Scanner(file4);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    livingRoomTv.setBackground(Color.green);
+                } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    livingRoomTv.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card1.add(livingRoomTv);
         livingRoomTv.addActionListener(new ActionListener() {
             @Override
@@ -588,16 +722,32 @@ public class TabConfig extends JFrame {
         card2.setBorder(new BasicBorders.ToggleButtonBorder(Color.white, Color.gray, Color.darkGray, Color.black));
         JButton mainBedroomMotionSensor = new JButton("Motion Sensors");
         mainBedroomMotionSensor.setPreferredSize(new Dimension(160, 80));
-        mainBedroomMotionSensor.setBackground(Color.lightGray);
+        mainBedroomMotionSensor.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    mainBedroomMotionSensor.setBackground(Color.green);
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    mainBedroomMotionSensor.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card2.add(mainBedroomMotionSensor);
         mainBedroomMotionSensor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Display rooms status
-                String fileName = "ConfigFiles/motionSensorConfig.txt";
-                File file = new File(fileName);
+                String fileMotionSensor = "ConfigFiles/motionSensorConfig.txt";
+                File file2 = new File(fileMotionSensor);
                 try {
-                    Scanner inputStream = new Scanner(file);
+                    Scanner inputStream = new Scanner(file2);
                     while (inputStream.hasNext()) {
                         data = inputStream.nextLine();
                         values = data.split(",");
@@ -689,7 +839,23 @@ public class TabConfig extends JFrame {
 
         JButton mainBedroomLights = new JButton("Lights");
         mainBedroomLights.setPreferredSize(new Dimension(160, 80));
-        mainBedroomLights.setBackground(Color.lightGray);
+        mainBedroomLights.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file1);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    mainBedroomLights.setBackground(Color.green);
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    mainBedroomLights.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card2.add(mainBedroomLights);
         mainBedroomLights.addActionListener(new ActionListener() {
             @Override
@@ -797,7 +963,25 @@ public class TabConfig extends JFrame {
         });
 
         JButton mainBedroomAirCon = new JButton("Air Conditioner");
-        mainBedroomAirCon.setBackground(Color.lightGray);
+        mainBedroomAirCon.setPreferredSize(new Dimension(160, 80));
+        mainBedroomAirCon.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file2);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    mainBedroomAirCon.setBackground(Color.green);
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    mainBedroomAirCon.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card2.add(mainBedroomAirCon);
         mainBedroomAirCon.addActionListener(new ActionListener() {
             @Override
@@ -873,7 +1057,24 @@ public class TabConfig extends JFrame {
         });
 
         JButton mainBedroomFan = new JButton("Ceiling Fan");
-        mainBedroomFan.setBackground(Color.lightGray);
+        mainBedroomFan.setPreferredSize(new Dimension(160, 80));
+        mainBedroomFan.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file3);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    mainBedroomFan.setBackground(Color.green);
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    mainBedroomFan.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card2.add(mainBedroomFan);
         mainBedroomFan.addActionListener(new ActionListener() {
             @Override
@@ -950,7 +1151,25 @@ public class TabConfig extends JFrame {
         });
 
         JButton mainBedroomTv = new JButton("Tv");
-        mainBedroomTv.setBackground(Color.lightGray);
+        mainBedroomTv.setPreferredSize(new Dimension(160, 80));
+        mainBedroomTv.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file4);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    mainBedroomTv.setBackground(Color.green);
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    mainBedroomTv.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card2.add(mainBedroomTv);
         mainBedroomTv.addActionListener(new ActionListener() {
             @Override
@@ -1110,7 +1329,27 @@ public class TabConfig extends JFrame {
         });
 
         JButton mainBedroomAlarm = new JButton("Alarm Clock");
-        mainBedroomAlarm.setBackground(Color.lightGray);
+        mainBedroomAlarm.setPreferredSize(new Dimension(160, 80));
+        mainBedroomAlarm.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        String fileAlarmClock = "ConfigFiles/alarmClockConfig.txt";
+        File file11 = new File(fileAlarmClock);
+        try {
+            Scanner inputStream = new Scanner(file11);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    mainBedroomAlarm.setBackground(Color.gray);
+
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    mainBedroomAlarm.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card2.add(mainBedroomAlarm);
         mainBedroomAlarm.addActionListener(new ActionListener() {
             @Override
@@ -1250,7 +1489,24 @@ public class TabConfig extends JFrame {
         card3.setBackground(Color.lightGray);
         card3.setBorder(new BasicBorders.ToggleButtonBorder(Color.white, Color.gray, Color.darkGray, Color.black));
         JButton secondBedroomMotionSensor = new JButton("Motion Sensors");
-        secondBedroomMotionSensor.setBackground(Color.lightGray);
+        secondBedroomMotionSensor.setPreferredSize(new Dimension(160, 80));
+        secondBedroomMotionSensor.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                    secondBedroomMotionSensor.setBackground(Color.green);
+                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
+                    secondBedroomMotionSensor.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card3.add(secondBedroomMotionSensor);
         secondBedroomMotionSensor.addActionListener(new ActionListener() {
             @Override
@@ -1350,7 +1606,24 @@ public class TabConfig extends JFrame {
         });
 
         JButton secondBedroomLights = new JButton("Lights");
-        secondBedroomLights.setBackground(Color.lightGray);
+        secondBedroomLights.setPreferredSize(new Dimension(160, 80));
+        secondBedroomLights.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file1);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                    secondBedroomLights.setBackground(Color.green);
+                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
+                    secondBedroomLights.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card3.add(secondBedroomLights);
         secondBedroomLights.addActionListener(new ActionListener() {
             @Override
@@ -1459,7 +1732,25 @@ public class TabConfig extends JFrame {
 
 
         JButton secondBedroomFan = new JButton("Ceiling Fan");
-        secondBedroomFan.setBackground(Color.lightGray);
+        secondBedroomFan.setPreferredSize(new Dimension(160, 80));
+        secondBedroomFan.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file3);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                    secondBedroomFan.setBackground(Color.green);
+                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
+                    secondBedroomFan.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card3.add(secondBedroomFan);
         secondBedroomFan.addActionListener(new ActionListener() {
             @Override
@@ -1537,7 +1828,25 @@ public class TabConfig extends JFrame {
 
 
         JButton secondBedroomAlarm = new JButton("Alarm Clock");
-        secondBedroomAlarm.setBackground(Color.lightGray);
+        secondBedroomAlarm.setPreferredSize(new Dimension(160, 80));
+        secondBedroomAlarm.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file11);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
+                    secondBedroomAlarm.setBackground(Color.gray);
+                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
+                    secondBedroomAlarm.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card3.add(secondBedroomAlarm);
         secondBedroomAlarm.addActionListener(new ActionListener() {
             @Override
@@ -1673,9 +1982,27 @@ public class TabConfig extends JFrame {
 
         //KITCHEN
         JPanel card4 = new JPanel();
-
+        card4.setBackground(Color.lightGray);
+        card4.setBorder(new BasicBorders.ToggleButtonBorder(Color.white, Color.gray, Color.darkGray, Color.black));
         JButton kitchenMotionSensor = new JButton("Motion Sensors");
-        kitchenMotionSensor.setBackground(Color.lightGray);
+        kitchenMotionSensor.setPreferredSize(new Dimension(160, 80));
+        kitchenMotionSensor.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                    kitchenMotionSensor.setBackground(Color.green);
+                } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
+                    kitchenMotionSensor.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card4.add(kitchenMotionSensor);
         kitchenMotionSensor.addActionListener(new ActionListener() {
             @Override
@@ -1775,7 +2102,24 @@ public class TabConfig extends JFrame {
         });
 
         JButton kitchenLights = new JButton("Lights");
-        kitchenLights.setBackground(Color.lightGray);
+        kitchenLights.setPreferredSize(new Dimension(160, 80));
+        kitchenLights.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file1);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                    kitchenLights.setBackground(Color.green);
+                } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
+                    kitchenLights.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card4.add(kitchenLights);
         kitchenLights.addActionListener(new ActionListener() {
             @Override
@@ -1883,7 +2227,27 @@ public class TabConfig extends JFrame {
         });
 
         JButton kitchenOven = new JButton("Oven");
-        kitchenOven.setBackground(Color.lightGray);
+        kitchenOven.setPreferredSize(new Dimension(160, 80));
+        kitchenOven.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        String fileName8 = "ConfigFiles/ovenConfig.txt";
+        File file8 = new File(fileName8);
+        try {
+            Scanner inputStream = new Scanner(file8);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                    kitchenOven.setBackground(Color.green);
+                } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
+                    kitchenOven.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card4.add(kitchenOven);
         kitchenOven.addActionListener(new ActionListener() {
             @Override
@@ -2270,7 +2634,27 @@ public class TabConfig extends JFrame {
         });
 
         JButton kitchenKettle = new JButton("Kettle");
-        kitchenKettle.setBackground(Color.lightGray);
+        kitchenKettle.setPreferredSize(new Dimension(160, 80));
+        kitchenKettle.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        String fileName9 = "ConfigFiles/kettleConfig.txt";
+        File file9 = new File(fileName9);
+        try {
+            Scanner inputStream = new Scanner(file9);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                    kitchenKettle.setBackground(Color.gray);
+                } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
+                    kitchenKettle.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card4.add(kitchenKettle);
         kitchenKettle.addActionListener(new ActionListener() {
             @Override
@@ -2347,7 +2731,27 @@ public class TabConfig extends JFrame {
         });
 
         JButton kitchenCoffee = new JButton("Coffee Machine");
-        kitchenCoffee.setBackground(Color.lightGray);
+        kitchenCoffee.setPreferredSize(new Dimension(160, 80));
+        kitchenCoffee.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        String fileName10 = "ConfigFiles/coffeeMachineConfig.txt";
+        File file10 = new File(fileName10);
+        try {
+            Scanner inputStream = new Scanner(file10);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
+                    kitchenCoffee.setBackground(Color.gray);
+                } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
+                    kitchenCoffee.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card4.add(kitchenCoffee);
         kitchenCoffee.addActionListener(new ActionListener() {
             @Override
@@ -2408,9 +2812,27 @@ public class TabConfig extends JFrame {
 
         //GARAGE
         JPanel card5 = new JPanel();
-
+        card5.setBackground(Color.lightGray);
+        card5.setBorder(new BasicBorders.ToggleButtonBorder(Color.white, Color.gray, Color.darkGray, Color.black));
         JButton garageMotionSensor = new JButton("Motion Sensors");
-        garageMotionSensor.setBackground(Color.lightGray);
+        garageMotionSensor.setPreferredSize(new Dimension(160, 80));
+        garageMotionSensor.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                    garageMotionSensor.setBackground(Color.green);
+                } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
+                    garageMotionSensor.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card5.add(garageMotionSensor);
         garageMotionSensor.addActionListener(new ActionListener() {
             @Override
@@ -2510,7 +2932,24 @@ public class TabConfig extends JFrame {
         });
 
         JButton garageLights = new JButton("Lights");
-        garageLights.setBackground(Color.lightGray);
+        garageLights.setPreferredSize(new Dimension(160, 80));
+        garageLights.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file1);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                    garageLights.setBackground(Color.green);
+                } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
+                    garageLights.setBackground(Color.gray);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card5.add(garageLights);
         garageLights.addActionListener(new ActionListener() {
             @Override
@@ -2618,7 +3057,27 @@ public class TabConfig extends JFrame {
         });
 
         JButton garageGarage = new JButton("Garage Door");
-        garageGarage.setBackground(Color.lightGray);
+        garageGarage.setPreferredSize(new Dimension(160, 80));
+        garageGarage.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        String fileGarageDoor = "ConfigFiles\\garageDoorConfig.txt";
+        File file5 = new File(fileGarageDoor);
+        try {
+            Scanner inputStream = new Scanner(file5);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                    garageGarage.setBackground(Color.green);
+                } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
+                    garageGarage.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
         card5.add(garageGarage);
         garageGarage.addActionListener(new ActionListener() {
             @Override
@@ -2675,7 +3134,27 @@ public class TabConfig extends JFrame {
         });
 
         JButton garageCar = new JButton("Car");
-        garageCar.setBackground(Color.lightGray);
+        garageCar.setPreferredSize(new Dimension(160, 80));
+        garageCar.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        String fileName7 = "ConfigFiles\\carConfig.txt";
+        File file7 = new File(fileName7);
+        try {
+            Scanner inputStream = new Scanner(file7);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("GARAGE") && values[2].equals("ON")) {
+                    garageCar.setBackground(Color.green);
+                } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
+                    garageCar.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
         card5.add(garageCar);
         garageCar.addActionListener(new ActionListener() {
             @Override
@@ -2739,9 +3218,28 @@ public class TabConfig extends JFrame {
 
         //GARDEN
         JPanel card6 = new JPanel();
-
+        card6.setBackground(Color.lightGray);
+        card6.setBorder(new BasicBorders.ToggleButtonBorder(Color.white, Color.gray, Color.darkGray, Color.black));
         JButton gardenMotionSensor = new JButton("Motion Sensors");
-        gardenMotionSensor.setBackground(Color.lightGray);
+        gardenMotionSensor.setPreferredSize(new Dimension(160, 80));
+        gardenMotionSensor.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("GARDEN") && values[2].equals("ON")) {
+                    gardenMotionSensor.setBackground(Color.green);
+                } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
+                    gardenMotionSensor.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card6.add(gardenMotionSensor);
         gardenMotionSensor.addActionListener(new ActionListener() {
             @Override
@@ -2841,12 +3339,30 @@ public class TabConfig extends JFrame {
         });
 
         JButton gardenMotionLights = new JButton("Lights");
-        gardenMotionLights.setBackground(Color.lightGray);
+        gardenMotionLights.setPreferredSize(new Dimension(160, 80));
+        gardenMotionLights.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        try {
+            Scanner inputStream = new Scanner(file1);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("GARDEN") && values[2].equals("ON")) {
+                    gardenMotionLights.setBackground(Color.green);
+                } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
+                    gardenMotionLights.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card6.add(gardenMotionLights);
         gardenMotionLights.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//Display rooms status
+                //Display rooms status
                 String fileName = "ConfigFiles/lightConfig.txt";
                 File file = new File(fileName);
                 try {
@@ -2949,21 +3465,41 @@ public class TabConfig extends JFrame {
         });
 
         JButton gardenMotionSprinklers = new JButton("Sprinklers");
-        gardenMotionSprinklers.setBackground(Color.lightGray);
+        gardenMotionSprinklers.setPreferredSize(new Dimension(160, 80));
+        gardenMotionSprinklers.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
+
+        String fileSprinklers = "ConfigFiles/sprinklerConfig.txt";
+        File file6 = new File(fileSprinklers);
+        try {
+            Scanner inputStream = new Scanner(file6);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("GARDEN") && values[2].equals("ON")) {
+                    gardenMotionSprinklers.setBackground(Color.green);
+                } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
+                    gardenMotionSprinklers.setBackground(Color.gray);
+                }
+            }
+            inputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         card6.add(gardenMotionSprinklers);
         gardenMotionSprinklers.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Display rooms status
-                String fileName = "ConfigFiles/motionSensorConfig.txt";
-                File file = new File(fileName);
+                String fileSprinklers1 = "ConfigFiles/sprinklerConfig.txt";
+                File file21 = new File(fileSprinklers1);
                 try {
-                    Scanner inputStream = new Scanner(file);
+                    Scanner inputStream = new Scanner(file21);
                     while (inputStream.hasNext()) {
                         data = inputStream.nextLine();
                         values = data.split(",");
-                        if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                            displayLine1 = data.split(", ");
+                        if (values[0].equals("GARDEN") && values[2].equals("ON")) {
+                            displayLine1 = data.split("S, ");
                             String continueSetUp;
                             continueSetUp = JOptionPane.showInputDialog("Already Set Up! Do you wish to edit? Y / N");
                             continueSetUp = continueSetUp.toUpperCase();
@@ -2992,7 +3528,7 @@ public class TabConfig extends JFrame {
                                 JOptionPane.showMessageDialog(null, "The Garden Sprinklers has been set to: " + sprinklerMode);
                             }
 
-                        } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                        } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
                             displayLine1 = data.split(", ");
 
                             String sprinklerInputString;
@@ -3952,9 +4488,9 @@ public class TabConfig extends JFrame {
 
         //Add to a list to be called in sim
         switch (roomName) {
-            case "GARAGE": {
+            case "GARDEN": {
                 Devices location = new Devices();
-                location.setLocation("GARAGE");
+                location.setLocation("GARDEN");
                 Devices gardenSprinkler = new Devices();
                 List<Devices.gardenSprinkler> list = new ArrayList<>();
                 //Location
@@ -4269,4 +4805,61 @@ public class TabConfig extends JFrame {
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(TabConfig::createAndShowGUI);
     }
+
+    //Motion Sensor
+    public javax.swing.JButton livingRoomMotionSensor;
+    public javax.swing.JButton mainBedroomMotionSensor;
+    public javax.swing.JButton secondBedroomMotionSensor;
+    public javax.swing.JButton kitchenMotionSensor;
+    public javax.swing.JButton garageMotionSensor;
+    public javax.swing.JButton gardenMotionSensor;
+
+    //Lights
+    public javax.swing.JButton livingRoomLights;
+    public javax.swing.JButton mainBedroomLights;
+    public javax.swing.JButton secondBedroomLights;
+    public javax.swing.JButton kitchenLights;
+    public javax.swing.JButton garageLights;
+    public javax.swing.JButton gardenLights;
+
+    //Air Conditioner
+    public javax.swing.JButton livingRoomAirCon;
+    public javax.swing.JButton mainBedroomAc;
+
+    //Ceiling Fan
+    public javax.swing.JButton livingRoomFan;
+    public javax.swing.JButton mainBedroomFan;
+    public javax.swing.JButton secondBedroomFan;
+
+    //Garage Door
+    public javax.swing.JButton garageGarage;
+
+    //Sprinklers
+    public javax.swing.JButton gardenMotionSprinklers;
+
+    //Car
+    public javax.swing.JButton garageCar;
+
+    //Oven
+    public javax.swing.JButton kitchenOven;
+
+    //Tv
+    public javax.swing.JButton livingRoomTv;
+    public javax.swing.JButton mainBedroomTv;
+
+    //Kettle
+    public javax.swing.JButton kitchenKettle;
+
+    //Coffee Machine
+    public javax.swing.JButton kitchenCoffee;
+
+    //Alarm Clock
+    public javax.swing.JButton mainBedroomAlarm;
+    public javax.swing.JButton secondBedroomAlarm;
+
+
+
+
+
+
 }

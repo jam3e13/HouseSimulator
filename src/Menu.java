@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 
 public class Menu extends JFrame {
@@ -37,26 +39,77 @@ public class Menu extends JFrame {
         newPanel.setPreferredSize(new Dimension(640, 200));
         this.setTitle("MENU");
 
-        JButton buttonRunSim = new JButton("SIMULATION");
+        JButton buttonRunSim = new JButton("RUN SIMULATION");
         buttonRunSim.setBorder(new BasicBorders.ToggleButtonBorder(Color.LIGHT_GRAY, Color.gray, Color.DARK_GRAY, Color.gray));
         buttonRunSim.setPreferredSize(new Dimension(160, 80));
+        buttonRunSim.setBackground(Color.gray);
 
         JButton buttonConfig = new JButton("CONFIGURE DEVICES");
         buttonConfig.setBorder(new BasicBorders.ToggleButtonBorder(Color.LIGHT_GRAY, Color.gray, Color.DARK_GRAY, Color.gray));
         buttonConfig.setPreferredSize(new Dimension(160, 80));
-        buttonConfig.setBackground(Color.white);
+        buttonConfig.setBackground(Color.gray);
 
-        JButton buttonDevice = new JButton("DEVICE VIEW");
+        JButton buttonDevice = new JButton("VIEW DEVICES");
         buttonDevice.setBorder(new BasicBorders.ToggleButtonBorder(Color.LIGHT_GRAY, Color.gray, Color.DARK_GRAY, Color.gray));
         buttonDevice.setPreferredSize(new Dimension(160, 80));
-        buttonDevice.setBackground(Color.white);
+        buttonDevice.setBackground(Color.gray);
 
 
         buttonRunSim.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //getWeatherType();
-                Simulator.main();
+                final CyclicBarrier gate = new CyclicBarrier(3);
+                Thread t1 = new Thread(() -> {
+                    try {
+                        gate.await();
+                    } catch (InterruptedException | BrokenBarrierException e1) {
+                        e1.printStackTrace();
+                    }
+                    //do stuff
+                    try {
+                        Simulator.runSimulator();
+                        System.out.println("runSimulator started");
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                });
+                Thread t2 = new Thread(() -> {
+                    try {
+                        gate.await();
+                    } catch (InterruptedException | BrokenBarrierException e1) {
+                        e1.printStackTrace();
+                    }
+                    //do stuff
+                    SimGUI.main();
+                    System.out.println("SimGUI started");
+                });
+                t1.start();
+                t2.start();
+                try {
+                    gate.await();
+                } catch (InterruptedException | BrokenBarrierException e1) {
+                    e1.printStackTrace();
+                }
+                System.out.println("all threads started");
+
+
+
+
+                /*
+                Runnable runnable = () -> {
+                    try {
+                        Simulator.runSimulator();
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                };
+                Thread t = new Thread(runnable);
+                t.start();
+
+                */
+
+
 
             }
         });

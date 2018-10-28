@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
@@ -9,7 +11,7 @@ import java.time.LocalTime;
 
 
 class Simulator extends JFrame {
-    public static final LocalTime SIM_START_TIME = LocalTime.parse("09:00");
+    private static final LocalTime SIM_START_TIME = LocalTime.parse("05:00");
     public static LocalTime time = SIM_START_TIME;
     static double inDoorTempSetter;
     public static double temperature, inDoorTemp, lightOn, lightOn2, sunLight, sunLightValue, livingRTemp;
@@ -24,88 +26,97 @@ class Simulator extends JFrame {
     private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0;
     private static int morningChoice, lunchChoice, dinnerChoice;
     static String travelTo = "";
-    private static SimGUI gui = new SimGUI();
+    static SimGUI gui;
 
 
     public static void main() {
         //TODO make GUI appear same time as Sim is run to update GUI
-        SimGUI gui = new SimGUI();
+        //SimGUI gui = new SimGUI();
+        gui = new SimGUI();
         gui.setVisible(true);
     }
 
 
     static void runSimulator() throws InterruptedException {
         do {
-            //Clock starts at 05:00AM
-            time = time.plusMinutes(1);
 
-            //Gets the morning weather type
-            temperature = Weather.getTemperature();
+            Timer timer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    //Clock starts at 05:00AM
+                    time = time.plusMinutes(1);
 
-            //Adds Temperature value every minute
-            temperature += Weather.dynamicIncrease();
+                    //Gets the morning weather type
+                    temperature = Weather.getTemperature();
 
-            //Sets the Light value for weather every hour
-            sunLight = Sun.getSunLight();
+                    //Adds Temperature value every minute
+                    temperature += Weather.dynamicIncrease();
 
-            //TODO add water and energy functions for simulator
+                    //Sets the Light value for weather every hour
+                    sunLight = Sun.getSunLight();
 
-            //TODO make the sun light increase and decrease show right values
-            //Before 12:00 Increase Light | After 12:00 Decrease Light
-            if (time.getHour() < 12) {
-                //am
-                sunLight += Sun.sunLightIncrease();
-            } else if (time.getHour() > 12) {
-                //pm
-                sunLight += Sun.sunLightDecrease();
-            }
+                    //TODO add water and energy functions for simulator
 
-
-            //Sets temperature for each room
-            livingRTemp = Devices.livingRoomTemp();
-            mainRTemp = Devices.roomTemp();
-            secondRTemp = Devices.roomTemp();
-            kitchenTemp = Devices.livingRoomTemp();
-            garageTemp = Devices.garageTemp();
-            gardenTemp = Devices.gardenTemps();
+                    //TODO make the sun light increase and decrease show right values
+                    //Before 12:00 Increase Light | After 12:00 Decrease Light
+                    if (time.getHour() < 12) {
+                        //am
+                        sunLight += Sun.sunLightIncrease();
+                    } else if (time.getHour() > 12) {
+                        //pm
+                        sunLight += Sun.sunLightDecrease();
+                    }
 
 
-            //Gets the Weather for sim
-            Menu.weatherType = dynamicWeather();
-            //Finds where the Person is for sim
-            travelTo = dynamicMotionSensors();
-            //Turns on lights for user inputs/sensors
-            lightDisplay = dynamicLights();
-            //Turns on AC for user inputs/sensors
-            acDisplay = dynamicAC();
-            //Turns on Ceiling Fan for user inputs/sensors
-            fanDisplay = dynamicCeilingFan();
-            //Turns on Garage for user inputs/sensors
-            garageDoorDisplay = dynamicGarageDoor();
-            //Turns on Sprinklers for user inputs/sensors
-            sprinklerDisplay = dynamicSprinkler();
-
-            //Behaviour change for Alarm Clock
-            acDisplay = dynamicAlarm();
-            //Behaviour change for Car
-            carDisplay = dynamicCar();
-            //Behaviour change for Oven
-            ovenDisplay = dynamicOven();
-            //Behaviour change for Tv
-            tvDisplay = dynamicTv();
-            //Behaviour change for Kettle
-            kettleDisplay = dynamicKettle();
-            //Behaviour change for Coffee Machine
-            coffeeDisplay = dynamicCoffeeMachine();
-            //Updates string to say what room person is in and change location
-            travelTo = dynamicTravel();
-            //Updates GUI
-            gui.updateDisplays();
-            //Display for System.out()
-            //halfHourlyDisplay();
+                    //Sets temperature for each room
+                    livingRTemp = Devices.livingRoomTemp();
+                    mainRTemp = Devices.roomTemp();
+                    secondRTemp = Devices.roomTemp();
+                    kitchenTemp = Devices.livingRoomTemp();
+                    garageTemp = Devices.garageTemp();
+                    gardenTemp = Devices.gardenTemps();
 
 
-            Thread.sleep(1000);
+                    //Gets the Weather for sim
+                    Menu.weatherType = dynamicWeather();
+                    //Finds where the Person is for sim
+                    travelTo = dynamicMotionSensors();
+                    //Turns on lights for user inputs/sensors
+                    lightDisplay = dynamicLights();
+                    //Turns on AC for user inputs/sensors
+                    acDisplay = dynamicAC();
+                    //Turns on Ceiling Fan for user inputs/sensors
+                    fanDisplay = dynamicCeilingFan();
+                    //Turns on Garage for user inputs/sensors
+                    garageDoorDisplay = dynamicGarageDoor();
+                    //Turns on Sprinklers for user inputs/sensors
+                    sprinklerDisplay = dynamicSprinkler();
+
+                    //Behaviour change for Alarm Clock
+                    acDisplay = dynamicAlarm();
+                    //Behaviour change for Car
+                    carDisplay = dynamicCar();
+                    //Behaviour change for Oven
+                    ovenDisplay = dynamicOven();
+                    //Behaviour change for Tv
+                    tvDisplay = dynamicTv();
+                    //Behaviour change for Kettle
+                    kettleDisplay = dynamicKettle();
+                    //Behaviour change for Coffee Machine
+                    coffeeDisplay = dynamicCoffeeMachine();
+                    //Updates string to say what room person is in and change location
+                    travelTo = dynamicTravel();
+                    //Updates GUI
+                    //gui.updateDisplays();
+                    //Display for System.out()
+                    halfHourlyDisplay();
+
+
+                }
+            });
+
+            timer.start();
+
 
             //Loop finish once 24 Hours has passed.
         } while (!(time == SIM_START_TIME));
@@ -1370,7 +1381,7 @@ class Simulator extends JFrame {
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
         }
-        return  kettleDisplay;
+        return kettleDisplay;
     }
 
     private static String dynamicTv() {

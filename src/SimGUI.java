@@ -2,26 +2,26 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.time.format.DateTimeFormatter;
 
 public class SimGUI extends javax.swing.JFrame {
 
-
-
-    String timeIntVal = String.valueOf(Simulator.time.plusMinutes(1));
     SimGUI() {
         initComponents();
     }
 
+
     public void updateDisplays() {
-        final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("hh:mm a");
-        timeIntVal = String.valueOf(Simulator.time.plusMinutes(1));
+
+
+        //timeInt.setText(timeInt.getText() );
+        //final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("hh:mm");
+        //timeIntVal = String.valueOf(Simulator.time);
         //Update Top panel
-        timeInt.setText(timeIntVal);
+        //timeInt.setText(timeIntVal);
         //lightInt.setText(lightIntVal);
-        System.out.println(timeIntVal);
+        //System.out.println(String.valueOf(Simulator.time));
+        //System.out.println(String.valueOf(timeInt));
+        //System.out.println(timeInt);
         //System.out.println(timeIntVal);
         //temperatureInt.setText(String.valueOf(Simulator.temperature));
         //lightInt.setText(String.valueOf(Simulator.sunLight));
@@ -69,9 +69,6 @@ public class SimGUI extends javax.swing.JFrame {
         energyStatus = new javax.swing.JPanel();
         energyInt = new javax.swing.JLabel();
 
-        startSim = new javax.swing.JButton();
-        simInt = new javax.swing.JLabel();
-
         behaviourDisplay = new javax.swing.JPanel();
 
         roomDisplay = new javax.swing.JPanel();
@@ -80,7 +77,7 @@ public class SimGUI extends javax.swing.JFrame {
         newPanel.setLayout(new BorderLayout());
         newPanel.setBackground(Color.LIGHT_GRAY);
         newPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        newPanel.setPreferredSize(new Dimension(800, 600));
+        newPanel.setPreferredSize(new Dimension(700, 600));
         this.setTitle("Simulation");
 
         JPanel content = new JPanel(new GridBagLayout());
@@ -180,11 +177,6 @@ public class SimGUI extends javax.swing.JFrame {
         energy.add(energyName);
         energy.add(energyStatus);
 
-        startSim.setPreferredSize(new Dimension(80, 75));
-        startSim.setBorder(new BasicBorders.ToggleButtonBorder(Color.gray, Color.DARK_GRAY, Color.gray, Color.LIGHT_GRAY));
-        startSim.setBackground(Color.black);
-
-
         //TODO make center labels for device status updates
         //Center panel
         behaviourDisplay.setPreferredSize(new Dimension(100, 100));
@@ -228,16 +220,14 @@ public class SimGUI extends javax.swing.JFrame {
         elementDisplay.add(light);
         elementDisplay.add(water);
         elementDisplay.add(energy);
-        elementDisplay.add(startSim);
 
         //top panel labels
-        //TODO add a weather type label
         //Time name
         timeName.setFont(new Font("Serif", Font.BOLD, 28));
         timeName.add(new JLabel("Time"), BorderLayout.NORTH);
 
-        JLabel timeInt = new JLabel(" ");
-        timeInt.setText(timeIntVal);
+        JLabel timeInt = new JLabel();
+        timeInt.setText(timeInt.getText() + Simulator.time.toString());
         JLabel timeIcon = new JLabel(" am");
         timeStatus.add(timeInt, BorderLayout.NORTH);
         timeStatus.add(timeIcon, BorderLayout.NORTH);
@@ -276,20 +266,6 @@ public class SimGUI extends javax.swing.JFrame {
         energyStatus.add(energyInt, BorderLayout.SOUTH);
         energyStatus.add(energyIcon, BorderLayout.SOUTH);
 
-        JLabel simInt = new JLabel("START");
-        startSim.add(simInt);
-
-        startSim.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Simulator.runSimulator();
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-
         //center panel labels
         behaviourDisplay.add(new JLabel("Status"), BorderLayout.NORTH);
 
@@ -308,8 +284,9 @@ public class SimGUI extends javax.swing.JFrame {
                 new SimGUI().setVisible(true);
             }
         });
-    }
 
+        new SimGUI().updateDisplays();
+    }
 
     private javax.swing.JPanel elementDisplay;
     private javax.swing.JPanel time1;
@@ -333,13 +310,9 @@ public class SimGUI extends javax.swing.JFrame {
     private javax.swing.JPanel behaviourDisplay;
     private javax.swing.JPanel roomDisplay;
     private javax.swing.JLabel temperatureInt;
-    private javax.swing.JLabel timeInt;
+    public javax.swing.JLabel timeInt;
     private javax.swing.JLabel lightInt;
     private javax.swing.JLabel waterInt;
     private javax.swing.JLabel energyInt;
     public javax.swing.JLabel weatherInt;
-    public javax.swing.JButton startSim;
-    public javax.swing.JLabel simInt;
-
-
 }

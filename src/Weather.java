@@ -2,8 +2,6 @@ import java.util.Random;
 
 class Weather {
     static int weatherValue;
-    static double temperature, tempChange;
-    private static String switchChoice;
 
     static int getWeather() {
         Random rand = new Random();
@@ -21,9 +19,8 @@ class Weather {
 
 
     static double getTemperature() {
-        switchChoice = Menu.weatherType;
-
-        switch (switchChoice) {
+        int temperature = 0;
+        switch (Menu.weatherType) {
             case "SUNNY":
 
                 if (Simulator.time.getHour() == 1) {
@@ -251,13 +248,13 @@ class Weather {
                 }
                 break;
         }
+        System.out.println("\n" + temperature + " Temp Set.");
         return temperature;
     }
 
-    static double dynamicIncrease() {
-        switchChoice = Menu.weatherType;
-
-        switch (switchChoice) {
+    static double temperatureAdjust() {
+        double tempChange = 0;
+        switch (Menu.weatherType) {
             case "SUNNY":
                 if (Simulator.time.getHour() > 4.99 && Simulator.time.getHour() < 5.99) {
                     //3 degree increase between 5 - 6am
@@ -475,6 +472,7 @@ class Weather {
                 System.out.println("dynamic temp failed...");
                 break;
         }
+        System.out.println("\n" + tempChange + " Temp Change");
         return tempChange;
     }
 }

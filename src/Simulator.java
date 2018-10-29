@@ -4,17 +4,19 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.Scanner;
 import java.time.LocalTime;
+import java.lang.Object;
+import java.lang.Number;
+import java.math.BigDecimal;
 
 
 class Simulator extends JFrame {
-    private static final LocalTime SIM_START_TIME = LocalTime.parse("05:00");
+    private static final LocalTime SIM_START_TIME = LocalTime.parse("06:00");
     public static LocalTime time = SIM_START_TIME;
     static double inDoorTempSetter;
-    public static double temperature, inDoorTemp, lightOn, lightOn2, sunLight, sunLightValue, livingRTemp;
+    public static double temperature, tempChange, inDoorTemp, lightOn, lightOn2, sunLight, sunLightValue, sunLightChange, livingRTemp;
     public static double mainRTemp, morningTotal, lunchTotal, dinnerTotal;
     public static double secondRTemp;
     public static double kitchenTemp;
@@ -26,20 +28,19 @@ class Simulator extends JFrame {
     private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0;
     private static int morningChoice, lunchChoice, dinnerChoice;
     static String travelTo = "";
-    static SimGUI gui;
+    static GUI gui;
 
 
     public static void main() {
         //TODO make GUI appear same time as Sim is run to update GUI
         //SimGUI gui = new SimGUI();
-        gui = new SimGUI();
+        gui = new GUI();
         gui.setVisible(true);
     }
 
 
     static void runSimulator() throws InterruptedException {
         do {
-
             Timer timer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -50,22 +51,31 @@ class Simulator extends JFrame {
                     temperature = Weather.getTemperature();
 
                     //Adds Temperature value every minute
-                    temperature += Weather.dynamicIncrease();
+
+                    tempChange += Weather.temperatureAdjust();
 
                     //Sets the Light value for weather every hour
                     sunLight = Sun.getSunLight();
+
+                    sunLightChange += Sun.sunLightAdjust();
+
+                    fixTempChange();
+                    fixSunChange();
+
+                    if (Simulator.time.getHour() < 12) {
+                        BigDecimal.valueOf(temperature += tempChange);
+                        BigDecimal.valueOf(sunLight += sunLightChange);
+                    } else if (Simulator.time.getHour() > 12) {
+                        BigDecimal.valueOf(temperature -= tempChange);
+                        BigDecimal.valueOf(sunLight -= sunLightChange);
+                    }
+
+
 
                     //TODO add water and energy functions for simulator
 
                     //TODO make the sun light increase and decrease show right values
                     //Before 12:00 Increase Light | After 12:00 Decrease Light
-                    if (time.getHour() < 12) {
-                        //am
-                        sunLight += Sun.sunLightIncrease();
-                    } else if (time.getHour() > 12) {
-                        //pm
-                        sunLight += Sun.sunLightDecrease();
-                    }
 
 
                     //Sets temperature for each room
@@ -107,7 +117,8 @@ class Simulator extends JFrame {
                     //Updates string to say what room person is in and change location
                     travelTo = dynamicTravel();
                     //Updates GUI
-                    //gui.updateDisplays();
+                    gui.updateDisplay();
+                    gui.updateRoomLocation();
                     //Display for System.out()
                     halfHourlyDisplay();
 
@@ -120,6 +131,158 @@ class Simulator extends JFrame {
 
             //Loop finish once 24 Hours has passed.
         } while (!(time == SIM_START_TIME));
+    }
+
+    private static void fixSunChange() {
+        if (Simulator.time.getHour() == 6 && Simulator.time.getMinute() == 0) {
+            //6:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 7 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 8 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 9 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 10 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 11 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 12 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 13 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 14 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 15 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 16 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 17 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 18 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 19 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 20 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 21 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 22 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 23 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 0 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 1 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 2 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 3 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 4 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        } else if (Simulator.time.getHour() == 5 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            sunLightChange = 0;
+        }
+    }
+
+    private static void fixTempChange() {
+        if (Simulator.time.getHour() == 6 && Simulator.time.getMinute() == 0) {
+            //6:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 7 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 8 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 9 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 10 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 11 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 12 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 13 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 14 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 15 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 16 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 17 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 18 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 19 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 20 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 21 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 22 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 23 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 0 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 1 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 2 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 3 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 4 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        } else if (Simulator.time.getHour() == 5 && Simulator.time.getMinute() == 0) {
+            //7:00am
+            tempChange = 0;
+        }
     }
 
 

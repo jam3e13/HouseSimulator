@@ -59,44 +59,7 @@ public class Menu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //getWeatherType();
-                final CyclicBarrier gate = new CyclicBarrier(3);
-                Thread t1 = new Thread(() -> {
-                    try {
-                        gate.await();
-                    } catch (InterruptedException | BrokenBarrierException e1) {
-                        e1.printStackTrace();
-                    }
-                    //do stuff
-                    try {
-                        Simulator.runSimulator();
-                        System.out.println("runSimulator started");
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
-                });
-                Thread t2 = new Thread(() -> {
-                    try {
-                        gate.await();
-                    } catch (InterruptedException | BrokenBarrierException e1) {
-                        e1.printStackTrace();
-                    }
-                    //do stuff
-                    SimGUI.main();
-                    System.out.println("SimGUI started");
-                });
-                t1.start();
-                t2.start();
-                try {
-                    gate.await();
-                } catch (InterruptedException | BrokenBarrierException e1) {
-                    e1.printStackTrace();
-                }
-                System.out.println("all threads started");
-
-
-
-
-                /*
+                Simulator.main();
                 Runnable runnable = () -> {
                     try {
                         Simulator.runSimulator();
@@ -106,10 +69,6 @@ public class Menu extends JFrame {
                 };
                 Thread t = new Thread(runnable);
                 t.start();
-
-                */
-
-
 
             }
         });

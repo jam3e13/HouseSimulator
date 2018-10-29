@@ -7,13 +7,11 @@ import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Scanner;
 import java.time.LocalTime;
-import java.lang.Object;
-import java.lang.Number;
 import java.math.BigDecimal;
 
 
 class Simulator extends JFrame {
-    private static final LocalTime SIM_START_TIME = LocalTime.parse("06:00");
+    private static final LocalTime SIM_START_TIME = LocalTime.parse("11:50");
     public static LocalTime time = SIM_START_TIME;
     static double inDoorTempSetter;
     public static double temperature, tempChange, inDoorTemp, lightOn, lightOn2, sunLight, sunLightValue, sunLightChange, livingRTemp;
@@ -30,7 +28,6 @@ class Simulator extends JFrame {
     static String travelTo = "";
     static GUI gui;
 
-
     public static void main() {
         //TODO make GUI appear same time as Sim is run to update GUI
         //SimGUI gui = new SimGUI();
@@ -38,45 +35,38 @@ class Simulator extends JFrame {
         gui.setVisible(true);
     }
 
-
     static void runSimulator() throws InterruptedException {
         do {
             Timer timer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //Clock starts at 05:00AM
+                    //Adds 1 integer every loop
                     time = time.plusMinutes(1);
 
-                    //Gets the morning weather type
+                    //Gets the initial temperature value
                     temperature = Weather.getTemperature();
 
-                    //Adds Temperature value every minute
-
-                    tempChange += Weather.temperatureAdjust();
-
-                    //Sets the Light value for weather every hour
+                    //Gets the initial light value
                     sunLight = Sun.getSunLight();
 
+                    //Gets temperature change per hour
+                    tempChange += Weather.temperatureAdjust();
+
+                    //Gets light change per hour
                     sunLightChange += Sun.sunLightAdjust();
 
+                    //Reformat every hour to display correctly
                     fixTempChange();
                     fixSunChange();
 
-                    if (Simulator.time.getHour() < 12) {
-                        BigDecimal.valueOf(temperature += tempChange);
-                        BigDecimal.valueOf(sunLight += sunLightChange);
-                    } else if (Simulator.time.getHour() > 12) {
-                        BigDecimal.valueOf(temperature -= tempChange);
-                        BigDecimal.valueOf(sunLight -= sunLightChange);
-                    }
-
-
+                    //Formats doubles correctly
+                    BigDecimal.valueOf(temperature += tempChange);
+                    BigDecimal.valueOf(sunLight += sunLightChange);
 
                     //TODO add water and energy functions for simulator
 
                     //TODO make the sun light increase and decrease show right values
                     //Before 12:00 Increase Light | After 12:00 Decrease Light
-
 
                     //Sets temperature for each room
                     livingRTemp = Devices.livingRoomTemp();
@@ -85,7 +75,6 @@ class Simulator extends JFrame {
                     kitchenTemp = Devices.livingRoomTemp();
                     garageTemp = Devices.garageTemp();
                     gardenTemp = Devices.gardenTemps();
-
 
                     //Gets the Weather for sim
                     Menu.weatherType = dynamicWeather();
@@ -118,17 +107,13 @@ class Simulator extends JFrame {
                     travelTo = dynamicTravel();
                     //Updates GUI
                     gui.updateDisplay();
+                    //Updates where the person is in the GUI
                     gui.updateRoomLocation();
-                    //Display for System.out()
+                    //Display for System.out
                     halfHourlyDisplay();
-
-
                 }
             });
-
             timer.start();
-
-
             //Loop finish once 24 Hours has passed.
         } while (!(time == SIM_START_TIME));
     }
@@ -294,6 +279,12 @@ class Simulator extends JFrame {
             System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLight);
             System.out.print("%");
         } else if (time.getHour() > 12) {
+            System.out.println(time + " pm");
+            System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
+            System.out.print("°");
+            System.out.printf("%n" + "Sunlight Percent: " + "%.2f", sunLight);
+            System.out.print("%\n");
+        } else if (time.getHour() == 12) {
             System.out.println(time + " pm");
             System.out.printf("%n" + "Outdoor Temperature: " + "%.2f", temperature);
             System.out.print("°");

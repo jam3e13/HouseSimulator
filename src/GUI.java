@@ -1,32 +1,35 @@
 public class GUI extends javax.swing.JFrame {
 
+    public static int stopDisplay;
+    private static boolean gardenLightsON, garageLightsON, kitchenLightsON, secondBedroomLightsON, mainBedroomLightsON, livingRoomLightsON, gardenSprinklerON, mainBedroomFanON;
+
     public GUI() {
         initComponents();
     }
 
-    public void updateDisplay() {
-
+    public void updateDisplay() { //Updates Top Panel Displays ONLY
         if (Simulator.time.getHour() < 12) {
             jLabel8.setText(Simulator.time.toString() + " am");
         } else if (Simulator.time.getHour() > 12) {
             jLabel8.setText(Simulator.time.toString() + " pm");
         }
 
-        jLabel9.setText(String.format("%.2f", Simulator.temperature));
-
-        jLabel10.setText(String.format("%.2f", Simulator.sunLight));
-
+        //Outside temperature
+        jLabel9.setText(String.format("%.2f", Simulator.temperature) + " °");
+        //Sun Light strength
+        jLabel10.setText(String.format("%.2f", Simulator.sunLight) + " %");
+        //Weather type
         jLabel11.setText(Menu.weatherType);
-
-        jLabel12.setText("0.00 L");
-
-        jLabel13.setText("0.00 Kw");
+        //Liters used
+        jLabel12.setText(String.format("%.2f", Simulator.waterUsage) + " L");
+        //Power used (0.00 watts)
+        jLabel13.setText(String.format("%.2f", Simulator.powerUsage / 1000) + " Kw");
+        //Cost ($0.00)
+        jLabel17.setText("$ " + (String.format("%.2f", Simulator.powerUsageCost)));
 
     }
 
-    public void updateRoomLocation() {
-
-        //System.out.println(Simulator.travelTo + " hit hit");
+    public void updateRoomLocation() { //Updates panel to green if person currently in that room
         switch (Simulator.travelTo) {
             case "LIVING ROOM":
                 //MAIN BEDROOM
@@ -119,8 +122,224 @@ public class GUI extends javax.swing.JFrame {
         }
     }
 
-    private void initComponents() {
+    public void updateRoomTemp() {
+        //Main Bedroom
+        jLabel64.setText(String.format("%.2f", Simulator.mainBedroomTotalEnergy) + " w");
+        jLabel66.setText(String.format("%.2f", Simulator.mainRTemp) + " °");
+        //Second Bedroom
+        jLabel77.setText(String.format("%.2f", Simulator.secondBedroomTotalEnergy) + " w");
+        jLabel79.setText(String.format("%.2f", Simulator.secondRTemp) + " °");
+        //Living Room
+        jLabel15.setText(String.format("%.2f", Simulator.livingRoomTotalEnergy) + " w");
+        jLabel24.setText(String.format("%.2f", Simulator.livingRTemp) + " °");
+        //Kitchen
+        jLabel90.setText(String.format("%.2f", Simulator.kitchenTotalEnergy) + " w");
+        jLabel92.setText(String.format("%.2f", Simulator.kitchenTemp) + " °");
+        //Garage
+        jLabel103.setText(String.format("%.2f", Simulator.garageTotalEnergy) + " w");
+        jLabel105.setText(String.format("%.2f", Simulator.garageTemp) + " °");
+        //Garden
+        jLabel117.setText(String.format("%.2f", Simulator.gardenTotalEnergy) + " w");
+        jLabel119.setText(String.format("%.2f", Simulator.gardenTemp) + " °");
 
+    }
+
+    void updateRoomStatus() {
+        stopDisplay++;
+
+    //Main Bedroom - Motion Sensor, Lights, Ceiling Fan, AC, TV, Alarm Clock
+
+        //Lights
+        if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && !mainBedroomLightsON) {
+            jLabel74.setText(Simulator.lightDisplay);
+            //true / on
+            if (!(mainBedroomLightsON) && stopDisplay == 10) {
+                mainBedroomLightsON = true;
+            }
+        } else if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && mainBedroomLightsON) {
+            jLabel74.setText(" ");
+        } else if (Simulator.secondRoomLights && stopDisplay > 10 && mainBedroomLightsON) {
+            jLabel74.setText(Simulator.lightDisplay);
+            //false / off
+            if ((mainBedroomLightsON) && stopDisplay == 10) {
+                mainBedroomLightsON = false;
+            }
+        }
+
+        //Ceiling Fan
+        if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && !mainBedroomFanON) {
+            jLabel74.setText(Simulator.fanDisplay);
+            //true / on
+            if (!(mainBedroomFanON) && stopDisplay == 10) {
+                mainBedroomFanON = true;
+            }
+        } else if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && mainBedroomFanON) {
+            jLabel74.setText(" ");
+        } else if (Simulator.mainRoomCeilingFan && stopDisplay > 10 && mainBedroomFanON) {
+            jLabel74.setText(Simulator.fanDisplay);
+            //false / off
+            if ((mainBedroomFanON) && stopDisplay == 10) {
+                mainBedroomFanON = false;
+            }
+        }
+
+
+
+
+        //Alarm Clock
+
+    //Second Bedroom
+
+        //Lights
+        if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && !secondBedroomLightsON) {
+            jLabel87.setText(Simulator.lightDisplay);
+            //true / on
+            if (!(secondBedroomLightsON) && stopDisplay == 10) {
+                secondBedroomLightsON = true;
+            }
+        } else if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && secondBedroomLightsON) {
+            jLabel87.setText(" ");
+        } else if (Simulator.secondRoomLights && stopDisplay > 10 && secondBedroomLightsON) {
+            jLabel87.setText(Simulator.lightDisplay);
+            //false / off
+            if ((secondBedroomLightsON) && stopDisplay == 10) {
+                secondBedroomLightsON = false;
+            }
+        }
+
+        //Ceiling Fan
+        if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && !mainBedroomFanON) {
+            jLabel74.setText(Simulator.fanDisplay);
+            //true / on
+            if (!(mainBedroomFanON) && stopDisplay == 10) {
+                mainBedroomFanON = true;
+            }
+        } else if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && mainBedroomFanON) {
+            jLabel74.setText(" ");
+        } else if (Simulator.secondRoomCeilingFan && stopDisplay > 10 && mainBedroomFanON) {
+            jLabel74.setText(Simulator.fanDisplay);
+            //false / off
+            if ((mainBedroomFanON) && stopDisplay == 10) {
+                mainBedroomFanON = false;
+            }
+        }
+
+    //Living Room
+
+        //Lights
+        if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && !livingRoomLightsON) {
+            jLabel61.setText(Simulator.lightDisplay);
+            //true / on
+            if (!(livingRoomLightsON) && stopDisplay == 10) {
+                livingRoomLightsON = true;
+            }
+        } else if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && livingRoomLightsON) {
+            jLabel61.setText(" ");
+        } else if (Simulator.livingRoomLights && stopDisplay > 10 && livingRoomLightsON) {
+            jLabel61.setText(Simulator.lightDisplay);
+            //false / off
+            if ((livingRoomLightsON) && stopDisplay == 10) {
+                livingRoomLightsON = false;
+            }
+        }
+
+        //Ceiling Fan
+        if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && !mainBedroomFanON) {
+            jLabel74.setText(Simulator.fanDisplay);
+            //true / on
+            if (!(mainBedroomFanON) && stopDisplay == 10) {
+                mainBedroomFanON = true;
+            }
+        } else if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && mainBedroomFanON) {
+            jLabel74.setText(" ");
+        } else if (Simulator.livingRoomCeilingFan && stopDisplay > 10 && mainBedroomFanON) {
+            jLabel74.setText(Simulator.fanDisplay);
+            //false / off
+            if ((mainBedroomFanON) && stopDisplay == 10) {
+                mainBedroomFanON = false;
+            }
+        }
+
+    //Kitchen
+
+        //Lights
+        if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && !kitchenLightsON) {
+            jLabel100.setText(Simulator.lightDisplay);
+            //true / on
+            if (!(kitchenLightsON) && stopDisplay == 10) {
+                kitchenLightsON = true;
+            }
+        } else if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && kitchenLightsON) {
+            jLabel100.setText(" ");
+        } else if (Simulator.kitchenLights && stopDisplay > 10 && kitchenLightsON) {
+            jLabel100.setText(Simulator.lightDisplay);
+            //false / off
+            if ((kitchenLightsON) && stopDisplay == 10) {
+                kitchenLightsON = false;
+            }
+        }
+
+    //Garage
+
+        //Lights
+        if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && !garageLightsON) {
+            jLabel113.setText(Simulator.lightDisplay);
+            //true / on
+            if (!(garageLightsON) && stopDisplay == 10) {
+                garageLightsON = true;
+            }
+        } else if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && garageLightsON) {
+            jLabel113.setText(" ");
+        } else if (Simulator.garageLights && stopDisplay > 10 && garageLightsON) {
+            jLabel113.setText(Simulator.lightDisplay);
+            //false / off
+            if ((garageLightsON) && stopDisplay == 10) {
+                garageLightsON = false;
+            }
+        }
+
+    //Garden - Motion Sensor, Lights, Sprinklers
+
+        //Sprinklers
+        if (!(Simulator.sprinklerDisplay.equals("EMPTY")) && stopDisplay > 10 && !gardenSprinklerON) {
+            jLabel127.setText(Simulator.sprinklerDisplay);
+            if (!(gardenSprinklerON) && stopDisplay == 10) {
+                gardenSprinklerON = true;
+            }
+        } else if (!(Simulator.sprinklerDisplay.equals("EMPTY")) && stopDisplay > 10 && gardenSprinklerON) {
+            jLabel127.setText(" ");
+        } else if (Simulator.gardenSprinkler && stopDisplay > 10 && gardenSprinklerON) {
+            jLabel127.setText(Simulator.lightDisplay);
+            //false / off
+            if ((gardenLightsON) && stopDisplay == 10) {
+                gardenLightsON = false;
+            }
+        }
+
+        //Lights
+        if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && !gardenLightsON) {
+            jLabel127.setText(Simulator.lightDisplay);
+            //true / on
+            if (!(gardenLightsON) && stopDisplay == 10) {
+                gardenLightsON = true;
+            }
+        } else if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && gardenLightsON) {
+            jLabel127.setText(" ");
+        } else if (Simulator.gardenLights && stopDisplay > 10 && gardenLightsON) {
+            jLabel127.setText(Simulator.lightDisplay);
+            //false / off
+            if ((gardenLightsON) && stopDisplay == 10) {
+                gardenLightsON = false;
+            }
+        }
+
+
+        if (stopDisplay == 10) {
+            stopDisplay = 0;
+        }
+    }
+
+    private void initComponents() {
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -154,6 +373,11 @@ public class GUI extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
+        jPanel29 = new javax.swing.JPanel();
+        jPanel36 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jPanel37 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel60 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
@@ -356,7 +580,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel9.setText("0.00");
+        jLabel9.setText("14 °");
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -415,7 +639,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel10.setText("0.00");
+        jLabel10.setText("0.00 %");
 
         javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
         jPanel21.setLayout(jPanel21Layout);
@@ -592,7 +816,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel13.setText("0.00 Kw");
+        jLabel13.setText("0.00 w");
 
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
@@ -647,6 +871,65 @@ public class GUI extends javax.swing.JFrame {
                                 .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        jPanel29.setBackground(new java.awt.Color(204, 204, 204));
+
+        jPanel36.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel17.setText("$ 0.00");
+
+        javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
+        jPanel36.setLayout(jPanel36Layout);
+        jPanel36Layout.setHorizontalGroup(
+                jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel36Layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(jLabel17)
+                                .addContainerGap(30, Short.MAX_VALUE))
+        );
+        jPanel36Layout.setVerticalGroup(
+                jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel36Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel17)
+                                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        jPanel37.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel19.setText("COST");
+
+        javax.swing.GroupLayout jPanel37Layout = new javax.swing.GroupLayout(jPanel37);
+        jPanel37.setLayout(jPanel37Layout);
+        jPanel37Layout.setHorizontalGroup(
+                jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel37Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel19)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel37Layout.setVerticalGroup(
+                jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel37Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel19)
+                                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
+        jPanel29.setLayout(jPanel29Layout);
+        jPanel29Layout.setHorizontalGroup(
+                jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel29Layout.setVerticalGroup(
+                jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
+                                .addComponent(jPanel37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -664,6 +947,8 @@ public class GUI extends javax.swing.JFrame {
                                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -676,7 +961,8 @@ public class GUI extends javax.swing.JFrame {
                                         .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap())
         );
 
@@ -2067,7 +2353,9 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel22;
@@ -2143,6 +2431,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel31;
@@ -2150,6 +2439,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel48;
     private javax.swing.JPanel jPanel5;
@@ -2191,6 +2482,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel94;
     private javax.swing.JPanel jPanel96;
     private javax.swing.JPanel jPanel98;
+
+
     // End of variables declaration//GEN-END:variables
 }
 

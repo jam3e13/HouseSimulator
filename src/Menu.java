@@ -57,13 +57,7 @@ public class Menu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //getWeatherType();
                 Simulator.main();
-                Runnable runnable = () -> {
-                    try {
-                        Simulator.runSimulator();
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
-                };
+                Runnable runnable = Simulator::runSimulator;
                 Thread t = new Thread(runnable);
                 t.start();
 
@@ -80,7 +74,7 @@ public class Menu extends JFrame {
         buttonDevice.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,"Device Display Not Done");
+                JOptionPane.showMessageDialog(null, "Device Display Not Done");
             }
         });
 

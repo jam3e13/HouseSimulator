@@ -1,5 +1,5 @@
 LIVING ROOM,Motion Sensor,OFF,0
-MAIN BEDROOM,Motion Sensor,OFF,0
+MAIN BEDROOM,Motion Sensor,ON,0
 SECOND BEDROOM,Motion Sensor,OFF,0
 KITCHEN,Motion Sensor,OFF,0
 GARAGE,Motion Sensor,OFF,0

@@ -23,9 +23,10 @@ public class TabConfig extends JFrame {
     final static String KITCHENPANEL = "KITCHEN";
     final static String GARAGEPANEL = "GARAGE";
     final static String GARDENPANEL = "GARDEN";
-    static double livingRoomTvOffTime, livingRoomTvMinuteInput, mainBedroomAlarmMinInput, alarmClockTotal, ovenMorningAlarmMinute, ovenLunchAlarmMinute, ovenDinnerAlarmMinute, ovenAlarmMorning, ovenAlarmLunch, ovenAlarmDinner;
+    static double livingRoomTvOffTime, livingRoomTvMinuteInput, secondBedroomAlarmMinInput, mainBedroomAlarmMinInput, ovenMorningAlarmMinute, ovenLunchAlarmMinute, ovenDinnerAlarmMinute, ovenAlarmMorning, ovenAlarmLunch, ovenAlarmDinner;
+    public static double alarmClockTotal;
     static String morningAfternoon, carMode, kettleMode, coffeMachineMode, sprinklerMode, morningMode, lunchMode, dinnerMode, smartAlarmMode, data, x1, x2, x3, x4, x5, x6, updatedList, updatedList1, updatedList2, updatedList3, updatedList4, updatedList5, livingRoomLightMode, livingRoomMotionSensorMode;
-    static int livingRoomTvHourInput, ovenMorningInput, coffeeMachineInput, kettleAlarm, ovenLunchInput, ovenDinnerInput, garageCarLightsInput, smartAlarmInput, mainBedroomAlarmInput, sprinklerInput, garageDoorLightsInput, livingRoomAirConInput, livingRoomLightsInput, livingRoomMotionSensorInput, livingRoomFanInput, ovenMorningAlarmHour, ovenLunchAlarmHour, ovenDinnerAlarmHour;
+    static int livingRoomTvHourInput, ovenMorningInput, coffeeMachineInput, kettleAlarm, ovenLunchInput, ovenDinnerInput, garageCarLightsInput, smartAlarmInput, mainBedroomAlarmInput, secondBedroomAlarmInput, sprinklerInput, garageDoorLightsInput, livingRoomAirConInput, livingRoomLightsInput, livingRoomMotionSensorInput, livingRoomFanInput, ovenMorningAlarmHour, ovenLunchAlarmHour, ovenDinnerAlarmHour;
     private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5, displayLine6;
 
     private final static int extraWindowWidth = 100;
@@ -1867,32 +1868,32 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String AlarmHourString;
                                 AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                mainBedroomAlarmInput = Integer.parseInt(AlarmHourString);
+                                secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
 
-                                while (mainBedroomAlarmInput > 12) {
+                                while (secondBedroomAlarmInput > 12) {
                                     AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                    mainBedroomAlarmInput = Integer.parseInt(AlarmHourString);
+                                    secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
                                 }
-                                while (mainBedroomAlarmInput < 5) {
+                                while (secondBedroomAlarmInput < 5) {
                                     AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                    mainBedroomAlarmInput = Integer.parseInt(AlarmHourString);
+                                    secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
                                 }
 
                                 String AlarmMinuteString;
                                 AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
+                                secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
 
-                                while (mainBedroomAlarmMinInput > 60.00) {
+                                while (secondBedroomAlarmMinInput > 60.00) {
                                     AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                    mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
+                                    secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
                                 }
-                                while (mainBedroomAlarmMinInput < 00.00) {
+                                while (secondBedroomAlarmMinInput < 00.00) {
                                     AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                    mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
+                                    secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
                                 }
 
-                                alarmClockTotal = mainBedroomAlarmMinInput / 100;
-                                alarmClockTotal = alarmClockTotal + mainBedroomAlarmInput;
+                                alarmClockTotal = secondBedroomAlarmMinInput / 100;
+                                alarmClockTotal = alarmClockTotal + secondBedroomAlarmInput;
 
                                 String smartAlarmString;
                                 smartAlarmString = JOptionPane.showInputDialog("Please ENABLE Alarm Clock's Smart Ability;\n1) Morning Coffee always\n2) Morning Coffee never");
@@ -1917,31 +1918,31 @@ public class TabConfig extends JFrame {
 
                             String AlarmHourString;
                             AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                            mainBedroomAlarmInput = Integer.parseInt(AlarmHourString);
+                            secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
 
-                            while (mainBedroomAlarmInput > 12) {
+                            while (secondBedroomAlarmInput > 12) {
                                 AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                mainBedroomAlarmInput = Integer.parseInt(AlarmHourString);
+                                secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
                             }
-                            while (mainBedroomAlarmInput < 5) {
+                            while (secondBedroomAlarmInput < 5) {
                                 AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                mainBedroomAlarmInput = Integer.parseInt(AlarmHourString);
+                                secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
                             }
 
                             String AlarmMinuteString;
                             AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                            mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
+                            secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
 
-                            while (mainBedroomAlarmMinInput > 60.00) {
+                            while (secondBedroomAlarmMinInput > 60.00) {
                                 AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
+                                secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
                             }
-                            while (mainBedroomAlarmMinInput < 00.00) {
+                            while (secondBedroomAlarmMinInput < 00.00) {
                                 AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
+                                secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
                             }
 
-                            alarmClockTotal = mainBedroomAlarmMinInput / 100;
+                            alarmClockTotal = secondBedroomAlarmMinInput / 100;
                             alarmClockTotal = alarmClockTotal + mainBedroomAlarmInput;
 
                             String smartAlarmString;

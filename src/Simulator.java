@@ -21,13 +21,14 @@ class Simulator extends JFrame {
     public static double lightEnergyUsed, acEnergyUsed, mainRoomAcEnergy, mainRoomLightEnergy, livingRoomLightEnergy, livingRoomAcEnergy, secondRoomLightEnergy, kitchenLightEnergy, garageLightEnergy, gardenLightEnergy, mainBedroomTotalEnergy, secondBedroomTotalEnergy, livingRoomTotalEnergy, kitchenTotalEnergy, garageTotalEnergy, gardenTotalEnergy;
     static double gardenTemp, fullClock = time.getHour() + time.getMinute();
     public static String data, morningMode, lunchMode, dinnerMode, ovenDisplay, tvDisplay, coffeeDisplay, kettleDisplay, carDisplay, alarmDisplay, sprinklerDisplay, garageDoorDisplay, acDisplay, lightDisplay, fanDisplay;
-    private static boolean tvON, kettleBoiled, behaviour1, behaviour2, behaviour3, mainRoomAC, livingRoomAc, carRunning, morningBoolean, lunchBoolean, dinnerBoolean, alarmSound, makeMainBedroomCoffee, makeSecondBedroomCoffee, alarmCoffee;
+    private static boolean mainRoomTvON, livingRoomTvON, kettleBoiled, behaviour1, behaviour2, behaviour3, mainRoomAC, livingRoomAc, carRunning, morningBoolean, lunchBoolean, dinnerBoolean, alarmSound, makeMainBedroomCoffee, makeSecondBedroomCoffee, alarmCoffee;
     public static boolean secondRoomCeilingFan, mainRoomCeilingFan, livingRoomCeilingFan, livingRoomLights, mainRoomLights, kitchenLights, secondRoomLights, garageLights, gardenLights, gardenSprinkler;
     private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5;
     private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0;
     private static int morningChoice, lunchChoice, dinnerChoice;
-    public static double sprinklerWaterUsage, waterUsage, totalWater, powerUsage, powerUsageCost;
-    public static int lightsInRoom;
+    public static double sprinklerWaterUsage, sprinklerEnergyUsage, waterUsage, totalWater, powerUsage, powerUsageCost, fanSpeedEnergy, livingRoomFanEnergy, mainRoomFanEnergy, secondRoomFanEnergy, gardenSprinklerEnergy, ovenEnergy, morningOvenEnergy, lunchOvenEnergy, dinnerOvenEnergy, totalOvenEnergy, dinnerOnFor, morningOnFor, lunchOnFor, tvEnergyFromSize, tvLivingRoomEnergyFromSize;
+    public static double livingRoomTvOEnergy, mainRoomTvEnergy, kettleEnergyUsed, kettleEnergy, coffeeMachineEnergy, coffeeMachineEnergyUsage;
+    public static int lightsInRoom, sprinklerPressure;
     static String travelTo = "";
     static GUI gui;
 
@@ -128,17 +129,17 @@ class Simulator extends JFrame {
 
     private static double getPowerUsage() {
         //MAIN BEDROOM
-        mainBedroomTotalEnergy = mainRoomLightEnergy + mainRoomAcEnergy;
+        mainBedroomTotalEnergy = mainRoomLightEnergy + mainRoomAcEnergy + mainRoomFanEnergy + mainRoomTvEnergy;
         //SECOND BEDROOM
-        secondBedroomTotalEnergy = secondRoomLightEnergy;
+        secondBedroomTotalEnergy = secondRoomLightEnergy + secondRoomFanEnergy;
         //LIVING ROOM
-        livingRoomTotalEnergy = livingRoomLightEnergy + livingRoomAcEnergy;
+        livingRoomTotalEnergy = livingRoomLightEnergy + livingRoomAcEnergy + livingRoomFanEnergy + livingRoomTvOEnergy;
         //KITCHEN
-        kitchenTotalEnergy = kitchenLightEnergy;
+        kitchenTotalEnergy = kitchenLightEnergy + totalOvenEnergy + kettleEnergy + coffeeMachineEnergy;
         //GARAGE
         garageTotalEnergy = garageLightEnergy;
         //GARDEN
-        gardenTotalEnergy = gardenLightEnergy;
+        gardenTotalEnergy = gardenLightEnergy + gardenSprinklerEnergy;
 
         powerUsage = mainBedroomTotalEnergy + secondBedroomTotalEnergy + livingRoomTotalEnergy + kitchenTotalEnergy + garageTotalEnergy + gardenTotalEnergy;
         powerUsageCost = powerUsage * 0.10;
@@ -990,14 +991,18 @@ class Simulator extends JFrame {
                             if (ceilingFanTemp < 28 && ceilingFanTemp > 26) {
                                 //Cool the room down by 2 degrees
                                 ceilingFanSpeed = 1;
+                                fanSpeedEnergy = 50; //watts per hour
                             } else if (ceilingFanTemp < 26 && ceilingFanTemp > 24) {
                                 //Cool the room down by 4 degrees
                                 ceilingFanSpeed = 2;
+                                fanSpeedEnergy = 60;
                             } else if (ceilingFanTemp < 24 && ceilingFanTemp > 22) {
                                 //Cool the room down by 6 degrees
                                 ceilingFanSpeed = 3;
+                                fanSpeedEnergy = 75;
                             } else if (ceilingFanTemp >= 29 && inDoorTemp >= 29) {
                                 ceilingFanSpeed = 0;
+                                fanSpeedEnergy = 0;
                             }
                             break;
                         // 28 - 1
@@ -1005,14 +1010,18 @@ class Simulator extends JFrame {
                             if ((ceilingFanTemp < 26 && ceilingFanTemp > 24) && (inDoorTemp < 27 && inDoorTemp > 22)) {
                                 //Cool the room down by 2 degrees
                                 ceilingFanSpeed = 1;
+                                fanSpeedEnergy = 50;
                             } else if ((ceilingFanTemp < 24 && ceilingFanTemp > 22) && (inDoorTemp < 27 && inDoorTemp > 22)) {
                                 //Cool the room down by 4 degrees
                                 ceilingFanSpeed = 2;
+                                fanSpeedEnergy = 0;
                             } else if ((ceilingFanTemp < 22 && ceilingFanTemp > 20) && (inDoorTemp < 27 && inDoorTemp > 22)) {
                                 //Cool the room down by 6 degrees
-                                ceilingFanSpeed = 3;
+                                ceilingFanSpeed = 60;
+                                fanSpeedEnergy = 75;
                             } else if (ceilingFanTemp >= 27 && inDoorTemp >= 27) {
                                 ceilingFanSpeed = 0;
+                                fanSpeedEnergy = 0;
                             }
                             break;
                         // 26
@@ -1020,14 +1029,18 @@ class Simulator extends JFrame {
                             if ((ceilingFanTemp < 25 && ceilingFanTemp > 23) && (inDoorTemp < 26 && inDoorTemp > 21)) {
                                 //Cool the room down by 2 degrees
                                 ceilingFanSpeed = 1;
+                                fanSpeedEnergy = 55;
                             } else if ((ceilingFanTemp < 23 && ceilingFanTemp > 21) && (inDoorTemp < 26 && inDoorTemp > 21)) {
                                 //Cool the room down by 4 degrees
                                 ceilingFanSpeed = 2;
+                                fanSpeedEnergy = 65;
                             } else if ((ceilingFanTemp < 21 && ceilingFanTemp > 19) && (inDoorTemp < 26 && inDoorTemp > 21)) {
                                 //Cool the room down by 6 degrees
                                 ceilingFanSpeed = 3;
+                                fanSpeedEnergy = 80;
                             } else if (ceilingFanTemp >= 26 && inDoorTemp >= 26) {
                                 ceilingFanSpeed = 0;
+                                fanSpeedEnergy = 0;
                             }
                             break;
                     }
@@ -1060,14 +1073,18 @@ class Simulator extends JFrame {
                             if (ceilingFanTemp < 28 && ceilingFanTemp > 26) {
                                 //Cool the room down by 2 degrees
                                 ceilingFanSpeed = 1;
+                                fanSpeedEnergy = 50;
                             } else if (ceilingFanTemp < 26 && ceilingFanTemp > 24) {
                                 //Cool the room down by 4 degrees
                                 ceilingFanSpeed = 2;
+                                fanSpeedEnergy = 60;
                             } else if (ceilingFanTemp < 24 && ceilingFanTemp > 22) {
                                 //Cool the room down by 6 degrees
                                 ceilingFanSpeed = 3;
+                                fanSpeedEnergy = 75;
                             } else if (ceilingFanTemp >= 29 && inDoorTemp >= 29) {
                                 ceilingFanSpeed = 0;
+                                fanSpeedEnergy = 0;
                             }
                             break;
                         // 28 - 1
@@ -1075,14 +1092,18 @@ class Simulator extends JFrame {
                             if ((ceilingFanTemp < 26 && ceilingFanTemp > 24) && (inDoorTemp < 27 && inDoorTemp > 22)) {
                                 //Cool the room down by 2 degrees
                                 ceilingFanSpeed = 1;
+                                fanSpeedEnergy = 50;
                             } else if ((ceilingFanTemp < 24 && ceilingFanTemp > 22) && (inDoorTemp < 27 && inDoorTemp > 22)) {
                                 //Cool the room down by 4 degrees
                                 ceilingFanSpeed = 2;
+                                fanSpeedEnergy = 60;
                             } else if ((ceilingFanTemp < 22 && ceilingFanTemp > 20) && (inDoorTemp < 27 && inDoorTemp > 22)) {
                                 //Cool the room down by 6 degrees
                                 ceilingFanSpeed = 3;
+                                fanSpeedEnergy = 75;
                             } else if (ceilingFanTemp >= 27 && inDoorTemp >= 27) {
                                 ceilingFanSpeed = 0;
+                                fanSpeedEnergy = 0;
                             }
                             break;
                         // 26
@@ -1090,14 +1111,18 @@ class Simulator extends JFrame {
                             if ((ceilingFanTemp < 25 && ceilingFanTemp > 23) && (inDoorTemp < 26 && inDoorTemp > 21)) {
                                 //Cool the room down by 2 degrees
                                 ceilingFanSpeed = 1;
+                                fanSpeedEnergy = 50;
                             } else if ((ceilingFanTemp < 23 && ceilingFanTemp > 21) && (inDoorTemp < 26 && inDoorTemp > 21)) {
                                 //Cool the room down by 4 degrees
                                 ceilingFanSpeed = 2;
+                                fanSpeedEnergy = 60;
                             } else if ((ceilingFanTemp < 21 && ceilingFanTemp > 19) && (inDoorTemp < 26 && inDoorTemp > 21)) {
                                 //Cool the room down by 6 degrees
                                 ceilingFanSpeed = 3;
+                                fanSpeedEnergy = 75;
                             } else if (ceilingFanTemp >= 26 && inDoorTemp >= 26) {
                                 ceilingFanSpeed = 0;
+                                fanSpeedEnergy = 0;
                             }
                             break;
                     }
@@ -1130,14 +1155,18 @@ class Simulator extends JFrame {
                             if (ceilingFanTemp < 28 && ceilingFanTemp > 26) {
                                 //Cool the room down by 2 degrees
                                 ceilingFanSpeed = 1;
+                                fanSpeedEnergy = 50;
                             } else if (ceilingFanTemp < 26 && ceilingFanTemp > 24) {
                                 //Cool the room down by 4 degrees
                                 ceilingFanSpeed = 2;
+                                fanSpeedEnergy = 60;
                             } else if (ceilingFanTemp < 24 && ceilingFanTemp > 22) {
                                 //Cool the room down by 6 degrees
                                 ceilingFanSpeed = 3;
+                                fanSpeedEnergy = 75;
                             } else if (ceilingFanTemp >= 29 && inDoorTemp >= 29) {
                                 ceilingFanSpeed = 0;
+                                fanSpeedEnergy = 0;
                             }
                             break;
                         // 28 - 1
@@ -1145,14 +1174,18 @@ class Simulator extends JFrame {
                             if ((ceilingFanTemp < 26 && ceilingFanTemp > 24) && (inDoorTemp < 27 && inDoorTemp > 22)) {
                                 //Cool the room down by 2 degrees
                                 ceilingFanSpeed = 1;
+                                fanSpeedEnergy = 50;
                             } else if ((ceilingFanTemp < 24 && ceilingFanTemp > 22) && (inDoorTemp < 27 && inDoorTemp > 22)) {
                                 //Cool the room down by 4 degrees
                                 ceilingFanSpeed = 2;
+                                fanSpeedEnergy = 60;
                             } else if ((ceilingFanTemp < 22 && ceilingFanTemp > 20) && (inDoorTemp < 27 && inDoorTemp > 22)) {
                                 //Cool the room down by 6 degrees
                                 ceilingFanSpeed = 3;
+                                fanSpeedEnergy = 75;
                             } else if (ceilingFanTemp >= 27 && inDoorTemp >= 27) {
                                 ceilingFanSpeed = 0;
+                                fanSpeedEnergy = 0;
                             }
                             break;
                         // 26
@@ -1160,14 +1193,18 @@ class Simulator extends JFrame {
                             if ((ceilingFanTemp < 25 && ceilingFanTemp > 23) && (inDoorTemp < 26 && inDoorTemp > 21)) {
                                 //Cool the room down by 2 degrees
                                 ceilingFanSpeed = 1;
+                                fanSpeedEnergy = 50;
                             } else if ((ceilingFanTemp < 23 && ceilingFanTemp > 21) && (inDoorTemp < 26 && inDoorTemp > 21)) {
                                 //Cool the room down by 4 degrees
                                 ceilingFanSpeed = 2;
+                                fanSpeedEnergy = 60;
                             } else if ((ceilingFanTemp < 21 && ceilingFanTemp > 19) && (inDoorTemp < 26 && inDoorTemp > 21)) {
                                 //Cool the room down by 6 degrees
                                 ceilingFanSpeed = 3;
+                                fanSpeedEnergy = 75;
                             } else if (ceilingFanTemp >= 26 && inDoorTemp >= 26) {
                                 ceilingFanSpeed = 0;
+                                fanSpeedEnergy = 0;
                             }
                             break;
                     }
@@ -1190,6 +1227,21 @@ class Simulator extends JFrame {
                     fanDisplay = "EMPTY";
                 }
 
+            }
+
+            if (livingRoomCeilingFan) {
+                livingRoomFanEnergy = fanSpeedEnergy  / 60;
+                livingRoomFanEnergy++;
+            }
+
+            if (mainRoomCeilingFan) {
+                mainRoomFanEnergy = fanSpeedEnergy / 60;
+                mainRoomFanEnergy++;
+            }
+
+            if (secondRoomCeilingFan) {
+                secondRoomFanEnergy = fanSpeedEnergy / 60;
+                secondRoomFanEnergy++;
             }
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
@@ -1280,6 +1332,7 @@ class Simulator extends JFrame {
 
     private static String dynamicSprinkler() {
         //Users Set temp they want room to stay at
+        sprinklerEnergyUsage = 60; //watts used to power water pump per hour
         String fileName = "ConfigFiles\\sprinklerConfig.txt";
         File file = new File(fileName);
         try {
@@ -1309,6 +1362,7 @@ class Simulator extends JFrame {
                                     //6:00pm
                                     gardenTemp = 25;
                                     gardenSprinkler = true;
+                                    sprinklerPressure = 1;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 2) {
@@ -1320,11 +1374,13 @@ class Simulator extends JFrame {
                                     //9:00am
                                     gardenTemp = 27;
                                     gardenSprinkler = true;
+                                    sprinklerPressure = 2;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 25;
                                     gardenSprinkler = true;
+                                    sprinklerPressure = 2;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 3) {
@@ -1336,16 +1392,19 @@ class Simulator extends JFrame {
                                     //9:00am
                                     gardenTemp = 27;
                                     gardenSprinkler = true;
+                                    sprinklerPressure = 3;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 25;
                                     gardenSprinkler = true;
+                                    sprinklerPressure = 3;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 } else if (time.getHour() == 2) {
                                     //2:00am
                                     gardenTemp = 17;
                                     gardenSprinkler = true;
+                                    sprinklerPressure = 3;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             }
@@ -1360,6 +1419,8 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 23;
+                                    gardenSprinkler = true;
+                                    sprinklerPressure = 1;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 2) {
@@ -1370,10 +1431,14 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 9) {
                                     //9:00am
                                     gardenTemp = 25;
+                                    gardenSprinkler = true;
+                                    sprinklerPressure = 2;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 23;
+                                    gardenSprinkler = true;
+                                    sprinklerPressure = 2;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 3) {
@@ -1384,10 +1449,14 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 9) {
                                     //9:00am
                                     gardenTemp = 25;
+                                    gardenSprinkler = true;
+                                    sprinklerPressure = 2;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 } else if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 23;
+                                    gardenSprinkler = true;
+                                    sprinklerPressure = 1;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             }
@@ -1402,6 +1471,8 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 22;
+                                    gardenSprinkler = true;
+                                    sprinklerPressure = 1;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 2) {
@@ -1412,6 +1483,8 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 22;
+                                    gardenSprinkler = true;
+                                    sprinklerPressure = 1;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             } else if (sprinklerListTemp == 3) {
@@ -1422,6 +1495,8 @@ class Simulator extends JFrame {
                                 if (time.getHour() == 18) {
                                     //6:00pm
                                     gardenTemp = 22;
+                                    gardenSprinkler = true;
+                                    sprinklerPressure = 1;
                                     sprinklerDisplay = (sprinklerMode + " - Now Watering Garden Temperature: " + gardenTemp);
                                 }
                             }
@@ -1432,11 +1507,17 @@ class Simulator extends JFrame {
                 } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
                     displayLine5 = data.split(", ");
                     sprinklerListTemp = 0;
+                    sprinklerWaterUsage = 0;
                     values[3] = String.valueOf(sprinklerListTemp);
                     //Re-format user inputs to act as a refresher
                     sprinklerDisplay = "EMPTY";
                 }
 
+            }
+
+            if (gardenSprinkler) {
+                gardenSprinklerEnergy = (sprinklerEnergyUsage * sprinklerPressure) / 60;
+                gardenSprinklerEnergy++;
             }
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
@@ -1586,6 +1667,7 @@ class Simulator extends JFrame {
     }
 
     private static String dynamicCoffeeMachine() {
+        coffeeMachineEnergyUsage = 2400; //watts per hour
         //Users Set temp they want room to stay at
         String fileName = "ConfigFiles\\coffeeMachineConfig.txt";
         File file = new File(fileName);
@@ -1659,12 +1741,24 @@ class Simulator extends JFrame {
                 }
             }
 
+            if (behaviour1) {
+                coffeeMachineEnergy = coffeeMachineEnergyUsage / 60;
+                coffeeMachineEnergy++;
+            } else if (behaviour2) {
+                coffeeMachineEnergy = coffeeMachineEnergyUsage / 60;
+                coffeeMachineEnergy++;
+            } else if (behaviour3) {
+                coffeeMachineEnergy = coffeeMachineEnergyUsage / 60;
+                coffeeMachineEnergy++;
+            }
+
         } catch (FileNotFoundException | NumberFormatException ignored) {
         }
         return coffeeDisplay;
     }
 
     private static String dynamicKettle() {
+        kettleEnergyUsed = 40; //watts used per hour
         //Users Set temp they want room to stay at
         String fileName = "ConfigFiles\\kettleConfig.txt";
         File file = new File(fileName);
@@ -1704,6 +1798,11 @@ class Simulator extends JFrame {
                 }
             }
 
+            if (kettleBoiled) {
+                kettleEnergy = kettleEnergyUsed / 60;
+                kettleEnergy++;
+            }
+
         } catch (FileNotFoundException | NumberFormatException ignored) {
         }
         return kettleDisplay;
@@ -1723,45 +1822,59 @@ class Simulator extends JFrame {
                 double tvOffTime;
                 //LIVING ROOM - ON
                 if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
+                    tvLivingRoomEnergyFromSize = 400; //watts used per hour
                     displayLine5 = data.split(", ");
                     tvOffTime = Double.parseDouble(values[3]);
 
-                    if (fullClock < 7.30 && travelTo.equals("LIVING ROOM") && !tvON) {
+                    if (fullClock < 7.30 && travelTo.equals("LIVING ROOM") && !livingRoomTvON) {
                         tvDisplay = "TV has Turned ON in LIVING ROOM!";
-                        tvON = true;
-                    } else if (tvOffTime < fullClock && travelTo.equals("LIVING ROOM") && tvON) {
+                        livingRoomTvON = true;
+                    } else if (tvOffTime < fullClock && travelTo.equals("LIVING ROOM") && livingRoomTvON) {
                         tvDisplay = "TV has Turned OFF in LIVING ROOM!";
-                        tvON = false;
-                    } else if (!travelTo.equals("LIVING ROOM") && tvON) {
+                        livingRoomTvON = false;
+                    } else if (!travelTo.equals("LIVING ROOM") && livingRoomTvON) {
                         tvDisplay = "TV has Turned OFF in LIVING ROOM!";
-                        tvON = false;
+                        livingRoomTvON = false;
                     }
 
                     //LIVING ROOM - OFF
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
+                    tvLivingRoomEnergyFromSize = 0;
                     displayLine5 = data.split(", ");
                 }
 
                 //MAIN BEDROOM - ON
                 if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    tvEnergyFromSize = 300;
                     displayLine5 = data.split(", ");
                     tvOffTime = Double.parseDouble(values[3]);
 
-                    if (fullClock < 7.30 && travelTo.equals("LIVING ROOM") && !tvON) {
+                    if (fullClock < 7.30 && travelTo.equals("LIVING ROOM") && !mainRoomTvON) {
                         tvDisplay = "TV has Turned ON in LIVING ROOM!";
-                        tvON = true;
-                    } else if (tvOffTime < fullClock && travelTo.equals("LIVING ROOM") && tvON) {
+                        mainRoomTvON = true;
+                    } else if (tvOffTime < fullClock && travelTo.equals("LIVING ROOM") && mainRoomTvON) {
                         tvDisplay = "TV has Turned OFF in LIVING ROOM!";
-                        tvON = false;
-                    } else if (!travelTo.equals("LIVING ROOM") && tvON) {
+                        mainRoomTvON = false;
+                    } else if (!travelTo.equals("LIVING ROOM") && mainRoomTvON) {
                         tvDisplay = "TV has Turned OFF in LIVING ROOM!";
-                        tvON = false;
+                        mainRoomTvON = false;
                     }
 
                     //MAIN BEDROOM - OFF
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    tvEnergyFromSize = 0;
                     displayLine5 = data.split(", ");
                 }
+            }
+
+            if (livingRoomTvON) {
+                livingRoomTvOEnergy = tvLivingRoomEnergyFromSize / 60;
+                livingRoomTvOEnergy++;
+            }
+
+            if (mainRoomTvON) {
+                mainRoomTvEnergy = tvEnergyFromSize / 60;
+                mainRoomTvEnergy++;
             }
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
@@ -1770,6 +1883,7 @@ class Simulator extends JFrame {
     }
 
     private static String dynamicOven() {
+        ovenEnergy = 2400; //watts used per hour
         //Users Set temp they want room to stay at
         String fileName = "ConfigFiles\\ovenConfig.txt";
         File file = new File(fileName);
@@ -1791,10 +1905,13 @@ class Simulator extends JFrame {
 
                     if (morningChoice == 1) {
                         morningMode = "Pancakes";
+                        morningOnFor = 0.25;
                     } else if (morningChoice == 2) {
                         morningMode = "Toast";
+                        morningOnFor = 0.05;
                     } else if (morningChoice == 3) {
                         morningMode = "Eggs and Bacon";
+                        morningOnFor = 0.3;
                     }
 
                     if (morningAlarm < fullClock && !morningBoolean) {
@@ -1804,6 +1921,7 @@ class Simulator extends JFrame {
                     }
 
                     if (morningTotal > fullClock && morningBoolean) {
+                        morningBoolean = false;
                         ovenDisplay = ("The Oven has Turned OFF Your " + morningMode + " are/is Ready!");
                     }
 
@@ -1812,10 +1930,13 @@ class Simulator extends JFrame {
 
                     if (lunchChoice == 1) {
                         lunchMode = "Muffins";
+                        lunchOnFor = 1;
                     } else if (lunchChoice == 2) {
                         lunchMode = "Toasted Sandwich";
+                        lunchOnFor = 0.2;
                     } else if (lunchChoice == 3) {
                         lunchMode = "Chicken and Rice Salad";
+                        lunchOnFor = 1.2;
                     }
 
                     if (lunchAlarm < fullClock && !lunchBoolean) {
@@ -1825,6 +1946,7 @@ class Simulator extends JFrame {
                     }
 
                     if (lunchTotal > fullClock && lunchBoolean) {
+                        lunchBoolean = false;
                         ovenDisplay = ("The Oven has Turned OFF Your " + lunchMode + " are/is Ready!");
                     }
 
@@ -1833,10 +1955,13 @@ class Simulator extends JFrame {
 
                     if (dinnerChoice == 1) {
                         dinnerMode = "Roast Pork & Veggies";
+                        dinnerOnFor = 2; //whole numbers are hours spent cooking
                     } else if (dinnerChoice == 2) {
                         dinnerMode = "Lasagna";
+                        dinnerOnFor = 1.5;
                     } else if (dinnerChoice == 3) {
                         dinnerMode = "Smoked Mackerel";
+                        dinnerOnFor = 0.5;
                     }
 
 
@@ -1847,6 +1972,7 @@ class Simulator extends JFrame {
                     }
 
                     if (dinnerTotal > fullClock && dinnerBoolean) {
+                        dinnerBoolean = false;
                         ovenDisplay = ("The Oven has Turned OFF Your " + dinnerMode + " are/is Ready!");
                     }
 
@@ -1857,6 +1983,23 @@ class Simulator extends JFrame {
                     //Re-format user inputs to act as a refresher
                 }
             }
+
+            if (morningBoolean) { //Energy used when cooking in the morning
+                morningOvenEnergy = (ovenEnergy * morningOnFor) / 60;
+                morningOvenEnergy++;
+            }
+
+            if (lunchBoolean) { //Energy used when cooking in the afternoon
+                lunchOvenEnergy = (ovenEnergy * lunchOnFor) / 60;
+                lunchOvenEnergy++;
+            }
+
+            if (dinnerBoolean) { //Energy used when cooking in the evening
+                dinnerOvenEnergy = (ovenEnergy * dinnerOnFor) / 60;
+                dinnerOvenEnergy++;
+            }
+
+            totalOvenEnergy = morningOvenEnergy + lunchOvenEnergy + dinnerOvenEnergy;
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
         }

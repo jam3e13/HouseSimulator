@@ -7,10 +7,23 @@ class House {
 
     private static String data;
     private static String[] values, displayLine1, displayLine2, displayLine3, displayLine4, displayLine5, displayLine6;
+    public static String[] livingRoomMotionSensor, livingRoomLights, livingRoomFan, livingRoomAC, livingRoomTV;
+    public static String[] mainBedroomMotionSensor, mainBedroomLights, mainBedroomFan, mainBedroomTV, mainBedroomAC, mainBedroomAlarmClock;
+    public static String[] secondBedroomMotionSensors, secondBedroomLights, secondBedroomFan, secondBedroomAlarmClock;
+    public static String[] kitchenMotionSensors, kitchenLights, kitchenOven, kitchenKettle, kitchenCoffeeMachine;
+    public static String[] garageMotionSensor, garageLights, garageCar, garageDoor;
+    public static String[] gardenMotionSensors, gardenLights, gardenSprinklers;
+
+
+
+    static deviceGUI gui;
+
+    public static void main() {
+        gui = new deviceGUI();
+        gui.setVisible(true);
+    }
 
     static void viewHouseDevices() {
-
-
         System.out.println("House Contents, (ON) - Set up, (OFF) - NOT Set up.");
         viewLivingRoomDevices();
         viewMainBedroomDevices();
@@ -18,6 +31,8 @@ class House {
         viewKitchenDevices();
         viewGarageDevices();
         viewGardenDevices();
+
+        gui.displayDevices();
     }
 
     private static void viewLivingRoomDevices() {
@@ -30,12 +45,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    displayLine1 = data.split(", ");
+                    livingRoomMotionSensor = data.split(", ");
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
-                    displayLine1 = data.split(", ");
+                    livingRoomMotionSensor = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine1));
+            System.out.println(Arrays.toString(livingRoomMotionSensor));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -49,12 +64,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    displayLine2= data.split(", ");
+                    livingRoomLights= data.split(", ");
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
-                    displayLine2 = data.split(", ");
+                    livingRoomLights = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine2));
+            System.out.println(Arrays.toString(livingRoomLights));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -68,12 +83,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    displayLine3 = data.split(", ");
+                    livingRoomAC = data.split(", ");
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
-                    displayLine3 = data.split(", ");
+                    livingRoomAC = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine3));
+            System.out.println(Arrays.toString(livingRoomAC));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -87,12 +102,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    displayLine4 = data.split(", ");
+                    livingRoomFan = data.split(", ");
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
-                    displayLine4 = data.split(", ");
+                    livingRoomFan = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine4));
+            System.out.println(Arrays.toString(livingRoomFan));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -106,12 +121,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("LIVING ROOM") && values[0].equals("LIVING ROOM") && values[2].equals("ON")) {
-                    displayLine5 = data.split(", ");
+                    livingRoomTV = data.split(", ");
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
-                    displayLine5 = data.split(", ");
+                    livingRoomTV = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine5));
+            System.out.println(Arrays.toString(livingRoomTV));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -129,12 +144,12 @@ class House {
                 values = data.split(",");
 
                 if (values[0].equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    displayLine1 = data.split(", ");
+                    mainBedroomMotionSensor = data.split(", ");
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
-                    displayLine1 = data.split(", ");
+                    mainBedroomMotionSensor = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine1));
+            System.out.println(Arrays.toString(mainBedroomMotionSensor));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -148,12 +163,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    displayLine2 = data.split(", ");
+                    mainBedroomLights = data.split(", ");
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
-                    displayLine2 = data.split(", ");
+                    mainBedroomLights = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine2));
+            System.out.println(Arrays.toString(mainBedroomLights));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -167,12 +182,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    displayLine3 = data.split(", ");
+                    mainBedroomAC = data.split(", ");
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
-                    displayLine3 = data.split(", ");
+                    mainBedroomAC = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine3));
+            System.out.println(Arrays.toString(mainBedroomAC));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -186,12 +201,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    displayLine4 = data.split(", ");
+                    mainBedroomFan = data.split(", ");
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
-                    displayLine4 = data.split(", ");
+                    mainBedroomFan = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine4));
+            System.out.println(Arrays.toString(mainBedroomFan));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -206,12 +221,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    displayLine5 = data.split(", ");
+                    mainBedroomTV = data.split(", ");
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
-                    displayLine5 = data.split(", ");
+                    mainBedroomTV = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine5));
+            System.out.println(Arrays.toString(mainBedroomTV));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -225,12 +240,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("MAIN BEDROOM") && values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    displayLine6 = data.split(", ");
+                    mainBedroomAlarmClock = data.split(", ");
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
-                    displayLine6 = data.split(", ");
+                    mainBedroomAlarmClock = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine6));
+            System.out.println(Arrays.toString(mainBedroomAlarmClock));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -247,12 +262,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                    displayLine1 = data.split(", ");
+                    secondBedroomMotionSensors = data.split(", ");
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                    displayLine1 = data.split(", ");
+                    secondBedroomMotionSensors = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine1));
+            System.out.println(Arrays.toString(secondBedroomMotionSensors));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -266,12 +281,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                    displayLine2 = data.split(", ");
+                    secondBedroomLights = data.split(", ");
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                    displayLine2 = data.split(", ");
+                    secondBedroomLights = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine2));
+            System.out.println(Arrays.toString(secondBedroomLights));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -285,12 +300,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                    displayLine3 = data.split(", ");
+                    secondBedroomFan = data.split(", ");
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                    displayLine3 = data.split(", ");
+                    secondBedroomFan = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine3));
+            System.out.println(Arrays.toString(secondBedroomFan));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -305,12 +320,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                    displayLine4 = data.split(", ");
+                    secondBedroomAlarmClock = data.split(", ");
                 } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                    displayLine4 = data.split(", ");
+                    secondBedroomAlarmClock = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine4));
+            System.out.println(Arrays.toString(secondBedroomAlarmClock));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -327,12 +342,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
-                    displayLine1 = data.split(", ");
+                    kitchenMotionSensors = data.split(", ");
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
-                    displayLine1 = data.split(", ");
+                    kitchenMotionSensors = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine1));
+            System.out.println(Arrays.toString(kitchenMotionSensors));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -346,12 +361,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
-                    displayLine2 = data.split(", ");
+                    kitchenLights = data.split(", ");
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
-                    displayLine2 = data.split(", ");
+                    kitchenLights = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine2));
+            System.out.println(Arrays.toString(kitchenLights));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -366,12 +381,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
-                    displayLine3 = data.split(", ");
+                    kitchenOven = data.split(", ");
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
-                    displayLine3 = data.split(", ");
+                    kitchenOven = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine3));
+            System.out.println(Arrays.toString(kitchenOven));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -386,12 +401,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
-                    displayLine4 = data.split(", ");
+                    kitchenKettle = data.split(", ");
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
-                    displayLine4 = data.split(", ");
+                    kitchenKettle = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine4));
+            System.out.println(Arrays.toString(kitchenKettle));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -406,12 +421,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("KITCHEN") && values[0].equals("KITCHEN") && values[2].equals("ON")) {
-                    displayLine5 = data.split(", ");
+                    kitchenCoffeeMachine = data.split(", ");
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
-                    displayLine5 = data.split(", ");
+                    kitchenCoffeeMachine = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine5));
+            System.out.println(Arrays.toString(kitchenCoffeeMachine));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -428,12 +443,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("GARAGE") && values[0].equals("GARAGE") && values[2].equals("ON")) {
-                    displayLine1 = data.split(", ");
+                    garageMotionSensor = data.split(", ");
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
-                    displayLine1 = data.split(", ");
+                    garageMotionSensor = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine1));
+            System.out.println(Arrays.toString(garageMotionSensor));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -448,12 +463,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("GARAGE") && values[0].equals("GARAGE") && values[2].equals("ON")) {
-                    displayLine2 = data.split(", ");
+                    garageLights = data.split(", ");
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
-                    displayLine2 = data.split(", ");
+                    garageLights = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine2));
+            System.out.println(Arrays.toString(garageLights));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -468,12 +483,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("GARAGE") && values[0].equals("GARAGE") && values[2].equals("ON")) {
-                    displayLine3 = data.split(", ");
+                    garageDoor = data.split(", ");
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
-                    displayLine3 = data.split(", ");
+                    garageDoor = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine3));
+            System.out.println(Arrays.toString(garageDoor));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -488,12 +503,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("GARAGE") && values[0].equals("GARAGE") && values[2].equals("ON")) {
-                    displayLine4 = data.split(", ");
+                    garageCar = data.split(", ");
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
-                    displayLine4 = data.split(", ");
+                    garageCar = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine4));
+            System.out.println(Arrays.toString(garageCar));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -510,12 +525,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("GARDEN") && values[0].equals("GARDEN") && values[2].equals("ON")) {
-                    displayLine1 = data.split(", ");
+                    gardenMotionSensors = data.split(", ");
                 } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
-                    displayLine1 = data.split(", ");
+                    gardenMotionSensors = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine1));
+            System.out.println(Arrays.toString(gardenMotionSensors));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -529,12 +544,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("GARDEN") && values[0].equals("GARDEN") && values[2].equals("ON")) {
-                    displayLine2 = data.split(", ");
+                    gardenLights = data.split(", ");
                 } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
-                    displayLine2 = data.split(", ");
+                    gardenLights = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine2));
+            System.out.println(Arrays.toString(gardenLights));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -548,12 +563,12 @@ class House {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("GARDEN") && values[0].equals("GARDEN") && values[2].equals("ON")) {
-                    displayLine3 = data.split(", ");
+                    gardenSprinklers = data.split(", ");
                 } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
-                    displayLine3 = data.split(", ");
+                    gardenSprinklers = data.split(", ");
                 }
             }
-            System.out.println(Arrays.toString(displayLine3));
+            System.out.println(Arrays.toString(gardenSprinklers));
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

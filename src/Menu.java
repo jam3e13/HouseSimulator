@@ -74,7 +74,10 @@ public class Menu extends JFrame {
         buttonDevice.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Device Display Not Done");
+                House.main();
+                Runnable runnable = House::viewHouseDevices;
+                Thread t = new Thread(runnable);
+                t.start();
             }
         });
 

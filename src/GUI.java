@@ -1,7 +1,11 @@
+import java.awt.*;
+
 public class GUI extends javax.swing.JFrame {
 
     public static int stopDisplay;
-    private static boolean gardenLightsON, garageLightsON, kitchenLightsON, secondBedroomLightsON, mainBedroomLightsON, livingRoomLightsON, gardenSprinklerON, mainBedroomFanON;
+    private static boolean gardenLightsON, garageLightsON, kitchenLightsON, secondRoomFanON, secondBedroomLightsON, mainBedroomLightsON, livingRoomLightsON, gardenSprinklerON, mainBedroomFanON, mainBedroomTVON, mainBedroomACON, mainBedroomAlarmON;
+    private static boolean livingRoomFanON, livingRoomACON, livingRoomTVON, kitchenOvenMorningON, kitchenOvenLunchON, kitchenOvenDinnerON, kitchenKettleON, kitchenCoffeeMachineON, garageCarON, garageDoorON;
+    private static boolean mainRoomMotionSensorON, secondRoomMotionSensorON, livingRoomMotionSensorON, kitchenMotionSensorON, garageMotionSensorON, gardenMotionSensorON;
 
     public GUI() {
         initComponents();
@@ -12,10 +16,12 @@ public class GUI extends javax.swing.JFrame {
             jLabel8.setText(Simulator.time.toString() + " am");
         } else if (Simulator.time.getHour() > 12) {
             jLabel8.setText(Simulator.time.toString() + " pm");
+        } else if (Simulator.time.getHour() == 12) {
+            jLabel8.setText(Simulator.time.toString() + " pm");
         }
 
         //Outside temperature
-        jLabel9.setText(String.format("%.2f", Simulator.temperature) + " °");
+        jLabel9.setText(String.format("%.2f", Simulator.temperature) + " °c");
         //Sun Light strength
         jLabel10.setText(String.format("%.2f", Simulator.sunLight) + " %");
         //Weather type
@@ -34,90 +40,162 @@ public class GUI extends javax.swing.JFrame {
             case "LIVING ROOM":
                 //MAIN BEDROOM
                 jPanel57.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel74.setText(" ");
+                mainRoomMotionSensorON = false;
                 //SECOND BEDROOM
                 jPanel71.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel87.setText(" ");
+                secondRoomMotionSensorON = false;
                 //LIVING ROOM
                 jPanel3.setBackground(new java.awt.Color(0, 204, 0));
+                jLabel61.setText("Person has travelled to Living Room");
+                livingRoomMotionSensorON = true;
                 //KITCHEN
                 jPanel81.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel100.setText(" ");
+                kitchenMotionSensorON = false;
                 //GARAGE
                 jPanel91.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel113.setText(" ");
+                garageMotionSensorON = false;
                 //GARDEN
                 jPanel104.setBackground(new java.awt.Color(204, 204, 204));
-
+                jLabel127.setText(" ");
+                gardenMotionSensorON = false;
                 break;
+
             case "MAIN BEDROOM":
                 //MAIN BEDROOM
                 jPanel57.setBackground(new java.awt.Color(0, 204, 0));
+                jLabel74.setText("Person has travelled to Main Bedroom");
+                mainRoomMotionSensorON = true;
                 //SECOND BEDROOM
                 jPanel71.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel87.setText(" ");
+                secondRoomMotionSensorON = false;
                 //LIVING ROOM
                 jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel61.setText(" ");
+                livingRoomMotionSensorON = false;
                 //KITCHEN
                 jPanel81.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel100.setText(" ");
+                kitchenMotionSensorON = false;
                 //GARAGE
                 jPanel91.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel113.setText(" ");
+                garageMotionSensorON = false;
                 //GARDEN
                 jPanel104.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel127.setText(" ");
+                gardenMotionSensorON = false;
 
                 break;
             case "SECOND BEDROOM":
                 //MAIN BEDROOM
                 jPanel57.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel74.setText(" ");
+                mainRoomMotionSensorON = false;
                 //SECOND BEDROOM
                 jPanel71.setBackground(new java.awt.Color(0, 204, 0));
+                jLabel87.setText("Person has travelled to Second Bedroom");
+                secondRoomMotionSensorON = true;
                 //LIVING ROOM
                 jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel61.setText(" ");
+                livingRoomMotionSensorON = false;
                 //KITCHEN
                 jPanel81.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel100.setText(" ");
+                kitchenMotionSensorON = false;
                 //GARAGE
                 jPanel91.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel113.setText(" ");
+                garageMotionSensorON = false;
                 //GARDEN
                 jPanel104.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel127.setText(" ");
+                gardenMotionSensorON = false;
 
                 break;
             case "KITCHEN":
                 //MAIN BEDROOM
                 jPanel57.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel74.setText(" ");
+                mainRoomMotionSensorON = false;
                 //SECOND BEDROOM
                 jPanel71.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel87.setText(" ");
+                secondRoomMotionSensorON = false;
                 //LIVING ROOM
                 jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel61.setText(" ");
+                livingRoomMotionSensorON = false;
                 //KITCHEN
                 jPanel81.setBackground(new java.awt.Color(0, 204, 0));
+                jLabel100.setText("Person has travelled to Kitchen");
+                kitchenMotionSensorON = true;
                 //GARAGE
                 jPanel91.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel113.setText(" ");
+                garageMotionSensorON = false;
                 //GARDEN
                 jPanel104.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel127.setText(" ");
+                gardenMotionSensorON = false;
 
                 break;
             case "GARAGE":
                 //MAIN BEDROOM
                 jPanel57.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel74.setText(" ");
+                mainRoomMotionSensorON = false;
                 //SECOND BEDROOM
                 jPanel71.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel87.setText(" ");
+                secondRoomMotionSensorON = false;
                 //LIVING ROOM
                 jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel61.setText(" ");
+                livingRoomMotionSensorON = false;
                 //KITCHEN
                 jPanel81.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel100.setText(" ");
+                kitchenMotionSensorON = false;
                 //GARAGE
                 jPanel91.setBackground(new java.awt.Color(0, 204, 0));
+                jLabel113.setText("Person has travelled to Garage");
+                garageMotionSensorON = true;
                 //GARDEN
                 jPanel104.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel127.setText(" ");
+                gardenMotionSensorON = false;
 
                 break;
             case "GARDEN": //MAIN BEDROOM
                 jPanel57.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel74.setText(" ");
+                mainRoomMotionSensorON = false;
                 //SECOND BEDROOM
                 jPanel71.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel87.setText(" ");
+                secondRoomMotionSensorON = false;
                 //LIVING ROOM
                 jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel61.setText(" ");
+                livingRoomMotionSensorON = false;
                 //KITCHEN
                 jPanel81.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel100.setText(" ");
+                kitchenMotionSensorON = false;
                 //GARAGE
                 jPanel91.setBackground(new java.awt.Color(204, 204, 204));
+                jLabel113.setText(" ");
+                garageMotionSensorON = false;
                 //GARDEN
                 jPanel104.setBackground(new java.awt.Color(0, 204, 0));
+                jLabel127.setText("Person has travelled to Garden");
+                gardenMotionSensorON = true;
                 break;
         }
     }
@@ -125,29 +203,235 @@ public class GUI extends javax.swing.JFrame {
     public void updateRoomTemp() {
         //Main Bedroom
         jLabel64.setText(String.format("%.2f", Simulator.mainBedroomTotalEnergy) + " w");
-        jLabel66.setText(String.format("%.2f", Simulator.mainRTemp) + " °");
+        jLabel66.setText(String.format("%.2f", Simulator.mainRTemp) + " °c");
         //Second Bedroom
         jLabel77.setText(String.format("%.2f", Simulator.secondBedroomTotalEnergy) + " w");
-        jLabel79.setText(String.format("%.2f", Simulator.secondRTemp) + " °");
+        jLabel79.setText(String.format("%.2f", Simulator.secondRTemp) + " °c");
         //Living Room
         jLabel15.setText(String.format("%.2f", Simulator.livingRoomTotalEnergy) + " w");
-        jLabel24.setText(String.format("%.2f", Simulator.livingRTemp) + " °");
+        jLabel24.setText(String.format("%.2f", Simulator.livingRTemp) + " °c");
         //Kitchen
         jLabel90.setText(String.format("%.2f", Simulator.kitchenTotalEnergy) + " w");
-        jLabel92.setText(String.format("%.2f", Simulator.kitchenTemp) + " °");
+        jLabel92.setText(String.format("%.2f", Simulator.kitchenTemp) + " °c");
         //Garage
         jLabel103.setText(String.format("%.2f", Simulator.garageTotalEnergy) + " w");
-        jLabel105.setText(String.format("%.2f", Simulator.garageTemp) + " °");
+        jLabel105.setText(String.format("%.2f", Simulator.garageTemp) + " °c");
         //Garden
         jLabel117.setText(String.format("%.2f", Simulator.gardenTotalEnergy) + " w");
-        jLabel119.setText(String.format("%.2f", Simulator.gardenTemp) + " °");
+        jLabel119.setText(String.format("%.2f", Simulator.gardenTemp) + " °c");
 
+    }
+
+    void updateRoomDeviceStickers() {
+        //Main Bedroom - Motion Sensors, Lights, Tv, Ac, Fan, Alarm.
+        //Motion Sensor
+        if (mainRoomMotionSensorON) {
+            jPanel62.setBackground(Color.green);
+        } else {
+            jPanel62.setBackground(Color.lightGray);
+        }
+
+        //Lights
+        if (Simulator.mainRoomLights) {
+            jPanel63.setBackground(Color.green);
+        } else {
+            jPanel63.setBackground(Color.lightGray);
+        }
+
+        //Tv
+        if (Simulator.mainRoomTvON ) {
+            jPanel65.setBackground(Color.green);
+        } else {
+            jPanel65.setBackground(Color.lightGray);
+        }
+
+        //Ac
+        if (Simulator.mainRoomAC) {
+            jPanel64.setBackground(Color.green);
+        } else {
+            jPanel64.setBackground(Color.lightGray);
+        }
+
+        //Fan
+        if (Simulator.mainRoomCeilingFan) {
+            jPanel66.setBackground(Color.green);
+        } else {
+            jPanel66.setBackground(Color.lightGray);
+        }
+
+        //Alarm
+        if (Simulator.mainBedroomAlarmSound) {
+            jPanel67.setBackground(Color.green);
+        } else {
+            jPanel67.setBackground(Color.lightGray);
+        }
+
+
+        //Second Bedroom - Motion Sensors, Lights, Fan.
+        //Motion Sensor
+        if (secondRoomMotionSensorON) {
+            jPanel72.setBackground(Color.green);
+        } else {
+            jPanel72.setBackground(Color.lightGray);
+        }
+
+        //Lights
+        if (Simulator.secondRoomLights) {
+            jPanel73.setBackground(Color.green);
+        } else {
+            jPanel73.setBackground(Color.lightGray);
+        }
+
+        //Fan
+        if (Simulator.secondRoomCeilingFan) {
+            jPanel76.setBackground(Color.green);
+        } else {
+            jPanel76.setBackground(Color.lightGray);
+        }
+
+        //Living Room - Motion Sensors, Lights, Tv, Ac, Fan.
+        //Motion Sensor
+        if (livingRoomMotionSensorON) {
+            jPanel31.setBackground(Color.green);
+        } else {
+            jPanel31.setBackground(Color.lightGray);
+        }
+
+        //Lights
+        if (Simulator.livingRoomLights) {
+            jPanel32.setBackground(Color.green);
+        } else {
+            jPanel32.setBackground(Color.lightGray);
+        }
+
+        //Tv
+        if (Simulator.livingRoomTvON) {
+            jPanel35.setBackground(Color.green);
+        } else {
+            jPanel35.setBackground(Color.lightGray);
+        }
+
+        //Ac
+        if (Simulator.livingRoomAc) {
+            jPanel33.setBackground(Color.green);
+        } else {
+            jPanel33.setBackground(Color.lightGray);
+        }
+
+        //Fan
+        if (Simulator.livingRoomCeilingFan) {
+            jPanel34.setBackground(Color.green);
+        } else {
+            jPanel34.setBackground(Color.lightGray);
+        }
+
+
+        //Kitchen - Motion Sensors, Lights, Oven, Kettle, Coffee Machine.
+        //Motion Sensor
+        if (kitchenMotionSensorON) {
+            jPanel82.setBackground(Color.green);
+        } else {
+            jPanel82.setBackground(Color.lightGray);
+        }
+
+        //Lights
+        if (Simulator.kitchenLights) {
+            jPanel83.setBackground(Color.green);
+        } else {
+            jPanel83.setBackground(Color.lightGray);
+        }
+
+        //Oven
+        if (Simulator.morningBoolean) {
+            jPanel84.setBackground(Color.green);
+        } else {
+            jPanel84.setBackground(Color.lightGray);
+        }
+
+        if (Simulator.lunchBoolean) {
+            jPanel84.setBackground(Color.green);
+        } else {
+            jPanel84.setBackground(Color.lightGray);
+        }
+
+        if (Simulator.dinnerBoolean) {
+            jPanel84.setBackground(Color.green);
+        } else {
+            jPanel84.setBackground(Color.lightGray);
+        }
+
+        //Kettle
+        if (Simulator.kettleBoiled) {
+            jPanel86.setBackground(Color.green);
+        } else {
+            jPanel86.setBackground(Color.lightGray);
+        }
+
+        //Coffee Machine
+        if (Simulator.alarmCoffee) {
+            jPanel87.setBackground(Color.green);
+        } else {
+            jPanel87.setBackground(Color.lightGray);
+        }
+
+
+        //Garage - Motion Sensors, Lights, Car, Garage Door.
+        //Motion Sensor
+        if (garageMotionSensorON) {
+            jPanel92.setBackground(Color.green);
+        } else {
+            jPanel92.setBackground(Color.lightGray);
+        }
+
+        //Lights
+        if (Simulator.garageLights) {
+            jPanel93.setBackground(Color.green);
+        } else {
+            jPanel93.setBackground(Color.lightGray);
+        }
+
+        //Car
+        if (Simulator.carRunning) {
+            jPanel96.setBackground(Color.green);
+        } else {
+            jPanel96.setBackground(Color.lightGray);
+        }
+
+        //Garage Door
+        if (Simulator.garageDoorCloseSequence == 1) {
+            jPanel94.setBackground(Color.green);
+        } else {
+            jPanel94.setBackground(Color.lightGray);
+        }
+
+        //Garden - Motion Sensors, Lights, Sprinklers.
+
+        //Motion Sensor
+        if (gardenMotionSensorON) {
+            jPanel105.setBackground(Color.green);
+        } else {
+            jPanel105.setBackground(Color.lightGray);
+        }
+
+        //Lights
+        if (Simulator.gardenLights ) {
+            jPanel106.setBackground(Color.green);
+        } else {
+            jPanel106.setBackground(Color.lightGray);
+        }
+
+        //Sprinklers
+        if (Simulator.gardenSprinkler) {
+            jPanel107.setBackground(Color.green);
+        } else {
+            jPanel107.setBackground(Color.lightGray);
+        }
     }
 
     void updateRoomStatus() {
         stopDisplay++;
 
-    //Main Bedroom - Motion Sensor, Lights, Ceiling Fan, AC, TV, Alarm Clock
+        //Main Bedroom - Lights, Ceiling Fan, AC, TV, Alarm Clock
 
         //Lights
         if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && !mainBedroomLightsON) {
@@ -158,7 +442,7 @@ public class GUI extends javax.swing.JFrame {
             }
         } else if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && mainBedroomLightsON) {
             jLabel74.setText(" ");
-        } else if (Simulator.secondRoomLights && stopDisplay > 10 && mainBedroomLightsON) {
+        } else if (Simulator.mainRoomLights && stopDisplay > 10 && mainBedroomLightsON) {
             jLabel74.setText(Simulator.lightDisplay);
             //false / off
             if ((mainBedroomLightsON) && stopDisplay == 10) {
@@ -183,12 +467,58 @@ public class GUI extends javax.swing.JFrame {
             }
         }
 
+        //Air Con
+        if (!(Simulator.acDisplay.equals("EMPTY")) && stopDisplay > 10 && !mainBedroomACON) {
+            jLabel74.setText(Simulator.acDisplay);
+            //true / on
+            if (!(mainBedroomACON) && stopDisplay == 10) {
+                mainBedroomACON = true;
+            }
+        } else if (!(Simulator.acDisplay.equals("EMPTY")) && stopDisplay > 10 && mainBedroomACON) {
+            jLabel74.setText(" ");
+        } else if (Simulator.mainRoomAC && stopDisplay > 10 && mainBedroomACON) {
+            jLabel74.setText(Simulator.acDisplay);
+            //false / off
+            if ((mainBedroomACON) && stopDisplay == 10) {
+                mainBedroomACON = false;
+            }
+        }
 
-
+        //TV
+        if (!(Simulator.tvDisplay.equals("EMPTY")) && stopDisplay > 10 && !mainBedroomTVON) {
+            jLabel74.setText(Simulator.tvDisplay);
+            //true / on
+            if (!(mainBedroomTVON) && stopDisplay == 10) {
+                mainBedroomTVON = true;
+            }
+        } else if (!(Simulator.tvDisplay.equals("EMPTY")) && stopDisplay > 10 && mainBedroomTVON) {
+            jLabel74.setText(" ");
+        } else if (Simulator.mainRoomTvON && stopDisplay > 10 && mainBedroomTVON) {
+            jLabel74.setText(Simulator.tvDisplay);
+            //false / off
+            if ((mainBedroomTVON) && stopDisplay == 10) {
+                mainBedroomTVON = false;
+            }
+        }
 
         //Alarm Clock
+        if (!(Simulator.alarmDisplay.equals("EMPTY")) && stopDisplay > 10 && !mainBedroomAlarmON) {
+            jLabel74.setText(Simulator.alarmDisplay);
+            //true / on
+            if (!(mainBedroomAlarmON) && stopDisplay == 10) {
+                mainBedroomAlarmON = true;
+            }
+        } else if (!(Simulator.alarmDisplay.equals("EMPTY")) && stopDisplay > 10 && mainBedroomAlarmON) {
+            jLabel74.setText(" ");
+        } else if (Simulator.mainBedroomAlarmSound && stopDisplay > 10 && mainBedroomAlarmON) {
+            jLabel74.setText(Simulator.alarmDisplay);
+            //false / off
+            if ((mainBedroomAlarmON) && stopDisplay == 10) {
+                mainBedroomAlarmON = false;
+            }
+        }
 
-    //Second Bedroom
+        //Second Bedroom
 
         //Lights
         if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && !secondBedroomLightsON) {
@@ -208,23 +538,23 @@ public class GUI extends javax.swing.JFrame {
         }
 
         //Ceiling Fan
-        if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && !mainBedroomFanON) {
-            jLabel74.setText(Simulator.fanDisplay);
+        if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && !secondRoomFanON) {
+            jLabel87.setText(Simulator.fanDisplay);
             //true / on
-            if (!(mainBedroomFanON) && stopDisplay == 10) {
-                mainBedroomFanON = true;
+            if (!(secondRoomFanON) && stopDisplay == 10) {
+                secondRoomFanON = true;
             }
-        } else if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && mainBedroomFanON) {
-            jLabel74.setText(" ");
-        } else if (Simulator.secondRoomCeilingFan && stopDisplay > 10 && mainBedroomFanON) {
-            jLabel74.setText(Simulator.fanDisplay);
+        } else if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && secondRoomFanON) {
+            jLabel87.setText(" ");
+        } else if (Simulator.secondRoomCeilingFan && stopDisplay > 10 && secondRoomFanON) {
+            jLabel87.setText(Simulator.fanDisplay);
             //false / off
-            if ((mainBedroomFanON) && stopDisplay == 10) {
-                mainBedroomFanON = false;
+            if ((secondRoomFanON) && stopDisplay == 10) {
+                secondRoomFanON = false;
             }
         }
 
-    //Living Room
+        //Living Room - Lights, Fan, AC, TV
 
         //Lights
         if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && !livingRoomLightsON) {
@@ -244,23 +574,57 @@ public class GUI extends javax.swing.JFrame {
         }
 
         //Ceiling Fan
-        if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && !mainBedroomFanON) {
-            jLabel74.setText(Simulator.fanDisplay);
+        if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && !livingRoomFanON) {
+            jLabel61.setText(Simulator.fanDisplay);
             //true / on
-            if (!(mainBedroomFanON) && stopDisplay == 10) {
-                mainBedroomFanON = true;
+            if (!(livingRoomFanON) && stopDisplay == 10) {
+                livingRoomFanON = true;
             }
-        } else if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && mainBedroomFanON) {
-            jLabel74.setText(" ");
-        } else if (Simulator.livingRoomCeilingFan && stopDisplay > 10 && mainBedroomFanON) {
-            jLabel74.setText(Simulator.fanDisplay);
+        } else if (!(Simulator.fanDisplay.equals("EMPTY")) && stopDisplay > 10 && livingRoomFanON) {
+            jLabel61.setText(" ");
+        } else if (Simulator.livingRoomCeilingFan && stopDisplay > 10 && livingRoomFanON) {
+            jLabel61.setText(Simulator.fanDisplay);
             //false / off
-            if ((mainBedroomFanON) && stopDisplay == 10) {
-                mainBedroomFanON = false;
+            if ((livingRoomFanON) && stopDisplay == 10) {
+                livingRoomFanON = false;
             }
         }
 
-    //Kitchen
+        //AC
+        if (!(Simulator.acDisplay.equals("EMPTY")) && stopDisplay > 10 && !livingRoomACON) {
+            jLabel61.setText(Simulator.acDisplay);
+            //true / on
+            if (!(livingRoomACON) && stopDisplay == 10) {
+                livingRoomACON = true;
+            }
+        } else if (!(Simulator.acDisplay.equals("EMPTY")) && stopDisplay > 10 && livingRoomACON) {
+            jLabel61.setText(" ");
+        } else if (Simulator.livingRoomAc && stopDisplay > 10 && livingRoomACON) {
+            jLabel61.setText(Simulator.acDisplay);
+            //false / off
+            if ((livingRoomACON) && stopDisplay == 10) {
+                livingRoomACON = false;
+            }
+        }
+
+        //TV
+        if (!(Simulator.tvDisplay.equals("EMPTY")) && stopDisplay > 10 && !livingRoomTVON) {
+            jLabel61.setText(Simulator.tvDisplay);
+            //true / on
+            if (!(livingRoomTVON) && stopDisplay == 10) {
+                livingRoomTVON = true;
+            }
+        } else if (!(Simulator.tvDisplay.equals("EMPTY")) && stopDisplay > 10 && livingRoomTVON) {
+            jLabel61.setText(" ");
+        } else if (Simulator.livingRoomTvON && stopDisplay > 10 && livingRoomTVON) {
+            jLabel61.setText(Simulator.tvDisplay);
+            //false / off
+            if ((livingRoomTVON) && stopDisplay == 10) {
+                livingRoomTVON = false;
+            }
+        }
+
+        //Kitchen - Lights, oven, kettle, coffee machine
 
         //Lights
         if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && !kitchenLightsON) {
@@ -279,7 +643,90 @@ public class GUI extends javax.swing.JFrame {
             }
         }
 
-    //Garage
+        //Oven
+        if (!(Simulator.ovenDisplay.equals("EMPTY")) && stopDisplay > 10 && !kitchenOvenMorningON) {
+            jLabel100.setText(Simulator.ovenDisplay);
+            //true / on
+            if (!(kitchenOvenMorningON) && stopDisplay == 10) {
+                kitchenOvenMorningON = true;
+            }
+        } else if (!(Simulator.ovenDisplay.equals("EMPTY")) && stopDisplay > 10 && kitchenOvenMorningON) {
+            jLabel100.setText(" ");
+        } else if (Simulator.morningBoolean && stopDisplay > 10 && kitchenOvenMorningON) {
+            jLabel100.setText(Simulator.ovenDisplay);
+            //false / off
+            if ((kitchenOvenMorningON) && stopDisplay == 10) {
+                kitchenOvenMorningON = false;
+            }
+        }
+
+        if (!(Simulator.ovenDisplay.equals("EMPTY")) && stopDisplay > 10 && !kitchenOvenLunchON) {
+            jLabel100.setText(Simulator.ovenDisplay);
+            //true / on
+            if (!(kitchenOvenLunchON) && stopDisplay == 10) {
+                kitchenOvenLunchON = true;
+            }
+        } else if (!(Simulator.ovenDisplay.equals("EMPTY")) && stopDisplay > 10 && kitchenOvenLunchON) {
+            jLabel100.setText(" ");
+        } else if (Simulator.lunchBoolean && stopDisplay > 10 && kitchenOvenLunchON) {
+            jLabel100.setText(Simulator.ovenDisplay);
+            //false / off
+            if ((kitchenOvenLunchON) && stopDisplay == 10) {
+                kitchenOvenLunchON = false;
+            }
+        }
+
+        if (!(Simulator.ovenDisplay.equals("EMPTY")) && stopDisplay > 10 && !kitchenOvenDinnerON) {
+            jLabel100.setText(Simulator.ovenDisplay);
+            //true / on
+            if (!(kitchenOvenDinnerON) && stopDisplay == 10) {
+                kitchenOvenDinnerON = true;
+            }
+        } else if (!(Simulator.ovenDisplay.equals("EMPTY")) && stopDisplay > 10 && kitchenOvenDinnerON) {
+            jLabel100.setText(" ");
+        } else if (Simulator.dinnerBoolean && stopDisplay > 10 && kitchenOvenDinnerON) {
+            jLabel100.setText(Simulator.ovenDisplay);
+            //false / off
+            if ((kitchenOvenDinnerON) && stopDisplay == 10) {
+                kitchenOvenDinnerON = false;
+            }
+        }
+
+        //Kettle
+        if (!(Simulator.kettleDisplay.equals("EMPTY")) && stopDisplay > 10 && !kitchenKettleON) {
+            jLabel100.setText(Simulator.kettleDisplay);
+            //true / on
+            if (!(kitchenKettleON) && stopDisplay == 10) {
+                kitchenKettleON = true;
+            }
+        } else if (!(Simulator.kettleDisplay.equals("EMPTY")) && stopDisplay > 10 && kitchenKettleON) {
+            jLabel100.setText(" ");
+        } else if (Simulator.kettleBoiled && stopDisplay > 10 && kitchenKettleON) {
+            jLabel100.setText(Simulator.kettleDisplay);
+            //false / off
+            if ((kitchenKettleON) && stopDisplay == 10) {
+                kitchenKettleON = false;
+            }
+        }
+
+        //Coffee Machine
+        if (!(Simulator.coffeeDisplay.equals("EMPTY")) && stopDisplay > 10 && !kitchenCoffeeMachineON) {
+            jLabel100.setText(Simulator.coffeeDisplay);
+            //true / on
+            if (!(kitchenCoffeeMachineON) && stopDisplay == 10) {
+                kitchenCoffeeMachineON = true;
+            }
+        } else if (!(Simulator.coffeeDisplay.equals("EMPTY")) && stopDisplay > 10 && kitchenCoffeeMachineON) {
+            jLabel100.setText(" ");
+        } else if (Simulator.alarmCoffee && stopDisplay > 10 && kitchenCoffeeMachineON) {
+            jLabel100.setText(Simulator.coffeeDisplay);
+            //false / off
+            if ((kitchenCoffeeMachineON) && stopDisplay == 10) {
+                kitchenCoffeeMachineON = false;
+            }
+        }
+
+        //Garage - Lights, Car, Garage Door.
 
         //Lights
         if (!(Simulator.lightDisplay.equals("EMPTY")) && stopDisplay > 10 && !garageLightsON) {
@@ -298,7 +745,41 @@ public class GUI extends javax.swing.JFrame {
             }
         }
 
-    //Garden - Motion Sensor, Lights, Sprinklers
+        //Car
+        if (!(Simulator.carDisplay.equals("EMPTY")) && stopDisplay > 10 && !garageCarON) {
+            jLabel113.setText(Simulator.carDisplay);
+            //true / on
+            if (!(garageCarON) && stopDisplay == 10) {
+                garageCarON = true;
+            }
+        } else if (!(Simulator.carDisplay.equals("EMPTY")) && stopDisplay > 10 && garageCarON) {
+            jLabel113.setText(" ");
+        } else if (Simulator.carRunning && stopDisplay > 10 && garageCarON) {
+            jLabel113.setText(Simulator.carDisplay);
+            //false / off
+            if ((garageCarON) && stopDisplay == 10) {
+                garageCarON = false;
+            }
+        }
+
+        //Garage Door
+        if (!(Simulator.garageDoorDisplay.equals("EMPTY")) && stopDisplay > 10 && !garageDoorON) {
+            jLabel113.setText(Simulator.garageDoorDisplay);
+            //true / on
+            if (!(garageDoorON) && stopDisplay == 10) {
+                garageDoorON = true;
+            }
+        } else if (!(Simulator.garageDoorDisplay.equals("EMPTY")) && stopDisplay > 10 && garageDoorON) {
+            jLabel113.setText(" ");
+        } else if (Simulator.garageDoorCloseSequence == 1 && stopDisplay > 10 && garageDoorON) {
+            jLabel113.setText(Simulator.garageDoorDisplay);
+            //false / off
+            if ((garageDoorON) && stopDisplay == 10) {
+                garageDoorON = false;
+            }
+        }
+
+        //Garden - Motion Sensor, Lights, Sprinklers
 
         //Sprinklers
         if (!(Simulator.sprinklerDisplay.equals("EMPTY")) && stopDisplay > 10 && !gardenSprinklerON) {
@@ -437,7 +918,6 @@ public class GUI extends javax.swing.JFrame {
         jLabel81 = new javax.swing.JLabel();
         jPanel76 = new javax.swing.JPanel();
         jLabel84 = new javax.swing.JLabel();
-        jPanel77 = new javax.swing.JPanel();
         jLabel85 = new javax.swing.JLabel();
         jPanel78 = new javax.swing.JPanel();
         jLabel86 = new javax.swing.JLabel();
@@ -1128,7 +1608,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel60.setText("STATUS");
 
-        jLabel61.setText("MAIN BEDROOM Lights have turned on at 18:23 ");
+        jLabel61.setText(" ");
 
         javax.swing.GroupLayout jPanel48Layout = new javax.swing.GroupLayout(jPanel48);
         jPanel48.setLayout(jPanel48Layout);
@@ -1367,7 +1847,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel73.setText("STATUS");
 
-        jLabel74.setText("MAIN BEDROOM Lights have turned on at 18:23 ");
+        jLabel74.setText(" ");
 
         javax.swing.GroupLayout jPanel68Layout = new javax.swing.GroupLayout(jPanel68);
         jPanel68.setLayout(jPanel68Layout);
@@ -1551,28 +2031,9 @@ public class GUI extends javax.swing.JFrame {
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel85.setText("ALARM CLOCK");
-
-        javax.swing.GroupLayout jPanel77Layout = new javax.swing.GroupLayout(jPanel77);
-        jPanel77.setLayout(jPanel77Layout);
-        jPanel77Layout.setHorizontalGroup(
-                jPanel77Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel77Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel85)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel77Layout.setVerticalGroup(
-                jPanel77Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel77Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel85)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         jLabel86.setText("STATUS");
 
-        jLabel87.setText("MAIN BEDROOM Lights have turned on at 18:23 ");
+        jLabel87.setText(" ");
 
         javax.swing.GroupLayout jPanel78Layout = new javax.swing.GroupLayout(jPanel78);
         jPanel78.setLayout(jPanel78Layout);
@@ -1608,8 +2069,7 @@ public class GUI extends javax.swing.JFrame {
                                                 .addComponent(jPanel72, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(jPanel73, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jPanel77, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                                         .addComponent(jPanel76, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1620,7 +2080,6 @@ public class GUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel69Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jPanel72, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel77, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jPanel73, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel76, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1788,7 +2247,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel99.setText("STATUS");
 
-        jLabel100.setText("MAIN BEDROOM Lights have turned on at 18:23 ");
+        jLabel100.setText(" ");
 
         javax.swing.GroupLayout jPanel88Layout = new javax.swing.GroupLayout(jPanel88);
         jPanel88.setLayout(jPanel88Layout);
@@ -2164,7 +2623,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel126.setText("STATUS");
 
-        jLabel127.setText("MAIN BEDROOM Lights have turned on at 18:23 ");
+        jLabel127.setText(" ");
 
         javax.swing.GroupLayout jPanel111Layout = new javax.swing.GroupLayout(jPanel111);
         jPanel111.setLayout(jPanel111Layout);
@@ -2292,6 +2751,7 @@ public class GUI extends javax.swing.JFrame {
 
         pack();
     }
+
     public void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -2439,7 +2899,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel72;
     private javax.swing.JPanel jPanel73;
     private javax.swing.JPanel jPanel76;
-    private javax.swing.JPanel jPanel77;
     private javax.swing.JPanel jPanel78;
     private javax.swing.JPanel jPanel79;
     private javax.swing.JPanel jPanel80;

@@ -1,2 +1,2 @@
-MAIN BEDROOM,Air Conditioner,ON,23
 LIVING ROOM,Air Conditioner,OFF,0
+MAIN BEDROOM,Air Conditioner,ON,22

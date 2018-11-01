@@ -23,11 +23,12 @@ public class TabConfig extends JFrame {
     final static String KITCHENPANEL = "KITCHEN";
     final static String GARAGEPANEL = "GARAGE";
     final static String GARDENPANEL = "GARDEN";
-    static double livingRoomTvOffTime, livingRoomTvMinuteInput, secondBedroomAlarmMinInput, mainBedroomAlarmMinInput, ovenMorningAlarmMinute, ovenLunchAlarmMinute, ovenDinnerAlarmMinute, ovenAlarmMorning, ovenAlarmLunch, ovenAlarmDinner;
-    public static double alarmClockTotal;
+    static double livingRoomTvOffTime, livingRoomTvMinuteInput, ovenMorningAlarmMinute, ovenLunchAlarmMinute, ovenDinnerAlarmMinute, ovenAlarmMorning, ovenAlarmLunch, ovenAlarmDinner;
+    public static double alarmClockTotal, mainRoomTvOffTime, mainRoomTvMinuteInput, mainBedroomAlarmMinInputDouble;
     static String morningAfternoon, carMode, kettleMode, coffeMachineMode, sprinklerMode, morningMode, lunchMode, dinnerMode, smartAlarmMode, data, x1, x2, x3, x4, x5, x6, updatedList, updatedList1, updatedList2, updatedList3, updatedList4, updatedList5, livingRoomLightMode, livingRoomMotionSensorMode;
-    static int livingRoomTvHourInput, ovenMorningInput, coffeeMachineInput, kettleAlarm, ovenLunchInput, ovenDinnerInput, garageCarLightsInput, smartAlarmInput, mainBedroomAlarmInput, secondBedroomAlarmInput, sprinklerInput, garageDoorLightsInput, livingRoomAirConInput, livingRoomLightsInput, livingRoomMotionSensorInput, livingRoomFanInput, ovenMorningAlarmHour, ovenLunchAlarmHour, ovenDinnerAlarmHour;
+    static int livingRoomTvHourInput, ovenMorningInput, mainBedroomAlarmMinInput, coffeeMachineInput, kettleAlarm, ovenLunchInput, ovenDinnerInput, garageCarInput, smartAlarmInput, mainBedroomAlarmInput, sprinklerInput, garageDoorLightsInput, livingRoomAirConInput, livingRoomLightsInput, livingRoomMotionSensorInput, livingRoomFanInput, ovenMorningAlarmHour, ovenLunchAlarmHour, ovenDinnerAlarmHour;
     private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5, displayLine6;
+    static int mainRoomLightsInput, mainRoomAirConInput, mainRoomMotionSensorInput, mainRoomFanInput, mainRoomTvHourInput, secondRoomMotionSensorInput, secondRoomLightsInput, secondRoomFanInput, kitchenMotionSensorInput, kitchenLightsInput, garageMotionSensorInput, garageLightsInput, garageDoorInput, gardenMotionSensorInput, gardenLightsInput;
 
     private final static int extraWindowWidth = 100;
 
@@ -578,7 +579,7 @@ public class TabConfig extends JFrame {
                             continueSetUp = continueSetUp.toUpperCase();
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomFanInputString;
-                                livingRoomFanInputString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
+                                livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 11pm)\nHour: ");
                                 livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
 
                                 if (livingRoomTvHourInput == 1) {
@@ -603,30 +604,28 @@ public class TabConfig extends JFrame {
                                     livingRoomTvHourInput = 22;
                                 } else if (livingRoomTvHourInput == 11) {
                                     livingRoomTvHourInput = 23;
-                                } else if (livingRoomTvHourInput == 12) {
-                                    livingRoomTvHourInput = 24;
                                 }
 
                                 while (livingRoomTvHourInput > 24) {
-                                    livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
+                                    livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 11pm)\nHour: ");
                                     livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
                                 }
                                 while (livingRoomTvHourInput < 12) {
-                                    livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
+                                    livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 11pm)\nHour: ");
                                     livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
                                 }
 
                                 //Minutes
                                 String livingRoomFanMinuteString;
-                                livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Minutes (00 - 60)\nMinutes: ");
+                                livingRoomFanMinuteString = JOptionPane.showInputDialog("Please enter Minutes (00 - 60)\nMinutes: ");
                                 livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
 
                                 while (livingRoomTvMinuteInput > 60.00) {
-                                    livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Minutes (00 - 60)\nMinutes: ");
+                                    livingRoomFanMinuteString = JOptionPane.showInputDialog("Please enter Minutes (00 - 60)\nMinutes: ");
                                     livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
                                 }
                                 while (livingRoomTvMinuteInput < 00.00) {
-                                    livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Minutes (00 - 60)\nMinutes: ");
+                                    livingRoomFanMinuteString = JOptionPane.showInputDialog("Please enter Minutes (00 - 60)\nMinutes: ");
                                     livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
                                 }
 
@@ -640,7 +639,7 @@ public class TabConfig extends JFrame {
                             displayLine1 = data.split(", ");
                             if (livingRoomTvHourInput == (0)) {
                                 String livingRoomFanInputString;
-                                livingRoomFanInputString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
+                                livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 11pm)\nHour: ");
                                 livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
 
                                 if (livingRoomTvHourInput == 1) {
@@ -665,30 +664,28 @@ public class TabConfig extends JFrame {
                                     livingRoomTvHourInput = 22;
                                 } else if (livingRoomTvHourInput == 11) {
                                     livingRoomTvHourInput = 23;
-                                } else if (livingRoomTvHourInput == 12) {
-                                    livingRoomTvHourInput = 24;
                                 }
 
                                 while (livingRoomTvHourInput > 24) {
-                                    livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
+                                    livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 11pm)\nHour: ");
                                     livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
                                 }
                                 while (livingRoomTvHourInput < 12) {
-                                    livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
+                                    livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 11pm)\nHour: ");
                                     livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
                                 }
 
                                 //Minutes
                                 String livingRoomFanMinuteString;
-                                livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
+                                livingRoomFanMinuteString = JOptionPane.showInputDialog("Please enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
                                 livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
 
                                 while (livingRoomTvMinuteInput > 60.00) {
-                                    livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
+                                    livingRoomFanMinuteString = JOptionPane.showInputDialog("Please enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
                                     livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
                                 }
                                 while (livingRoomTvMinuteInput < 00.00) {
-                                    livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
+                                    livingRoomFanMinuteString = JOptionPane.showInputDialog("Please enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
                                     livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
                                 }
 
@@ -760,19 +757,19 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomMSensorInputString;
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
-                                while (livingRoomMotionSensorInput > 2) {
+                                mainRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                while (mainRoomMotionSensorInput > 2) {
                                     livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                    livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                    mainRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                                 }
-                                while (livingRoomMotionSensorInput <= 0) {
+                                while (mainRoomMotionSensorInput <= 0) {
                                     livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                    livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                    mainRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                                 }
 
-                                if (livingRoomMotionSensorInput == 1) {
+                                if (mainRoomMotionSensorInput == 1) {
                                     livingRoomMotionSensorMode = "Comfort Mode";
-                                } else if (livingRoomMotionSensorInput == 2) {
+                                } else if (mainRoomMotionSensorInput == 2) {
                                     livingRoomMotionSensorMode = "Economy Mode";
                                 }
                             }
@@ -781,21 +778,21 @@ public class TabConfig extends JFrame {
                             displayLine2 = data.split(", ");
                             String livingRoomMSensorInputString;
                             livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                            livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                            mainRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
 
-                            while (livingRoomMotionSensorInput > 2) {
+                            while (mainRoomMotionSensorInput > 2) {
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                mainRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                             }
 
-                            while (livingRoomMotionSensorInput <= 0) {
+                            while (mainRoomMotionSensorInput <= 0) {
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                mainRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                             }
 
-                            if (livingRoomMotionSensorInput == 1) {
+                            if (mainRoomMotionSensorInput == 1) {
                                 livingRoomMotionSensorMode = "Comfort Mode";
-                            } else if (livingRoomMotionSensorInput == 2) {
+                            } else if (mainRoomMotionSensorInput == 2) {
                                 livingRoomMotionSensorMode = "Economy Mode";
                             }
                         }
@@ -877,21 +874,21 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomLightsInputString;
                                 livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
-                                while (livingRoomLightsInput > 3) {
+                                mainRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                while (mainRoomLightsInput > 3) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    mainRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
-                                while (livingRoomLightsInput <= 0) {
+                                while (mainRoomLightsInput <= 0) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    mainRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
 
-                                if (livingRoomLightsInput == 1) {
+                                if (mainRoomLightsInput == 1) {
                                     livingRoomLightMode = "Economy Mode";
-                                } else if (livingRoomLightsInput == 2) {
+                                } else if (mainRoomLightsInput == 2) {
                                     livingRoomLightMode = "Neutral Mode";
-                                } else if (livingRoomLightsInput == 3) {
+                                } else if (mainRoomLightsInput == 3) {
                                     livingRoomLightMode = "Entertainment Mode";
                                 }
                                 JOptionPane.showMessageDialog(null, "The Main Bedroom Lights have been set to: " + livingRoomLightMode);
@@ -900,24 +897,24 @@ public class TabConfig extends JFrame {
                         } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                             displayLine2 = data.split(", ");
 
-                            if (livingRoomLightsInput == 0) {
+                            if (mainRoomLightsInput == 0) {
                                 String livingRoomLightsInputString;
                                 livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
-                                while (livingRoomLightsInput > 3) {
+                                mainRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                while (mainRoomLightsInput > 3) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    mainRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
-                                while (livingRoomLightsInput <= 0) {
+                                while (mainRoomLightsInput <= 0) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    mainRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
 
-                                if (livingRoomLightsInput == 1) {
+                                if (mainRoomLightsInput == 1) {
                                     livingRoomLightMode = "Economy Mode";
-                                } else if (livingRoomLightsInput == 2) {
+                                } else if (mainRoomLightsInput == 2) {
                                     livingRoomLightMode = "Neutral Mode";
-                                } else if (livingRoomLightsInput == 3) {
+                                } else if (mainRoomLightsInput == 3) {
                                     livingRoomLightMode = "Entertainment Mode";
                                 }
                                 JOptionPane.showMessageDialog(null, "The Main Bedroom Lights have been set to: " + livingRoomLightMode);
@@ -1003,14 +1000,14 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomAirConInputString;
                                 livingRoomAirConInputString = JOptionPane.showInputDialog("Set Temperature for Living Room: 16° - 26°");
-                                livingRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
-                                while (livingRoomAirConInput > 26) {
+                                mainRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
+                                while (mainRoomAirConInput > 26) {
                                     livingRoomAirConInputString = JOptionPane.showInputDialog("Set Temperature for Living Room: 16° - 26°");
-                                    livingRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
+                                    mainRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
                                 }
-                                while (livingRoomAirConInput < 16) {
+                                while (mainRoomAirConInput < 16) {
                                     livingRoomAirConInputString = JOptionPane.showInputDialog("Set Temperature for Living Room: 16° - 26°");
-                                    livingRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
+                                    mainRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
                                 }
 
                                 String fullAcDisplay;
@@ -1020,17 +1017,17 @@ public class TabConfig extends JFrame {
 
                         } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                             displayLine2 = data.split(", ");
-                            if (livingRoomAirConInput == (0)) {
+                            if (mainRoomAirConInput == (0)) {
                                 String livingRoomAirConInputString;
                                 livingRoomAirConInputString = JOptionPane.showInputDialog("Set Temperature for Living Room: 16° - 26°");
-                                livingRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
-                                while (livingRoomAirConInput > 26) {
+                                mainRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
+                                while (mainRoomAirConInput > 26) {
                                     livingRoomAirConInputString = JOptionPane.showInputDialog("Set Temperature for Living Room: 16° - 26°");
-                                    livingRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
+                                    mainRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
                                 }
-                                while (livingRoomAirConInput < 16) {
+                                while (mainRoomAirConInput < 16) {
                                     livingRoomAirConInputString = JOptionPane.showInputDialog("Set Temperature for Living Room: 16° - 26°");
-                                    livingRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
+                                    mainRoomAirConInput = Integer.parseInt(livingRoomAirConInputString);
                                 }
 
                                 String fullAcDisplay;
@@ -1096,14 +1093,14 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomFanInputString;
                                 livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
-                                while (livingRoomFanInput > 30) {
+                                mainRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                while (mainRoomFanInput > 30) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                    livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                    mainRoomFanInput = Integer.parseInt(livingRoomFanInputString);
                                 }
-                                while (livingRoomFanInput < 22) {
+                                while (mainRoomFanInput < 22) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                    livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                    mainRoomFanInput = Integer.parseInt(livingRoomFanInputString);
                                 }
 
                                 JOptionPane.showMessageDialog(null, "The Main Bedroom Ceiling Fan has been set to: " + livingRoomFanInput + "°");
@@ -1111,17 +1108,17 @@ public class TabConfig extends JFrame {
 
                         } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                             displayLine2 = data.split(", ");
-                            if (livingRoomFanInput == (0)) {
+                            if (mainRoomFanInput == (0)) {
                                 String livingRoomFanInputString;
                                 livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
-                                while (livingRoomFanInput > 30) {
+                                mainRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                while (mainRoomFanInput > 30) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                    livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                    mainRoomFanInput = Integer.parseInt(livingRoomFanInputString);
                                 }
-                                while (livingRoomFanInput < 22) {
+                                while (mainRoomFanInput < 22) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                    livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                    mainRoomFanInput = Integer.parseInt(livingRoomFanInputString);
                                 }
 
                                 JOptionPane.showMessageDialog(null, "The Main Bedroom Ceiling Fan has been set to: " + livingRoomFanInput + "°");
@@ -1191,121 +1188,121 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomFanInputString;
                                 livingRoomFanInputString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
-                                livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
+                                mainRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
 
-                                if (livingRoomTvHourInput == 1) {
-                                    livingRoomTvHourInput = 13;
-                                } else if (livingRoomTvHourInput == 2) {
-                                    livingRoomTvHourInput = 14;
-                                } else if (livingRoomTvHourInput == 3) {
-                                    livingRoomTvHourInput = 15;
-                                } else if (livingRoomTvHourInput == 4) {
-                                    livingRoomTvHourInput = 16;
-                                } else if (livingRoomTvHourInput == 5) {
-                                    livingRoomTvHourInput = 17;
-                                } else if (livingRoomTvHourInput == 6) {
-                                    livingRoomTvHourInput = 18;
-                                } else if (livingRoomTvHourInput == 7) {
-                                    livingRoomTvHourInput = 19;
-                                } else if (livingRoomTvHourInput == 8) {
-                                    livingRoomTvHourInput = 20;
-                                } else if (livingRoomTvHourInput == 9) {
-                                    livingRoomTvHourInput = 21;
-                                } else if (livingRoomTvHourInput == 10) {
-                                    livingRoomTvHourInput = 22;
-                                } else if (livingRoomTvHourInput == 11) {
-                                    livingRoomTvHourInput = 23;
-                                } else if (livingRoomTvHourInput == 12) {
-                                    livingRoomTvHourInput = 24;
+                                if (mainRoomTvHourInput == 1) {
+                                    mainRoomTvHourInput = 13;
+                                } else if (mainRoomTvHourInput == 2) {
+                                    mainRoomTvHourInput = 14;
+                                } else if (mainRoomTvHourInput == 3) {
+                                    mainRoomTvHourInput = 15;
+                                } else if (mainRoomTvHourInput == 4) {
+                                    mainRoomTvHourInput = 16;
+                                } else if (mainRoomTvHourInput == 5) {
+                                    mainRoomTvHourInput = 17;
+                                } else if (mainRoomTvHourInput == 6) {
+                                    mainRoomTvHourInput = 18;
+                                } else if (mainRoomTvHourInput == 7) {
+                                    mainRoomTvHourInput = 19;
+                                } else if (mainRoomTvHourInput == 8) {
+                                    mainRoomTvHourInput = 20;
+                                } else if (mainRoomTvHourInput == 9) {
+                                    mainRoomTvHourInput = 21;
+                                } else if (mainRoomTvHourInput == 10) {
+                                    mainRoomTvHourInput = 22;
+                                } else if (mainRoomTvHourInput == 11) {
+                                    mainRoomTvHourInput = 23;
+                                } else if (mainRoomTvHourInput == 12) {
+                                    mainRoomTvHourInput = 24;
                                 }
 
-                                while (livingRoomTvHourInput > 24) {
+                                while (mainRoomTvHourInput > 24) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
-                                    livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
+                                    mainRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
                                 }
-                                while (livingRoomTvHourInput < 12) {
+                                while (mainRoomTvHourInput < 12) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
-                                    livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
+                                    mainRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
                                 }
 
                                 //Minutes
                                 String livingRoomFanMinuteString;
                                 livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
-                                livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
+                                mainRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
 
-                                while (livingRoomTvMinuteInput > 60.00) {
+                                while (mainRoomTvMinuteInput > 60.00) {
                                     livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
-                                    livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
+                                    mainRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
                                 }
-                                while (livingRoomTvMinuteInput < 00.00) {
+                                while (mainRoomTvMinuteInput < 00.00) {
                                     livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
-                                    livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
+                                    mainRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
                                 }
 
 
-                                livingRoomTvOffTime = livingRoomTvHourInput + livingRoomTvMinuteInput;
+                                mainRoomTvOffTime = mainRoomTvHourInput + mainRoomTvMinuteInput;
 
                                 JOptionPane.showMessageDialog(null, "The Main Bedroom Tv will automatically turn off at: " + livingRoomTvOffTime);
                             }
 
                         } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                             displayLine2 = data.split(", ");
-                            if (livingRoomTvHourInput == (0)) {
+                            if (mainRoomTvHourInput == (0)) {
                                 String livingRoomFanInputString;
                                 livingRoomFanInputString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
-                                livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
+                                mainRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
 
-                                if (livingRoomTvHourInput == 1) {
-                                    livingRoomTvHourInput = 13;
-                                } else if (livingRoomTvHourInput == 2) {
-                                    livingRoomTvHourInput = 14;
-                                } else if (livingRoomTvHourInput == 3) {
-                                    livingRoomTvHourInput = 15;
-                                } else if (livingRoomTvHourInput == 4) {
-                                    livingRoomTvHourInput = 16;
-                                } else if (livingRoomTvHourInput == 5) {
-                                    livingRoomTvHourInput = 17;
-                                } else if (livingRoomTvHourInput == 6) {
-                                    livingRoomTvHourInput = 18;
-                                } else if (livingRoomTvHourInput == 7) {
-                                    livingRoomTvHourInput = 19;
-                                } else if (livingRoomTvHourInput == 8) {
-                                    livingRoomTvHourInput = 20;
-                                } else if (livingRoomTvHourInput == 9) {
-                                    livingRoomTvHourInput = 21;
-                                } else if (livingRoomTvHourInput == 10) {
-                                    livingRoomTvHourInput = 22;
-                                } else if (livingRoomTvHourInput == 11) {
-                                    livingRoomTvHourInput = 23;
-                                } else if (livingRoomTvHourInput == 12) {
-                                    livingRoomTvHourInput = 24;
+                                if (mainRoomTvHourInput == 1) {
+                                    mainRoomTvHourInput = 13;
+                                } else if (mainRoomTvHourInput == 2) {
+                                    mainRoomTvHourInput = 14;
+                                } else if (mainRoomTvHourInput == 3) {
+                                    mainRoomTvHourInput = 15;
+                                } else if (mainRoomTvHourInput == 4) {
+                                    mainRoomTvHourInput = 16;
+                                } else if (mainRoomTvHourInput == 5) {
+                                    mainRoomTvHourInput = 17;
+                                } else if (mainRoomTvHourInput == 6) {
+                                    mainRoomTvHourInput = 18;
+                                } else if (mainRoomTvHourInput == 7) {
+                                    mainRoomTvHourInput = 19;
+                                } else if (mainRoomTvHourInput == 8) {
+                                    mainRoomTvHourInput = 20;
+                                } else if (mainRoomTvHourInput == 9) {
+                                    mainRoomTvHourInput = 21;
+                                } else if (mainRoomTvHourInput == 10) {
+                                    mainRoomTvHourInput = 22;
+                                } else if (mainRoomTvHourInput == 11) {
+                                    mainRoomTvHourInput = 23;
+                                } else if (mainRoomTvHourInput == 12) {
+                                    mainRoomTvHourInput = 24;
                                 }
 
-                                while (livingRoomTvHourInput > 24) {
+                                while (mainRoomTvHourInput > 24) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
-                                    livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
+                                    mainRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
                                 }
-                                while (livingRoomTvHourInput < 12) {
+                                while (mainRoomTvHourInput < 12) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Please enter Turn Off Time for Tv; (12pm - 12am)\nHour: ");
-                                    livingRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
+                                    mainRoomTvHourInput = Integer.parseInt(livingRoomFanInputString);
                                 }
 
                                 //Minutes
                                 String livingRoomFanMinuteString;
                                 livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
-                                livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
+                                mainRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
 
-                                while (livingRoomTvMinuteInput > 60.00) {
+                                while (mainRoomTvMinuteInput > 60.00) {
                                     livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
-                                    livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
+                                    mainRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
                                 }
-                                while (livingRoomTvMinuteInput < 00.00) {
+                                while (mainRoomTvMinuteInput < 00.00) {
                                     livingRoomFanMinuteString = JOptionPane.showInputDialog("Enter Turn Off Time for TV\nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
-                                    livingRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
+                                    mainRoomTvMinuteInput = Integer.parseInt(livingRoomFanMinuteString);
                                 }
 
 
-                                livingRoomTvOffTime = livingRoomTvHourInput + livingRoomTvMinuteInput;
+                                mainRoomTvOffTime = mainRoomTvHourInput + mainRoomTvMinuteInput;
 
                                 JOptionPane.showMessageDialog(null, "The Main Bedroom Tv will automatically turn off at: " + livingRoomTvOffTime);
                             }
@@ -1341,7 +1338,7 @@ public class TabConfig extends JFrame {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                    mainBedroomAlarm.setBackground(Color.gray);
+                    mainBedroomAlarm.setBackground(Color.green);
 
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     mainBedroomAlarm.setBackground(Color.gray);
@@ -1383,20 +1380,17 @@ public class TabConfig extends JFrame {
                                 }
 
                                 String AlarmMinuteString;
-                                AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
+                                AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
                                 mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
 
-                                while (mainBedroomAlarmMinInput > 60.00) {
-                                    AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
+                                while (mainBedroomAlarmMinInput > 60) {
+                                    AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
                                     mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
                                 }
-                                while (mainBedroomAlarmMinInput < 00.00) {
-                                    AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
+                                while (mainBedroomAlarmMinInput < 0) {
+                                    AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
                                     mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
                                 }
-
-                                alarmClockTotal = mainBedroomAlarmMinInput / 100;
-                                alarmClockTotal = alarmClockTotal + mainBedroomAlarmInput;
 
                                 String smartAlarmString;
                                 smartAlarmString = JOptionPane.showInputDialog("Please ENABLE Alarm Clock's Smart Ability;\n1) Morning Coffee always\n2) Morning Coffee never");
@@ -1412,9 +1406,6 @@ public class TabConfig extends JFrame {
                                 } else if (smartAlarmInput == 2) {
                                     smartAlarmMode = "Morning Coffee never";
                                 }
-
-                                JOptionPane.showMessageDialog(null, "The Main Bedroom Alarm automatically turn on at: " + alarmClockTotal + "\nSmart Alarm settings: " + smartAlarmMode);
-
                             }
 
                         } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
@@ -1434,20 +1425,17 @@ public class TabConfig extends JFrame {
                             }
 
                             String AlarmMinuteString;
-                            AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
+                            AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
                             mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
 
-                            while (mainBedroomAlarmMinInput > 60.00) {
-                                AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
+                            while (mainBedroomAlarmMinInput > 60) {
+                                AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
                                 mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
                             }
-                            while (mainBedroomAlarmMinInput < 00.00) {
-                                AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
+                            while (mainBedroomAlarmMinInput < 0) {
+                                AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock Minutes (00 - 60)\nMinutes: ");
                                 mainBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
                             }
-
-                            alarmClockTotal = mainBedroomAlarmMinInput / 100;
-                            alarmClockTotal = alarmClockTotal + mainBedroomAlarmInput;
 
                             String smartAlarmString;
                             smartAlarmString = JOptionPane.showInputDialog("Please ENABLE Alarm Clock's Smart Ability;\n1) Morning Coffee always\n2) Morning Coffee never");
@@ -1464,12 +1452,9 @@ public class TabConfig extends JFrame {
                                 smartAlarmMode = "Morning Coffee never";
                             }
 
+                            mainBedroomAlarmMinInputDouble = mainBedroomAlarmMinInput;
+                            alarmClockTotal = mainBedroomAlarmInput + (mainBedroomAlarmMinInputDouble / 100);
                             JOptionPane.showMessageDialog(null, "The Main Bedroom Alarm automatically turn on at: " + alarmClockTotal + "\nSmart Alarm settings: " + smartAlarmMode);
-                        }
-                        if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                            displayLine2 = data.split(", ");
-                        } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                            displayLine2 = data.split(", ");
                         }
                     }
                     int yesValue = JOptionPane.showConfirmDialog(null, "Save Changes");
@@ -1528,19 +1513,19 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomMSensorInputString;
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
-                                while (livingRoomMotionSensorInput > 2) {
+                                secondRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                while (secondRoomMotionSensorInput > 2) {
                                     livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                    livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                    secondRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                                 }
-                                while (livingRoomMotionSensorInput <= 0) {
+                                while (secondRoomMotionSensorInput <= 0) {
                                     livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                    livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                    secondRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                                 }
 
-                                if (livingRoomMotionSensorInput == 1) {
+                                if (secondRoomMotionSensorInput == 1) {
                                     livingRoomMotionSensorMode = "Comfort Mode";
-                                } else if (livingRoomMotionSensorInput == 2) {
+                                } else if (secondRoomMotionSensorInput == 2) {
                                     livingRoomMotionSensorMode = "Economy Mode";
                                 }
                             }
@@ -1549,21 +1534,21 @@ public class TabConfig extends JFrame {
                             displayLine1 = data.split(", ");
                             String livingRoomMSensorInputString;
                             livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                            livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                            secondRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
 
-                            while (livingRoomMotionSensorInput > 2) {
+                            while (secondRoomMotionSensorInput > 2) {
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                secondRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                             }
 
-                            while (livingRoomMotionSensorInput <= 0) {
+                            while (secondRoomMotionSensorInput <= 0) {
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                secondRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                             }
 
-                            if (livingRoomMotionSensorInput == 1) {
+                            if (secondRoomMotionSensorInput == 1) {
                                 livingRoomMotionSensorMode = "Comfort Mode";
-                            } else if (livingRoomMotionSensorInput == 2) {
+                            } else if (secondRoomMotionSensorInput == 2) {
                                 livingRoomMotionSensorMode = "Economy Mode";
                             }
                         }
@@ -1645,21 +1630,21 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomLightsInputString;
                                 livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
-                                while (livingRoomLightsInput > 3) {
+                                secondRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                while (secondRoomLightsInput > 3) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    secondRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
-                                while (livingRoomLightsInput <= 0) {
+                                while (secondRoomLightsInput <= 0) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    secondRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
 
-                                if (livingRoomLightsInput == 1) {
+                                if (secondRoomLightsInput == 1) {
                                     livingRoomLightMode = "Economy Mode";
-                                } else if (livingRoomLightsInput == 2) {
+                                } else if (secondRoomLightsInput == 2) {
                                     livingRoomLightMode = "Neutral Mode";
-                                } else if (livingRoomLightsInput == 3) {
+                                } else if (secondRoomLightsInput == 3) {
                                     livingRoomLightMode = "Entertainment Mode";
                                 }
                                 JOptionPane.showMessageDialog(null, "The Second Bedroom Lights have been set to: " + livingRoomLightMode);
@@ -1668,24 +1653,24 @@ public class TabConfig extends JFrame {
                         } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
                             displayLine3 = data.split(", ");
 
-                            if (livingRoomLightsInput == 0) {
+                            if (secondRoomLightsInput == 0) {
                                 String livingRoomLightsInputString;
                                 livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
-                                while (livingRoomLightsInput > 3) {
+                                secondRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                while (secondRoomLightsInput > 3) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    secondRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
-                                while (livingRoomLightsInput <= 0) {
+                                while (secondRoomLightsInput <= 0) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    secondRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
 
-                                if (livingRoomLightsInput == 1) {
+                                if (secondRoomLightsInput == 1) {
                                     livingRoomLightMode = "Economy Mode";
-                                } else if (livingRoomLightsInput == 2) {
+                                } else if (secondRoomLightsInput == 2) {
                                     livingRoomLightMode = "Neutral Mode";
-                                } else if (livingRoomLightsInput == 3) {
+                                } else if (secondRoomLightsInput == 3) {
                                     livingRoomLightMode = "Entertainment Mode";
                                 }
                                 JOptionPane.showMessageDialog(null, "The Second Bedroom Lights have been set to: " + livingRoomLightMode);
@@ -1772,14 +1757,14 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomFanInputString;
                                 livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
-                                while (livingRoomFanInput > 30) {
+                                secondRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                while (secondRoomFanInput > 30) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                    livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                    secondRoomFanInput = Integer.parseInt(livingRoomFanInputString);
                                 }
-                                while (livingRoomFanInput < 22) {
+                                while (secondRoomFanInput < 22) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                    livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                    secondRoomFanInput = Integer.parseInt(livingRoomFanInputString);
                                 }
 
                                 JOptionPane.showMessageDialog(null, "The Second Bedrooom Ceiling Fan has been set to: " + livingRoomFanInput + "°");
@@ -1787,17 +1772,17 @@ public class TabConfig extends JFrame {
 
                         } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
                             displayLine3 = data.split(", ");
-                            if (livingRoomFanInput == (0)) {
+                            if (secondRoomFanInput == (0)) {
                                 String livingRoomFanInputString;
                                 livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
-                                while (livingRoomFanInput > 30) {
+                                secondRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                while (secondRoomFanInput > 30) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                    livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                    secondRoomFanInput = Integer.parseInt(livingRoomFanInputString);
                                 }
-                                while (livingRoomFanInput < 22) {
+                                while (secondRoomFanInput < 22) {
                                     livingRoomFanInputString = JOptionPane.showInputDialog("Set Temperature for Living Room Fan: 22° - 30°");
-                                    livingRoomFanInput = Integer.parseInt(livingRoomFanInputString);
+                                    secondRoomFanInput = Integer.parseInt(livingRoomFanInputString);
                                 }
 
                                 JOptionPane.showMessageDialog(null, "The Second Bedroom Ceiling Fan has been set to: " + livingRoomFanInput + "°");
@@ -1819,160 +1804,6 @@ public class TabConfig extends JFrame {
                         //save
                         String roomName = "SECOND BEDROOM";
                         saveFan(roomName);
-                    }
-                    inputStream.close();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-
-
-        JButton secondBedroomAlarm = new JButton("Alarm Clock");
-        secondBedroomAlarm.setPreferredSize(new Dimension(160, 80));
-        secondBedroomAlarm.setBorder(new BasicBorders.ToggleButtonBorder(Color.darkGray, Color.black, Color.lightGray, Color.white));
-
-        try {
-            Scanner inputStream = new Scanner(file11);
-            while (inputStream.hasNext()) {
-                data = inputStream.nextLine();
-                values = data.split(",");
-                if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                    secondBedroomAlarm.setBackground(Color.gray);
-                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                    secondBedroomAlarm.setBackground(Color.gray);
-                }
-            }
-            inputStream.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        card3.add(secondBedroomAlarm);
-        secondBedroomAlarm.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Display rooms status
-                String fileName = "ConfigFiles/alarmClockConfig.txt";
-                File file = new File(fileName);
-                try {
-                    Scanner inputStream = new Scanner(file);
-                    while (inputStream.hasNext()) {
-                        data = inputStream.nextLine();
-                        values = data.split(",");
-                        if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                            displayLine2 = data.split(", ");
-                            String continueSetUp;
-                            continueSetUp = JOptionPane.showInputDialog("Already Set Up! Do you wish to edit? Y / N");
-                            continueSetUp = continueSetUp.toUpperCase();
-                            if (continueSetUp.equals("Y")) {
-                                String AlarmHourString;
-                                AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
-
-                                while (secondBedroomAlarmInput > 12) {
-                                    AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                    secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
-                                }
-                                while (secondBedroomAlarmInput < 5) {
-                                    AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                    secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
-                                }
-
-                                String AlarmMinuteString;
-                                AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
-
-                                while (secondBedroomAlarmMinInput > 60.00) {
-                                    AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                    secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
-                                }
-                                while (secondBedroomAlarmMinInput < 00.00) {
-                                    AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                    secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
-                                }
-
-                                alarmClockTotal = secondBedroomAlarmMinInput / 100;
-                                alarmClockTotal = alarmClockTotal + secondBedroomAlarmInput;
-
-                                String smartAlarmString;
-                                smartAlarmString = JOptionPane.showInputDialog("Please ENABLE Alarm Clock's Smart Ability;\n1) Morning Coffee always\n2) Morning Coffee never");
-                                smartAlarmInput = Integer.parseInt(smartAlarmString);
-
-                                while (smartAlarmInput > 2) {
-                                    smartAlarmString = JOptionPane.showInputDialog("Please ENABLE Alarm Clock's Smart Ability;\n1) Morning Coffee always\n2) Morning Coffee never");
-                                    smartAlarmInput = Integer.parseInt(smartAlarmString);
-                                }
-
-                                if (smartAlarmInput == 1) {
-                                    smartAlarmMode = "Morning Coffee always";
-                                } else if (smartAlarmInput == 2) {
-                                    smartAlarmMode = "Morning Coffee never";
-                                }
-
-                                JOptionPane.showMessageDialog(null, "The Second Bedroom Alarm automatically turn on at: " + alarmClockTotal + "\nSmart Alarm settings: " + smartAlarmMode);
-                            }
-
-                        } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                            displayLine2 = data.split(", ");
-
-                            String AlarmHourString;
-                            AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                            secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
-
-                            while (secondBedroomAlarmInput > 12) {
-                                AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
-                            }
-                            while (secondBedroomAlarmInput < 5) {
-                                AlarmHourString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                secondBedroomAlarmInput = Integer.parseInt(AlarmHourString);
-                            }
-
-                            String AlarmMinuteString;
-                            AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                            secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
-
-                            while (secondBedroomAlarmMinInput > 60.00) {
-                                AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
-                            }
-                            while (secondBedroomAlarmMinInput < 00.00) {
-                                AlarmMinuteString = JOptionPane.showInputDialog("Enter Alarm Settings \nPlease enter Alarm Clock alarm time; (5am - 12pm)\nHour: ");
-                                secondBedroomAlarmMinInput = Integer.parseInt(AlarmMinuteString);
-                            }
-
-                            alarmClockTotal = secondBedroomAlarmMinInput / 100;
-                            alarmClockTotal = alarmClockTotal + mainBedroomAlarmInput;
-
-                            String smartAlarmString;
-                            smartAlarmString = JOptionPane.showInputDialog("Please ENABLE Alarm Clock's Smart Ability;\n1) Morning Coffee always\n2) Morning Coffee never");
-                            smartAlarmInput = Integer.parseInt(smartAlarmString);
-
-                            while (smartAlarmInput > 2) {
-                                smartAlarmString = JOptionPane.showInputDialog("Please ENABLE Alarm Clock's Smart Ability;\n1) Morning Coffee always\n2) Morning Coffee never");
-                                smartAlarmInput = Integer.parseInt(smartAlarmString);
-                            }
-
-                            if (smartAlarmInput == 1) {
-                                smartAlarmMode = "Morning Coffee always";
-                            } else if (smartAlarmInput == 2) {
-                                smartAlarmMode = "Morning Coffee never";
-                            }
-
-                            JOptionPane.showMessageDialog(null, "The Main Bedroom Alarm automatically turn on at: " + alarmClockTotal + "\nSmart Alarm settings: " + smartAlarmMode);
-                        }
-                        if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
-                            displayLine1 = data.split(", ");
-                        } else if (values[0].equals("MAIN BEDROO") && values[2].equals("OFF")) {
-                            displayLine1 = data.split(", ");
-                        }
-                    }
-                    int yesValue = JOptionPane.showConfirmDialog(null, "Save Changes");
-                    if (yesValue == 0) {
-                        //save
-                        String roomName = "SECOND BEDROOM";
-                        saveAlarm(roomName);
                     }
                     inputStream.close();
                 } catch (Exception ex) {
@@ -2024,19 +1855,19 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomMSensorInputString;
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
-                                while (livingRoomMotionSensorInput > 2) {
+                                kitchenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                while (kitchenMotionSensorInput > 2) {
                                     livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                    livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                    kitchenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                                 }
-                                while (livingRoomMotionSensorInput <= 0) {
+                                while (kitchenMotionSensorInput <= 0) {
                                     livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                    livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                    kitchenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                                 }
 
-                                if (livingRoomMotionSensorInput == 1) {
+                                if (kitchenMotionSensorInput == 1) {
                                     livingRoomMotionSensorMode = "Comfort Mode";
-                                } else if (livingRoomMotionSensorInput == 2) {
+                                } else if (kitchenMotionSensorInput == 2) {
                                     livingRoomMotionSensorMode = "Economy Mode";
                                 }
                             }
@@ -2045,21 +1876,21 @@ public class TabConfig extends JFrame {
                             displayLine1 = data.split(", ");
                             String livingRoomMSensorInputString;
                             livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                            livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                            kitchenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
 
-                            while (livingRoomMotionSensorInput > 2) {
+                            while (kitchenMotionSensorInput > 2) {
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                kitchenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                             }
 
-                            while (livingRoomMotionSensorInput <= 0) {
+                            while (kitchenMotionSensorInput <= 0) {
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                kitchenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                             }
 
-                            if (livingRoomMotionSensorInput == 1) {
+                            if (kitchenMotionSensorInput == 1) {
                                 livingRoomMotionSensorMode = "Comfort Mode";
-                            } else if (livingRoomMotionSensorInput == 2) {
+                            } else if (kitchenMotionSensorInput == 2) {
                                 livingRoomMotionSensorMode = "Economy Mode";
                             }
                         }
@@ -2141,21 +1972,21 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomLightsInputString;
                                 livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
-                                while (livingRoomLightsInput > 3) {
+                                kitchenLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                while (kitchenLightsInput > 3) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    kitchenLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
-                                while (livingRoomLightsInput <= 0) {
+                                while (kitchenLightsInput <= 0) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    kitchenLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
 
-                                if (livingRoomLightsInput == 1) {
+                                if (kitchenLightsInput == 1) {
                                     livingRoomLightMode = "Economy Mode";
-                                } else if (livingRoomLightsInput == 2) {
+                                } else if (kitchenLightsInput == 2) {
                                     livingRoomLightMode = "Neutral Mode";
-                                } else if (livingRoomLightsInput == 3) {
+                                } else if (kitchenLightsInput == 3) {
                                     livingRoomLightMode = "Entertainment Mode";
                                 }
                                 JOptionPane.showMessageDialog(null, "The Kitchen Lights have been set to: " + livingRoomLightMode);
@@ -2164,24 +1995,24 @@ public class TabConfig extends JFrame {
                         } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
                             displayLine4 = data.split(", ");
 
-                            if (livingRoomLightsInput == 0) {
+                            if (kitchenLightsInput == 0) {
                                 String livingRoomLightsInputString;
                                 livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
-                                while (livingRoomLightsInput > 3) {
+                                kitchenLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                while (kitchenLightsInput > 3) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    kitchenLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
-                                while (livingRoomLightsInput <= 0) {
+                                while (kitchenLightsInput <= 0) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    kitchenLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
 
-                                if (livingRoomLightsInput == 1) {
+                                if (kitchenLightsInput == 1) {
                                     livingRoomLightMode = "Economy Mode";
-                                } else if (livingRoomLightsInput == 2) {
+                                } else if (kitchenLightsInput == 2) {
                                     livingRoomLightMode = "Neutral Mode";
-                                } else if (livingRoomLightsInput == 3) {
+                                } else if (kitchenLightsInput == 3) {
                                     livingRoomLightMode = "Entertainment Mode";
                                 }
                                 JOptionPane.showMessageDialog(null, "The Kitchen Lights have been set to: " + livingRoomLightMode);
@@ -2646,7 +2477,7 @@ public class TabConfig extends JFrame {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
-                    kitchenKettle.setBackground(Color.gray);
+                    kitchenKettle.setBackground(Color.green);
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
                     kitchenKettle.setBackground(Color.gray);
                 }
@@ -2743,7 +2574,7 @@ public class TabConfig extends JFrame {
                 data = inputStream.nextLine();
                 values = data.split(",");
                 if (values[0].equals("KITCHEN") && values[2].equals("ON")) {
-                    kitchenCoffee.setBackground(Color.gray);
+                    kitchenCoffee.setBackground(Color.green);
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
                     kitchenCoffee.setBackground(Color.gray);
                 }
@@ -2854,19 +2685,19 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomMSensorInputString;
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
-                                while (livingRoomMotionSensorInput > 2) {
+                                garageMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                while (garageMotionSensorInput > 2) {
                                     livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                    livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                    garageMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                                 }
-                                while (livingRoomMotionSensorInput <= 0) {
+                                while (garageMotionSensorInput <= 0) {
                                     livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                    livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                    garageMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                                 }
 
-                                if (livingRoomMotionSensorInput == 1) {
+                                if (garageMotionSensorInput == 1) {
                                     livingRoomMotionSensorMode = "Comfort Mode";
-                                } else if (livingRoomMotionSensorInput == 2) {
+                                } else if (garageMotionSensorInput == 2) {
                                     livingRoomMotionSensorMode = "Economy Mode";
                                 }
                             }
@@ -2875,21 +2706,21 @@ public class TabConfig extends JFrame {
                             displayLine1 = data.split(", ");
                             String livingRoomMSensorInputString;
                             livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                            livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                            garageMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
 
-                            while (livingRoomMotionSensorInput > 2) {
+                            while (garageMotionSensorInput > 2) {
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                garageMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                             }
 
-                            while (livingRoomMotionSensorInput <= 0) {
+                            while (garageMotionSensorInput <= 0) {
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                garageMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                             }
 
-                            if (livingRoomMotionSensorInput == 1) {
+                            if (garageMotionSensorInput == 1) {
                                 livingRoomMotionSensorMode = "Comfort Mode";
-                            } else if (livingRoomMotionSensorInput == 2) {
+                            } else if (garageMotionSensorInput == 2) {
                                 livingRoomMotionSensorMode = "Economy Mode";
                             }
                         }
@@ -2971,21 +2802,21 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomLightsInputString;
                                 livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
-                                while (livingRoomLightsInput > 3) {
+                                garageLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                while (garageLightsInput > 3) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    garageLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
-                                while (livingRoomLightsInput <= 0) {
+                                while (garageLightsInput <= 0) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    garageLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
 
-                                if (livingRoomLightsInput == 1) {
+                                if (garageLightsInput == 1) {
                                     livingRoomLightMode = "Economy Mode";
-                                } else if (livingRoomLightsInput == 2) {
+                                } else if (garageLightsInput == 2) {
                                     livingRoomLightMode = "Neutral Mode";
-                                } else if (livingRoomLightsInput == 3) {
+                                } else if (garageLightsInput == 3) {
                                     livingRoomLightMode = "Entertainment Mode";
                                 }
                                 JOptionPane.showMessageDialog(null, "The Garage Lights have been set to: " + livingRoomLightMode);
@@ -2994,24 +2825,24 @@ public class TabConfig extends JFrame {
                         } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
                             displayLine5 = data.split(", ");
 
-                            if (livingRoomLightsInput == 0) {
+                            if (garageLightsInput == 0) {
                                 String livingRoomLightsInputString;
                                 livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
-                                while (livingRoomLightsInput > 3) {
+                                garageLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                while (garageLightsInput > 3) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    garageLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
-                                while (livingRoomLightsInput <= 0) {
+                                while (garageLightsInput <= 0) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
                                     livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
 
-                                if (livingRoomLightsInput == 1) {
+                                if (garageLightsInput == 1) {
                                     livingRoomLightMode = "Economy Mode";
-                                } else if (livingRoomLightsInput == 2) {
+                                } else if (garageLightsInput == 2) {
                                     livingRoomLightMode = "Neutral Mode";
-                                } else if (livingRoomLightsInput == 3) {
+                                } else if (garageLightsInput == 3) {
                                     livingRoomLightMode = "Entertainment Mode";
                                 }
                                 JOptionPane.showMessageDialog(null, "The Garage Lights have been set to: " + livingRoomLightMode);
@@ -3099,11 +2930,11 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String garageDoorInputString;
                                 garageDoorInputString = JOptionPane.showInputDialog("Enter below \nTurn on Security Lock for Garage Door? \n1) - Yes \n2) - No.");
-                                garageDoorLightsInput = Integer.parseInt(garageDoorInputString);
+                                garageDoorInput = Integer.parseInt(garageDoorInputString);
 
-                                while (garageDoorLightsInput > 2) {
+                                while (garageDoorInput > 2) {
                                     garageDoorInputString = JOptionPane.showInputDialog("Enter below \nTurn on Security Lock for Garage Door? \n1) - Yes \n2) - No.");
-                                    garageDoorLightsInput = Integer.parseInt(garageDoorInputString);
+                                    garageDoorInput = Integer.parseInt(garageDoorInputString);
                                 }
                             }
 
@@ -3112,11 +2943,11 @@ public class TabConfig extends JFrame {
 
                             String garageDoorInputString;
                             garageDoorInputString = JOptionPane.showInputDialog("Enter below \nTurn on Security Lock for Garage Door? \n1) - Yes \n2) - No.");
-                            garageDoorLightsInput = Integer.parseInt(garageDoorInputString);
+                            garageDoorInput = Integer.parseInt(garageDoorInputString);
 
-                            while (garageDoorLightsInput > 2) {
+                            while (garageDoorInput > 2) {
                                 garageDoorInputString = JOptionPane.showInputDialog("Enter below \nTurn on Security Lock for Garage Door? \n1) - Yes \n2) - No.");
-                                garageDoorLightsInput = Integer.parseInt(garageDoorInputString);
+                                garageDoorInput = Integer.parseInt(garageDoorInputString);
                             }
 
                         }
@@ -3181,20 +3012,20 @@ public class TabConfig extends JFrame {
 
                             String garageCarInputString;
                             garageCarInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Auto Start - Warms up engine before you enter Garage.\n2) Economy Start - Car Starts up when you enter Garage.\n3) Manual Start - Car won't start when enter Garage.");
-                            garageCarLightsInput = Integer.parseInt(garageCarInputString);
+                            garageCarInput = Integer.parseInt(garageCarInputString);
 
-                            while (garageCarLightsInput > 3) {
+                            while (garageCarInput > 3) {
                                 garageCarInputString = JOptionPane.showInputDialog("1) Auto Start - Warms up engine before you enter Garage.\n2) Economy Start - Car Starts up when you enter Garage.\n3) Manual Start - Car won't start when enter Garage.");
-                                garageCarLightsInput = Integer.parseInt(garageCarInputString);
+                                garageCarInput = Integer.parseInt(garageCarInputString);
                             }
 
-                            if (garageCarLightsInput == 1) {
+                            if (garageCarInput == 1) {
                                 //1 Water - 6:00pm
                                 carMode = "Auto Start";
-                            } else if (garageCarLightsInput == 2) {
+                            } else if (garageCarInput == 2) {
                                 //2 Water - 9:00am / 6:00pm
                                 carMode = "Economy Start";
-                            } else if (garageCarLightsInput == 3) {
+                            } else if (garageCarInput == 3) {
                                 //3 Water - 9:00am / 6:00pm / 2:00am
                                 carMode = "Manual Start";
                             }
@@ -3261,19 +3092,19 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomMSensorInputString;
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
-                                while (livingRoomMotionSensorInput > 2) {
+                                gardenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                while (gardenMotionSensorInput > 2) {
                                     livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                    livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                    gardenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                                 }
-                                while (livingRoomMotionSensorInput <= 0) {
+                                while (gardenMotionSensorInput <= 0) {
                                     livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                    livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                    gardenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                                 }
 
-                                if (livingRoomMotionSensorInput == 1) {
+                                if (gardenMotionSensorInput == 1) {
                                     livingRoomMotionSensorMode = "Comfort Mode";
-                                } else if (livingRoomMotionSensorInput == 2) {
+                                } else if (gardenMotionSensorInput == 2) {
                                     livingRoomMotionSensorMode = "Economy Mode";
                                 }
                             }
@@ -3282,21 +3113,21 @@ public class TabConfig extends JFrame {
                             displayLine1 = data.split(", ");
                             String livingRoomMSensorInputString;
                             livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                            livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                            gardenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
 
-                            while (livingRoomMotionSensorInput > 2) {
+                            while (gardenMotionSensorInput > 2) {
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                gardenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                             }
 
-                            while (livingRoomMotionSensorInput <= 0) {
+                            while (gardenMotionSensorInput <= 0) {
                                 livingRoomMSensorInputString = JOptionPane.showInputDialog("Enter either; 1 OR 2 below.\n1) Comfort Mode - Turns on other fixtures/appliances when person enters room.\n2) Economy Mode - Set Limits to certain fixture/appliance control.");
-                                livingRoomMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
+                                gardenMotionSensorInput = Integer.parseInt(livingRoomMSensorInputString);
                             }
 
-                            if (livingRoomMotionSensorInput == 1) {
+                            if (gardenMotionSensorInput == 1) {
                                 livingRoomMotionSensorMode = "Comfort Mode";
-                            } else if (livingRoomMotionSensorInput == 2) {
+                            } else if (gardenMotionSensorInput == 2) {
                                 livingRoomMotionSensorMode = "Economy Mode";
                             }
                         }
@@ -3379,21 +3210,21 @@ public class TabConfig extends JFrame {
                             if (continueSetUp.equals("Y")) {
                                 String livingRoomLightsInputString;
                                 livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
-                                while (livingRoomLightsInput > 3) {
+                                gardenLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                while (gardenLightsInput > 3) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    gardenLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
-                                while (livingRoomLightsInput <= 0) {
+                                while (gardenLightsInput <= 0) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    gardenLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
 
-                                if (livingRoomLightsInput == 1) {
+                                if (gardenLightsInput == 1) {
                                     livingRoomLightMode = "Economy Mode";
-                                } else if (livingRoomLightsInput == 2) {
+                                } else if (gardenLightsInput == 2) {
                                     livingRoomLightMode = "Neutral Mode";
-                                } else if (livingRoomLightsInput == 3) {
+                                } else if (gardenLightsInput == 3) {
                                     livingRoomLightMode = "Entertainment Mode";
                                 }
                                 JOptionPane.showMessageDialog(null, "The Garden Lights have been set to: " + livingRoomLightMode);
@@ -3402,24 +3233,24 @@ public class TabConfig extends JFrame {
                         } else if (values[0].equals("GARDEN") && values[2].equals("OFF")) {
                             displayLine6 = data.split(", ");
 
-                            if (livingRoomLightsInput == 0) {
+                            if (gardenLightsInput == 0) {
                                 String livingRoomLightsInputString;
                                 livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
-                                while (livingRoomLightsInput > 3) {
+                                gardenLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                while (gardenLightsInput > 3) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    gardenLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
-                                while (livingRoomLightsInput <= 0) {
+                                while (gardenLightsInput <= 0) {
                                     livingRoomLightsInputString = JOptionPane.showInputDialog("Enter either; 1, 2 or 3 below.\n1) Economy Mode - Lights only turn on after 6pm and sunlight under 10%.\n2) Neutral Mode - Lights turn on when sunlight drops below 25% or person enters room.\n3) Entertainment Mode - Lights always turn on.");
-                                    livingRoomLightsInput = Integer.parseInt(livingRoomLightsInputString);
+                                    gardenLightsInput = Integer.parseInt(livingRoomLightsInputString);
                                 }
 
-                                if (livingRoomLightsInput == 1) {
+                                if (gardenLightsInput == 1) {
                                     livingRoomLightMode = "Economy Mode";
-                                } else if (livingRoomLightsInput == 2) {
+                                } else if (gardenLightsInput == 2) {
                                     livingRoomLightMode = "Neutral Mode";
-                                } else if (livingRoomLightsInput == 3) {
+                                } else if (gardenLightsInput == 3) {
                                     livingRoomLightMode = "Entertainment Mode";
                                 }
                                 JOptionPane.showMessageDialog(null, "The Garden Lights have been set to: " + livingRoomLightMode);
@@ -3620,8 +3451,6 @@ public class TabConfig extends JFrame {
                 updatedList5 = Arrays.toString(displayLine6);
                 x6 = String.valueOf((updatedList5));
 
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList + "\nThe Living Room Motion Sensor have been set to: " + livingRoomMotionSensorMode);
                 break;
             }
             case "MAIN BEDROOM": {
@@ -3636,7 +3465,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.allMotionSensors("ON"));
                 //User Settings
-                list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                list.add(new Devices.allMotionSensors(String.valueOf(mainRoomMotionSensorInput)));
                 //Set list
                 allMotionSensors.setListMotionSensors(list);
 
@@ -3658,8 +3487,6 @@ public class TabConfig extends JFrame {
                 updatedList5 = Arrays.toString(displayLine6);
                 x6 = String.valueOf((updatedList5));
 
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList1 + "\nThe Living Room Motion Sensor have been set to: " + livingRoomMotionSensorMode);
                 break;
             }
             case "SECOND BEDROOM": {
@@ -3674,7 +3501,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.allMotionSensors("ON"));
                 //User Settings
-                list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                list.add(new Devices.allMotionSensors(String.valueOf(secondRoomMotionSensorInput)));
                 //Set list
                 allMotionSensors.setListMotionSensors(list);
 
@@ -3709,7 +3536,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.allMotionSensors("ON"));
                 //User Settings
-                list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                list.add(new Devices.allMotionSensors(String.valueOf(kitchenMotionSensorInput)));
                 //Set list
                 allMotionSensors.setListMotionSensors(list);
 
@@ -3744,7 +3571,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.allMotionSensors("ON"));
                 //User Settings
-                list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                list.add(new Devices.allMotionSensors(String.valueOf(garageMotionSensorInput)));
                 //Set list
                 allMotionSensors.setListMotionSensors(list);
 
@@ -3779,7 +3606,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.allMotionSensors("ON"));
                 //User Settings
-                list.add(new Devices.allMotionSensors(String.valueOf(motionSensorTemp.getMotionSensorTemp())));
+                list.add(new Devices.allMotionSensors(String.valueOf(gardenMotionSensorInput)));
                 //Set list
                 allMotionSensors.setListMotionSensors(list);
 
@@ -3879,8 +3706,6 @@ public class TabConfig extends JFrame {
                 updatedList5 = Arrays.toString(displayLine6);
                 x6 = String.valueOf((updatedList5));
 
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList + "\nThe Living Room Lights has been set to: " + livingRoomLightMode);
                 break;
             }
             case "MAIN BEDROOM": {
@@ -3895,7 +3720,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.allLights("ON"));
                 //User Settings
-                list.add(new Devices.allLights(String.valueOf(lightTemp.getLightTemp())));
+                list.add(new Devices.allLights(String.valueOf(mainRoomLightsInput)));
                 //Set list
                 allLights.setListLights(list);
 
@@ -3917,8 +3742,6 @@ public class TabConfig extends JFrame {
                 updatedList5 = Arrays.toString(displayLine6);
                 x6 = String.valueOf((updatedList5));
 
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList1 + "\nThe Living Room Lights has been set to: " + livingRoomLightMode);
                 break;
             }
             case "SECOND BEDROOM": {
@@ -3933,7 +3756,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.allLights("ON"));
                 //User Settings
-                list.add(new Devices.allLights(String.valueOf(lightTemp.getLightTemp())));
+                list.add(new Devices.allLights(String.valueOf(secondRoomLightsInput)));
                 //Set list
                 allLights.setListLights(list);
 
@@ -3954,9 +3777,6 @@ public class TabConfig extends JFrame {
 
                 updatedList5 = Arrays.toString(displayLine6);
                 x6 = String.valueOf((updatedList5));
-
-                JOptionPane.showMessageDialog(null, updatedList2 + "\nThe Living Room Lights has been set to: " + livingRoomLightMode);
-
                 break;
             }
             case "KITCHEN": {
@@ -3971,7 +3791,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.allLights("ON"));
                 //User Settings
-                list.add(new Devices.allLights(String.valueOf(lightTemp.getLightTemp())));
+                list.add(new Devices.allLights(String.valueOf(kitchenLightsInput)));
                 //Set list
                 allLights.setListLights(list);
 
@@ -3992,8 +3812,6 @@ public class TabConfig extends JFrame {
 
                 updatedList5 = Arrays.toString(displayLine6);
                 x6 = String.valueOf((updatedList5));
-
-                JOptionPane.showMessageDialog(null, updatedList3 + "\nThe Living Room Lights has been set to: " + livingRoomLightMode);
                 break;
             }
             case "GARAGE": {
@@ -4008,7 +3826,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.allLights("ON"));
                 //User Settings
-                list.add(new Devices.allLights(String.valueOf(lightTemp.getLightTemp())));
+                list.add(new Devices.allLights(String.valueOf(garageLightsInput)));
                 //Set list
                 allLights.setListLights(list);
 
@@ -4029,8 +3847,6 @@ public class TabConfig extends JFrame {
 
                 updatedList5 = Arrays.toString(displayLine6);
                 x6 = String.valueOf((updatedList5));
-
-                JOptionPane.showMessageDialog(null, updatedList4 + "\nThe Living Room Lights has been set to: " + livingRoomLightMode);
                 break;
             }
             case "GARDEN": {
@@ -4045,7 +3861,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.allLights("ON"));
                 //User Settings
-                list.add(new Devices.allLights(String.valueOf(lightTemp.getLightTemp())));
+                list.add(new Devices.allLights(String.valueOf(gardenLightsInput)));
                 //Set list
                 allLights.setListLights(list);
 
@@ -4066,8 +3882,6 @@ public class TabConfig extends JFrame {
 
                 updatedList5 = list.toString();
                 x6 = String.valueOf((updatedList5));
-
-                JOptionPane.showMessageDialog(null, updatedList5 + "\nThe Living Room Lights has been set to: " + livingRoomLightMode);
                 break;
             }
         }
@@ -4133,9 +3947,6 @@ public class TabConfig extends JFrame {
 
                 updatedList1 = Arrays.toString(displayLine2);
                 x2 = String.valueOf((updatedList1));
-
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList + "\nThe Living Room Motion Sensor have been set to: " + livingRoomMotionSensorMode);
                 break;
             }
             case "MAIN BEDROOM": {
@@ -4150,7 +3961,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.airConditioner("ON"));
                 //User Settings
-                list.add(new Devices.airConditioner(String.valueOf(acTemp.getAcTemp())));
+                list.add(new Devices.airConditioner(String.valueOf(mainRoomAirConInput)));
                 //Set list
                 acList.setListAirCon(list);
 
@@ -4159,9 +3970,6 @@ public class TabConfig extends JFrame {
 
                 updatedList1 = list.toString();
                 x2 = String.valueOf((updatedList1));
-
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList1 + "\nThe Living Room Motion Sensor have been set to: " + livingRoomMotionSensorMode);
                 break;
             }
         }
@@ -4216,9 +4024,6 @@ public class TabConfig extends JFrame {
 
                 updatedList2 = Arrays.toString(displayLine3);
                 x3 = String.valueOf((updatedList2));
-
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList + "\nThe Living Room Motion Sensor have been set to: " + livingRoomMotionSensorMode);
                 break;
             }
             case "MAIN BEDROOM": {
@@ -4233,7 +4038,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.ceilingFan("ON"));
                 //User Settings
-                list.add(new Devices.ceilingFan(String.valueOf(ceilingFanTemp.getCeilingFanTemp())));
+                list.add(new Devices.ceilingFan(String.valueOf(mainRoomFanInput)));
                 //Set list
                 ceilingFanList.setListCeilingFan(list);
 
@@ -4245,9 +4050,6 @@ public class TabConfig extends JFrame {
 
                 updatedList2 = Arrays.toString(displayLine3);
                 x3 = String.valueOf((updatedList2));
-
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList1 + "\nThe Living Room Motion Sensor have been set to: " + livingRoomMotionSensorMode);
                 break;
             }
             case "SECOND BEDROOM": {
@@ -4262,7 +4064,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.ceilingFan("ON"));
                 //User Settings
-                list.add(new Devices.ceilingFan(String.valueOf(ceilingFanTemp.getCeilingFanTemp())));
+                list.add(new Devices.ceilingFan(String.valueOf(secondRoomFanInput)));
                 //Set list
                 ceilingFanList.setListCeilingFan(list);
 
@@ -4328,9 +4130,6 @@ public class TabConfig extends JFrame {
 
                 updatedList1 = Arrays.toString(displayLine2);
                 x2 = String.valueOf((updatedList1));
-
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList + "\nThe Living Room Motion Sensor have been set to: " + livingRoomMotionSensorMode);
                 break;
             }
             case "MAIN BEDROOM": {
@@ -4345,7 +4144,7 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.roomTv("ON"));
                 //User Settings
-                list.add(new Devices.roomTv(String.valueOf(tvTimer.getTvTimer())));
+                list.add(new Devices.roomTv(String.valueOf(mainRoomTvOffTime)));
                 //Set list
                 roomTv.setListRoomTv(list);
 
@@ -4354,9 +4153,6 @@ public class TabConfig extends JFrame {
 
                 updatedList1 = list.toString();
                 x2 = String.valueOf((updatedList1));
-
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList1 + "\nThe Living Room Motion Sensor have been set to: " + livingRoomMotionSensorMode);
                 break;
             }
         }
@@ -4385,7 +4181,7 @@ public class TabConfig extends JFrame {
     private void saveCar(String roomName) throws FileNotFoundException {
         //saves to user chosen room
         Devices tvTimer = new Devices();
-        tvTimer.setTvTimer(garageCarLightsInput);
+        tvTimer.setTvTimer(garageCarInput);
 
         //Add to a list to be called in sim
         switch (roomName) {
@@ -4410,9 +4206,6 @@ public class TabConfig extends JFrame {
 
                 updatedList1 = Arrays.toString(displayLine2);
                 x2 = String.valueOf((updatedList1));
-
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList + "\nThe Living Room Motion Sensor have been set to: " + livingRoomMotionSensorMode);
                 break;
             }
         }
@@ -4528,11 +4321,7 @@ public class TabConfig extends JFrame {
     }
 
     private void saveAlarm(String roomName) throws FileNotFoundException {
-        //saves to user chosen room
-        Devices alarmClockTemp = new Devices();
-        alarmClockTemp.setAlarmClockTemp(alarmClockTotal);
-
-        //saves smart choice
+                //saves smart choice
         Devices alarmClockSmart = new Devices();
         alarmClockSmart.setAlarmClockSmart(smartAlarmInput);
 
@@ -4550,7 +4339,9 @@ public class TabConfig extends JFrame {
                 //Calibration
                 list.add(new Devices.roomAlarmClock("ON"));
                 //User Settings
-                list.add(new Devices.roomAlarmClock(String.valueOf(alarmClockTemp.getAlarmClockTemp())));
+                list.add(new Devices.roomAlarmClock(String.valueOf(mainBedroomAlarmInput)));
+                //User Settings
+                list.add(new Devices.roomAlarmClock(String.valueOf(mainBedroomAlarmMinInput)));
                 //Smart Settings
                 list.add(new Devices.roomAlarmClock(String.valueOf(alarmClockSmart.getAlarmClockSmart())));
                 //Set list
@@ -4558,37 +4349,6 @@ public class TabConfig extends JFrame {
 
                 updatedList = list.toString();
                 x1 = String.valueOf((updatedList));
-
-                updatedList1 = Arrays.toString(displayLine2);
-                x2 = String.valueOf((updatedList1));
-
-                //Display The Change
-                JOptionPane.showMessageDialog(null, updatedList1 + "\nThe Living Room Motion Sensor have been set to: " + livingRoomMotionSensorMode);
-                break;
-            }
-            case "SECOND BEDROOM": {
-                Devices location = new Devices();
-                location.setLocation("SECOND BEDROOM");
-                Devices roomAlarmClock = new Devices();
-                List<Devices.roomAlarmClock> list = new ArrayList<>();
-                //Location
-                list.add(new Devices.roomAlarmClock(Devices.getLocation()));
-                //Device
-                list.add(new Devices.roomAlarmClock("Alarm Clock"));
-                //Calibration
-                list.add(new Devices.roomAlarmClock("ON"));
-                //User Settings
-                list.add(new Devices.roomAlarmClock(String.valueOf(alarmClockTemp.getAlarmClockTemp())));
-                //Smart Settings
-                list.add(new Devices.roomAlarmClock(String.valueOf(alarmClockSmart.getAlarmClockSmart())));
-                //Set list
-                roomAlarmClock.setListRoomAlarmClock(list);
-
-                updatedList = Arrays.toString(displayLine1);
-                x1 = String.valueOf((updatedList));
-
-                updatedList1 = list.toString();
-                x2 = String.valueOf((updatedList1));
                 break;
             }
         }
@@ -4601,9 +4361,6 @@ public class TabConfig extends JFrame {
         StringBuilder sb = new StringBuilder();
         //x1 = insert full updated list here
         sb.append(x1).append("\n");
-        sb.append(System.lineSeparator());
-        //x2 = insert full updated list here
-        sb.append(x2).append("\n");
 
         try {
             Files.write(Paths.get("ConfigFiles/alarmClockConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);

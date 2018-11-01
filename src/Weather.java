@@ -248,7 +248,6 @@ class Weather {
                 }
                 break;
         }
-        System.out.println("\n" + temperature + " Temp Set.");
         return temperature;
     }
 
@@ -279,7 +278,7 @@ class Weather {
                     tempChange += 0.0166666666666667;
                 } else if (Simulator.time.getHour() > 11.99 && Simulator.time.getHour() < 12.99) {
                     //0 degree between 12 - 1pm
-                    tempChange = 0;
+                    tempChange += 0;
                 } else if (Simulator.time.getHour() > 12.99 && Simulator.time.getHour() < 13.99) {
                     //1 degree decrease between 1 - 2pm
                     tempChange -= 0.0166666666666667;
@@ -354,7 +353,7 @@ class Weather {
                     tempChange += 0.0166666666666667;
                 } else if (Simulator.time.getHour() > 11.99 && Simulator.time.getHour() < 12.99) {
                     //0 degree between 12 - 1pm
-                    tempChange = 0;
+                    tempChange += 0;
                 } else if (Simulator.time.getHour() > 12.99 && Simulator.time.getHour() < 13.99) {
                     //1 degree decrease between 1 - 2pm
                     tempChange -= 0.0166666666666667;
@@ -375,7 +374,7 @@ class Weather {
                     tempChange -= 0.0166666666666667;
                 } else if (Simulator.time.getHour() > 18.99 && Simulator.time.getHour() < 20.99) {
                     //0 degree between 7 - 8pm && 8 - 9am
-                    tempChange = 0;
+                    tempChange += 0;
                 } else if (Simulator.time.getHour() > 20.99 && Simulator.time.getHour() < 21.99) {
                     //1 degree decrease between 9 - 10pm
                     tempChange -= 0.0166666666666667;
@@ -423,7 +422,7 @@ class Weather {
                     tempChange += 0.0166666666666667;
                 } else if (Simulator.time.getHour() > 11.99 && Simulator.time.getHour() < 12.99) {
                     //0 degree between 12 - 1pm
-                    tempChange = 0;
+                    tempChange += 0;
                 } else if (Simulator.time.getHour() > 12.99 && Simulator.time.getHour() < 13.99) {
                     //1 degree decrease between 1 - 2pm
                     tempChange -= 0.0166666666666667;
@@ -432,7 +431,7 @@ class Weather {
                     tempChange -= 0.0166666666666667;
                 } else if (Simulator.time.getHour() > 14.99 && Simulator.time.getHour() < 15.99) {
                     //0 degree between 3 - 4pm
-                    tempChange = 0;
+                    tempChange -= 0;
                 } else if (Simulator.time.getHour() > 15.99 && Simulator.time.getHour() < 16.99) {
                     //1 degree decrease between 4 - 5pm
                     tempChange -= 0.0166666666666667;
@@ -441,7 +440,7 @@ class Weather {
                     tempChange -= 0.0166666666666667;
                 } else if (Simulator.time.getHour() > 17.99 && Simulator.time.getHour() < 19.99) {
                     //0 degree between 6 - 7pm & 7 - 8pm
-                    tempChange = 0;
+                    tempChange -= 0;
                 } else if (Simulator.time.getHour() > 19.99 && Simulator.time.getHour() < 20.99) {
                     //1 degree decrease between 8 - 9pm
                     tempChange -= 0.0166666666666667;
@@ -459,7 +458,7 @@ class Weather {
                     tempChange -= 0.0166666666666667;
                 } else if (Simulator.time.getHour() > 24.99 && Simulator.time.getHour() < 25.99) {
                     //0 degree between 1 - 2am
-                    tempChange = 0;
+                    tempChange -= 0;
                 } else if (Simulator.time.getHour() > 25.99 && Simulator.time.getHour() < 26.99) {
                     //1 degree decrease between 2 - 3am
                     tempChange -= 0.0166666666666667;
@@ -472,7 +471,6 @@ class Weather {
                 System.out.println("dynamic temp failed...");
                 break;
         }
-        System.out.println("\n" + tempChange + " Temp Change");
         return tempChange;
     }
 }

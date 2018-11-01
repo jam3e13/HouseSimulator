@@ -13,22 +13,26 @@ import java.math.BigDecimal;
 class Simulator extends JFrame {
     private static final LocalTime SIM_START_TIME = LocalTime.parse("05:00");
     public static LocalTime time = SIM_START_TIME;
+    private static final LocalTime ALARM_TIME = LocalTime.parse("00:00");
+    public static LocalTime alarm = ALARM_TIME;
+    private static final LocalTime ALARM_SOUND = LocalTime.parse("00:00");
+    public static LocalTime alarmSound = ALARM_SOUND;
     public static String travelToDisplay;
     static double inDoorTempSetter;
     public static double temperature, tempChange, inDoorTemp, lightOn, lightOn2, sunLight, sunLightValue, sunLightChange, livingRTemp;
     public static double mainRTemp, morningTotal, lunchTotal, dinnerTotal;
     public static double secondRTemp, kitchenTemp, garageTemp;
     public static double lightEnergyUsed, acEnergyUsed, mainRoomAcEnergy, mainRoomLightEnergy, livingRoomLightEnergy, livingRoomAcEnergy, secondRoomLightEnergy, kitchenLightEnergy, garageLightEnergy, gardenLightEnergy, mainBedroomTotalEnergy, secondBedroomTotalEnergy, livingRoomTotalEnergy, kitchenTotalEnergy, garageTotalEnergy, gardenTotalEnergy;
-    static double gardenTemp, fullClock = time.getHour() + time.getMinute();
+    static double gardenTemp;
     public static String data, morningMode, lunchMode, dinnerMode, ovenDisplay, tvDisplay, coffeeDisplay, kettleDisplay, carDisplay, alarmDisplay, sprinklerDisplay, garageDoorDisplay, acDisplay, lightDisplay, fanDisplay;
-    private static boolean mainRoomTvON, livingRoomTvON, kettleBoiled, behaviour1, behaviour2, behaviour3, mainRoomAC, livingRoomAc, carRunning, morningBoolean, lunchBoolean, dinnerBoolean, alarmSound, makeMainBedroomCoffee, makeSecondBedroomCoffee, alarmCoffee;
-    public static boolean secondRoomCeilingFan, mainRoomCeilingFan, livingRoomCeilingFan, livingRoomLights, mainRoomLights, kitchenLights, secondRoomLights, garageLights, gardenLights, gardenSprinkler;
+    public static boolean mainRoomTvON, livingRoomTvON, kettleBoiled, behaviour1, behaviour2, behaviour3, mainRoomAC, livingRoomAc, carRunning, morningBoolean, lunchBoolean, dinnerBoolean, makeMainBedroomCoffee, makeSecondBedroomCoffee, alarmCoffee;
+    public static boolean secondRoomCeilingFan, mainRoomCeilingFan, livingRoomCeilingFan, livingRoomLights, mainRoomLights, kitchenLights, secondRoomLights, garageLights, gardenLights, gardenSprinkler, mainBedroomAlarmSound, secondBedroomAlarmSound;
     private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5;
-    private static int ceilingFanSpeed, x, garageDoorCloseSequence = 0;
+    public static int ceilingFanSpeed, x, garageDoorCloseSequence = 0;
     private static int morningChoice, lunchChoice, dinnerChoice;
     public static double sprinklerWaterUsage, sprinklerEnergyUsage, waterUsage, totalWater, powerUsage, powerUsageCost, fanSpeedEnergy, livingRoomFanEnergy, mainRoomFanEnergy, secondRoomFanEnergy, gardenSprinklerEnergy, ovenEnergy, morningOvenEnergy, lunchOvenEnergy, dinnerOvenEnergy, totalOvenEnergy, dinnerOnFor, morningOnFor, lunchOnFor, tvEnergyFromSize, tvLivingRoomEnergyFromSize;
-    public static double livingRoomTvOEnergy, mainRoomTvEnergy, kettleEnergyUsed, kettleEnergy, coffeeMachineEnergy, coffeeMachineEnergyUsage;
-    public static int lightsInRoom, sprinklerPressure;
+    public static double alarmTotal, timeDouble, alarmClockTotal, livingRoomTvOEnergy, mainRoomTvEnergy, kettleEnergyUsed, kettleEnergy, coffeeMachineEnergy, coffeeMachineEnergyUsage, mainRoomAlarmEnergy, secondRoomAlarmEnergy, alarmClockEnergyUsage, alarmHourSensor, alarmMinuteSensor;
+    public static int lightsInRoom, sprinklerPressure, alarmHour, alarmMinute;
     static String travelTo = "";
     static GUI gui;
 
@@ -61,7 +65,7 @@ class Simulator extends JFrame {
                     fixTempChange();
                     fixSunChange();
 
-                    //Formats doubles correctly
+                    //Formats doubles correctly for temp and light
                     BigDecimal.valueOf(temperature += tempChange);
                     BigDecimal.valueOf(sunLight += sunLightChange);
 
@@ -70,17 +74,20 @@ class Simulator extends JFrame {
                     //Gets the power usage from each room and its devices
                     powerUsage = getPowerUsage();
 
-                    //TODO make the sun light increase and decrease show right values
-                    //TODO add power figures to each device
-
                     //Sets temperature for each room
-                    livingRTemp = Devices.livingRoomTemp();
-                    mainRTemp = Devices.roomTemp();
-                    secondRTemp = Devices.roomTemp();
-                    kitchenTemp = Devices.livingRoomTemp();
-                    garageTemp = Devices.garageTemp();
-                    gardenTemp = Devices.gardenTemps();
+                    Devices.livingRoomTemp();
+                    Devices.roomTemp();
+                    Devices.garageTemp();
+                    Devices.gardenTemps();
 
+                    livingRTemp = Devices.tempLivingRoom;
+                    mainRTemp = Devices.tempMainRoom;
+                    secondRTemp = Devices.tempMainRoom;
+                    kitchenTemp = Devices.tempLivingRoom;
+                    garageTemp = Devices.tempGarage;
+                    gardenTemp = Devices.tempGarden;
+
+                    //Fixtures
                     //Gets the Weather for sim
                     Menu.weatherType = dynamicWeather();
                     //Finds where the Person is for sim
@@ -88,26 +95,50 @@ class Simulator extends JFrame {
                     //Turns on lights for user inputs/sensors
                     lightDisplay = dynamicLights();
                     //Turns on AC for user inputs/sensors
-                    acDisplay = dynamicAC();
+                    acDisplay = dynamicAC(); //Powered by - AC
                     //Turns on Ceiling Fan for user inputs/sensors
-                    fanDisplay = dynamicCeilingFan();
+                    fanDisplay = dynamicCeilingFan(); //Powered by - AC
                     //Turns on Garage for user inputs/sensors
-                    garageDoorDisplay = dynamicGarageDoor();
+                    garageDoorDisplay = dynamicGarageDoor(); //Powered by - Batteries
                     //Turns on Sprinklers for user inputs/sensors
-                    sprinklerDisplay = dynamicSprinkler();
+                    sprinklerDisplay = dynamicSprinkler(); //Powered by - AC
 
+                    //Appliances
                     //Behaviour change for Alarm Clock
-                    acDisplay = dynamicAlarm();
+                    alarmDisplay = dynamicAlarm(); //Powered by - AC
+
+                    if (alarmHour < 9 && alarmMinute > 10) {
+                        alarm = LocalTime.parse("0" + (String.valueOf(alarmHour) + ":" + (String.valueOf(alarmMinute))));
+                    } else if (alarmHour < 9 && alarmMinute < 10) {
+                        alarm = LocalTime.parse("0" + (String.valueOf(alarmHour) + ":" + "0" + (String.valueOf(alarmMinute))));
+                    } else if (alarmHour > 9 && alarmMinute > 10) {
+                        alarm = LocalTime.parse((String.valueOf(alarmHour) + ":" + (String.valueOf(alarmMinute))));
+                    } else if (alarmHour > 9 && alarmMinute < 10) {
+                        alarm = LocalTime.parse((String.valueOf(alarmHour) + ":"  + "0" + (String.valueOf(alarmMinute))));
+                    }
+
+                    if (alarmHour < 9) {
+                        alarmSound = LocalTime.parse("0" + (String.valueOf(alarmHour) + ":" +(String.valueOf(alarmMinute + 10))));
+                    } else if (alarmHour > 9) {
+                        alarmSound = LocalTime.parse((String.valueOf(alarmHour) + ":" + (String.valueOf(alarmMinute + 10))));
+                    }
+
+                    System.out.println(mainBedroomAlarmSound);
+                    System.out.println(alarm);
+                    System.out.println(alarmSound);
+
                     //Behaviour change for Car
-                    carDisplay = dynamicCar();
+                    carDisplay = dynamicCar(); //Powered by - Batteries
                     //Behaviour change for Oven
-                    ovenDisplay = dynamicOven();
+                    ovenDisplay = dynamicOven(); //Powered by - AC
                     //Behaviour change for Tv
-                    tvDisplay = dynamicTv();
+                    tvDisplay = dynamicTv(); //Powered by - AC
                     //Behaviour change for Kettle
-                    kettleDisplay = dynamicKettle();
+                    kettleDisplay = dynamicKettle(); //Powered by - AC
                     //Behaviour change for Coffee Machine
-                    coffeeDisplay = dynamicCoffeeMachine();
+                    coffeeDisplay = dynamicCoffeeMachine(); //Powered by - AC
+
+                    //Update
                     //Updates string to say what room person is in and change location
                     travelTo = dynamicTravel();
                     //Updates GUI
@@ -116,12 +147,15 @@ class Simulator extends JFrame {
                     gui.updateRoomLocation();
                     //Updates Room temperatures
                     gui.updateRoomTemp();
+                    //Updates to show active devices in room by color
+                    gui.updateRoomDeviceStickers();
                     //Updates room devices behaviour status changes
                     gui.updateRoomStatus();
                     //Display for System.out
                     halfHourlyDisplay();
                 }
             });
+            //Start timer
             timer.start();
             //Loop finish once 24 Hours has passed.
         } while (!(time == SIM_START_TIME));
@@ -129,7 +163,7 @@ class Simulator extends JFrame {
 
     private static double getPowerUsage() {
         //MAIN BEDROOM
-        mainBedroomTotalEnergy = mainRoomLightEnergy + mainRoomAcEnergy + mainRoomFanEnergy + mainRoomTvEnergy;
+        mainBedroomTotalEnergy = mainRoomLightEnergy + mainRoomAcEnergy + mainRoomFanEnergy + mainRoomTvEnergy + mainRoomAlarmEnergy;
         //SECOND BEDROOM
         secondBedroomTotalEnergy = secondRoomLightEnergy + secondRoomFanEnergy;
         //LIVING ROOM
@@ -142,7 +176,7 @@ class Simulator extends JFrame {
         gardenTotalEnergy = gardenLightEnergy + gardenSprinklerEnergy;
 
         powerUsage = mainBedroomTotalEnergy + secondBedroomTotalEnergy + livingRoomTotalEnergy + kitchenTotalEnergy + garageTotalEnergy + gardenTotalEnergy;
-        powerUsageCost = powerUsage * 0.10;
+        powerUsageCost = powerUsage * 0.00048; //1Kw = $0.46
         return powerUsage;
     }
 
@@ -334,6 +368,7 @@ class Simulator extends JFrame {
 
     private static String dynamicAC() {
         inDoorTempSetter = temperature;
+        acDisplay = "EMPTY";
         DecimalFormat decimalFormat = new DecimalFormat("#");
 
         //Change file name to be more specific for method
@@ -372,7 +407,7 @@ class Simulator extends JFrame {
                     displayLine1 = data.split(", ");
                     acTemp = 0;
                     values[3] = String.valueOf(acTemp);
-                    //Re-format user inputs to act as a refresher
+                    acDisplay = "EMPTY";
                 }
 
                 //LIVING ROOM - ON
@@ -400,7 +435,7 @@ class Simulator extends JFrame {
                     displayLine2 = data.split(", ");
                     acTemp2 = 0;
                     values[3] = String.valueOf(acTemp2);
-                    //Re-format user inputs to act as a refresher
+                    acDisplay = "EMPTY";
                 }
             }
 
@@ -440,85 +475,69 @@ class Simulator extends JFrame {
     }
 
     private static String dynamicMotionSensors() {
-        if (time.getHour() > 21) {
+        if (time.getHour() < 21) {
             travelTo = "MAIN BEDROOM";
-        } else if (TabConfig.alarmClockTotal < fullClock) {
-            //Person wakes up
-            Random rand = new Random();
-            //5% chance for Person to enter a new Room every minute
-            int n = rand.nextInt(100) + 1;
+        }
 
-            if (n > 95) {
-                //1 : 6 chance for Room to enter a different room
-                x = rand.nextInt(6) + 1;
-            } else if (n < 5) {
-                x = 0;
-                //Main Bedroom is the main Starting and ending room for the simulation.
-                travelTo = "MAIN BEDROOM";
+        String fileAlarmClock = "ConfigFiles/alarmClockConfig.txt";
+        File file11 = new File(fileAlarmClock);
+        try {
+            Scanner inputStream = new Scanner(file11);
+            while (inputStream.hasNext()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
+                    alarmHourSensor = Double.parseDouble(values[3]);
+                    alarmMinuteSensor = Double.parseDouble(values[4]);
+
+                } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
+                    alarmClockTotal = 4.59;
+                }
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
-            if (x == 1) {
-                //Person enters Main Bedroom
-                travelTo = "MAIN BEDROOM";
+        if (alarmHourSensor < time.getHour()) {
+            if (alarmMinuteSensor < time.getMinute()) {
+                //Person wakes up
+                Random rand = new Random();
+                //5% chance for Person to enter a new Room every minute
+                int n = rand.nextInt(100) + 1;
 
-            } else if (x == 2) {
-                //Person enters Living Room
-                travelTo = "LIVING ROOM";
+                if (n > 95) {
+                    //1 : 6 chance for Room to enter a different room
+                    x = rand.nextInt(6) + 1;
+                } else if (n < 5) {
+                    x = 0;
+                    //Main Bedroom is the main Starting and ending room for the simulation.
+                    travelTo = "MAIN BEDROOM";
+                }
 
-            } else if (x == 3) {
-                //Person enters Second Bedroom
-                travelTo = "SECOND BEDROOM";
+                if (x == 1) {
+                    //Person enters Main Bedroom
+                    travelTo = "MAIN BEDROOM";
 
-            } else if (x == 4) {
-                //Person enters Kitchen
-                travelTo = "KITCHEN";
+                } else if (x == 2) {
+                    //Person enters Living Room
+                    travelTo = "LIVING ROOM";
 
-            } else if (x == 5) {
-                //Person enters Garage
-                travelTo = "GARAGE";
+                } else if (x == 3) {
+                    //Person enters Second Bedroom
+                    travelTo = "SECOND BEDROOM";
 
-            } else if (x == 6) {
-                //Person enters Garden
-                travelTo = "GARDEN";
-            }
-        } else if (TabConfig.alarmClockTotal < fullClock) {
-            //Person wakes up
-            Random rand = new Random();
-            //5% chance for Person to enter a new Room every minute
-            int n = rand.nextInt(100) + 1;
+                } else if (x == 4) {
+                    //Person enters Kitchen
+                    travelTo = "KITCHEN";
 
-            if (n > 95) {
-                //1 : 6 chance for Room to enter a different room
-                x = rand.nextInt(6) + 1;
-            } else if (n < 5) {
-                x = 0;
-                //Main Bedroom is the main Starting and ending room for the simulation.
-                travelTo = "MAIN BEDROOM";
-            }
+                } else if (x == 5) {
+                    //Person enters Garage
+                    travelTo = "GARAGE";
 
-            if (x == 1) {
-                //Person enters Main Bedroom
-                travelTo = "MAIN BEDROOM";
-
-            } else if (x == 2) {
-                //Person enters Living Room
-                travelTo = "LIVING ROOM";
-
-            } else if (x == 3) {
-                //Person enters Second Bedroom
-                travelTo = "SECOND BEDROOM";
-
-            } else if (x == 4) {
-                //Person enters Kitchen
-                travelTo = "KITCHEN";
-
-            } else if (x == 5) {
-                //Person enters Garage
-                travelTo = "GARAGE";
-
-            } else if (x == 6) {
-                //Person enters Garden
-                travelTo = "GARDEN";
+                } else if (x == 6) {
+                    //Person enters Garden
+                    travelTo = "GARDEN";
+                }
             }
         }
         return travelTo;
@@ -658,8 +677,7 @@ class Simulator extends JFrame {
                     }
 
                     if (mainRoomLights) {
-                        mainRoomLightEnergy = (lightEnergyUsed * lightsInRoom) / 60;
-                        mainRoomLightEnergy++;
+                        mainRoomLightEnergy += (lightEnergyUsed * lightsInRoom) / 60;
                     }
 
 
@@ -717,8 +735,7 @@ class Simulator extends JFrame {
                     }
 
                     if (livingRoomLights) {
-                        livingRoomLightEnergy = (lightEnergyUsed * lightsInRoom) / 60;
-                        livingRoomLightEnergy++;
+                        livingRoomLightEnergy += (lightEnergyUsed * lightsInRoom) / 60;
                     }
 
                     //LIVING ROOM - OFF
@@ -774,8 +791,7 @@ class Simulator extends JFrame {
                     }
 
                     if (secondRoomLights) {
-                        secondRoomLightEnergy = (lightEnergyUsed * lightsInRoom) / 60;
-                        secondRoomLightEnergy++;
+                        secondRoomLightEnergy += (lightEnergyUsed * lightsInRoom) / 60;
                     }
 
                     //SECOND BEDROOM - OFF
@@ -831,8 +847,7 @@ class Simulator extends JFrame {
                     }
 
                     if (kitchenLights) {
-                        kitchenLightEnergy = (lightEnergyUsed * lightsInRoom) / 60;
-                        kitchenLightEnergy++;
+                        kitchenLightEnergy += (lightEnergyUsed * lightsInRoom) / 60;
                     }
 
                     //KITCHEN - OFF
@@ -887,8 +902,7 @@ class Simulator extends JFrame {
                     }
 
                     if (garageLights) {
-                        garageLightEnergy = (lightEnergyUsed * lightsInRoom) / 60;
-                        garageLightEnergy++;
+                        garageLightEnergy += (lightEnergyUsed * lightsInRoom) / 60;
                     }
 
                     //GARAGE - OFF
@@ -953,8 +967,7 @@ class Simulator extends JFrame {
                     lightDisplay = "EMPTY";
                 }
                 if (garageLights) {
-                    gardenLightEnergy = (lightEnergyUsed * lightsInRoom) / 60;
-                    gardenLightEnergy++;
+                    gardenLightEnergy += (lightEnergyUsed * lightsInRoom) / 60;
                 }
             }
 
@@ -1230,18 +1243,15 @@ class Simulator extends JFrame {
             }
 
             if (livingRoomCeilingFan) {
-                livingRoomFanEnergy = fanSpeedEnergy  / 60;
-                livingRoomFanEnergy++;
+                livingRoomFanEnergy += fanSpeedEnergy / 60;
             }
 
             if (mainRoomCeilingFan) {
-                mainRoomFanEnergy = fanSpeedEnergy / 60;
-                mainRoomFanEnergy++;
+                mainRoomFanEnergy += fanSpeedEnergy / 60;
             }
 
             if (secondRoomCeilingFan) {
-                secondRoomFanEnergy = fanSpeedEnergy / 60;
-                secondRoomFanEnergy++;
+                secondRoomFanEnergy += fanSpeedEnergy / 60;
             }
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
@@ -1320,6 +1330,7 @@ class Simulator extends JFrame {
                     displayLine4 = data.split(", ");
                     garageDoorList = 0;
                     values[3] = String.valueOf(garageDoorList);
+                    garageDoorDisplay = "EMPTY";
                 }
 
             }
@@ -1516,8 +1527,7 @@ class Simulator extends JFrame {
             }
 
             if (gardenSprinkler) {
-                gardenSprinklerEnergy = (sprinklerEnergyUsage * sprinklerPressure) / 60;
-                gardenSprinklerEnergy++;
+                gardenSprinklerEnergy += (sprinklerEnergyUsage * sprinklerPressure) / 60;
             }
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
@@ -1527,6 +1537,8 @@ class Simulator extends JFrame {
     }
 
     private static String dynamicAlarm() {
+        alarmClockEnergyUsage = 0.08333333; //5 watts per hour
+        alarmDisplay = "EMPTY";
         String fileName = "ConfigFiles\\alarmClockConfig.txt";
         File file = new File(fileName);
         try {
@@ -1538,18 +1550,20 @@ class Simulator extends JFrame {
                 values = data.split(",");
 
                 //MAIN BEDROOM - ON
-                double alarmTime;
                 String alarmBehaviour;
                 if (values[0].equals("MAIN BEDROOM") && values[2].equals("ON")) {
                     displayLine4 = data.split(", ");
-                    alarmTime = Double.parseDouble(values[3]);
-                    alarmBehaviour = values[4];
+                    alarmHour = Integer.parseInt((values[3]));
+                    alarmMinute = Integer.parseInt((values[4]));
+                    alarmBehaviour = values[5];
 
-                    if (alarmTime < fullClock && !alarmSound) {
+                    if (ALARM_TIME.equals(time)) {
+                        System.out.println("Alarm!");
                         alarmDisplay = "Alarm has Turned ON!";
-                        alarmSound = true;
-                    } else if (time.getHour() == 4) {
-                        alarmSound = false;
+                        mainBedroomAlarmSound = true;
+
+                    } else if (ALARM_SOUND.equals(time)) {
+                        mainBedroomAlarmSound = false;
                     }
 
                     if (alarmBehaviour.equals("1")) {
@@ -1564,32 +1578,11 @@ class Simulator extends JFrame {
                     //MAIN BEDROOM - OFF
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     displayLine4 = data.split(", ");
+                    alarmDisplay = "EMPTY";
 
-                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                    displayLine4 = data.split(", ");
-                    alarmTime = Double.parseDouble(values[3]);
-                    alarmBehaviour = values[4];
-
-                    if (alarmTime < fullClock && !alarmSound) {
-                        alarmDisplay = "Alarm has Turned ON!";
-                        alarmSound = true;
-                    } else if (time.getHour() == 4) {
-                        alarmSound = false;
-                    }
-
-                    if (alarmBehaviour.equals("1")) {
-                        //Morning Coffee always
-                        makeSecondBedroomCoffee = true;
-                    } else if (alarmBehaviour.equals("2")) {
-                        //Morning Coffee never
-                        makeSecondBedroomCoffee = false;
-                    }
-
-                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                    displayLine4 = data.split(", ");
                 }
+                mainRoomAlarmEnergy += alarmClockEnergyUsage / 60;
             }
-
         } catch (Exception ignored) {
 
         }
@@ -1657,7 +1650,7 @@ class Simulator extends JFrame {
                     //GARAGE - OFF
                 } else if (values[0].equals("GARAGE") && values[2].equals("OFF")) {
                     displayLine5 = data.split(", ");
-                    //Re-format user inputs to act as a refresher
+                    carDisplay = "EMPTY";
                 }
             }
 
@@ -1696,7 +1689,7 @@ class Simulator extends JFrame {
                         alarmCoffee = false;
                     }
                     coffeeBehaviour = values[3];
-
+/*
                     if (coffeeBehaviour.equals("1") && !alarmCoffee) {
                         //Coffee Addiction
                         if (time.getHour() < 7 && !behaviour1) {
@@ -1734,22 +1727,20 @@ class Simulator extends JFrame {
                             behaviour3 = false;
                         }
                     }
-
+*/
                     //KITCHEN - OFF
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
                     displayLine1 = data.split(", ");
+                    coffeeDisplay = "EMPTY";
                 }
             }
 
             if (behaviour1) {
-                coffeeMachineEnergy = coffeeMachineEnergyUsage / 60;
-                coffeeMachineEnergy++;
+                coffeeMachineEnergy += coffeeMachineEnergyUsage / 60;
             } else if (behaviour2) {
-                coffeeMachineEnergy = coffeeMachineEnergyUsage / 60;
-                coffeeMachineEnergy++;
+                coffeeMachineEnergy += coffeeMachineEnergyUsage / 60;
             } else if (behaviour3) {
-                coffeeMachineEnergy = coffeeMachineEnergyUsage / 60;
-                coffeeMachineEnergy++;
+                coffeeMachineEnergy += coffeeMachineEnergyUsage / 60;
             }
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
@@ -1795,12 +1786,12 @@ class Simulator extends JFrame {
                     //KITCHEN - OFF
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
                     displayLine1 = data.split(", ");
+                    kettleDisplay = "EMPTY";
                 }
             }
 
             if (kettleBoiled) {
-                kettleEnergy = kettleEnergyUsed / 60;
-                kettleEnergy++;
+                kettleEnergy += kettleEnergyUsed / 60;
             }
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
@@ -1826,6 +1817,8 @@ class Simulator extends JFrame {
                     displayLine5 = data.split(", ");
                     tvOffTime = Double.parseDouble(values[3]);
 
+                    //TODO Fix fullClock instances
+                    /*
                     if (fullClock < 7.30 && travelTo.equals("LIVING ROOM") && !livingRoomTvON) {
                         tvDisplay = "TV has Turned ON in LIVING ROOM!";
                         livingRoomTvON = true;
@@ -1836,11 +1829,14 @@ class Simulator extends JFrame {
                         tvDisplay = "TV has Turned OFF in LIVING ROOM!";
                         livingRoomTvON = false;
                     }
+                    */
 
                     //LIVING ROOM - OFF
                 } else if (values[0].equals("LIVING ROOM") && values[2].equals("OFF")) {
                     tvLivingRoomEnergyFromSize = 0;
                     displayLine5 = data.split(", ");
+
+                    tvDisplay = "EMPTY";
                 }
 
                 //MAIN BEDROOM - ON
@@ -1848,7 +1844,7 @@ class Simulator extends JFrame {
                     tvEnergyFromSize = 300;
                     displayLine5 = data.split(", ");
                     tvOffTime = Double.parseDouble(values[3]);
-
+/*
                     if (fullClock < 7.30 && travelTo.equals("LIVING ROOM") && !mainRoomTvON) {
                         tvDisplay = "TV has Turned ON in LIVING ROOM!";
                         mainRoomTvON = true;
@@ -1859,22 +1855,22 @@ class Simulator extends JFrame {
                         tvDisplay = "TV has Turned OFF in LIVING ROOM!";
                         mainRoomTvON = false;
                     }
-
+*/
                     //MAIN BEDROOM - OFF
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     tvEnergyFromSize = 0;
                     displayLine5 = data.split(", ");
+
+                    tvDisplay = "EMPTY";
                 }
             }
 
             if (livingRoomTvON) {
-                livingRoomTvOEnergy = tvLivingRoomEnergyFromSize / 60;
-                livingRoomTvOEnergy++;
+                livingRoomTvOEnergy += tvLivingRoomEnergyFromSize / 60;
             }
 
             if (mainRoomTvON) {
-                mainRoomTvEnergy = tvEnergyFromSize / 60;
-                mainRoomTvEnergy++;
+                mainRoomTvEnergy += tvEnergyFromSize / 60;
             }
 
         } catch (FileNotFoundException | NumberFormatException ignored) {
@@ -1913,7 +1909,7 @@ class Simulator extends JFrame {
                         morningMode = "Eggs and Bacon";
                         morningOnFor = 0.3;
                     }
-
+/*
                     if (morningAlarm < fullClock && !morningBoolean) {
                         ovenDisplay = ("The Oven has Turned ON Your " + morningMode + " are/is Cooking!");
                         morningBoolean = true;
@@ -1924,7 +1920,7 @@ class Simulator extends JFrame {
                         morningBoolean = false;
                         ovenDisplay = ("The Oven has Turned OFF Your " + morningMode + " are/is Ready!");
                     }
-
+*/
                     lunchAlarm = Double.parseDouble(values[5]);
                     lunchChoice = Integer.parseInt(values[6]); // 1, 2, 3.
 
@@ -1938,7 +1934,7 @@ class Simulator extends JFrame {
                         lunchMode = "Chicken and Rice Salad";
                         lunchOnFor = 1.2;
                     }
-
+/*
                     if (lunchAlarm < fullClock && !lunchBoolean) {
                         ovenDisplay = ("The Oven has Turned ON Your " + lunchMode + " are/is Cooking!");
                         lunchBoolean = true;
@@ -1949,7 +1945,7 @@ class Simulator extends JFrame {
                         lunchBoolean = false;
                         ovenDisplay = ("The Oven has Turned OFF Your " + lunchMode + " are/is Ready!");
                     }
-
+*/
                     dinnerAlarm = Double.parseDouble(values[7]);
                     dinnerChoice = Integer.parseInt(values[8]); // 1, 2, 3.
 
@@ -1964,7 +1960,7 @@ class Simulator extends JFrame {
                         dinnerOnFor = 0.5;
                     }
 
-
+/*
                     if (dinnerAlarm < fullClock && !dinnerBoolean) {
                         ovenDisplay = ("The Oven has Turned ON Your " + dinnerMode + " are/is Cooking!");
                         dinnerBoolean = true;
@@ -1975,28 +1971,25 @@ class Simulator extends JFrame {
                         dinnerBoolean = false;
                         ovenDisplay = ("The Oven has Turned OFF Your " + dinnerMode + " are/is Ready!");
                     }
-
+*/
 
                     //KITCHEN - OFF
                 } else if (values[0].equals("KITCHEN") && values[2].equals("OFF")) {
                     displayLine1 = data.split(", ");
-                    //Re-format user inputs to act as a refresher
+                    ovenDisplay = "EMPTY";
                 }
             }
 
             if (morningBoolean) { //Energy used when cooking in the morning
-                morningOvenEnergy = (ovenEnergy * morningOnFor) / 60;
-                morningOvenEnergy++;
+                morningOvenEnergy += (ovenEnergy * morningOnFor) / 60;
             }
 
             if (lunchBoolean) { //Energy used when cooking in the afternoon
-                lunchOvenEnergy = (ovenEnergy * lunchOnFor) / 60;
-                lunchOvenEnergy++;
+                lunchOvenEnergy += (ovenEnergy * lunchOnFor) / 60;
             }
 
             if (dinnerBoolean) { //Energy used when cooking in the evening
-                dinnerOvenEnergy = (ovenEnergy * dinnerOnFor) / 60;
-                dinnerOvenEnergy++;
+                dinnerOvenEnergy += (ovenEnergy * dinnerOnFor) / 60;
             }
 
             totalOvenEnergy = morningOvenEnergy + lunchOvenEnergy + dinnerOvenEnergy;

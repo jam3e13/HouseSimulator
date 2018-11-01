@@ -1,4 +1,4 @@
-LIVING ROOM,Ceiling Fan,OFF,0
+LIVING ROOM,Ceiling Fan,ON,24
 
 MAIN BEDROOM,Ceiling Fan,OFF,0
 

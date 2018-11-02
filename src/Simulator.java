@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
@@ -17,7 +15,6 @@ class Simulator extends JFrame {
     public static LocalTime alarm = ALARM_TIME;
     public static final LocalTime ALARM_SOUND = LocalTime.parse("00:00");
     public static LocalTime alarmSound = ALARM_SOUND;
-
     public static String travelToDisplay;
     static double inDoorTempSetter;
     public static double temperature, tempChange, inDoorTemp, lightOn, lightOn2, sunLight, sunLightValue, sunLightChange, livingRTemp;

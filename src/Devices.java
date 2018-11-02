@@ -10,14 +10,14 @@ public class Devices {
     private int garageTemp;
     private int lightTemp;
     private int motionSensorTemp;
-    private int carTemp, tvTemp;
+    private int carTemp;
     private int kettleTemp, kitchenOvenOptionMorning, kitchenOvenOptionLunch, kitchenOvenOptionDinner;
     private double kitchenOvenMorning, kitchenOvenLunch, kitchenOvenDinner, tvTimer;
     private int coffeeMachineTemp;
     private double alarmClockTemp;
     private int alarmClockSmart;
     private static int ceilingFanTemp;
-    public static double tempMainRoom, tempLivingRoom, tempGarage, tempGarden;
+    static double tempMainRoom, tempLivingRoom, tempGarage, tempGarden;
 
     private ArrayList<String> listTitles;
 

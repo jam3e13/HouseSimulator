@@ -17,15 +17,15 @@ import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicBorders;
 
 public class TabConfig extends JFrame {
-    private final static String LIVINGROOMPANEL = "LIVING ROOM";
-    final static String MAINBEDROOMPANEL = "MAIN BEDROOM";
-    final static String SECONDBEDROOMPANEL = "SECOND BEDROOM";
-    final static String KITCHENPANEL = "KITCHEN";
-    final static String GARAGEPANEL = "GARAGE";
-    final static String GARDENPANEL = "GARDEN";
+    private final static String LIVING_ROOM_PANEL = "LIVING ROOM";
+    private final static String MAIN_BEDROOM_PANEL = "MAIN BEDROOM";
+    private final static String SECOND_BEDROOM_PANEL = "SECOND BEDROOM";
+    private final static String KITCHEN_PANEL = "KITCHEN";
+    private final static String GARAGE_PANEL = "GARAGE";
+    private final static String GARDEN_PANEL = "GARDEN";
     static double livingRoomTvOffTime, livingRoomTvMinuteInput, ovenMorningAlarmMinute, ovenLunchAlarmMinute, ovenDinnerAlarmMinute, ovenAlarmMorning, ovenAlarmLunch, ovenAlarmDinner;
     public static double alarmClockTotal, mainRoomTvOffTime, mainRoomTvMinuteInput, mainBedroomAlarmMinInputDouble;
-    static String morningAfternoon, carMode, kettleMode, coffeMachineMode, sprinklerMode, morningMode, lunchMode, dinnerMode, smartAlarmMode, data, x1, x2, x3, x4, x5, x6, updatedList, updatedList1, updatedList2, updatedList3, updatedList4, updatedList5, livingRoomLightMode, livingRoomMotionSensorMode;
+    static String morningAfternoon, carMode, kettleMode, coffeeMachineMode, sprinklerMode, morningMode, lunchMode, dinnerMode, smartAlarmMode, data, x1, x2, x3, x4, x5, x6, updatedList, updatedList1, updatedList2, updatedList3, updatedList4, updatedList5, livingRoomLightMode, livingRoomMotionSensorMode;
     static int livingRoomTvHourInput, ovenMorningInput, mainBedroomAlarmMinInput, coffeeMachineInput, kettleAlarm, ovenLunchInput, ovenDinnerInput, garageCarInput, smartAlarmInput, mainBedroomAlarmInput, sprinklerInput, garageDoorLightsInput, livingRoomAirConInput, livingRoomLightsInput, livingRoomMotionSensorInput, livingRoomFanInput, ovenMorningAlarmHour, ovenLunchAlarmHour, ovenDinnerAlarmHour;
     private static String[] displayLine1, displayLine2, values, displayLine3, displayLine4, displayLine5, displayLine6;
     static int mainRoomLightsInput, mainRoomAirConInput, mainRoomMotionSensorInput, mainRoomFanInput, mainRoomTvHourInput, secondRoomMotionSensorInput, secondRoomLightsInput, secondRoomFanInput, kitchenMotionSensorInput, kitchenLightsInput, garageMotionSensorInput, garageLightsInput, garageDoorInput, gardenMotionSensorInput, gardenLightsInput;
@@ -2619,14 +2619,14 @@ public class TabConfig extends JFrame {
                             }
 
                             if (coffeeMachineInput == 1) {
-                                coffeMachineMode = "Coffee Addiction";
+                                coffeeMachineMode = "Coffee Addiction";
                             } else if (coffeeMachineInput == 2) {
-                                coffeMachineMode = "All day Coffee";
+                                coffeeMachineMode = "All day Coffee";
                             } else if (coffeeMachineInput == 3) {
-                                coffeMachineMode = "Fresh Blend";
+                                coffeeMachineMode = "Fresh Blend";
                             }
 
-                            JOptionPane.showMessageDialog(null, "The Kitchen Coffee Machine has been set to: " + coffeMachineMode);
+                            JOptionPane.showMessageDialog(null, "The Kitchen Coffee Machine has been set to: " + coffeeMachineMode);
                         }
                     }
                     int yesValue = JOptionPane.showConfirmDialog(null, "Save Changes");
@@ -3400,12 +3400,12 @@ public class TabConfig extends JFrame {
             }
         });
 
-        tabbedPane.addTab(LIVINGROOMPANEL, card1);
-        tabbedPane.addTab(MAINBEDROOMPANEL, card2);
-        tabbedPane.addTab(SECONDBEDROOMPANEL, card3);
-        tabbedPane.addTab(KITCHENPANEL, card4);
-        tabbedPane.addTab(GARAGEPANEL, card5);
-        tabbedPane.addTab(GARDENPANEL, card6);
+        tabbedPane.addTab(LIVING_ROOM_PANEL, card1);
+        tabbedPane.addTab(MAIN_BEDROOM_PANEL, card2);
+        tabbedPane.addTab(SECOND_BEDROOM_PANEL, card3);
+        tabbedPane.addTab(KITCHEN_PANEL, card4);
+        tabbedPane.addTab(GARAGE_PANEL, card5);
+        tabbedPane.addTab(GARDEN_PANEL, card6);
 
         pane.add(tabbedPane, BorderLayout.CENTER);
     }

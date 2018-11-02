@@ -9,15 +9,13 @@ import java.util.Scanner;
 
 class Clean {
 
-    static String roomLocation, x1, x2, x3, x4, x5, x6, data, updatedList, updatedList1, updatedList2, updatedList3, updatedList4, updatedList5;
-    static String[] values, displayLine, displayLine1, displayLine2, displayLine3, displayLine4, displayLine5, displayLine6;
+    private static String x1, x2, x3, x4, x5, x6, updatedList, updatedList1, updatedList2, updatedList3, updatedList4, updatedList5;
+    static String data;
+    private static String[] displayLine, displayLine6;
+    static String[] values, displayLine1, displayLine2, displayLine3, displayLine4, displayLine5;
 
 
     static void cleanUserInputs() throws FileNotFoundException {
-
-
-
-
         //Fixtures overwrite with empty user inputs
         cleanMotionSensors();
         cleanAirCon();
@@ -38,7 +36,7 @@ class Clean {
     }
 
     private static void cleanMotionSensors() throws FileNotFoundException {
-        String fileName = "ConfigFiles/motionSensorConfig.txt";
+        String fileName = "ConfigFiles\\motionSensorConfig.txt";
         File file = new File(fileName);
         try {
             Scanner inputStream = new Scanner(file);
@@ -87,154 +85,155 @@ class Clean {
             e.printStackTrace();
         }
 
-        if (values[0].equals("LIVING ROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allMotionSensors = new Devices();
-            List<Devices.allMotionSensors> list = new ArrayList<>();
-            list.add(new Devices.allMotionSensors("LIVING ROOM"));
-            list.add(new Devices.allMotionSensors("Motion Sensor"));
-            list.add(new Devices.allMotionSensors("ON"));
-            list.add(new Devices.allMotionSensors("0"));
-            allMotionSensors.setListMotionSensors(list);
+        switch (values[0]) {
+            case "LIVING ROOM": {
+                Devices allMotionSensors = new Devices();
+                List<Devices.allMotionSensors> list = new ArrayList<>();
+                list.add(new Devices.allMotionSensors("LIVING ROOM"));
+                list.add(new Devices.allMotionSensors("Motion Sensor"));
+                list.add(new Devices.allMotionSensors("ON"));
+                list.add(new Devices.allMotionSensors("0"));
+                allMotionSensors.setListMotionSensors(list);
 
-            updatedList = list.toString();
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = Arrays.toString(displayLine4);
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = Arrays.toString(displayLine5);
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = Arrays.toString(displayLine6);
-            x6 = String.valueOf((updatedList5));
+                updatedList = list.toString();
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = Arrays.toString(displayLine4);
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = Arrays.toString(displayLine5);
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = Arrays.toString(displayLine6);
+                x6 = String.valueOf((updatedList5));
 
-        } else if (values[0].equals("MAIN BEDROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allMotionSensors = new Devices();
-            List<Devices.allMotionSensors> list = new ArrayList<>();
-            list.add(new Devices.allMotionSensors("MAIN BEDROOM"));
-            list.add(new Devices.allMotionSensors("Motion Sensor"));
-            list.add(new Devices.allMotionSensors("ON"));
-            list.add(new Devices.allMotionSensors("0"));
-            allMotionSensors.setListMotionSensors(list);
+                break;
+            }
+            case "MAIN BEDROOM": {
+                Devices allMotionSensors = new Devices();
+                List<Devices.allMotionSensors> list = new ArrayList<>();
+                list.add(new Devices.allMotionSensors("MAIN BEDROOM"));
+                list.add(new Devices.allMotionSensors("Motion Sensor"));
+                list.add(new Devices.allMotionSensors("ON"));
+                list.add(new Devices.allMotionSensors("0"));
+                allMotionSensors.setListMotionSensors(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = list.toString();
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = Arrays.toString(displayLine4);
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = Arrays.toString(displayLine5);
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = Arrays.toString(displayLine6);
-            x6 = String.valueOf((updatedList5));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = list.toString();
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = Arrays.toString(displayLine4);
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = Arrays.toString(displayLine5);
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = Arrays.toString(displayLine6);
+                x6 = String.valueOf((updatedList5));
 
-        } else if (values[0].equals("SECOND BEDROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allMotionSensors = new Devices();
-            List<Devices.allMotionSensors> list = new ArrayList<>();
-            list.add(new Devices.allMotionSensors("SECOND BEDROOM"));
-            list.add(new Devices.allMotionSensors("Motion Sensor"));
-            list.add(new Devices.allMotionSensors("ON"));
-            list.add(new Devices.allMotionSensors("0"));
-            allMotionSensors.setListMotionSensors(list);
+                break;
+            }
+            case "SECOND BEDROOM": {
+                Devices allMotionSensors = new Devices();
+                List<Devices.allMotionSensors> list = new ArrayList<>();
+                list.add(new Devices.allMotionSensors("SECOND BEDROOM"));
+                list.add(new Devices.allMotionSensors("Motion Sensor"));
+                list.add(new Devices.allMotionSensors("ON"));
+                list.add(new Devices.allMotionSensors("0"));
+                allMotionSensors.setListMotionSensors(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = list.toString();
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = Arrays.toString(displayLine4);
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = Arrays.toString(displayLine5);
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = Arrays.toString(displayLine6);
-            x6 = String.valueOf((updatedList5));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = list.toString();
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = Arrays.toString(displayLine4);
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = Arrays.toString(displayLine5);
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = Arrays.toString(displayLine6);
+                x6 = String.valueOf((updatedList5));
 
-        } else if (values[0].equals("KITCHEN")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allMotionSensors = new Devices();
-            List<Devices.allMotionSensors> list = new ArrayList<>();
-            list.add(new Devices.allMotionSensors("KITCHEN"));
-            list.add(new Devices.allMotionSensors("Motion Sensor"));
-            list.add(new Devices.allMotionSensors("ON"));
-            list.add(new Devices.allMotionSensors("0"));
-            allMotionSensors.setListMotionSensors(list);
+                break;
+            }
+            case "KITCHEN": {
+                Devices allMotionSensors = new Devices();
+                List<Devices.allMotionSensors> list = new ArrayList<>();
+                list.add(new Devices.allMotionSensors("KITCHEN"));
+                list.add(new Devices.allMotionSensors("Motion Sensor"));
+                list.add(new Devices.allMotionSensors("ON"));
+                list.add(new Devices.allMotionSensors("0"));
+                allMotionSensors.setListMotionSensors(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = list.toString();
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = Arrays.toString(displayLine5);
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = Arrays.toString(displayLine6);
-            x6 = String.valueOf((updatedList5));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = list.toString();
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = Arrays.toString(displayLine5);
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = Arrays.toString(displayLine6);
+                x6 = String.valueOf((updatedList5));
 
 
-        } else if (values[0].equals("GARAGE")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allMotionSensors = new Devices();
-            List<Devices.allMotionSensors> list = new ArrayList<>();
-            list.add(new Devices.allMotionSensors("GARAGE"));
-            list.add(new Devices.allMotionSensors("Motion Sensor"));
-            list.add(new Devices.allMotionSensors("ON"));
-            list.add(new Devices.allMotionSensors("0"));
-            allMotionSensors.setListMotionSensors(list);
+                break;
+            }
+            case "GARAGE": {
+                Devices allMotionSensors = new Devices();
+                List<Devices.allMotionSensors> list = new ArrayList<>();
+                list.add(new Devices.allMotionSensors("GARAGE"));
+                list.add(new Devices.allMotionSensors("Motion Sensor"));
+                list.add(new Devices.allMotionSensors("ON"));
+                list.add(new Devices.allMotionSensors("0"));
+                allMotionSensors.setListMotionSensors(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = Arrays.toString(displayLine4);
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = list.toString();
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = Arrays.toString(displayLine6);
-            x6 = String.valueOf((updatedList5));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = Arrays.toString(displayLine4);
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = list.toString();
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = Arrays.toString(displayLine6);
+                x6 = String.valueOf((updatedList5));
 
-        } else if (values[0].equals("GARDEN")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allMotionSensors = new Devices();
-            List<Devices.allMotionSensors> list = new ArrayList<>();
-            list.add(new Devices.allMotionSensors("GARDEN"));
-            list.add(new Devices.allMotionSensors("Motion Sensor"));
-            list.add(new Devices.allMotionSensors("ON"));
-            list.add(new Devices.allMotionSensors("0"));
-            allMotionSensors.setListMotionSensors(list);
+                break;
+            }
+            case "GARDEN": {
+                Devices allMotionSensors = new Devices();
+                List<Devices.allMotionSensors> list = new ArrayList<>();
+                list.add(new Devices.allMotionSensors("GARDEN"));
+                list.add(new Devices.allMotionSensors("Motion Sensor"));
+                list.add(new Devices.allMotionSensors("ON"));
+                list.add(new Devices.allMotionSensors("0"));
+                allMotionSensors.setListMotionSensors(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = Arrays.toString(displayLine4);
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = Arrays.toString(displayLine5);
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = list.toString();
-            x6 = String.valueOf((updatedList5));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = Arrays.toString(displayLine4);
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = Arrays.toString(displayLine5);
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = list.toString();
+                x6 = String.valueOf((updatedList5));
 
+                break;
+            }
         }
 
-        PrintWriter pw = new PrintWriter("ConfigFiles/motionSensorConfig.txt");
+        PrintWriter pw = new PrintWriter("ConfigFiles\\motionSensorConfig.txt");
         pw.close();
 
         StringBuilder sb = new StringBuilder();
@@ -251,7 +250,7 @@ class Clean {
         sb.append(x6).append("\n");
 
         try {
-            Files.write(Paths.get("ConfigFiles/motionSensorConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
+            Files.write(Paths.get("ConfigFiles\\motionSensorConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -284,8 +283,6 @@ class Clean {
         }
 
         if (values[0].equals("MAIN BEDROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
             Devices acList = new Devices();
             List<Devices.airConditioner> list = new ArrayList<>();
             list.add(new Devices.airConditioner("MAIN BEDROOM"));
@@ -300,8 +297,6 @@ class Clean {
             x2 = String.valueOf((updatedList2));
 
         } else if (values[0].equals("LIVING ROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
             Devices acList = new Devices();
             List<Devices.airConditioner> list = new ArrayList<>();
             list.add(new Devices.airConditioner("LIVING ROOM"));
@@ -375,150 +370,151 @@ class Clean {
             e.printStackTrace();
         }
 
-        if (values[0].equals("LIVING ROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allLights = new Devices();
-            List<Devices.allLights> list = new ArrayList<>();
-            list.add(new Devices.allLights("LIVING ROOM"));
-            list.add(new Devices.allLights("Light"));
-            list.add(new Devices.allLights("OFF"));
-            list.add(new Devices.allLights("0"));
-            allLights.setListLights(list);
+        switch (values[0]) {
+            case "LIVING ROOM": {
+                Devices allLights = new Devices();
+                List<Devices.allLights> list = new ArrayList<>();
+                list.add(new Devices.allLights("LIVING ROOM"));
+                list.add(new Devices.allLights("Light"));
+                list.add(new Devices.allLights("OFF"));
+                list.add(new Devices.allLights("0"));
+                allLights.setListLights(list);
 
-            updatedList = list.toString();
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = Arrays.toString(displayLine4);
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = Arrays.toString(displayLine5);
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = Arrays.toString(displayLine6);
-            x6 = String.valueOf((updatedList5));
+                updatedList = list.toString();
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = Arrays.toString(displayLine4);
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = Arrays.toString(displayLine5);
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = Arrays.toString(displayLine6);
+                x6 = String.valueOf((updatedList5));
 
-        } else if (values[0].equals("MAIN BEDROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allLights = new Devices();
-            List<Devices.allLights> list = new ArrayList<>();
-            list.add(new Devices.allLights("MAIN BEDROOM"));
-            list.add(new Devices.allLights("Light"));
-            list.add(new Devices.allLights("OFF"));
-            list.add(new Devices.allLights("0"));
-            allLights.setListLights(list);
+                break;
+            }
+            case "MAIN BEDROOM": {
+                Devices allLights = new Devices();
+                List<Devices.allLights> list = new ArrayList<>();
+                list.add(new Devices.allLights("MAIN BEDROOM"));
+                list.add(new Devices.allLights("Light"));
+                list.add(new Devices.allLights("OFF"));
+                list.add(new Devices.allLights("0"));
+                allLights.setListLights(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = list.toString();
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = Arrays.toString(displayLine4);
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = Arrays.toString(displayLine5);
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = Arrays.toString(displayLine6);
-            x6 = String.valueOf((updatedList5));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = list.toString();
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = Arrays.toString(displayLine4);
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = Arrays.toString(displayLine5);
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = Arrays.toString(displayLine6);
+                x6 = String.valueOf((updatedList5));
 
-        } else if (values[0].equals("SECOND BEDROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allLights = new Devices();
-            List<Devices.allLights> list = new ArrayList<>();
-            list.add(new Devices.allLights("SECOND BEDROOM"));
-            list.add(new Devices.allLights("Light"));
-            list.add(new Devices.allLights("OFF"));
-            list.add(new Devices.allLights("0"));
-            allLights.setListLights(list);
+                break;
+            }
+            case "SECOND BEDROOM": {
+                Devices allLights = new Devices();
+                List<Devices.allLights> list = new ArrayList<>();
+                list.add(new Devices.allLights("SECOND BEDROOM"));
+                list.add(new Devices.allLights("Light"));
+                list.add(new Devices.allLights("OFF"));
+                list.add(new Devices.allLights("0"));
+                allLights.setListLights(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = list.toString();
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = Arrays.toString(displayLine4);
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = Arrays.toString(displayLine5);
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = Arrays.toString(displayLine6);
-            x6 = String.valueOf((updatedList5));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = list.toString();
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = Arrays.toString(displayLine4);
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = Arrays.toString(displayLine5);
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = Arrays.toString(displayLine6);
+                x6 = String.valueOf((updatedList5));
 
-        } else if (values[0].equals("KITCHEN")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allLights = new Devices();
-            List<Devices.allLights> list = new ArrayList<>();
-            list.add(new Devices.allLights("KITCHEN"));
-            list.add(new Devices.allLights("Light"));
-            list.add(new Devices.allLights("OFF"));
-            list.add(new Devices.allLights("0"));
-            allLights.setListLights(list);
+                break;
+            }
+            case "KITCHEN": {
+                Devices allLights = new Devices();
+                List<Devices.allLights> list = new ArrayList<>();
+                list.add(new Devices.allLights("KITCHEN"));
+                list.add(new Devices.allLights("Light"));
+                list.add(new Devices.allLights("OFF"));
+                list.add(new Devices.allLights("0"));
+                allLights.setListLights(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = list.toString();
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = Arrays.toString(displayLine5);
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = Arrays.toString(displayLine6);
-            x6 = String.valueOf((updatedList5));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = list.toString();
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = Arrays.toString(displayLine5);
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = Arrays.toString(displayLine6);
+                x6 = String.valueOf((updatedList5));
 
-        } else if (values[0].equals("GARAGE")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allLights = new Devices();
-            List<Devices.allLights> list = new ArrayList<>();
-            list.add(new Devices.allLights("GARAGE"));
-            list.add(new Devices.allLights("Light"));
-            list.add(new Devices.allLights("OFF"));
-            list.add(new Devices.allLights("0"));
-            allLights.setListLights(list);
+                break;
+            }
+            case "GARAGE": {
+                Devices allLights = new Devices();
+                List<Devices.allLights> list = new ArrayList<>();
+                list.add(new Devices.allLights("GARAGE"));
+                list.add(new Devices.allLights("Light"));
+                list.add(new Devices.allLights("OFF"));
+                list.add(new Devices.allLights("0"));
+                allLights.setListLights(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = Arrays.toString(displayLine4);
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = list.toString();
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = Arrays.toString(displayLine6);
-            x6 = String.valueOf((updatedList5));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = Arrays.toString(displayLine4);
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = list.toString();
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = Arrays.toString(displayLine6);
+                x6 = String.valueOf((updatedList5));
 
-        } else if (values[0].equals("GARDEN")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices allLights = new Devices();
-            List<Devices.allLights> list = new ArrayList<>();
-            list.add(new Devices.allLights("GARDEN"));
-            list.add(new Devices.allLights("Light"));
-            list.add(new Devices.allLights("OFF"));
-            list.add(new Devices.allLights("0"));
-            allLights.setListLights(list);
+                break;
+            }
+            case "GARDEN": {
+                Devices allLights = new Devices();
+                List<Devices.allLights> list = new ArrayList<>();
+                list.add(new Devices.allLights("GARDEN"));
+                list.add(new Devices.allLights("Light"));
+                list.add(new Devices.allLights("OFF"));
+                list.add(new Devices.allLights("0"));
+                allLights.setListLights(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
-            updatedList3 = Arrays.toString(displayLine4);
-            x4 = String.valueOf((updatedList3));
-            updatedList4 = Arrays.toString(displayLine5);
-            x5 = String.valueOf((updatedList4));
-            updatedList5 = list.toString();
-            x6 = String.valueOf((updatedList5));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
+                updatedList3 = Arrays.toString(displayLine4);
+                x4 = String.valueOf((updatedList3));
+                updatedList4 = Arrays.toString(displayLine5);
+                x5 = String.valueOf((updatedList4));
+                updatedList5 = list.toString();
+                x6 = String.valueOf((updatedList5));
 
+                break;
+            }
         }
 
 
@@ -577,60 +573,61 @@ class Clean {
             e.printStackTrace();
         }
 
-        if (values[0].equals("LIVING ROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices ceilingFanList = new Devices();
-            List<Devices.ceilingFan> list = new ArrayList<>();
-            list.add(new Devices.ceilingFan("LIVING ROOM"));
-            list.add(new Devices.ceilingFan("Ceiling Fan"));
-            list.add(new Devices.ceilingFan("OFF"));
-            list.add(new Devices.ceilingFan("0"));
-            ceilingFanList.setListCeilingFan(list);
+        switch (values[0]) {
+            case "LIVING ROOM": {
+                Devices ceilingFanList = new Devices();
+                List<Devices.ceilingFan> list = new ArrayList<>();
+                list.add(new Devices.ceilingFan("LIVING ROOM"));
+                list.add(new Devices.ceilingFan("Ceiling Fan"));
+                list.add(new Devices.ceilingFan("OFF"));
+                list.add(new Devices.ceilingFan("0"));
+                ceilingFanList.setListCeilingFan(list);
 
-            updatedList = list.toString();
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
+                updatedList = list.toString();
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
 
-        } else if (values[0].equals("MAIN BEDROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices ceilingFanList = new Devices();
-            List<Devices.ceilingFan> list = new ArrayList<>();
-            list.add(new Devices.ceilingFan("MAIN BEDROOM"));
-            list.add(new Devices.ceilingFan("Ceiling Fan"));
-            list.add(new Devices.ceilingFan("OFF"));
-            list.add(new Devices.ceilingFan("0"));
-            ceilingFanList.setListCeilingFan(list);
+                break;
+            }
+            case "MAIN BEDROOM": {
+                Devices ceilingFanList = new Devices();
+                List<Devices.ceilingFan> list = new ArrayList<>();
+                list.add(new Devices.ceilingFan("MAIN BEDROOM"));
+                list.add(new Devices.ceilingFan("Ceiling Fan"));
+                list.add(new Devices.ceilingFan("OFF"));
+                list.add(new Devices.ceilingFan("0"));
+                ceilingFanList.setListCeilingFan(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = list.toString();
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = Arrays.toString(displayLine3);
-            x3 = String.valueOf((updatedList2));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = list.toString();
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = Arrays.toString(displayLine3);
+                x3 = String.valueOf((updatedList2));
 
-        } else if (values[0].equals("SECOND BEDROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices ceilingFanList = new Devices();
-            List<Devices.ceilingFan> list = new ArrayList<>();
-            list.add(new Devices.ceilingFan("SECOND BEDROOM"));
-            list.add(new Devices.ceilingFan("Ceiling Fan"));
-            list.add(new Devices.ceilingFan("OFF"));
-            list.add(new Devices.ceilingFan("0"));
-            ceilingFanList.setListCeilingFan(list);
+                break;
+            }
+            case "SECOND BEDROOM": {
+                Devices ceilingFanList = new Devices();
+                List<Devices.ceilingFan> list = new ArrayList<>();
+                list.add(new Devices.ceilingFan("SECOND BEDROOM"));
+                list.add(new Devices.ceilingFan("Ceiling Fan"));
+                list.add(new Devices.ceilingFan("OFF"));
+                list.add(new Devices.ceilingFan("0"));
+                ceilingFanList.setListCeilingFan(list);
 
-            updatedList = Arrays.toString(displayLine1);
-            x1 = String.valueOf((updatedList));
-            updatedList1 = Arrays.toString(displayLine2);
-            x2 = String.valueOf((updatedList1));
-            updatedList2 = list.toString();
-            x3 = String.valueOf((updatedList2));
+                updatedList = Arrays.toString(displayLine1);
+                x1 = String.valueOf((updatedList));
+                updatedList1 = Arrays.toString(displayLine2);
+                x2 = String.valueOf((updatedList1));
+                updatedList2 = list.toString();
+                x3 = String.valueOf((updatedList2));
 
+                break;
+            }
         }
 
         PrintWriter pw = new PrintWriter("ConfigFiles\\ceilingFanConfig.txt");
@@ -671,8 +668,6 @@ class Clean {
         }
 
         if (values[0].equals("GARAGE")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
             Devices garageDoorList = new Devices();
             List<Devices.garageDoor> list = new ArrayList<>();
             list.add(new Devices.garageDoor("GARAGE"));
@@ -720,8 +715,6 @@ class Clean {
 
 
         if (values[0].equals("GARDEN")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
             Devices gardenSprinkler = new Devices();
             List<Devices.gardenSprinkler> list = new ArrayList<>();
             list.add(new Devices.gardenSprinkler("GARDEN"));
@@ -768,8 +761,6 @@ class Clean {
         }
 
         if (values[0].equals("GARAGE")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
             Devices garageCar = new Devices();
             List<Devices.garageCar> list = new ArrayList<>();
             list.add(new Devices.garageCar("GARAGE"));
@@ -813,8 +804,6 @@ class Clean {
         }
 
         if (values[0].equals("KITCHEN")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
             Devices kitchenOven = new Devices();
             List<Devices.kitchenOven> list = new ArrayList<>();
             list.add(new Devices.kitchenOven("KITCHEN"));
@@ -870,8 +859,6 @@ class Clean {
         }
 
         if (values[0].equals("LIVING ROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
             Devices roomTv = new Devices();
             List<Devices.roomTv> list = new ArrayList<>();
             list.add(new Devices.roomTv("LIVING ROOM"));
@@ -887,8 +874,6 @@ class Clean {
             x2 = String.valueOf((updatedList1));
 
         } else if (values[0].equals("MAIN BEDROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
             Devices roomTv = new Devices();
             List<Devices.roomTv> list = new ArrayList<>();
             list.add(new Devices.roomTv("MAIN BEDROOM"));
@@ -940,8 +925,6 @@ class Clean {
         }
 
         if (values[0].equals("KITCHEN")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
             Devices kitchenKettle = new Devices();
             List<Devices.kitchenKettle> list = new ArrayList<>();
             list.add(new Devices.kitchenKettle("KITCHEN"));
@@ -987,8 +970,6 @@ class Clean {
         }
 
         if (values[0].equals("KITCHEN")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
             Devices kitchenCoffeeMachine = new Devices();
             List<Devices.kitchenCoffeeMachine> list = new ArrayList<>();
             list.add(new Devices.kitchenCoffeeMachine("KITCHEN"));
@@ -1026,12 +1007,6 @@ class Clean {
                 } else if (values[0].equals("MAIN BEDROOM") && values[2].equals("OFF")) {
                     displayLine = data.split(", ");
                 }
-
-                if (values[0].equals("SECOND BEDROOM") && values[0].equals("SECOND BEDROOM") && values[2].equals("ON")) {
-                    displayLine1 = data.split(", ");
-                } else if (values[0].equals("SECOND BEDROOM") && values[2].equals("OFF")) {
-                    displayLine1 = data.split(", ");
-                }
             }
 
             inputStream.close();
@@ -1040,8 +1015,6 @@ class Clean {
         }
 
         if (values[0].equals("MAIN BEDROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
             Devices roomAlarmClock = new Devices();
             List<Devices.roomAlarmClock> list = new ArrayList<>();
             list.add(new Devices.roomAlarmClock("MAIN BEDROOM"));
@@ -1049,31 +1022,12 @@ class Clean {
             list.add(new Devices.roomAlarmClock("OFF"));
             list.add(new Devices.roomAlarmClock("0"));
             list.add(new Devices.roomAlarmClock("0"));
+            list.add(new Devices.roomAlarmClock("0"));
             roomAlarmClock.setListRoomAlarmClock(list);
 
             updatedList = list.toString();
             x1 = String.valueOf((updatedList));
 
-            updatedList1 = Arrays.toString(displayLine1);
-            x2 = String.valueOf((updatedList1));
-
-        } else if (values[0].equals("SECOND BEDROOM")) {
-            Devices location = new Devices();
-            location.setLocation(roomLocation);
-            Devices roomAlarmClock = new Devices();
-            List<Devices.roomAlarmClock> list = new ArrayList<>();
-            list.add(new Devices.roomAlarmClock("SECOND BEDROOM"));
-            list.add(new Devices.roomAlarmClock("Alarm Clock"));
-            list.add(new Devices.roomAlarmClock("OFF"));
-            list.add(new Devices.roomAlarmClock("0"));
-            list.add(new Devices.roomAlarmClock("0"));
-            roomAlarmClock.setListRoomAlarmClock(list);
-
-            updatedList = Arrays.toString(displayLine);
-            x1 = String.valueOf((updatedList));
-
-            updatedList1 = list.toString();
-            x2 = String.valueOf((updatedList1));
         }
         PrintWriter pw = new PrintWriter("ConfigFiles\\alarmClockConfig.txt");
         pw.close();
@@ -1081,8 +1035,6 @@ class Clean {
         StringBuilder sb = new StringBuilder();
 
         sb.append(x1).append("\n");
-        sb.append(System.lineSeparator());
-        sb.append(x2).append("\n");
 
         try {
             Files.write(Paths.get("ConfigFiles\\alarmClockConfig.txt"), sb.toString().replace("[", "").replace("]", "").replace(", ", ",").getBytes(), StandardOpenOption.APPEND);
@@ -1090,6 +1042,5 @@ class Clean {
             e.printStackTrace();
         }
     }
-
 
 }

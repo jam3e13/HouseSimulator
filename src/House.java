@@ -6,16 +6,13 @@ import java.util.Scanner;
 class House {
 
     private static String data;
-    private static String[] values, displayLine1, displayLine2, displayLine3, displayLine4, displayLine5, displayLine6;
+    private static String[] values;
     public static String[] livingRoomMotionSensor, livingRoomLights, livingRoomFan, livingRoomAC, livingRoomTV;
     public static String[] mainBedroomMotionSensor, mainBedroomLights, mainBedroomFan, mainBedroomTV, mainBedroomAC, mainBedroomAlarmClock;
     public static String[] secondBedroomMotionSensors, secondBedroomLights, secondBedroomFan, secondBedroomAlarmClock;
     public static String[] kitchenMotionSensors, kitchenLights, kitchenOven, kitchenKettle, kitchenCoffeeMachine;
     public static String[] garageMotionSensor, garageLights, garageCar, garageDoor;
     public static String[] gardenMotionSensors, gardenLights, gardenSprinklers;
-
-
-
     static deviceGUI gui;
 
     public static void main() {
@@ -31,7 +28,6 @@ class House {
         viewKitchenDevices();
         viewGarageDevices();
         viewGardenDevices();
-
         gui.displayDevices();
     }
 

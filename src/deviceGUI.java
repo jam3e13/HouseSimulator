@@ -673,11 +673,7 @@ public class deviceGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(deviceGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new deviceGUI().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new deviceGUI().setVisible(true));
     }
 
     private javax.swing.JLabel jLabel1;

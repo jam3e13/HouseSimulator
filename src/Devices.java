@@ -644,7 +644,7 @@ public class Devices {
                 tempMainRoom = Simulator.inDoorTempSetter;
                 break;
         }
-        return tempMainRoom;
+        return tempMainRoom - Simulator.fanSpeedTemp;
     }
 
     //Living Room & Kitchen Temp settings (-3)
@@ -664,7 +664,7 @@ public class Devices {
                 tempLivingRoom = Simulator.inDoorTempSetter;
                 break;
         }
-        return tempLivingRoom;
+        return tempLivingRoom - Simulator.fanSpeedTemp;
     }
 
     //Garage Temp settings (-1)
